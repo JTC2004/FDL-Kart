@@ -58,7 +58,7 @@ export default class Player{
 		}
 		
 		//Code for player sprite:
-			this.spriteMap = new THREE.TextureLoader().load( 'assets/sprites/gameplay/Placeholder.png' ); //Load the image
+			this.spriteMap = new THREE.TextureLoader().load( 'assets/sprites/gameplay/Placeholder 256.png' ); //Load the image
 			this.spriteMaterial = new THREE.SpriteMaterial( { 
 				map: this.spriteMap, 
 				transparent: true,
