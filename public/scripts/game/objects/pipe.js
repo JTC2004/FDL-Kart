@@ -1,0 +1,24 @@
+import * as THREE from 'three';
+import Obj from "../object.js";
+
+export default class Pipe extends Obj{
+	//Tutorial for adding sprites: https://threejs.org/docs/#api/en/objects/Sprite 	
+
+	constructor(_scene, a_xyz, _worldScale, _localScale){
+		super(_scene, a_xyz, _worldScale, false, true, _localScale * 2);
+		this.fn_addSprite(_scene, [0,0,0], [1,1,1], 'pipe');
+		
+		//this.boundingCylinder = new THREE.CylinderGeometry( 5, 5, 20, 32 ); 
+		
+		//Add a shadow:
+		this.fn_addSimpleShadow(_scene, .48, .45, 0.9);
+		
+		//Add hitbox (cylinder):
+		this.fn_addHitbox(_scene, [0,0,0], [.325, .325, .9]);
+	}	
+	
+	//Overriden functions:
+		fn_getType(){
+			return "pipe";
+		}
+}

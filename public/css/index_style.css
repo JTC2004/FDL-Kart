@@ -1,0 +1,154 @@
+body {
+  background-color: #003e5b;
+}
+
+h1{
+	position: absolute;
+	top: 4%;
+	width: 99%;
+	text-align: center;
+	z-index: 100;
+	display:block;
+	
+	font-size:560%;
+	font-family: Impact;
+	letter-spacing: 1px;
+	
+	color: white;
+}
+
+.txt_subHead1{
+	position: absolute;
+	top: 2%;
+	width: 99%;
+	text-align: center;
+	display:block;
+	
+	font-size:32px;
+	font-family: Impact;
+	
+	color: white;
+}
+
+.txt_subHead2, .txt_subHead3{
+	position: absolute;
+	top: 38%;
+	left: 19%;
+	display:block;
+	
+	font-size:32px;
+	font-family: Impact;
+	
+	color: white;
+}
+
+.txt_subHead3{
+	position: absolute;
+	left: 60%;
+	text-align: center;
+	
+}
+
+p{
+	position: absolute;
+	top: 26%;
+	display:block;
+	
+	font-size:20px;
+	font-family: Verdana;
+	letter-spacing: 1px;
+	
+	color: white;
+	
+}
+
+.txt_desc{
+	width: 99%;
+	text-align: center;
+}
+
+fieldset{
+	position: absolute;
+	left: 19%;
+	top: 50%;
+	
+	background-color: #5acbff;
+	width: 32%;
+	height: 21.5%
+}
+
+.loginContainer{
+	position: absolute;
+	bottom: 18%;
+	left: 67%;
+	width: 70%;
+}
+
+.btn_login {
+
+	background-color: white;
+	padding: 3.5% 10%;
+	text-decoration: none;
+	
+	border: solid;
+	border-width: 6px;
+	border-color: white;
+	
+	font-family: Impact;
+	color: black;
+	font-size: 28px;
+	margin: 4px 2px;
+	cursor: pointer;
+	border-radius: 4px;
+}
+
+.label_username, .label_password{
+	font-family: Verdana;
+	font-weight: bold;
+	
+}
+
+.input_username, .input_password{
+	height: 18%;
+	width: 38%;
+	font-size: 18px;
+}
+
+.btn_noSave, .btn_newSave {
+	position: absolute;
+	top: 49%;
+	left: 60%;
+	
+	background-color: white;
+	padding: 1.2% 2.5%;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	width: 8%;
+	
+	border: solid;
+	border-width: 6px;
+	border-color: #5acbff;
+	
+	font-family: Impact;
+	color: black;
+	font-size: 28px;
+	margin: 4px 2px;
+	cursor: pointer;
+	border-radius: 4px;
+}
+
+.btn_noSave{
+	top: 63%;
+	
+}
+
+.btn_login:hover{
+	transform: scale(1.2) perspective(1px);
+	/*Why Isn't this working??*/
+}
+
+.btn_newSave:hover, .btn_noSave:hover {
+	transform: scale(1.2) perspective(1px);
+	
+}

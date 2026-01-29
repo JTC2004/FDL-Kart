@@ -1,0 +1,72 @@
+<!--Last version uploaded:		0.0.13 (Variable FPS)			1/23/26	~10:04 PM		
+Current version:				0.1.0
+
+To do next (major):
+	- Animations.
+		- Mini-turbo sprites.
+	- Improve collisions:
+		- Make player bounce back.
+		- Make sure player can't clip through walls.
+		- Make sure player doesn't have accidental wall collisions on slopes.
+	- Multiplayer.
+		- Controllers menu.
+		- Title screen (first controller to press a key/button becomes player 1).
+		- Make it so players can easily swap between keyboard & gamepad.
+	- Music & SFX.
+	- Universal Settings Menu.
+
+
+COMMAND: npx vite
+or, 	 npx serve
+
+This is index.html -->
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/index_style.css">
+		
+		<meta charset="utf-8">
+		<title>FDL Kart - Save Select</title>
+		
+		
+	</head>
+	<body>
+		<?php include 'scripts/connectToDatabase.php'; ?>
+		
+		<script>audioElement.play();</script>
+		
+		<p class="txt_subHead1">Welcome to</p>
+		<h1>Fleur-De-Lis Kart!!</h1>
+		<p class="txt_desc">A free kart game for your browser created by PARR-E, based on the Fleur De Lis series by Cinemint.</p>
+		
+		<p class="txt_subHead2">Log in to your profile:</p>
+		
+		<form id="form_login" action="login.php" method="post">
+			<fieldset>
+				<br/>
+				<label for"username" class="label_username">Username: </label>
+				<input type="text" name="username" class="input_username" value="" size=19 maxlength=10/>
+				<br/><br/>
+				<label for"password" class="label_password">Password: </label>
+				<input type="password" name="password" class="input_password">
+				<div class="loginContainer">
+					<input type="submit" class="btn_login" id="submit" value="Login">
+				</div>
+				
+			</fieldset>
+		</form>
+		
+		<p class="txt_subHead3">Or...</p>
+		<script>
+		  function redirectToGame() {
+			window.location.href = "game.html";
+		  }
+		</script>
+		
+		<a href='newProfile.html' class="btn_newSave"> New Save </a>
+		<a href='game.html' class="btn_noSave"> No Save </a>
+		
+		
+		
+	</body>
+</html>

@@ -1,0 +1,74 @@
+body {
+  background-color: #003e5b;
+}
+
+.txt_subHead2{
+	letter-spacing: 1px;
+	position: absolute;
+	text-align: center;
+	top: 12%;
+	width: 100%;
+	display:block;
+	
+	font-size:48px;
+	font-family: Impact;
+	
+	color: white;
+}
+
+.txt_desc{
+	text-align: center;
+}
+
+fieldset{
+	position: absolute;
+	left: 33%;
+	top: 35%;
+	
+	background-color: #5acbff;
+	width: 32%;
+	height: 45%
+}
+
+.createSaveContainer{
+	position: absolute;
+	bottom: 5%;
+	left: 10%;
+	width: 70%;
+}
+
+.btn_submit {
+
+	background-color: white;
+	padding: 3.5% 10%;
+	text-decoration: none;
+	
+	border: solid;
+	border-width: 6px;
+	border-color: white;
+	
+	font-family: Impact;
+	color: black;
+	font-size: 28px;
+	margin: 4px 2px;
+	cursor: pointer;
+	border-radius: 4px;
+}
+
+.label_newUsername, .label_newPassword, .label_confirmPassword{
+	font-family: Verdana;
+	font-weight: bold;
+	
+	
+}
+
+.input_username, .input_password, .input_confirmPassword{
+	height: 10%;
+	width: 38%;
+	font-size: 18px;
+}
+
+.createSaveContainer:hover{
+	transform: scale(1.2) perspective(1px);
+	
+}

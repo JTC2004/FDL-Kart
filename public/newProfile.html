@@ -1,0 +1,43 @@
+<!-- Verion 18 -->
+<!-- This is index.html -->
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/newProfile_style.css">
+		
+		<meta charset="utf-8">
+		<title>FDL Kart - New Save</title>
+		
+		
+	</head>
+	<body>
+		<?php include 'scripts/connectToDatabase.php'; ?>
+		
+		<audio src="assets\bgm\Pause Menu.flac" autoplay loop></audio>
+		<script>audioElement.play();</script>
+		
+		<p class="txt_subHead2">Create a new profile:</p>
+		
+		<form id="form_login" action="createProfile.php" method="post">
+			<fieldset>
+				<br/>
+				<label for"newUsername" class="label_newUsername">Username (No spaces): </label>
+				<input type="text" name="username" class="input_username" value="" size=19 maxlength=10/>
+				
+				<br/><br/><br/>
+				<label for"password" class="label_newPassword">Password (No spaces): </label>
+				<input type="password" name="newPassword" class="input_password">
+				
+				<br/><br/><br/>
+				<label for"confirmPassword" class="label_confirmPassword">Confirm Password: </label>
+				<input type="password" name="confirmPassword" class="input_confirmPassword">
+				
+				<div class="createSaveContainer">
+					<input type="submit" class="btn_submit" id="submit" value="Create ">
+				</div>
+				
+			</fieldset>
+		</form>
+		
+	</body>
+</html>

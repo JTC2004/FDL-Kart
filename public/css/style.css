@@ -1,0 +1,21 @@
+#info {
+	position: absolute;
+	top: 10px;
+	width: 100%;
+	text-align: center;
+	z-index: 100;
+	display:block;
+	color:red;
+	font-weight: 1000;
+	font-size:20px;
+}
+
+#button1{
+	position: absolute; 
+	left: 0; 
+	right: 0; 
+	margin-inline: auto; 
+	width: fit-content;
+	top: 50px;
+	font-size:20px;
+}

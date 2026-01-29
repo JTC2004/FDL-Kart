@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" type="text/css" href="./css/game_style.css">
+		
+		<meta charset="utf-8">
+		<title>FDL Kart</title>
+		<style>
+			body { margin: 0; }
+		</style>
+		
+		<script type="importmap">
+		{
+			"imports": {
+			"three": "https://cdn.jsdelivr.net/npm/three@v0.173.0/build/three.module.js",
+			"three/addons/": "https://cdn.jsdelivr.net/npm/three@v0.173.0/examples/jsm/"
+			}
+		}
+		</script>
+		<!--<script src="https://unpkg.com/three@0.173.0/examples/jsm/loaders/GLTFLoader.js"></script>-->
+	</head>
+	<body>
+		<!--<audio src="assets\bgm\SNES Mario Circuit.flac" autoplay loop></audio>
+		<audio src="assets\bgm\N64 Mario Raceway.flac" autoplay loop></audio>-->
+		<script>audioElement.play();</script>
+		
+		<script type="module" src="scripts/main.js"></script>
+
+		<!--<div id="info">Use Space to accelerate, WASD to steer, & J to drift/brake.<br /> Press f to toggle free cam.</div>-->
+		<div id="info"></div>
+		
+		<p id="p_fps"></p>
+		<p id="p_coords"></p>
+		<p id="p_name"></p>
+		<p id="p_check"></p>
+		
+		<p id="p_time"></p>
+		<p id="p_laps"></p>
+		<p id="p_spd"></p>
+
+		<p id="p_Resolution"></p>
+		<p id="p_SharpPixels"></p>
+		
+		<p id="p_finish"></p>
+		<!--<a href='index.html' class="btn_back"> Back to Home </a>-->
+		
+	</body>
+</html>

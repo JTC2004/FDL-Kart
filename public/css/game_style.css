@@ -1,0 +1,154 @@
+html, body{
+	overflow: hidden;
+}
+
+#info, #p_time, #p_name, #p_fps, #p_coords, #p_spd, #p_laps, #p_check, #p_finish, #p_Resolution, #p_SharpPixels {
+	position: absolute;
+	z-index: 100;
+	display:block;
+	color:red;
+	font-weight: bold;
+	font-size:1.4vw;
+	font-family:verdana;
+}
+
+#p_finish {
+	top: 1%;
+	width: 100%;
+	text-align: center;
+}
+
+#info{
+	color:white;
+	left: 8%;
+	top: 88%;
+	font-size:2vw;
+}
+
+#p_fps {
+	top: 2%;
+}
+
+#p_coords {
+	top: 7%;
+}
+
+#p_name {
+	top: 12%;
+}
+
+#p_check {
+	top: 17%;
+}
+
+#p_time {
+	position: absolute;
+	font-size: 2.5vw;
+	
+	color:gold;
+	text-shadow:
+		-.18vw -.18vw 0 #d57900,
+		 .18vw -.18vw 0 #d57900,
+		-.18vw  .18vw 0 #d57900,
+		 .18vw  .18vw 0 #d57900;
+	
+	top: 0.05%;
+	left: 75.5%; 
+}
+
+#p_laps {
+	position: absolute;
+	font-size: 2.5vw;
+	
+	color:gold;
+	text-shadow:
+		-.18vw -.18vw 0 #d57900,
+		 .18vw -.18vw 0 #d57900,
+		-.18vw  .18vw 0 #d57900,
+		 .18vw  .18vw 0 #d57900;
+	
+	top: 9%;
+	left: 83%; 
+}
+
+#p_spd {
+	position: absolute;
+	font-size: 3.0vw;
+	
+	color:gold;
+	text-shadow:
+		-.18vw -.18vw 0 #d57900,
+		 .18vw -.18vw 0 #d57900,
+		-.18vw  .18vw 0 #d57900,
+		 .18vw  .18vw 0 #d57900;
+	
+	bottom: 1%;
+	left: 83%; 
+}
+
+#p_finish{
+	top: 25%;
+	
+	font-size:6.5vw;
+	color:gold;
+	text-shadow:
+		-.4vw -.4vw 0 #d57900,
+		 .4vw -.4vw 0 #d57900,
+		-.4vw  .4vw 0 #d57900,
+		 .4vw  .4vw 0 #d57900;
+}
+
+#p_Resolution {
+	position: absolute;
+	font-size: 2.5vw;
+	
+	color:white;
+	text-shadow:
+		-.18vw -.18vw 0 black,
+		 .18vw -.18vw 0 black,
+		-.18vw  .18vw 0 black,
+		 .18vw  .18vw 0 black;
+	
+		 text-align: center;
+}
+
+#p_SharpPixels {
+	position: absolute;
+	font-size: 2.5vw;
+	
+	color:white;
+	text-shadow:
+		-.18vw -.18vw 0 black,
+		 .18vw -.18vw 0 black,
+		-.18vw  .18vw 0 black,
+		 .18vw  .18vw 0 black;
+	
+	text-align: center;
+}
+
+.btn_back {
+	position: absolute;
+	bottom: 5%;
+	left: 5%;
+	
+	background-color: white;
+	padding: 1.2% 2.5%;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	
+	border: solid;
+	border-width: 6px;
+	border-color: #5acbff;
+	
+	font-family: Impact;
+	color: black;
+	font-size: 1.5vw;
+	cursor: pointer;
+	border-radius: 1vw;
+}
+
+#button1:hover, .btn_back:hover {
+	transform: scale(1.2) perspective(1px);
+	
+}
