@@ -328,6 +328,7 @@ export default class Player{
 				if(this.f_speed < 0 && input.fn_hold_drift(this.b_done) && input.fn_hold_accelerate(this.b_done))
 				{
 					this.f_speed = 0;
+					this.f_driftingDirec = 0;
 				}//Reverse:
 				else if(this.f_speed < -0.2 && input.fn_hold_drift(this.b_done)){
 					this.f_speed = -0.2;
@@ -668,13 +669,13 @@ export default class Player{
 				this.player.position.y - .64 * this.f_scale, 
 				this.player.position.z
 			));
-			console.log(`player.rotation.y = ${this.player.rotation.y}`);
+			//console.log(`player.rotation.y = ${this.player.rotation.y}`);
 			this.obj_kart.fn_setBaseRotation(new THREE.Vector3(
 				0, 
 				this.player.rotation.y,
 				0
 			));
-			this.obj_kart.fn_update();
+			this.obj_kart.fn_update(input, this.f_turning, this.f_driftingDirec);
 			// /this.model_kart.fn_setY(this.player.position.y + 0.02 * this.f_scale);
 				
 		//Update camera's position:
