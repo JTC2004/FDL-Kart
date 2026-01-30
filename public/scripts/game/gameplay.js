@@ -300,6 +300,19 @@ export function fn_updateGame(input, scene, camera, renderer, str_map, f_fps){
 			if(window.b_debug){
 				coordsButton.innerHTML = ("XYZ = (" + camera.position.x.toFixed(2) + ", " + camera.position.y.toFixed(2) + ", " + camera.position.z.toFixed(2) + ")");
 			}
+
+			//Colision:
+			if(offroadModel){
+				player1.fn_offroad(offroadOctree, true)
+			}
+			if(courseModel){
+				player1.fn_collision(worldOctree, false);
+			}
+		
+			if(skyboxModel && str_map != "SNES MC1"){
+				skyboxModel.rotation.y += 0.0004;
+			}
+			player1.fn_update(camera, input, int_frames);
 		}
 		else{
 			b_updateHUD = false;
@@ -314,18 +327,7 @@ export function fn_updateGame(input, scene, camera, renderer, str_map, f_fps){
 			console.log("Paused");
 		}
 		
-		//Colision:
-			if(offroadModel){
-				player1.fn_offroad(offroadOctree, true)
-			}
-			if(courseModel){
-				player1.fn_collision(worldOctree, false);
-			}
 		
-		if(skyboxModel && str_map != "SNES MC1"){
-			skyboxModel.rotation.y += 0.0004;
-		}
-		player1.fn_update(camera, input, int_frames);
 	//renderer.render( scene, camera );
 
 	int_frames += 1;
