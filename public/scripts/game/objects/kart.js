@@ -22,15 +22,15 @@ export default class Kart extends Obj{
 	}	
 	
 	//Overriden functions:
-		fn_update(input, _f_driftingDirec, _int_frames){
+		fn_update(input, _b_done, _f_driftingDirec, _int_frames){
 			//console.log(`v_baseRotation = (${this.v_baseRotation.x}, ${this.v_baseRotation.y} ,${this.v_baseRotation.z})`);
 			
 
 			//If holding left or right, have kart rotate slightly in that direction:
-			if((this.f_kartRotate < 0 && !input.fn_hold_right()) || input.fn_hold_left()){
+			if((this.f_kartRotate < 0 && !input.fn_hold_right(_b_done)) || input.fn_hold_left(_b_done)){
 				this.f_kartRotate += this.f_kartRotateIncrement;
 			}
-			if((this.f_kartRotate > 0 && !input.fn_hold_left()) || input.fn_hold_right()){
+			if((this.f_kartRotate > 0 && !input.fn_hold_left(_b_done)) || input.fn_hold_right(_b_done)){
 				this.f_kartRotate -= this.f_kartRotateIncrement;
 			}
 			//Margin when kart rotation is close enough to 0, set it to 0:
