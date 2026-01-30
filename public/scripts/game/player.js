@@ -657,7 +657,12 @@ export default class Player{
 		}
 		
 		//Update the sprite/model positions:
-			this.sprite.position.set(this.player.position.x, this.player.position.y + 0.02 * this.f_scale, this.player.position.z);
+			this.sprite.position.set(
+				this.player.position.x + 0.4 * Math.sin(this.player.rotation.y), 
+				this.player.position.y + 0.1 * this.f_scale, 
+				this.player.position.z + 0.4 * Math.cos(this.player.rotation.y)
+			);
+			
 			this.obj_kart.fn_setPos(new THREE.Vector3(
 				this.player.position.x, 
 				this.player.position.y - .64 * this.f_scale, 
