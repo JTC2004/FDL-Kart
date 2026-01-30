@@ -248,7 +248,7 @@ function fn_initializeGame(scene, camera, renderer, str_map){
 
 	//Adding player:
 		//const input = new InputHandler();
-		player1 = new Player(scene, [v_mapPos.x, v_mapPos.y, v_mapPos.z], 1, a_checkpoints.length, int_numKeys, 5);
+		player1 = new Player(scene, loader, [v_mapPos.x, v_mapPos.y, v_mapPos.z], 1, a_checkpoints.length, int_numKeys, 5);
 }
 
 

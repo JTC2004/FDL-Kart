@@ -60,6 +60,8 @@ export default class Obj{
 				this.boundingBox = new THREE.Box3().setFromObject(this.model);
 				
 				if (onLoad) onLoad(this.model);		//Set rotation AFTER model is loaded.
+
+				//console.log(`ADDED MODEL ${_modelName} at (${this.f_x},${this.f_y},${this.f_z})!`);
 			}, 
 			undefined, function ( error ) {
 				console.error( error );
@@ -137,6 +139,14 @@ export default class Obj{
 			if(this.cube){		this.box.position.copy(a_xyz)		}
 		}
 
+		fn_setY(_f_Y){
+			this.f_y = _f_Y;
+
+			if(this.model){		this.model.position.copy(new THREE.Vector3(this.f_x, _f_Y, this.f_z));	}
+			if(this.sprite){	this.sprite.position.copy(new THREE.Vector3(this.f_x, _f_Y, this.f_z));	}
+			if(this.cube){		this.box.position.copy(new THREE.Vector3(this.f_x, _f_Y, this.f_z))		}
+		}
+
 		fn_addX(_f_x){
 			this.f_x = this.f_x + _f_x;
 
@@ -159,6 +169,16 @@ export default class Obj{
 			if(this.model){		this.model.position.z = this.f_z;	}
 			if(this.sprite){	this.sprite.position.z = this.f_z;	}
 			if(this.cube){		this.box.position.z = this.f_z;		}
+		}
+
+		fn_setRotation(v_xyz){
+			// /console.log(`New rotation: ${v_xyz}`);
+			if(this.model){		
+				this.model.rotation.x = v_xyz.x;
+				this.model.rotation.y = v_xyz.y;
+				this.model.rotation.z = v_xyz.z;	
+			}
+			if(this.cube){		this.box.rotation.copy(v_xyz)		}
 		}
 	
 	//Methods that execute every frame:

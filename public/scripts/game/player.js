@@ -2,7 +2,8 @@ import * as THREE from 'three';
 import { Capsule } from 'three/addons/math/Capsule.js';
 import { Octree } from 'three/addons/math/Octree.js';
 import { OctreeHelper } from 'three/addons/helpers/OctreeHelper.js';
-//import InputHandler from "./inputKB.js";
+
+import Kart from "./objects/kart.js";
 
 //Declaring constants:
 	const b_showCapsule = false;
@@ -29,7 +30,7 @@ import { OctreeHelper } from 'three/addons/helpers/OctreeHelper.js';
 
 export default class Player{
 
-	constructor(_scene, [_x, _y, _z], _scale, _numChecks, _numKeys, _int_numLaps){
+	constructor(_scene, _loader, [_x, _y, _z], _scale, _numChecks, _numKeys, _int_numLaps){
 			this.f_radius = _scale * .7;													//Radius of the player's collisions.
 			this.f_scale = _scale;															//The scale of the player.
 		//Add the player to the scene:
@@ -57,8 +58,8 @@ export default class Player{
 				_scene.add(this.endVis);
 		}
 		
-		//Code for player sprite:
-			this.spriteMap = new THREE.TextureLoader().load( 'assets/sprites/gameplay/Placeholder 256.png' ); //Load the image
+		//Code for player sprites & model(s):
+			this.spriteMap = new THREE.TextureLoader().load( 'assets/sprites/gameplay/Enoki gremlin (transp).png' ); //Load the image
 			this.spriteMaterial = new THREE.SpriteMaterial( { 
 				map: this.spriteMap, 
 				transparent: true,
@@ -69,6 +70,8 @@ export default class Player{
 			this.sprite.scale.set(_scale * 1.5, _scale * 1.5, _scale * 1.5);
 			this.sprite.position.set(_x, _y, _z);
 			_scene.add( this.sprite );
+
+			this.obj_kart = new Kart(_scene, [_x, _y, _z], 1, .1, _loader);
 		
 		//Player states:
 			//Flying:
@@ -158,7 +161,7 @@ export default class Player{
 	}
 	
 	//Function for player input and movement:
-	fn_play(camera, input){
+	fn_play(camera, input){		
 		if(input.fn_press_fly(this.b_done)){
 			var infoParagraph = document.getElementById("info");
 			if(this.b_flying){
@@ -653,8 +656,21 @@ export default class Player{
 				this.endVis.position.set(this.worldCollider.end.x, this.worldCollider.end.y, this.worldCollider.end.z);
 		}
 		
-		//Update the sprite's position:
+		//Update the sprite/model positions:
 			this.sprite.position.set(this.player.position.x, this.player.position.y + 0.02 * this.f_scale, this.player.position.z);
+			this.obj_kart.fn_setPos(new THREE.Vector3(
+				this.player.position.x, 
+				this.player.position.y - .64 * this.f_scale, 
+				this.player.position.z
+			));
+			console.log(`player.rotation.y = ${this.player.rotation.y}`);
+			this.obj_kart.fn_setBaseRotation(new THREE.Vector3(
+				0, 
+				this.player.rotation.y,
+				0
+			));
+			this.obj_kart.fn_update();
+			// /this.model_kart.fn_setY(this.player.position.y + 0.02 * this.f_scale);
 				
 		//Update camera's position:
 			if(!this.b_flying){
