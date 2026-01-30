@@ -325,7 +325,7 @@ export function fn_updateGame(input, scene, camera, renderer, str_map, f_fps){
 		if(skyboxModel && str_map != "SNES MC1"){
 			skyboxModel.rotation.y += 0.0004;
 		}
-		player1.fn_update(camera, input);
+		player1.fn_update(camera, input, int_frames);
 	//renderer.render( scene, camera );
 
 	int_frames += 1;

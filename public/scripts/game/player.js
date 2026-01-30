@@ -632,7 +632,7 @@ export default class Player{
 	}
 	
 	
-	fn_update(camera, input){
+	fn_update(camera, input, _int_frames){
 		//Code to run when wall is hit:
 			if(this.b_hitWall){			
 				//Only reduce speed from a collision when not in a speed boost:
@@ -675,7 +675,7 @@ export default class Player{
 				this.player.rotation.y,
 				0
 			));
-			this.obj_kart.fn_update(input, this.f_turning, this.f_driftingDirec);
+			this.obj_kart.fn_update(input, this.f_driftingDirec, _int_frames);
 			// /this.model_kart.fn_setY(this.player.position.y + 0.02 * this.f_scale);
 				
 		//Update camera's position:

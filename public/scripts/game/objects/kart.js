@@ -9,17 +9,20 @@ export default class Kart extends Obj{
 		this.fn_addModel(_scene, [0,0,0], [1,1,1], _loader, 'GoKart');
 
 		this.v_baseRotation = new THREE.Vector3(0,0,0);
+		this.v_visualRotation = new THREE.Vector3(0,0,0);
 		this.f_kartRotate = 0;
 		this.f_kartRotateIncrement = 0.015;
 		this.f_kartRotateMax = 0.09;
 		this.f_driftOffset = 0;
 		this.f_driftOffsetMax = 0.24;
+
+		
 		
 		
 	}	
 	
 	//Overriden functions:
-		fn_update(input, _f_turning, _f_driftingDirec){
+		fn_update(input, _f_driftingDirec, _int_frames){
 			//console.log(`v_baseRotation = (${this.v_baseRotation.x}, ${this.v_baseRotation.y} ,${this.v_baseRotation.z})`);
 			
 
@@ -76,8 +79,13 @@ export default class Kart extends Obj{
 
 			console.log(`f_driftOffset = ${this.f_driftOffset}`);
 
-			this.v_baseRotation.y += this.f_kartRotate + this.f_driftOffset;
-			this.fn_setRotation(this.v_baseRotation);
+			this.f_newRotation = this.v_baseRotation.y + this.f_kartRotate + this.f_driftOffset;
+			
+			//Only update rotation every 4 frames:
+			//if(_int_frames % 4 == 0){
+				this.v_visualRotation.y = this.f_newRotation;
+				this.fn_setRotation(this.v_visualRotation);
+			//}
 		}
 	
 		fn_getType(){
