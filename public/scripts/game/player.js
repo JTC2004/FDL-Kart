@@ -4,6 +4,7 @@ import { Octree } from 'three/addons/math/Octree.js';
 import { OctreeHelper } from 'three/addons/helpers/OctreeHelper.js';
 
 import Kart from "./objects/kart.js";
+import Character from "./objects/character.js";
 
 //Declaring constants:
 	const b_showCapsule = false;
@@ -59,17 +60,7 @@ export default class Player{
 		}
 		
 		//Code for player sprites & model(s):
-			this.spriteMap = new THREE.TextureLoader().load( 'assets/sprites/gameplay/Enoki gremlin (transp).png' ); //Load the image
-			this.spriteMaterial = new THREE.SpriteMaterial( { 
-				map: this.spriteMap, 
-				transparent: true,
-				alphaTest: 0.75,				//Helps discard transparent pixels.
-				color: 0xffffff
-			});
-			this.sprite = new THREE.Sprite( this.spriteMaterial );							//The sprite itself.
-			this.sprite.scale.set(_scale * 1.5, _scale * 1.5, _scale * 1.5);
-			this.sprite.position.set(_x, _y, _z);
-			_scene.add( this.sprite );
+			this.obj_character = new Character(_scene, [_x, _y, _z], 1, 1, 'Enoki');
 
 			this.obj_kart = new Kart(_scene, [_x, _y, _z], 1, .1, _loader);
 		
@@ -658,11 +649,11 @@ export default class Player{
 		}
 		
 		//Update the sprite/model positions:
-			this.sprite.position.set(
+			this.obj_character.fn_setPos(new THREE.Vector3(
 				this.player.position.x + 0.4 * Math.sin(this.player.rotation.y), 
 				this.player.position.y + 0.1 * this.f_scale, 
 				this.player.position.z + 0.4 * Math.cos(this.player.rotation.y)
-			);
+			));
 			
 			this.obj_kart.fn_setPos(new THREE.Vector3(
 				this.player.position.x, 

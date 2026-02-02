@@ -129,14 +129,15 @@ export default class Obj{
 			return this.colliderMesh;
 		}
 	//Setters:
-		fn_setPos(a_xyz){
-			this.f_x = a_xyz[0];
-			this.f_y = a_xyz[1];
-			this.f_z = a_xyz[2];
+		fn_setPos(v_xyz){
+			this.f_x = v_xyz.x;
+			this.f_y = v_xyz.y;
+			this.f_z = v_xyz.z;
+			console.log(`SETTING POS TO (${v_xyz.x}, ${v_xyz.y}, ${v_xyz.z})`);
 
-			if(this.model){		this.model.position.copy(a_xyz);	}
-			if(this.sprite){	this.sprite.position.copy(a_xyz);	}
-			if(this.cube){		this.box.position.copy(a_xyz)		}
+			if(this.model){		this.model.position.copy(v_xyz);	}
+			if(this.sprite){	this.sprite.position.copy(v_xyz);	}
+			if(this.cube){		this.box.position.copy(v_xyz)		}
 		}
 
 		fn_setY(_f_Y){
