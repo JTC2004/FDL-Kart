@@ -9,7 +9,7 @@ export default class Obj{
 		this.f_x = a_xyz[0] * _worldScale;
 		this.f_y = a_xyz[1] * _worldScale;
 		this.f_z = a_xyz[2] * _worldScale;
-		this.scale = _localScale;
+		this.f_scale = _localScale;
 
 		//Potentially make mesh, model, sprite, etc an array.
 		
@@ -20,7 +20,7 @@ export default class Obj{
 	
 	//Adds a mesh to the object:
 	fn_addBox(_scene, a_offset, a_multip, _color){
-		this.geometry = new THREE.BoxGeometry( this.scale * a_multip[0], this.scale * a_multip[1], this.scale * a_multip[2] );
+		this.geometry = new THREE.BoxGeometry( this.f_scale * a_multip[0], this.f_scale * a_multip[1], this.f_scale * a_multip[2] );
 		this.material = new THREE.MeshPhongMaterial( { color: _color } );
 		this.box = new THREE.Mesh( this.geometry, this.material );
 		_scene.add( this.box );
@@ -32,7 +32,7 @@ export default class Obj{
 	
 	//Adds a transparent mesh to the object:
 	fn_addBoxTransp(_scene, a_offset, a_multip, _color, _opacity){
-		this.geometry = new THREE.BoxGeometry( this.scale * a_multip[0], this.scale * a_multip[1], this.scale * a_multip[2] );
+		this.geometry = new THREE.BoxGeometry( this.f_scale * a_multip[0], this.f_scale * a_multip[1], this.f_scale * a_multip[2] );
 		this.material = new THREE.MeshPhongMaterial( { color: _color, transparent: true, opacity: _opacity } );
 		this.box = new THREE.Mesh( this.geometry, this.material );
 		_scene.add( this.box );
@@ -50,7 +50,7 @@ export default class Obj{
 				
 				this.model = gltf.scene;
 				this.model.position.set(this.f_x + a_offset[0], this.f_y + a_offset[1], this.f_z + a_offset[2]);
-				this.model.scale.set(this.scale * a_multip[0], this.scale * a_multip[1], this.scale * a_multip[2]);
+				this.model.scale.set(this.f_scale * a_multip[0], this.f_scale * a_multip[1], this.f_scale * a_multip[2]);
 				this.model.visible = true;
 				
 				this.model.updateMatrixWorld(true);
@@ -80,14 +80,14 @@ export default class Obj{
 		});
 		this.sprite = new THREE.Sprite( this.spriteMaterial );
 		
-		this.sprite.scale.set(this.scale * a_multip[0], this.scale * a_multip[1], this.scale * a_multip[2] );
+		this.sprite.scale.set(this.f_scale * a_multip[0], this.f_scale * a_multip[1], this.f_scale * a_multip[2] );
 		this.sprite.position.set(this.f_x + a_offset[0], this.f_y + a_offset[1], this.f_z + a_offset[2]);
 		_scene.add( this.sprite );
 	}
 	
 	//Add bounding cylinder to the object:
 	fn_addHitbox(_scene, a_offset, a_multip){
-		this.colliderGeom = new THREE.CylinderGeometry( this.scale * a_multip[0], this.scale * a_multip[1], this.scale * a_multip[2], 16); 
+		this.colliderGeom = new THREE.CylinderGeometry( this.f_scale * a_multip[0], this.f_scale * a_multip[1], this.f_scale * a_multip[2], 16); 
 		this.colliderMat = new THREE.MeshBasicMaterial( {color: 0xffff00} ); 
 		this.colliderMesh = new THREE.Mesh( this.colliderGeom, this.colliderMat );
 		_scene.add( this.colliderMesh );
@@ -100,10 +100,10 @@ export default class Obj{
 		this.shadowMaterial = new THREE.LineBasicMaterial( {color: 0x000000});
 		this.shadowMaterial.opacity = f_opacity;	//0.9
 		
-		this.shadowGeometry = new THREE.CircleGeometry(this.scale * f_multip, 32); 
+		this.shadowGeometry = new THREE.CircleGeometry(this.f_scale * f_multip, 32); 
 		this.shadow = new THREE.Mesh( this.shadowGeometry, this.shadowMaterial ); 
 		_scene.add( this.shadow );
-		this.shadow.position.set(this.f_x,this.f_y - f_offset * this.scale, this.f_z);
+		this.shadow.position.set(this.f_x,this.f_y - f_offset * this.f_scale, this.f_z);
 		this.shadow.rotation.x = -1.5708;
 	}
 	
@@ -133,7 +133,7 @@ export default class Obj{
 			this.f_x = v_xyz.x;
 			this.f_y = v_xyz.y;
 			this.f_z = v_xyz.z;
-			console.log(`SETTING POS TO (${v_xyz.x}, ${v_xyz.y}, ${v_xyz.z})`);
+			//console.log(`SETTING POS TO (${v_xyz.x}, ${v_xyz.y}, ${v_xyz.z})`);
 
 			if(this.model){		this.model.position.copy(v_xyz);	}
 			if(this.sprite){	this.sprite.position.copy(v_xyz);	}

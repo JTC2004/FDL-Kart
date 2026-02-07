@@ -60,7 +60,10 @@ export default class Player{
 		}
 		
 		//Code for player sprites & model(s):
-			this.obj_character = new Character(_scene, [_x, _y, _z], 1, 1, 'Enoki');
+			this.obj_characters = [
+				new Character(_scene, [_x, _y, _z], 1, 1, 'Enoki', true),
+				new Character(_scene, [_x, _y, _z], 1, 1, 'Enoki', false)
+			];
 
 			this.obj_kart = new Kart(_scene, [_x, _y, _z], 1, .1, _loader);
 		
@@ -649,11 +652,9 @@ export default class Player{
 		}
 		
 		//Update the sprite/model positions:
-			this.obj_character.fn_setPos(new THREE.Vector3(
-				this.player.position.x + 0.4 * Math.sin(this.player.rotation.y), 
-				this.player.position.y + 0.1 * this.f_scale, 
-				this.player.position.z + 0.4 * Math.cos(this.player.rotation.y)
-			));
+		for(const obj_character of this.obj_characters){
+			obj_character.fn_update(this.player.position, this.player.rotation.y, _int_frames);
+		}
 			
 			this.obj_kart.fn_setPos(new THREE.Vector3(
 				this.player.position.x, 
