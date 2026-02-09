@@ -155,6 +155,9 @@ export default class Obj{
 		fn_getCollider(){
 			return this.colliderMesh;
 		}
+		fn_getSpriteTile(){
+
+		}
 	//Setters:
 		fn_setPos(v_xyz){
 			this.f_x = v_xyz.x;
@@ -207,6 +210,9 @@ export default class Obj{
 				this.model.rotation.z = v_xyz.z;	
 			}
 			if(this.cube){		this.box.rotation.copy(v_xyz)		}
+		}
+		fn_setSpriteTile(){
+			
 		}
 	
 	//Methods that execute every frame:
