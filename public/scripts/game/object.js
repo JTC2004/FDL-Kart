@@ -16,6 +16,11 @@ export default class Obj{
 		//DSOC means Do Somethig On Collision.
 		this.b_DSOC = _DSOC;
 		this.b_solid = _solid;
+
+		//Animation variables:
+		//Animation variables:
+		this.int_currentTile = 0;
+		this.int_numTiles = 0;
 	}
 	
 	//Adds a mesh to the object:
@@ -69,9 +74,31 @@ export default class Obj{
 		);
 	}
 	
-	//Adds a sprite to the object:
+	//Adds a single sprite to the object:
 	fn_addSprite(_scene, a_offset, a_multip, str_spriteName){
 		this.spriteMap = new THREE.TextureLoader().load( 'assets/sprites/gameplay/'+ str_spriteName +'.png' );
+		this.spriteMaterial = new THREE.SpriteMaterial({ 
+			map: this.spriteMap,
+			transparent: true,	
+			alphaTest: 0.5,			//Helps discard transparent pixels.
+			color: 0xffffff
+		});
+		this.sprite = new THREE.Sprite( this.spriteMaterial );
+		
+		this.sprite.scale.set(this.f_scale * a_multip[0], this.f_scale * a_multip[1], this.f_scale * a_multip[2] );
+		this.sprite.position.set(this.f_x + a_offset[0], this.f_y + a_offset[1], this.f_z + a_offset[2]);
+		_scene.add( this.sprite );
+	}
+
+	//Adds sprite sheet to the object:
+	fn_addSpriteSheet(_scene, a_offset, a_multip, str_spriteName, _int_numTiles){
+		this.int_numTiles = _int_numTiles;
+		
+		this.spriteMap = new THREE.TextureLoader().load( 'assets/sprites/gameplay/'+ str_spriteName +'.png' );
+		this.spriteMap.repeat.set(1/this.int_numTiles, 1/this.int_numTiles);
+		this.spriteMap.offset.x = 0;
+		this.spriteMap.offset.y = 1 - 1/this.int_numTiles;
+		
 		this.spriteMaterial = new THREE.SpriteMaterial({ 
 			map: this.spriteMap,
 			transparent: true,	

@@ -5,26 +5,22 @@ export default class Character extends Obj{
 	//Tutorial for adding sprites: https://threejs.org/docs/#api/en/objects/Sprite 	
 
 	constructor(_scene, a_xyz, _worldScale, _localScale, _str_name, _b_driving){
-		super(_scene, a_xyz, _worldScale, false, true, _localScale * 1.4);
+		super(_scene, a_xyz, _worldScale, false, true, _localScale * 1.4);	
 		
 		this.str_name = _str_name;
 		
-		this.fn_addSprite(_scene, [0,0,0], [1,1,1], this.str_name + ' gremlin (transp)');
-		//this.fn_addSprite(_scene, [0,0,0], [1,1,1], 'Player_Placeholder');
+		//this.fn_addSprite(_scene, [0,0,0], [1,1,1], this.str_name + ' gremlin (transp)');
+		this.fn_addSpriteSheet(_scene, [0,0,0], [1,1,1], 'Characters/Player_Placeholder', 12);
 
 		//State variables:
 		this.b_driving = _b_driving;
 
-		//Animation variables:
+		
 	}	
 	
 	//Overriden functions:
 		fn_update(_playerPos, _playerRotation, _frames){
-
-
-			
-
-
+			//this.spriteMap.offset.x += 0.1;
 
 			//Update character position:
 			if(!this.b_driving){
