@@ -12,8 +12,10 @@ export default class Character extends Obj{
 		this.fn_addSprite(_scene, [0,0,0], [1,1,1], this.str_name + ' gremlin (transp)');
 		//this.fn_addSprite(_scene, [0,0,0], [1,1,1], 'Player_Placeholder');
 
-		//Variables:
+		//State variables:
 		this.b_driving = _b_driving;
+
+		//Animation variables:
 	}	
 	
 	//Overriden functions:
