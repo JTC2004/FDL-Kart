@@ -19,8 +19,8 @@ export default class Obj{
 
 		//Animation variables:
 		//Animation variables:
-		this.int_currentTile = 0;
-		this.int_numTiles = 0;
+		this.a_currentTile = [0, 0];
+		this.int_numTilesTall = 0;
 	}
 	
 	//Adds a mesh to the object:
@@ -91,13 +91,13 @@ export default class Obj{
 	}
 
 	//Adds sprite sheet to the object:
-	fn_addSpriteSheet(_scene, a_offset, a_multip, str_spriteName, _int_numTiles){
-		this.int_numTiles = _int_numTiles;
+	fn_addSpriteSheet(_scene, a_offset, a_multip, str_spriteName, _int_numTilesTall){
+		this.int_numTilesTall = _int_numTilesTall;
 		
 		this.spriteMap = new THREE.TextureLoader().load( 'assets/sprites/gameplay/'+ str_spriteName +'.png' );
-		this.spriteMap.repeat.set(1/this.int_numTiles, 1/this.int_numTiles);
+		this.spriteMap.repeat.set(1/this.int_numTilesTall, 1/this.int_numTilesTall);
 		this.spriteMap.offset.x = 0;
-		this.spriteMap.offset.y = 1 - 1/this.int_numTiles;
+		this.spriteMap.offset.y = 1 - 1/this.int_numTilesTall;
 		
 		this.spriteMaterial = new THREE.SpriteMaterial({ 
 			map: this.spriteMap,
@@ -156,7 +156,7 @@ export default class Obj{
 			return this.colliderMesh;
 		}
 		fn_getSpriteTile(){
-
+			return this.a_currentTile;
 		}
 	//Setters:
 		fn_setPos(v_xyz){
@@ -211,8 +211,22 @@ export default class Obj{
 			}
 			if(this.cube){		this.box.rotation.copy(v_xyz)		}
 		}
-		fn_setSpriteTile(){
+		fn_setSpriteTile(_x, _y){
+			//x negative to pos is left to right.
+			//y negative to pos is up to down.
+			this.a_currentTile = [_x, _y];
 			
+			this.spriteMap.offset.x = this.a_currentTile[0]/this.int_numTilesTall;
+			this.spriteMap.offset.y = 1 - (this.a_currentTile[1] + 1)/this.int_numTilesTall;
+		}
+		fn_flipSprite(_int_newFlip){
+			if(!this.spriteMap) return;
+
+			const tileSize = 1 / this.int_numTilesTall;
+
+			this.spriteMap.repeat.x = _int_newFlip * tileSize;
+			this.spriteMap.offset.x =
+				(this.a_currentTile[0] + Math.abs((1 - _int_newFlip) / 2)) * tileSize;
 		}
 	
 	//Methods that execute every frame:
