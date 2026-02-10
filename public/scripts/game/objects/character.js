@@ -24,7 +24,7 @@ export default class Character extends Obj{
 	}	
 	
 	//Overriden functions:
-		fn_update(_playerPos, _playerRotation, input, _b_done, _int_frames){
+		fn_update(_playerPos, _playerRotation, _int_driftDirec, input, _b_done, _int_frames){
 			//this.spriteMap.offset.x += 0.1;
 
 			//Update character position:
@@ -57,12 +57,13 @@ export default class Character extends Obj{
 					if(this.f_tilt < this.f_tiltIncrement && this.f_tilt > -this.f_tiltIncrement ){
 						this.f_tilt = 0.0;
 					}
+					
 						//Limits on how far character can tilt:
 						if(this.f_tilt > this.f_tiltMax + this.f_tiltIncrement){
-							this.f_tilt = this.f_tiltMax;
+							this.f_tilt = this.f_tiltMax; //+ _int_driftDirec;		//UNCOMMENT THIS WHEN I ADD 4TH TURNING SPRITE
 						}
 						if(this.f_tilt < -this.f_tiltMax){
-							this.f_tilt = -this.f_tiltMax;
+							this.f_tilt = -this.f_tiltMax; //+ _int_driftDirec;
 						}
 						
 
@@ -73,7 +74,7 @@ export default class Character extends Obj{
 					if(this.f_tilt != 0){
 						console.log(`lean = ${this.f_tilt}`);
 						
-						this.fn_setSpriteTile(Math.round(Math.abs(this.f_tilt)), 0);
+						this.fn_setSpriteTile(Math.round(Math.abs(this.f_tilt + _int_driftDirec)), 0);
 						this.fn_flipSprite(Math.sign(this.f_tilt));
 					}
 					else{

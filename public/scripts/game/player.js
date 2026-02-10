@@ -653,7 +653,7 @@ export default class Player{
 		
 		//Update the sprite/model positions:
 		for(const obj_character of this.obj_characters){
-			obj_character.fn_update(this.player.position, this.player.rotation.y, input, this.b_done, _int_frames);
+			obj_character.fn_update(this.player.position, this.player.rotation.y, this.f_driftingDirec, input, this.b_done, _int_frames);
 		}
 			
 			this.obj_kart.fn_setPos(new THREE.Vector3(
