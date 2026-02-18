@@ -11,7 +11,6 @@
   "defaultScriptType":0,
   "Folders":[
     {"$GMFolder":"","%Name":"Sprites","folderPath":"folders/Sprites.yy","name":"Sprites","resourceType":"GMFolder","resourceVersion":"2.0",},
-    {"$GMFolder":"","%Name":"FDL Kart","folderPath":"folders/Sprites/FDL Kart.yy","name":"FDL Kart","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "ForcedPrefabProjectReferences":[],
   "IncludedFiles":[],
@@ -26,6 +25,7 @@
     {"id":{"name":"Enoki_gremlin","path":"sprites/Enoki_gremlin/Enoki_gremlin.yy",},},
     {"id":{"name":"Placeholder_downscale","path":"sprites/Placeholder_downscale/Placeholder_downscale.yy",},},
     {"id":{"name":"Placeholder","path":"sprites/Placeholder/Placeholder.yy",},},
+    {"id":{"name":"SpriteScaler","path":"sprites/SpriteScaler/SpriteScaler.yy",},},
     {"id":{"name":"Spritesheet_Player","path":"sprites/Spritesheet_Player/Spritesheet_Player.yy",},},
   ],
   "resourceType":"GMProject",
