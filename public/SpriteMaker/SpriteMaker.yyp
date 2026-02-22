@@ -27,6 +27,7 @@
     {"id":{"name":"Placeholder","path":"sprites/Placeholder/Placeholder.yy",},},
     {"id":{"name":"SpriteScaler","path":"sprites/SpriteScaler/SpriteScaler.yy",},},
     {"id":{"name":"Spritesheet_Player","path":"sprites/Spritesheet_Player/Spritesheet_Player.yy",},},
+    {"id":{"name":"YoshiSwap","path":"sprites/YoshiSwap/YoshiSwap.yy",},},
   ],
   "resourceType":"GMProject",
   "resourceVersion":"2.0",
