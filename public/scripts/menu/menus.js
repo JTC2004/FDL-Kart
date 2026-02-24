@@ -28,8 +28,8 @@
 function fn_initializeMenus(renderer){
 
 		//Render background:
-		renderer.setClearColor( 0x40aaf2, 1);
-		//renderer.setClearColor( 0x003e5b, 1);
+		//renderer.setClearColor( 0x40aaf2, 1);
+		renderer.setClearColor( 0x006492, 1);
 
 		//A light is required for MeshPhongMaterial to be seen:
 		/*const directionalLight = new THREE.DirectionalLight(0xffffff, 3);
