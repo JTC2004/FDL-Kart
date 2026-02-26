@@ -13,8 +13,8 @@
 //Variables:
 	var b_isInitialized = false;
 
-	//var str_currentMenu = "Main";
-	var str_currentMenu = "Split-Screen/Connect Controllers";
+	var str_currentMenu = "Main";
+	//var str_currentMenu = "Split-Screen/Connect Controllers";
 	var str_parentMenu = "";
 	var str_lastMenu = "";
 	var a_options = [];

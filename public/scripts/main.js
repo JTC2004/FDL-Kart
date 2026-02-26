@@ -305,6 +305,10 @@ export function fn_getMenuCamera(){
     return menuCamera;
 }
 
+export function fn_isMultiplayer(){
+    return b_multiplayer;
+}
+
 //General-purpose clear scene function by ChatGPT:
 export function fn_clearScene(scene) {
     console.log("CLEARED SCENE");

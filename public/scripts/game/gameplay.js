@@ -20,6 +20,7 @@
 		import Pipe from "./objects/pipe.js";
 		import ItemBox from "./objects/itemBox.js";
 		import ItemBoxRow from "./objects/itemBoxRow.js";
+	import { fn_isMultiplayer } from "../main.js";
 
 //Variable initializations:
 	const a_objects = [];
@@ -251,7 +252,7 @@ function fn_initializeGame(scene, a_gameCameras, renderer, str_map, a_inputs){
 		a_players.push(new Player(scene, loader, [v_mapPos.x + i * 2.5, v_mapPos.y, v_mapPos.z], 1, a_checkpoints.length, int_numKeys, 3));
 
 		//If there is only 1 camera, break.
-		if(a_gameCameras.length < 2){
+		if(!fn_isMultiplayer()){
 			break;
 		}
 	}
