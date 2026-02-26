@@ -34,7 +34,7 @@
 	
 	var b_updateHUD = true;
 	var b_playerDone = false;
-	let player1;
+	var a_players = [];
 	let offroadModel;
 	let courseModel;
 	let skyboxModel;
@@ -55,7 +55,7 @@
 
 
 //This method runs once when gameplay is started:	
-function fn_initializeGame(scene, camera, renderer, str_map){
+function fn_initializeGame(scene, camera, renderer, str_map, a_inputs){
 	//A light is required for MeshPhongMaterial to be seen.
 	//From a tutorial:
 	function fn_addLight( position, _intensity ) {
@@ -246,17 +246,23 @@ function fn_initializeGame(scene, camera, renderer, str_map){
 		}
 
 
-	//Adding player:
-		//const input = new InputHandler();
-		player1 = new Player(scene, loader, [v_mapPos.x, v_mapPos.y, v_mapPos.z], 1, a_checkpoints.length, int_numKeys, 3);
+	//Adding player(s):
+	for(let i = 0; i < a_inputs.length; i++){
+		a_players.push(new Player(scene, loader, [v_mapPos.x + i * 2.5, v_mapPos.y, v_mapPos.z], 1, a_checkpoints.length, int_numKeys, 3));
+
+		//If there is only 1 camera, break.
+		//if(!b_multiplayer){
+		//	break;
+		//}
+	}
 }
 
 
 //The game loop:
-export function fn_updateGame(input, scene, camera, renderer, str_map, f_fps){
+export function fn_updateGame(a_inputs, scene, camera, renderer, str_map, f_fps){
 	//console.log("Game is running");
 	if(!b_isInitialized){
-		fn_initializeGame(scene, camera, renderer, str_map);
+		fn_initializeGame(scene, camera, renderer, str_map, a_inputs);
 		b_isInitialized = true;
 	}
 
@@ -285,39 +291,43 @@ export function fn_updateGame(input, scene, camera, renderer, str_map, f_fps){
 				
 			}
 
-			//Check for player collision with checkpoints:
-			for(let i = 0; i < a_checkpoints.length; i++){
-				if(a_checkpoints[i].fn_getDSOC() && a_checkpoints[i].fn_meshCollisionCheck(player1.fn_getHitbox())){
-					//var boundingBox = new THREE.Box3().setFromObject(player1.fn_getPlayer());
-					player1.fn_checkpointUpdate(a_checkpoints[i]);
-					
-					b_playerDone = player1.fn_isFinished();
+			//Player actions:
+			for(let i = 0; i < a_players.length; i++){
+				//Check for player collision with checkpoints:
+				for(let e = 0; e < a_checkpoints.length; e++){
+					if(a_checkpoints[i].fn_getDSOC() && a_checkpoints[e].fn_meshCollisionCheck(a_players[i].fn_getHitbox())){
+						//var boundingBox = new THREE.Box3().setFromObject(player.fn_getPlayer());
+						a_players[i].fn_checkpointUpdate(a_checkpoints[e]);
+						
+						b_playerDone = a_players[i].fn_isFinished();
+					}
 				}
-			}
-			
-			//Player input:
-			player1.fn_play(camera, input);
-			if(window.b_debug){
-				coordsButton.innerHTML = ("XYZ = (" + camera.position.x.toFixed(2) + ", " + camera.position.y.toFixed(2) + ", " + camera.position.z.toFixed(2) + ")");
-			}
+				
+				
+				a_players[i].fn_play(camera, a_inputs[i]);
+				if(window.b_debug){
+					coordsButton.innerHTML = ("XYZ = (" + camera.position.x.toFixed(2) + ", " + camera.position.y.toFixed(2) + ", " + camera.position.z.toFixed(2) + ")");
+				}
 
-			//Colision:
-			if(offroadModel){
-				player1.fn_offroad(offroadOctree, true)
-			}
-			if(courseModel){
-				player1.fn_collision(worldOctree, false);
-			}
-		
-			if(skyboxModel && str_map != "SNES MC1"){
-				skyboxModel.rotation.y += 0.0004;
-			}
-			player1.fn_update(camera, input, int_frames);
+				//Colision:
+				if(offroadModel){
+					a_players[i].fn_offroad(offroadOctree, true)
+				}
+				if(courseModel){
+					a_players[i].fn_collision(worldOctree, false);
+				}
+			
+				if(skyboxModel && str_map != "SNES MC1"){
+					skyboxModel.rotation.y += 0.0004;
+				}
+				a_players[i].fn_update(camera, a_inputs[i], int_frames);
+			}	
+			
 		}
 		else{
 			b_updateHUD = false;
 		}
-		if(input.fn_press_pause()){
+		if(a_inputs[0].fn_press_pause()){
 			if(b_paused){
 				b_paused = false;
 			}

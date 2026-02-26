@@ -25,6 +25,7 @@ let menuCamera;
 
 //Gameplay variables:
 var b_gameplay = false;
+var b_multiplayer = true;
 var input_kb = new InputHandlerKB();
 var a_inputs = [input_kb];
 var a_gamepads = navigator.getGamepads();
@@ -127,7 +128,7 @@ try{
             a_inputs[0].fn_updateGP(a_gamepads[0]);
 
             if(b_gameplay){
-                b_gameplay = fn_updateGame(a_inputs[0], scene, gameCamera, renderer, str_map, gameLoop.fn_getFPS());
+                b_gameplay = fn_updateGame(a_inputs, scene, gameCamera, renderer, str_map, gameLoop.fn_getFPS());
             }
             else{
                 b_gameplay = fn_updateMenus(a_inputs[0], scene, menuCamera, renderer);
