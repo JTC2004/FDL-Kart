@@ -699,6 +699,10 @@ export default class Player{
 	fn_getPlayer(){
 		return this.player;
 	}
+
+	fn_getPos(){
+		return this.player.position;
+	}
 	
 	fn_getHitbox(){
 		return new THREE.Box3().setFromObject(this.player);

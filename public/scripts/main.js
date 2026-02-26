@@ -49,7 +49,8 @@ var int_sharpPixelIndex = 0;
 //Initializing the scene:
     //3 things needed for anything: scene, camera, & renderer.
     const scene = new THREE.Scene();
-    const gameCamera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 );	
+    var a_gameCameras = [];
+    a_gameCameras.push(new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 ));	
     //1 of many types of cameras in JS.		  (FOV, aspect ratio, near (objs closer than near, or farther than far won't be rendered), far) 
 
     var frustumHeight = 9; // choose a consistent height
@@ -74,6 +75,7 @@ var int_sharpPixelIndex = 0;
 	});
 	renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));	//Sets ratio of CSS pixels to actual pixels. 1 is for 1080p screens, 2 is for 4K, 3 is for smartphone.
 	renderer.setSize( window.innerWidth, window.innerHeight);
+    //renderer.setScissorTest(true);
 	document.body.appendChild( renderer.domElement );
 
 //Event listeners:
@@ -81,8 +83,8 @@ var int_sharpPixelIndex = 0;
         window.addEventListener('resize', () => {
             //Update camera:
             if(b_gameplay){
-                gameCamera.aspect = window.innerWidth / window.innerHeight;
-                gameCamera.updateProjectionMatrix();							//Tells three.js to update the camera.
+                a_gameCameras[0].aspect = window.innerWidth / window.innerHeight;
+                a_gameCameras[0].updateProjectionMatrix();							//Tells three.js to update the camera.
             }
             else{
 			    menuCamera.aspect = window.innerWidth / window.innerHeight;
@@ -114,6 +116,7 @@ try{
                 //If there is a new controller, add it to the array of inputs at the front:
                 if(a_gamepads.length > 0){
                     a_inputs.unshift(new InputHandlerGP(a_gamepads[0]));
+                    a_gameCameras.push(new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 ));
                 }
                 else{
                     a_inputs = [input_kb];
@@ -128,7 +131,7 @@ try{
             a_inputs[0].fn_updateGP(a_gamepads[0]);
 
             if(b_gameplay){
-                b_gameplay = fn_updateGame(a_inputs, scene, gameCamera, renderer, str_map, gameLoop.fn_getFPS());
+                b_gameplay = fn_updateGame(a_inputs, scene, a_gameCameras, renderer, str_map, gameLoop.fn_getFPS());
             }
             else{
                 b_gameplay = fn_updateMenus(a_inputs[0], scene, menuCamera, renderer);
@@ -140,7 +143,27 @@ try{
 
         //Render every frame:
         if(b_gameplay){
-            renderer.render( scene, gameCamera );
+            if(b_multiplayer){
+                var int_i = 0;
+                renderer.setScissorTest(true);
+                
+                for (const gameCamera of a_gameCameras){
+                    const w = window.innerWidth;
+                    const h = window.innerHeight;
+
+                    renderer.setViewport(w / 2 * int_i, 0, w / 2, h);
+                    renderer.setScissor(w / 2 * int_i, 0, w / 2, h);
+                    gameCamera.aspect = (w / 2) / h;
+                    gameCamera.updateProjectionMatrix();
+                    
+                    renderer.render( scene, gameCamera );
+
+                    int_i ++;
+                }
+            }
+            else{
+                renderer.render( scene, a_gameCameras[0] );
+            }
         }
         else{
             renderer.render( scene, menuCamera );

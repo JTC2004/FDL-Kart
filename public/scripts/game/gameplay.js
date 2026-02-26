@@ -55,7 +55,7 @@
 
 
 //This method runs once when gameplay is started:	
-function fn_initializeGame(scene, camera, renderer, str_map, a_inputs){
+function fn_initializeGame(scene, a_gameCameras, renderer, str_map, a_inputs){
 	//A light is required for MeshPhongMaterial to be seen.
 	//From a tutorial:
 	function fn_addLight( position, _intensity ) {
@@ -251,18 +251,18 @@ function fn_initializeGame(scene, camera, renderer, str_map, a_inputs){
 		a_players.push(new Player(scene, loader, [v_mapPos.x + i * 2.5, v_mapPos.y, v_mapPos.z], 1, a_checkpoints.length, int_numKeys, 3));
 
 		//If there is only 1 camera, break.
-		//if(!b_multiplayer){
-		//	break;
-		//}
+		if(a_gameCameras.length < 2){
+			break;
+		}
 	}
 }
 
 
 //The game loop:
-export function fn_updateGame(a_inputs, scene, camera, renderer, str_map, f_fps){
+export function fn_updateGame(a_inputs, scene, a_gameCameras, renderer, str_map, f_fps){
 	//console.log("Game is running");
 	if(!b_isInitialized){
-		fn_initializeGame(scene, camera, renderer, str_map, a_inputs);
+		fn_initializeGame(scene, a_gameCameras, renderer, str_map, a_inputs);
 		b_isInitialized = true;
 	}
 
@@ -304,9 +304,13 @@ export function fn_updateGame(a_inputs, scene, camera, renderer, str_map, f_fps)
 				}
 				
 				
-				a_players[i].fn_play(camera, a_inputs[i]);
+				a_players[i].fn_play(a_gameCameras[i], a_inputs[i]);
 				if(window.b_debug){
-					coordsButton.innerHTML = ("XYZ = (" + camera.position.x.toFixed(2) + ", " + camera.position.y.toFixed(2) + ", " + camera.position.z.toFixed(2) + ")");
+					coordsButton.innerHTML = ("XYZ = (" + 
+						a_players[0].fn_getPos().x.toFixed(2) + ", " + 
+						a_players[0].fn_getPos().y.toFixed(2) + ", " + 
+						a_players[0].fn_getPos().z.toFixed(2) + 
+					")");
 				}
 
 				//Colision:
@@ -320,7 +324,7 @@ export function fn_updateGame(a_inputs, scene, camera, renderer, str_map, f_fps)
 				if(skyboxModel && str_map != "SNES MC1"){
 					skyboxModel.rotation.y += 0.0004;
 				}
-				a_players[i].fn_update(camera, a_inputs[i], int_frames);
+				a_players[i].fn_update(a_gameCameras[i], a_inputs[i], int_frames);
 			}	
 			
 		}
@@ -336,9 +340,6 @@ export function fn_updateGame(a_inputs, scene, camera, renderer, str_map, f_fps)
 			}
 			console.log("Paused");
 		}
-		
-		
-	//renderer.render( scene, camera );
 
 	int_frames += 1;
 	return true;
