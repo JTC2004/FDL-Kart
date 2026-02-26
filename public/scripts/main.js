@@ -75,7 +75,6 @@ var int_sharpPixelIndex = 0;
 	});
 	renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));	//Sets ratio of CSS pixels to actual pixels. 1 is for 1080p screens, 2 is for 4K, 3 is for smartphone.
 	renderer.setSize( window.innerWidth, window.innerHeight);
-    //renderer.setScissorTest(true);
 	document.body.appendChild( renderer.domElement );
 
 //Event listeners:
@@ -145,7 +144,7 @@ try{
         if(b_gameplay){
             if(b_multiplayer){
                 var int_i = 0;
-                renderer.setScissorTest(true);
+                renderer.setScissorTest(true);      //MAKE THIS HAPPEN ONLY 1 FRAME.
                 
                 for (const gameCamera of a_gameCameras){
                     const w = window.innerWidth;
