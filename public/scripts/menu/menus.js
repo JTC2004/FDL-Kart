@@ -3,17 +3,18 @@
 //Imports:
 	import * as THREE from 'three';
 	import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+	//import ItemBox from "../game/objects/itemBox.js";
+	import Object from "../game/object.js";
 	
 //Class imports:
-	//import gameLoop from "../GameLoop.js";
-	//import InputHandler from "../inputKB.js";
-
 	import Option from "./option.js";
+	import { fn_clearScene } from "../main.js";
 
 //Variables:
 	var b_isInitialized = false;
 
-	var str_currentMenu = "Main";
+	//var str_currentMenu = "Main";
+	var str_currentMenu = "Split-Screen/Connect Controllers";
 	var str_parentMenu = "";
 	var str_lastMenu = "";
 	var a_options = [];
@@ -49,16 +50,9 @@ export function fn_updateMenus(input, scene, camera, renderer){
 
 	//If menu has changed, update UI elements:
 	if(str_lastMenu != str_currentMenu){
-		//First, be sure to remove and unload the current menu elements:
-		for(let i = 0; i < a_options.length; i++){
-			for(let e = 0; e < a_options[i].length; e++){
-				if(typeof(a_options[i][e]) != "string"){
-					a_options[i][e].fn_remove(scene);
-					//console.log("Should be removed");
-				}
-			}
-		}
-
+		//Remove all elements from the scene:
+		fn_clearScene(scene);
+		
 		//Reset variables:
 		a_options = [];
 		a_selected = [0, 0];
@@ -109,6 +103,15 @@ export function fn_updateMenus(input, scene, camera, renderer){
 				new Option(scene, str_currentMenu, [-5.7, -2.05, 0], [1.05, .3], "Practice", "horizontal medium"),
 				new Option(scene, str_currentMenu, [-1.8, -2.05, 0], [1.05, .3], "Free Play", "horizontal medium"),
 			]);
+		}
+		else if(str_currentMenu == "Split-Screen/Connect Controllers"){
+			str_parentMenu = "Main";
+			a_options.push([
+				new Option(scene, str_currentMenu, [-.25, .25, 0], [3.2, 1.6], "Connect Controller", "horizontal medium"),
+			]);
+			//const loader = new GLTFLoader();
+			//const obj_controllerSprite = new Object(scene, [0, 0, 0], 1, false, false, 1);
+			//obj_controllerSprite.fn_addSprite(scene, 0, 1, "Placeholder 256");
 		}
 		else if(str_currentMenu == "Settings"){
 			str_parentMenu = "Main";

@@ -25,7 +25,7 @@ let menuCamera;
 
 //Gameplay variables:
 var b_gameplay = false;
-var b_multiplayer = true;
+var b_multiplayer = false;
 var input_kb = new InputHandlerKB();
 var a_inputs = [input_kb];
 var a_gamepads = navigator.getGamepads();
@@ -292,8 +292,40 @@ export function fn_changeSettings(str_text, int_index, str_option){
                 p_info.innerHTML = "More pixelated image.";
             }
         }
+        else if(str_text == "Multiplayer true"){
+            b_multiplayer = true;
+        }
+        else if(str_text == "Multiplayer false"){
+            b_multiplayer = false;
+        }
 }
 
+//DO THIS FOR MORE ESSENTIALS SO I DON'T HAVE TO PASS IN A MILLION PARMETERS TO EVERY OBJECT:
 export function fn_getMenuCamera(){
     return menuCamera;
+}
+
+//General-purpose clear scene function by ChatGPT:
+export function fn_clearScene(scene) {
+    console.log("CLEARED SCENE");
+
+    while (scene.children.length > 0) {
+        const object = scene.children[0];
+
+        scene.remove(object);
+
+        // Dispose geometry
+        if (object.geometry) {
+            object.geometry.dispose();
+        }
+
+        // Dispose material(s)
+        if (object.material) {
+            if (Array.isArray(object.material)) {
+                object.material.forEach(material => material.dispose());
+            } else {
+                object.material.dispose();
+            }
+        }
+    }
 }

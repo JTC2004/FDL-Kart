@@ -62,12 +62,25 @@ export default class Option{
             this.str_info = "Unlock characters & fill out your license.";
         }
             else if(_text == "Time Trials"){
+                fn_changeSettings("Multiplayer false");
                 this.str_goTo = "2";
                 this.str_info = "Race against the clock for the best time!";
             }
             else if(_text == "Practice"){
                 this.str_goTo = "0";
                 this.str_info = "Freely use save-states and rewind to practice shortcuts.";
+            }
+        else if(_text == "Split-Screen"){
+            this.str_goTo = "Split-Screen/Connect Controllers";
+            this.str_info = "Play with multiple people at once!";
+        }
+            else if(_text == "Connect Controller"){
+                fn_changeSettings("Multiplayer true");
+                this.str_goTo = "2";
+                this.str_info = "";
+                scene.remove( this.spr_highlight );
+                //this.b_static = true;
+                //this.spr_text.material.color.setRGB(.9, .9, .9);
             }
         else if(_text == "Settings"){
             this.str_goTo = "Settings";

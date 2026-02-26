@@ -1,10 +1,11 @@
-<!--Last version uploaded:		0.1.2 (Split-Screen)					2/25/26	~8:34 PM		
+<!--Last version uploaded:		0.1.2 (Split-Screen)					2/26/26	~2:54 PM		
 Current version:				0.1.2 (Split-Screen)
 
 Features added since last version:
 	- The game now has 2 controllable players when a second controller is connected.
 	- Debug text now lists player position instead of camera.
 	- Split-screen when multiple players are connected.
+	- WIP controllers menu.
 
 To do next (this version):
 	- Make second player's inputs not scuffed.
@@ -17,8 +18,10 @@ To do next (this version):
 	- Title screen (first controller to press a key/button becomes player 1).
 	- Make it so players can easily swap between keyboard & gamepad.
 	- Player swapping animations.
+	- Make split-screen friendly with different resolutions.
 	- Optimize/polish camera code.
 		- Make renderer.setScissorTest(true) only happen once.
+		- Make global export fn_getInputs(), fn_getGameCameras(), fn_getScene(), etc functions so I don't need to pass them as paremeters every time they are used.
 	
 	- Make debug flight control player position instead of camera.
 
