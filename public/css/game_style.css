@@ -26,19 +26,19 @@ html, body{
 }
 
 #p_fps {
-	top: 2%;
-}
-
-#p_coords {
-	top: 7%;
-}
-
-#p_name {
 	top: 12%;
 }
 
-#p_check {
+#p_coords {
 	top: 17%;
+}
+
+#p_name {
+	top: 22%;
+}
+
+#p_check {
+	top: 27%;
 }
 
 #p_time {

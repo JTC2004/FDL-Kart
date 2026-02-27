@@ -13,33 +13,15 @@
 	import { OctreeHelper } from 'three/addons/helpers/OctreeHelper.js';
 	
 //Class imports:
-	//Essentials:
-		import { fn_getScene } from "../main.js";
-		import { fn_getRenderer } from "../main.js";
-		import { fn_getLoader } from "../main.js";
-		import { fn_getCameras } from "../main.js";
-		import { fn_isMultiplayer } from "../main.js";
-		import { fn_getInputs } from "../main.js";
-		import { fn_getMap } from "../main.js";
+	import Player from "./player.js";
 	//Objects:
-		import Player from "./player.js";
 		import Checkpoint from "./objects/checkpoint.js";
 		import Pipe from "./objects/pipe.js";
 		import ItemBox from "./objects/itemBox.js";
 		import ItemBoxRow from "./objects/itemBoxRow.js";
-	
+	import { fn_isMultiplayer } from "../main.js";
 
 //Variable initializations:
-	//Essentials:
-		let scene;
-		let renderer;
-		let loader;
-		let a_cameras;
-		let a_inputs;
-
-		let b_multiplayer;
-		let str_map;
-
 	const a_objects = [];
 	const a_checkpoints = [];
 	
@@ -73,16 +55,7 @@
 
 
 //This method runs once when gameplay is started:	
-function fn_initializeGame(){
-	scene = fn_getScene();
-	renderer = fn_getRenderer();
-	loader = fn_getLoader();
-	a_cameras = fn_getCameras();
-	a_inputs = fn_getInputs();
-
-	b_multiplayer = fn_isMultiplayer();
-	str_map = fn_getMap();
-	
+function fn_initializeGame(scene, a_gameCameras, renderer, str_map, a_inputs){
 	//A light is required for MeshPhongMaterial to be seen.
 	//From a tutorial:
 	function fn_addLight( position, _intensity ) {
@@ -201,6 +174,7 @@ function fn_initializeGame(){
 
 //Loading objects into the scene:
 	//Loading a 3D model (followed this tutorial https://youtu.be/WBe3xrV4CPM?si=qzzC8TYFBhorqRcs):
+	const loader = new GLTFLoader();
 	
 	loader.load( 'assets/models/maps/'+ str_map +'/main.glb',		//I should make a method for this. 
 		function ( gltf ) {
@@ -277,7 +251,7 @@ function fn_initializeGame(){
 		a_players.push(new Player(scene, loader, [v_mapPos.x + i * 2.5, v_mapPos.y, v_mapPos.z], 1, a_checkpoints.length, int_numKeys, 3));
 
 		//If there is only 1 camera, break.
-		if(!b_multiplayer){
+		if(!fn_isMultiplayer()){
 			break;
 		}
 	}
@@ -285,10 +259,10 @@ function fn_initializeGame(){
 
 
 //The game loop:
-export function fn_updateGame(f_fps){
+export function fn_updateGame(a_inputs, scene, a_gameCameras, renderer, str_map, f_fps){
 	//console.log("Game is running");
 	if(!b_isInitialized){
-		fn_initializeGame();
+		fn_initializeGame(scene, a_gameCameras, renderer, str_map, a_inputs);
 		b_isInitialized = true;
 	}
 
@@ -330,7 +304,7 @@ export function fn_updateGame(f_fps){
 				}
 				
 				
-				a_players[i].fn_play(a_cameras[i], a_inputs[i]);
+				a_players[i].fn_play(a_gameCameras[i], a_inputs[i]);
 				if(window.b_debug){
 					coordsButton.innerHTML = ("XYZ = (" + 
 						a_players[0].fn_getPos().x.toFixed(2) + ", " + 
@@ -350,7 +324,7 @@ export function fn_updateGame(f_fps){
 				if(skyboxModel && str_map != "SNES MC1"){
 					skyboxModel.rotation.y += 0.0004;
 				}
-				a_players[i].fn_update(a_cameras[i], a_inputs[i], int_frames);
+				a_players[i].fn_update(a_gameCameras[i], a_inputs[i], int_frames);
 			}	
 			
 		}

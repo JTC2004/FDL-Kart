@@ -1,6 +1,7 @@
 //Imports:
 import * as THREE from 'three';
 import WebGL from 'three/addons/capabilities/WebGL.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import gameLoop from "./GameLoop.js";
 import InputHandlerKB from "./inputKB.js";
 import InputHandlerGP from "./inputGP.js";
@@ -49,6 +50,7 @@ var int_sharpPixelIndex = 0;
 //Initializing the scene:
     //3 things needed for anything: scene, camera, & renderer.
     const scene = new THREE.Scene();
+    const loader = new GLTFLoader();
     var a_gameCameras = [];
     a_gameCameras.push(new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 ));	
     //1 of many types of cameras in JS.		  (FOV, aspect ratio, near (objs closer than near, or farther than far won't be rendered), far) 
@@ -105,7 +107,6 @@ var int_sharpPixelIndex = 0;
 //THE MASTER GAME LOOP:
 try{
     fn_checkFullscreen(menuCamera, frustumHeight);
-    //const gameInterval = setInterval(() => {
     gameLoop.addCallback((dt) => {
         //Handle input stuff every frame:
             //Handling changes in player count:
@@ -132,7 +133,7 @@ try{
             }
             
             if(b_gameplay){
-                b_gameplay = fn_updateGame(a_inputs, scene, a_gameCameras, renderer, str_map, gameLoop.fn_getFPS());
+                b_gameplay = fn_updateGame(gameLoop.fn_getFPS());
             }
             else{
                 b_gameplay = fn_updateMenus(a_inputs[0], scene, menuCamera, renderer);
@@ -172,12 +173,6 @@ try{
             renderer.render( scene, menuCamera );
         }
     });
-    //}, 1000 / 60);
-
-    //Put renderer.render in a separate loop from game logic!!
-        //gameLoop.addCallback((dt) => {
-        //    renderer.render( scene, menuCamera );
-        //});
 
     gameLoop.start();
 }
@@ -304,15 +299,6 @@ export function fn_changeSettings(str_text, int_index, str_option){
         }
 }
 
-//DO THIS FOR MORE ESSENTIALS SO I DON'T HAVE TO PASS IN A MILLION PARMETERS TO EVERY OBJECT:
-export function fn_getMenuCamera(){
-    return menuCamera;
-}
-
-export function fn_isMultiplayer(){
-    return b_multiplayer;
-}
-
 //General-purpose clear scene function by ChatGPT:
 export function fn_clearScene(scene) {
     console.log("CLEARED SCENE");
@@ -337,3 +323,44 @@ export function fn_clearScene(scene) {
         }
     }
 }
+
+//GLOBAL GETTERS & SETTERS:
+//DO THIS FOR MORE ESSENTIALS SO I DON'T HAVE TO PASS IN A MILLION PARMETERS TO EVERY OBJECT:
+//The essential objects (are REFERENCES):
+    export function fn_getScene(){
+        return scene;
+    }
+
+    export function fn_getRenderer(){
+        return renderer;
+    }
+
+    export function fn_getLoader(){
+        return loader;
+    }
+
+    export function fn_getCameras(){
+        return a_gameCameras;
+    }
+    export function fn_getMenuCamera(){
+        return menuCamera;
+    }
+
+    export function fn_getInputs(){
+        return a_inputs;
+    }
+    export function fn_getInput(_int_i){
+        return a_inputs[_int_i];
+    }
+
+//Useful primatives (get COPIED):
+    export function fn_isMultiplayer(){
+        return b_multiplayer;
+    }
+
+    export function fn_getMap(){
+        return str_map;
+    }
+
+//Settings variables:
+    
