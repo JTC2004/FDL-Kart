@@ -127,8 +127,10 @@ try{
         //Fixed update (60 hz):
         if(dt > 0){
             //Get input for gamepad(s):
-            a_inputs[0].fn_updateGP(a_gamepads[0]);
-
+            for(const input of a_inputs){
+                input.fn_updateGP(a_gamepads[0]);
+            }
+            
             if(b_gameplay){
                 b_gameplay = fn_updateGame(a_inputs, scene, a_gameCameras, renderer, str_map, gameLoop.fn_getFPS());
             }
@@ -137,7 +139,9 @@ try{
             }
 
             //Advance input state ONCE PER FIXED UPDATE:
-            a_inputs[0].fn_updateLastKey();
+            for(const input of a_inputs){
+                input.fn_updateLastKey();
+            }
         }
 
         //Render every frame:

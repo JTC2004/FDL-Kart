@@ -6,9 +6,12 @@ Features added since last version:
 	- Debug text now lists player position instead of camera.
 	- Split-screen when multiple players are connected.
 	- WIP controllers menu.
+	- Make second player's inputs not scuffed.
+		- Did so by making the game check fn_updateLastKey() for every input instead of just player 1.
+		- OPTIMIZE THIS LATER.
 
 To do next (this version):
-	- Make second player's inputs not scuffed.
+	
 	- Have separate UI for each player.
 	- Player placements.
 	- Player collisions.
