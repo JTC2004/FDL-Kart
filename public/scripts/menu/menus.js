@@ -94,42 +94,42 @@ export function fn_updateMenus(){
 			camera.rotation.y = -1.24;
 			str_parentMenu = "";
 			a_options.push([
-				new Option(scene, str_currentMenu, [fn_inRow(4.25, 0, 4), 1, 0], [1, 1.24], "Single Play", "large"),
-				new Option(scene, str_currentMenu, [fn_inRow(4.25, 1, 4), 1, 0], [1, 1.24], "Split-Screen", "large"),
-				new Option(scene, str_currentMenu, [fn_inRow(4.25, 2, 4), 1, 0], [1, 1.24], "Online Play", "large"),
-				new Option(scene, str_currentMenu, [fn_inRow(4.25, 3, 4), 1, 0], [1, 1.24], "FDL Kart Channel", "large")
+				new Option(str_currentMenu, [fn_inRow(4.25, 0, 4), 1, 0], [1, 1.24], "Single Play", "large"),
+				new Option(str_currentMenu, [fn_inRow(4.25, 1, 4), 1, 0], [1, 1.24], "Split-Screen", "large"),
+				new Option(str_currentMenu, [fn_inRow(4.25, 2, 4), 1, 0], [1, 1.24], "Online Play", "large"),
+				new Option(str_currentMenu, [fn_inRow(4.25, 3, 4), 1, 0], [1, 1.24], "FDL Kart Channel", "large")
 				
 			]);
 			a_options.push([
-				new Option(scene, str_currentMenu, [fn_inRow(5.8, 0, 3), -2.2, 0], [1.3, .35], "Settings", "horizontal medium"),
-				new Option(scene, str_currentMenu, [fn_inRow(5.75, 1, 3), -2.2, 0], [1.75, .35], "How to Play", "horizontal large"),
+				new Option(str_currentMenu, [fn_inRow(5.8, 0, 3), -2.2, 0], [1.3, .35], "Settings", "horizontal medium"),
+				new Option(str_currentMenu, [fn_inRow(5.75, 1, 3), -2.2, 0], [1.75, .35], "How to Play", "horizontal large"),
 				'dum',
-				new Option(scene, str_currentMenu, [fn_inRow(5.75, 2, 3), -2.2, 0], [1.3, .35], "Records", "horizontal medium"),
+				new Option(str_currentMenu, [fn_inRow(5.75, 2, 3), -2.2, 0], [1.3, .35], "Records", "horizontal medium"),
 			]);
 		}
 		else if(str_currentMenu == "Single Play/Game Mode"){
 			str_parentMenu = "Main";
 			a_options.push([
-				new Option(scene, str_currentMenu, [-3.75, 3, 0], [2.2, .42], "Grand Prix", "horizontal large"),
+				new Option(str_currentMenu, [-3.75, 3, 0], [2.2, .42], "Grand Prix", "horizontal large"),
 				'dum'
 			]);
 			a_options.push([
-				new Option(scene, str_currentMenu, [-3.75, 1.25, 0], [2.2, .42], "Time Trials", "horizontal large"),
+				new Option(str_currentMenu, [-3.75, 1.25, 0], [2.2, .42], "Time Trials", "horizontal large"),
 				'dum'
 			]);
 			a_options.push([
-				new Option(scene, str_currentMenu, [-3.75, -.5, 0], [2.2, .42], "Missions", "horizontal large"),
+				new Option(str_currentMenu, [-3.75, -.5, 0], [2.2, .42], "Missions", "horizontal large"),
 				'dum'
 			]);
 			a_options.push([
-				new Option(scene, str_currentMenu, [-5.7, -2.05, 0], [1.05, .3], "Practice", "horizontal medium"),
-				new Option(scene, str_currentMenu, [-1.8, -2.05, 0], [1.05, .3], "Free Play", "horizontal medium"),
+				new Option(str_currentMenu, [-5.7, -2.05, 0], [1.05, .3], "Practice", "horizontal medium"),
+				new Option(str_currentMenu, [-1.8, -2.05, 0], [1.05, .3], "Free Play", "horizontal medium"),
 			]);
 		}
 		else if(str_currentMenu == "Split-Screen/Connect Controllers"){
 			str_parentMenu = "Main";
 			a_options.push([
-				new Option(scene, str_currentMenu, [-.25, .25, 0], [3.2, 1.6], "Connect Controller", "horizontal medium"),
+				new Option(str_currentMenu, [-.25, .25, 0], [3.2, 1.6], "Connect Controller", "horizontal medium"),
 			]);
 			//const loader = new GLTFLoader();
 			//const obj_controllerSprite = new Object(scene, [0, 0, 0], 1, false, false, 1);
@@ -138,19 +138,19 @@ export function fn_updateMenus(){
 		else if(str_currentMenu == "Settings"){
 			str_parentMenu = "Main";
 			a_options.push([
-				new Option(scene, str_currentMenu, [-3.6, 3, 0], [2.5, .45], "Resolution", "horizontal large"),
+				new Option(str_currentMenu, [-3.6, 3, 0], [2.5, .45], "Resolution", "horizontal large"),
 			]);
 			a_options.push([
-				new Option(scene, str_currentMenu, [-3.6, 1, 0], [2.5, .45], "SharpPixels", "horizontal large"),
+				new Option(str_currentMenu, [-3.6, 1, 0], [2.5, .45], "SharpPixels", "horizontal large"),
 			]);
 		}
 		else if(str_currentMenu == "How to Play"){
 			str_parentMenu = "Main";
 			a_options.push([
-				new Option(scene, str_currentMenu, [-.25, 2.2, 0], [3.2, 1], "Controls (gamepad)", "horizontal large"),
+				new Option(str_currentMenu, [-.25, 2.2, 0], [3.2, 1], "Controls (gamepad)", "horizontal large"),
 			]);
 			a_options.push([
-				new Option(scene, str_currentMenu, [-.25, -1.8, 0], [3.2, 1], "Controls (keyboard)", "horizontal large"),
+				new Option(str_currentMenu, [-.25, -1.8, 0], [3.2, 1], "Controls (keyboard)", "horizontal large"),
 			]);
 		}
 		

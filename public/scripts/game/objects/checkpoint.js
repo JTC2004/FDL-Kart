@@ -5,18 +5,18 @@ import Obj from "../object.js";
 
 export default class Cube extends Obj{
 
-	constructor(_scene, a_xyz, _worldScale, a_dimensions, _b_rotation, _b_key, _int_ID){
+	constructor(a_xyz, _worldScale, a_dimensions, _b_rotation, _b_key, _int_ID){
 		//Adds the checkpoint to the scene:
-			super(_scene, a_xyz, _worldScale, true, false, _worldScale);
+			super(a_xyz, _worldScale, true, false, _worldScale);
 			this.b_key = _b_key;
 			this.b_goal = false;
 			
 			if(this.b_key){
-				this.fn_addBoxTransp(_scene, [0,0,0], a_dimensions, 0x00ff00, 0.1);
+				this.fn_addBoxTransp([0,0,0], a_dimensions, 0x00ff00, 0.1);
 				this.box.visible = false;
 			}
 			else{
-				this.fn_addBoxTransp(_scene, [0,0,0], a_dimensions, 0x0026ff, 0.2);
+				this.fn_addBoxTransp([0,0,0], a_dimensions, 0x0026ff, 0.2);
 				this.box.visible = false;
 			}
 			
@@ -26,7 +26,7 @@ export default class Cube extends Obj{
 			
 			//Create a helper to visualize the boundingbox:
 			//if(this.b_key){
-			//	_scene.add(new THREE.Box3Helper(this.boundingBox, 0x00ff00));
+			//	scene.add(new THREE.Box3Helper(this.boundingBox, 0x00ff00));
 			//}
 	}
 	

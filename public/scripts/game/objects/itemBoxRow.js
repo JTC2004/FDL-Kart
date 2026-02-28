@@ -4,14 +4,14 @@ import ItemBox from "./itemBox.js";
 
 export default class ItemBoxRow extends Obj{
 
-	constructor(_scene, a_xyz, _worldScale, _loader, _num, _proximity, _localScale){
+	constructor(a_xyz, _worldScale, _num, _proximity, _localScale){
 		//Adds the cube to the scene:
-			super(_scene, a_xyz, _worldScale, false, false);
+			super(a_xyz, _worldScale, false, false);
 
 			this.a_boxes = new Array(_num);
 			
             for(let i = 0; i < _num; i++){
-                this.a_boxes.push(new ItemBox(_scene, [a_xyz[0] - i * _proximity, a_xyz[1], a_xyz[2] + i * 2 * _proximity], _worldScale, _loader, _localScale));
+                this.a_boxes.push(new ItemBox([a_xyz[0] - i * _proximity, a_xyz[1], a_xyz[2] + i * 2 * _proximity], _worldScale, _localScale));
                 //console.log("this.a_boxes[i] = " + this.a_boxes[i]);    
             }
 			

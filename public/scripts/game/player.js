@@ -7,12 +7,12 @@ import Kart from "./objects/kart.js";
 import Character from "./objects/character.js";
 
 //Essentials:
-		import { fn_getScene } from "../main.js";
-		import { fn_getRenderer } from "../main.js";
-		import { fn_getLoader } from "../main.js";
-		import { fn_getCameras } from "../main.js";
-		import { fn_isMultiplayer } from "../main.js";
-		import { fn_getInputs } from "../main.js";
+	import { fn_getScene } from "../main.js";
+	import { fn_getRenderer } from "../main.js";
+	import { fn_getLoader } from "../main.js";
+	import { fn_getCameras } from "../main.js";
+	import { fn_isMultiplayer } from "../main.js";
+	import { fn_getInputs } from "../main.js";
 
 //Declaring constants:
 	//Essentials:
@@ -90,11 +90,11 @@ export default class Player{
 		
 		//Code for player sprites & model(s):
 			this.obj_characters = [
-				new Character(scene, [_x, _y, _z], 1, 1, 'Enoki', true),
-				new Character(scene, [_x, _y, _z], 1, 1, 'Enoki', false)
+				new Character([_x, _y, _z], 1, 1, 'Enoki', true),
+				new Character([_x, _y, _z], 1, 1, 'Enoki', false)
 			];
 
-			this.obj_kart = new Kart(scene, [_x, _y, _z], 1, .1, loader);
+			this.obj_kart = new Kart([_x, _y, _z], 1, .1);
 		
 		//Player states:
 			//Flying:

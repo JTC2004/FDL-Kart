@@ -3,16 +3,16 @@ import Obj from "../object.js";
 
 export default class ItemBox extends Obj{
 
-	constructor(_scene, a_xyz, _worldScale, _loader, _localScale){
+	constructor(a_xyz, _worldScale, _localScale){
 		//Adds the cube to the scene:
-			super(_scene, a_xyz, _worldScale, false, false, _localScale);
+			super(a_xyz, _worldScale, false, false, _localScale);
 
-			this.fn_addModel(_scene, [0,0,0], [.8,.8,.8], _loader, "ItemBox", (model) => {
+			this.fn_addModel([0,0,0], [.8,.8,.8], "ItemBox", (model) => {
 				//Randomize rotation:
 				model.rotation.x = Math.random() * 2*Math.PI;
 				model.rotation.y = Math.random() * 2*Math.PI;
 			});
-			this.fn_addSprite(_scene, [0,0,0], [1.2, 1.2, 1.2], "mk_ques2");
+			this.fn_addSprite([0,0,0], [1.2, 1.2, 1.2], "mk_ques2");
 			
 			this.f_amplitude = 0.004;
 		

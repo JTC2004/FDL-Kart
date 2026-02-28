@@ -6,9 +6,15 @@ import { fn_changeSettings } from '../main.js';
 import { fn_getSetting } from '../main.js';
 import { fn_getMenuCamera } from '../main.js';
 
+//Essentials:
+    import { fn_getScene } from "../main.js";
+
+let scene;
+
 export default class Option{
 
-    constructor(scene, _menu, [_x, _y, _z], [_w, _h], _text, _borderStyle){
+    constructor(_menu, [_x, _y, _z], [_w, _h], _text, _borderStyle){
+        scene = fn_getScene();
 
         this.f_x = _x;
         this.f_y = _y;

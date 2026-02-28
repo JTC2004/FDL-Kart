@@ -3,10 +3,10 @@ import Obj from "./object.js";
 
 export default class Cube extends Obj{
 
-	constructor(_scene, a_xyz, _scale){
+	constructor(a_xyz, _scale){
 		//Adds the cube to the scene:
-			super(_scene, a_xyz, _scale, false, false);
-			this.fn_addBox(_scene, [0,0,0], [1,1,1], 0x00ffff);
+			super(a_xyz, _scale, false, false);
+			this.fn_addBox([0,0,0], [1,1,1], 0x00ffff);
 	}
 	
 	//Overidden functions:

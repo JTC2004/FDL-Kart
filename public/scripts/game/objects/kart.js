@@ -4,9 +4,9 @@ import Obj from "../object.js";
 export default class Kart extends Obj{
 	//Tutorial for adding sprites: https://threejs.org/docs/#api/en/objects/Sprite 	
 
-	constructor(_scene, a_xyz, _worldScale, _localScale, _loader){
-		super(_scene, a_xyz, _worldScale, false, false, _localScale);
-		this.fn_addModel(_scene, [0,0,0], [1,1,1], _loader, 'GoKart');
+	constructor(a_xyz, _worldScale, _localScale){
+		super(a_xyz, _worldScale, false, false, _localScale);
+		this.fn_addModel([0,0,0], [1,1,1], 'GoKart');
 
 		this.v_baseRotation = new THREE.Vector3(0,0,0);
 		this.v_visualRotation = new THREE.Vector3(0,0,0);
