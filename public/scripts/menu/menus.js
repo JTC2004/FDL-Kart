@@ -73,7 +73,7 @@ export function fn_updateMenus(){
 	//If menu has changed, update UI elements:
 	if(str_lastMenu != str_currentMenu){
 		//Remove all elements from the scene:
-		fn_clearScene(scene);
+		fn_clearScene();
 		
 		//Reset variables:
 		a_options = [];
@@ -132,8 +132,8 @@ export function fn_updateMenus(){
 				new Option(str_currentMenu, [-.25, .25, 0], [3.2, 1.6], "Connect Controller", "horizontal medium"),
 			]);
 			//const loader = new GLTFLoader();
-			//const obj_controllerSprite = new Object(scene, [0, 0, 0], 1, false, false, 1);
-			//obj_controllerSprite.fn_addSprite(scene, 0, 1, "Placeholder 256");
+			//const obj_controllerSprite = new Object([0, 0, 0], 1, false, false, 1);
+			//obj_controllerSprite.fn_addSprite(0, 1, "Placeholder 256");
 		}
 		else if(str_currentMenu == "Settings"){
 			str_parentMenu = "Main";

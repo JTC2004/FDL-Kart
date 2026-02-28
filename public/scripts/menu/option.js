@@ -236,7 +236,7 @@ export default class Option{
         this.spr_highlight.position.x = _newX;
     }
 
-    fn_remove(scene){
+    fn_remove(){
         this.fn_removeSprite(this.spr_border, scene);
         this.fn_removeSprite(this.spr_text, scene);
         this.fn_removeSprite(this.spr_highlight, scene);

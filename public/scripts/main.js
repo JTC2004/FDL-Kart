@@ -300,7 +300,7 @@ export function fn_changeSettings(str_text, int_index, str_option){
 }
 
 //General-purpose clear scene function by ChatGPT:
-export function fn_clearScene(scene) {
+export function fn_clearScene() {
     console.log("CLEARED SCENE");
 
     while (scene.children.length > 0) {
