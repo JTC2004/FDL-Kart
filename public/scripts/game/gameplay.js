@@ -199,7 +199,7 @@ function fn_initializeGame(){
 	}
 	
 
-//Loading objects into the scene:
+	//Loading objects into the scene:
 	//Loading a 3D model (followed this tutorial https://youtu.be/WBe3xrV4CPM?si=qzzC8TYFBhorqRcs):
 	
 	loader.load( 'assets/models/maps/'+ str_map +'/main.glb',		//I should make a method for this. 
@@ -281,6 +281,11 @@ function fn_initializeGame(){
 			break;
 		}
 	}
+
+	//Adjusting UI based on multiplayer:
+	if(b_multiplayer){
+		document.getElementById("p_time").style.left = "40%";
+	}
 }
 
 
@@ -306,8 +311,8 @@ export function fn_updateGame(f_fps){
 			if(!b_playerDone){
 				f_secs += 1 / 60;
 				//console.log("f_secs = " + f_secs);
-				var timeButton = document.getElementById("p_time");
-				timeButton.innerHTML = "TIME " + fn_formatTime(f_secs);
+				var timeElement = document.getElementById("p_time");
+				timeElement.innerHTML = "TIME " + fn_formatTime(f_secs);
 			}
 
 			

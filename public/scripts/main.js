@@ -148,6 +148,7 @@ try{
         //Render every frame:
         if(b_gameplay){
             if(b_multiplayer){
+                window.b_debug = false;             //Also disable debug prints in multiplayer.
                 var int_i = 0;
                 renderer.setScissorTest(true);      //MAKE THIS HAPPEN ONLY 1 FRAME.
                 
@@ -233,70 +234,70 @@ export function fn_getSetting(str_text){
 
 //This function is called in option.js to change a value here.
 export function fn_changeSettings(str_text, int_index, str_option){
-        const p_info = document.getElementById("info");
-        const canvas = renderer.domElement;
+    const p_info = document.getElementById("info");
+    const canvas = renderer.domElement;
 
-        if(str_text == "Resolution"){
-            int_resolutionIndex = int_index;
-            
-            if (int_index == 4){
-                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-                renderer.setSize(window.innerWidth, window.innerHeight);
-                p_info.innerHTML = "Resolution set to the size of your browser window (" + window.innerWidth + " x " + window.innerHeight +").";
-            }
-            else{
-                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-                renderer.setSize(str_option.slice(0, -1) / 9 * 16, str_option.slice(0, -1), false);
-                var str_WxH = "(" + Math.ceil(str_option.slice(0, -1) / 9 * 16) + " x " + str_option.slice(0, -1) + ")";
-
-                //renderer.setPixelRatio(1);
-                if(str_option.slice(0, -1) > window.innerHeight){
-                    p_info.innerHTML = "WARNING: Game resolution higher than browser resolution!";
-                }
-                else if(int_index == 7){
-                    p_info.innerHTML = "4K " + str_WxH + ". Will reset on window resize.";
-                }
-                else if(int_index == 6){
-                    p_info.innerHTML = "Resolution of Switch 2 games " + str_WxH + ". Will reset on window resize.";
-                }
-                else if(int_index == 5){
-                    p_info.innerHTML = "Full HD " + str_WxH + ". Will reset on window resize.";
-                }
-                else if(int_index == 3){
-                    p_info.innerHTML = "Resolution of Wii U games " + str_WxH + ". Will reset on window resize.";
-                }
-                else if(int_index == 2){
-                    p_info.innerHTML = "Resolution of GCN & Wii games " + str_WxH + ". Will reset on window resize.";
-                }
-                else if(int_index == 1){
-                    p_info.innerHTML = "Resolution of 3DS games " + str_WxH + ". Will reset on window resize.";
-                }
-                else if(int_index == 0){
-                    p_info.innerHTML = "Resolution of DS games " + str_WxH + ". Will reset on window resize.";
-                }
-                else {
-                    p_info.innerHTML = "Resolution " + str_WxH + ". Will reset on window resize.";
-                }
-            }
+    if(str_text == "Resolution"){
+        int_resolutionIndex = int_index;
+        
+        if (int_index == 4){
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            p_info.innerHTML = "Resolution set to the size of your browser window (" + window.innerWidth + " x " + window.innerHeight +").";
         }
-        else if(str_text == "SharpPixels"){
-            int_sharpPixelIndex = int_index;
+        else{
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setSize(str_option.slice(0, -1) / 9 * 16, str_option.slice(0, -1), false);
+            var str_WxH = "(" + Math.ceil(str_option.slice(0, -1) / 9 * 16) + " x " + str_option.slice(0, -1) + ")";
 
-            if(int_index == 0){
-                canvas.style.imageRendering = "auto";
-                p_info.innerHTML = "Smoother image.";
+            //renderer.setPixelRatio(1);
+            if(str_option.slice(0, -1) > window.innerHeight){
+                p_info.innerHTML = "WARNING: Game resolution higher than browser resolution!";
+            }
+            else if(int_index == 7){
+                p_info.innerHTML = "4K " + str_WxH + ". Will reset on window resize.";
+            }
+            else if(int_index == 6){
+                p_info.innerHTML = "Resolution of Switch 2 games " + str_WxH + ". Will reset on window resize.";
+            }
+            else if(int_index == 5){
+                p_info.innerHTML = "Full HD " + str_WxH + ". Will reset on window resize.";
+            }
+            else if(int_index == 3){
+                p_info.innerHTML = "Resolution of Wii U games " + str_WxH + ". Will reset on window resize.";
+            }
+            else if(int_index == 2){
+                p_info.innerHTML = "Resolution of GCN & Wii games " + str_WxH + ". Will reset on window resize.";
             }
             else if(int_index == 1){
-                canvas.style.imageRendering = "pixelated";
-                p_info.innerHTML = "More pixelated image.";
+                p_info.innerHTML = "Resolution of 3DS games " + str_WxH + ". Will reset on window resize.";
+            }
+            else if(int_index == 0){
+                p_info.innerHTML = "Resolution of DS games " + str_WxH + ". Will reset on window resize.";
+            }
+            else {
+                p_info.innerHTML = "Resolution " + str_WxH + ". Will reset on window resize.";
             }
         }
-        else if(str_text == "Multiplayer true"){
-            b_multiplayer = true;
+    }
+    else if(str_text == "SharpPixels"){
+        int_sharpPixelIndex = int_index;
+
+        if(int_index == 0){
+            canvas.style.imageRendering = "auto";
+            p_info.innerHTML = "Smoother image.";
         }
-        else if(str_text == "Multiplayer false"){
-            b_multiplayer = false;
+        else if(int_index == 1){
+            canvas.style.imageRendering = "pixelated";
+            p_info.innerHTML = "More pixelated image.";
         }
+    }
+    else if(str_text == "Multiplayer true"){
+        b_multiplayer = true;
+    }
+    else if(str_text == "Multiplayer false"){
+        b_multiplayer = false;
+    }
 }
 
 //General-purpose clear scene function by ChatGPT:
@@ -325,42 +326,42 @@ export function fn_clearScene() {
 }
 
 //GLOBAL GETTERS & SETTERS:
-//DO THIS FOR MORE ESSENTIALS SO I DON'T HAVE TO PASS IN A MILLION PARMETERS TO EVERY OBJECT:
-//The essential objects (are REFERENCES):
-    export function fn_getScene(){
-        return scene;
-    }
+    //DO THIS FOR MORE ESSENTIALS SO I DON'T HAVE TO PASS IN A MILLION PARMETERS TO EVERY OBJECT:
+    //The essential objects (are REFERENCES):
+        export function fn_getScene(){
+            return scene;
+        }
 
-    export function fn_getRenderer(){
-        return renderer;
-    }
+        export function fn_getRenderer(){
+            return renderer;
+        }
 
-    export function fn_getLoader(){
-        return loader;
-    }
+        export function fn_getLoader(){
+            return loader;
+        }
 
-    export function fn_getCameras(){
-        return a_gameCameras;
-    }
-    export function fn_getMenuCamera(){
-        return menuCamera;
-    }
+        export function fn_getCameras(){
+            return a_gameCameras;
+        }
+        export function fn_getMenuCamera(){
+            return menuCamera;
+        }
 
-    export function fn_getInputs(){
-        return a_inputs;
-    }
-    export function fn_getInput(_int_i){
-        return a_inputs[_int_i];
-    }
+        export function fn_getInputs(){
+            return a_inputs;
+        }
+        export function fn_getInput(_int_i){
+            return a_inputs[_int_i];
+        }
 
-//Useful primatives (get COPIED):
-    export function fn_isMultiplayer(){
-        return b_multiplayer;
-    }
+    //Useful primatives (get COPIED):
+        export function fn_isMultiplayer(){
+            return b_multiplayer;
+        }
 
-    export function fn_getMap(){
-        return str_map;
-    }
+        export function fn_getMap(){
+            return str_map;
+        }
 
-//Settings variables:
-    
+    //Settings variables:
+        

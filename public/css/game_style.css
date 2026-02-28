@@ -2,7 +2,7 @@ html, body{
 	overflow: hidden;
 }
 
-#info, #p_time, #p_name, #p_fps, #p_coords, #p_spd, #p_laps, #p_check, #p_finish, #p_Resolution, #p_SharpPixels {
+#info, #p_time, #p_name, #p_fps, #p_coords, #p_spd0, #p_spd1, #p_laps0, #p_laps1, #p_check, #p_finish0, #p_finish1, #p_Resolution, #p_SharpPixels {
 	position: absolute;
 	z-index: 100;
 	display:block;
@@ -10,12 +10,6 @@ html, body{
 	font-weight: bold;
 	font-size:1.4vw;
 	font-family:verdana;
-}
-
-#p_finish {
-	top: 1%;
-	width: 100%;
-	text-align: center;
 }
 
 #info{
@@ -33,11 +27,11 @@ html, body{
 	top: 17%;
 }
 
-#p_name {
+#p_check {
 	top: 22%;
 }
 
-#p_check {
+#p_name {
 	top: 27%;
 }
 
@@ -56,7 +50,7 @@ html, body{
 	left: 75.5%; 
 }
 
-#p_laps {
+#p_laps0, #p_laps1 {
 	position: absolute;
 	font-size: 2.5vw;
 	
@@ -71,7 +65,7 @@ html, body{
 	left: 83%; 
 }
 
-#p_spd {
+#p_spd0, #p_spd1 {
 	position: absolute;
 	font-size: 3.0vw;
 	
@@ -86,8 +80,10 @@ html, body{
 	left: 83%; 
 }
 
-#p_finish{
+#p_finish0, #p_finish1 {
 	top: 25%;
+	width: 100%;
+	text-align: center;
 	
 	font-size:6.5vw;
 	color:gold;

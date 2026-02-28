@@ -173,14 +173,32 @@ export default class Player{
 			this.int_keysPassed = 0;														//Number of key checkpoints passed.
 			this.int_expectedKey = 0;														//Index of the next expected key checkpoint.
 			this.int_lastKey = -1;															//Index of the last key checkpoint passed.
-			var lapsParagraph = document.getElementById("p_laps");
-			if(window.int_gameMode > 0){
-				lapsParagraph.innerHTML = "LAP " + this.int_lap + " / " + int_numLaps.get(this);
-			}
+			
 
 		//HUD variables:
+			this.p_hudLaps = document.getElementById(`p_laps${int_playerNum.get(this)}`);
+			if(window.int_gameMode > 0){
+				this.p_hudLaps.innerHTML = "LAP " + this.int_lap + " / " + int_numLaps.get(this);
+			}
+			this.p_hudSpd = document.getElementById(`p_spd${int_playerNum.get(this)}`);
+			this.p_hudFinish = document.getElementById(`p_finish${int_playerNum.get(this)}`);
+		
 			this.str_speedometerTextColor = "gold";
 			this.str_speedometerBorderColor = "#d57900";
+
+			//Adjust HUD positions in split-screen:
+			if(b_multiplayer){
+				document.getElementById(`p_laps0`).style.left = "2.5%";
+				document.getElementById(`p_laps0`).style.top = "70%";
+				document.getElementById(`p_laps1`).style.left = "84.5%";
+				document.getElementById(`p_laps1`).style.top = "70%";
+
+				document.getElementById(`p_spd0`).style.left = "2.5%";
+				document.getElementById(`p_spd1`).style.left = "84.5%";
+
+				document.getElementById(`p_finish0`).style.left = "-25%";
+				document.getElementById(`p_finish1`).style.left = "25%";
+			}
 	}
 	
 	//Function for player input and movement:
@@ -371,21 +389,20 @@ export default class Player{
 				//}
 
 				//Update HUD for speed:
-					var p_hudSpd = document.getElementById("p_spd");
 					var str_spd = (Math.abs(Math.trunc(this.f_speed * 100))).toString();
 					
 					if(Math.abs(this.f_speed * 100) < 10){
 						str_spd = "0" + str_spd;
 					}
 					
-					p_hudSpd.innerHTML = str_spd + " kmh";
+					this.p_hudSpd.innerHTML = str_spd + " kmh";
 					
 					//Adjust HUD color based on MT charge:
-					p_hudSpd.style.color = this.str_speedometerTextColor;
-					p_hudSpd.style.textShadow = `-.18vw -.18vw 0 ${this.str_speedometerBorderColor},
-												.18vw -.18vw 0 ${this.str_speedometerBorderColor},
-												-.18vw  .18vw 0 ${this.str_speedometerBorderColor},
-												.18vw  .18vw 0 ${this.str_speedometerBorderColor}`
+					this.p_hudSpd.style.color = this.str_speedometerTextColor;
+					this.p_hudSpd.style.textShadow = `-.18vw -.18vw 0 ${this.str_speedometerBorderColor},
+													.18vw -.18vw 0 ${this.str_speedometerBorderColor},
+													-.18vw  .18vw 0 ${this.str_speedometerBorderColor},
+													.18vw  .18vw 0 ${this.str_speedometerBorderColor}`
 
 			//console.log("f_speed = " + this.f_speed);
 			//Steering:	
@@ -751,8 +768,8 @@ export default class Player{
 		}
 
 		if(window.b_debug){
-			var idButton = document.getElementById("p_check");
-			idButton.innerHTML = "Progress: " + this.int_courseProgress;
+			const p_hudProgress = document.getElementById("p_check");
+			p_hudProgress.innerHTML = "Progress: " + this.int_courseProgress;
 		}
 
 		if(_checkpoint.fn_getKey() && this.int_lastKey != _checkpoint.fn_getID()){
@@ -784,14 +801,12 @@ export default class Player{
 				this.int_keysPassed = 1;
 				this.int_lap += 1;
 				
-				if(this.int_lap <= int_numLaps.get(this)){
-					var lapsParagraph = document.getElementById("p_laps");
-					lapsParagraph.innerHTML = "LAP " + this.int_lap + " / " + int_numLaps.get(this);
+				if(this.int_lap <= int_numLaps.get(this) && window.int_gameMode > 0){
+					this.p_hudLaps.innerHTML = "LAP " + this.int_lap + " / " + int_numLaps.get(this);
 				}
 				else{
 					this.b_done = true;
-					var finishParagraph = document.getElementById("p_finish");
-					finishParagraph.innerHTML = "FINISH";
+					this.p_hudFinish.innerHTML = "FINISH";
 				}
 			}   
 			//console.log("Keys passed: " + this.int_keysPassed + "\n------------");
