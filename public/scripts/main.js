@@ -136,7 +136,7 @@ try{
                 b_gameplay = fn_updateGame(gameLoop.fn_getFPS());
             }
             else{
-                b_gameplay = fn_updateMenus(a_inputs[0], scene, menuCamera, renderer);
+                b_gameplay = fn_updateMenus(a_inputs[0]);
             }
 
             //Advance input state ONCE PER FIXED UPDATE:

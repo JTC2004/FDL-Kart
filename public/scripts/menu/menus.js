@@ -7,10 +7,26 @@
 	import Object from "../game/object.js";
 	
 //Class imports:
-	import Option from "./option.js";
-	import { fn_clearScene } from "../main.js";
+	//Essentials:
+		import { fn_getScene } from "../main.js";
+		import { fn_clearScene } from "../main.js";
+		import { fn_getRenderer } from "../main.js";
+		import { fn_getLoader } from "../main.js";
+		import { fn_getMenuCamera } from "../main.js";
+		import { fn_getInputs } from "../main.js";
+
+	//Objects:
+		import Option from "./option.js";
+	
 
 //Variables:
+	//Essentials:
+		let scene;
+		let renderer;
+		let loader;
+		let camera;
+		let a_inputs;
+
 	var b_isInitialized = false;
 
 	var str_currentMenu = "Main";
@@ -26,7 +42,12 @@
 
 
 //Initializing the scene:
-function fn_initializeMenus(renderer){
+function fn_initializeMenus(){
+		scene = fn_getScene();
+		renderer = fn_getRenderer();
+		loader = fn_getLoader();
+		camera = fn_getMenuCamera();
+		a_inputs = fn_getInputs();
 
 		//Render background:
 		//renderer.setClearColor( 0x40aaf2, 1);
@@ -40,13 +61,14 @@ function fn_initializeMenus(renderer){
 }
 
 //The menu loop:
-export function fn_updateMenus(input, scene, camera, renderer){
-	
+export function fn_updateMenus(){
+
 	//Initializing variables dependent on scene, camera, etc.
 	if(!b_isInitialized){
-		fn_initializeMenus(renderer);
+		fn_initializeMenus();
 		b_isInitialized = true;
 	}
+	const input = a_inputs[0];
 
 	//If menu has changed, update UI elements:
 	if(str_lastMenu != str_currentMenu){
