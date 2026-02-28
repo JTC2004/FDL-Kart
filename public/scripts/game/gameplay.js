@@ -274,7 +274,7 @@ function fn_initializeGame(){
 
 	//Adding player(s):
 	for(let i = 0; i < a_inputs.length; i++){
-		a_players.push(new Player(scene, loader, [v_mapPos.x + i * 2.5, v_mapPos.y, v_mapPos.z], 1, a_checkpoints.length, int_numKeys, 3));
+		a_players.push(new Player(i, [v_mapPos.x + i * 2.5, v_mapPos.y, v_mapPos.z], 1, a_checkpoints.length, int_numKeys, 3));
 
 		//If there is only 1 camera, break.
 		if(!b_multiplayer){
@@ -318,39 +318,39 @@ export function fn_updateGame(f_fps){
 			}
 
 			//Player actions:
-			for(let i = 0; i < a_players.length; i++){
+			for(const player of a_players){
 				//Check for player collision with checkpoints:
-				for(let e = 0; e < a_checkpoints.length; e++){
-					if(a_checkpoints[i].fn_getDSOC() && a_checkpoints[e].fn_meshCollisionCheck(a_players[i].fn_getHitbox())){
+				for(let i = 0; i < a_checkpoints.length; i++){
+					if(a_checkpoints[i].fn_getDSOC() && a_checkpoints[i].fn_meshCollisionCheck(player.fn_getHitbox())){
 						//var boundingBox = new THREE.Box3().setFromObject(player.fn_getPlayer());
-						a_players[i].fn_checkpointUpdate(a_checkpoints[e]);
+						player.fn_checkpointUpdate(a_checkpoints[i]);
 						
-						b_playerDone = a_players[i].fn_isFinished();
+						b_playerDone = player.fn_isFinished();
 					}
 				}
 				
 				
-				a_players[i].fn_play(a_cameras[i], a_inputs[i]);
+				player.fn_play();
 				if(window.b_debug){
 					coordsButton.innerHTML = ("XYZ = (" + 
-						a_players[0].fn_getPos().x.toFixed(2) + ", " + 
-						a_players[0].fn_getPos().y.toFixed(2) + ", " + 
-						a_players[0].fn_getPos().z.toFixed(2) + 
+						player.fn_getPos().x.toFixed(2) + ", " + 
+						player.fn_getPos().y.toFixed(2) + ", " + 
+						player.fn_getPos().z.toFixed(2) + 
 					")");
 				}
 
 				//Colision:
 				if(offroadModel){
-					a_players[i].fn_offroad(offroadOctree, true)
+					player.fn_offroad(offroadOctree, true)
 				}
 				if(courseModel){
-					a_players[i].fn_collision(worldOctree, false);
+					player.fn_collision(worldOctree, false);
 				}
 			
 				if(skyboxModel && str_map != "SNES MC1"){
 					skyboxModel.rotation.y += 0.0004;
 				}
-				a_players[i].fn_update(a_cameras[i], a_inputs[i], int_frames);
+				player.fn_update(int_frames);
 			}	
 			
 		}

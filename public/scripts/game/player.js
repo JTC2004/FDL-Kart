@@ -6,7 +6,25 @@ import { OctreeHelper } from 'three/addons/helpers/OctreeHelper.js';
 import Kart from "./objects/kart.js";
 import Character from "./objects/character.js";
 
+//Essentials:
+		import { fn_getScene } from "../main.js";
+		import { fn_getRenderer } from "../main.js";
+		import { fn_getLoader } from "../main.js";
+		import { fn_getCameras } from "../main.js";
+		import { fn_isMultiplayer } from "../main.js";
+		import { fn_getInputs } from "../main.js";
+
 //Declaring constants:
+	//Essentials:
+		let scene;
+		let renderer;
+		let loader;
+		let a_cameras;
+		let a_inputs;
+
+		let b_multiplayer;
+
+	const int_playerNum = new WeakMap();
 	const b_showCapsule = false;
 
 	const f_baseGravity = new WeakMap();
@@ -31,14 +49,25 @@ import Character from "./objects/character.js";
 
 export default class Player{
 
-	constructor(_scene, _loader, [_x, _y, _z], _scale, _numChecks, _numKeys, _int_numLaps){
+	constructor(_num, [_x, _y, _z], _scale, _numChecks, _numKeys, _int_numLaps){
+		//Essentials:
+			scene = fn_getScene();
+			renderer = fn_getRenderer();
+			loader = fn_getLoader();
+			a_cameras = fn_getCameras();
+			a_inputs = fn_getInputs();
+		
+			b_multiplayer = fn_isMultiplayer();
+		//Scale:
 			this.f_radius = _scale * .7;													//Radius of the player's collisions.
 			this.f_scale = _scale;															//The scale of the player.
 		//Add the player to the scene:
+			int_playerNum.set(this, _num);
+			
 			this.playerGeometry = new THREE.SphereGeometry( this.f_radius, 8, 8);				
 			this.playerMaterial = new THREE.MeshPhongMaterial( { color: 0xff0000 } );
 			this.player = new THREE.Mesh( this.playerGeometry, this.playerMaterial );		//Player collision with objects. Represents the player's XYZ (possible change XYZ to be separate like objects).
-			_scene.add( this.player );
+			scene.add( this.player );
 			this.player.position.set(_x, _y, _z);
 			this.player.visible = false;
 
@@ -50,22 +79,22 @@ export default class Player{
 				this.capsuleGeom = new THREE.CapsuleGeometry(this.f_radius, this.f_radius * .35, 8, 16);
 				this.capsuleMat = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
 				this.capsuleMesh = new THREE.Mesh(this.capsuleGeom, this.capsuleMat);			//Mesh to visualize the collision capsule.
-				_scene.add(this.capsuleMesh);
+				scene.add(this.capsuleMesh);
 			//Visualize where collision capsule top and bottom are:
 				this.visGeometry = new THREE.SphereGeometry( .1, 6, 6);	
 				this.startVis = new THREE.Mesh( this.visGeometry, new THREE.MeshPhongMaterial( { color: 0x00ff00 } ));
 				this.endVis = new THREE.Mesh( this.visGeometry, this.playerMaterial );
-				_scene.add(this.startVis);
-				_scene.add(this.endVis);
+				scene.add(this.startVis);
+				scene.add(this.endVis);
 		}
 		
 		//Code for player sprites & model(s):
 			this.obj_characters = [
-				new Character(_scene, [_x, _y, _z], 1, 1, 'Enoki', true),
-				new Character(_scene, [_x, _y, _z], 1, 1, 'Enoki', false)
+				new Character(scene, [_x, _y, _z], 1, 1, 'Enoki', true),
+				new Character(scene, [_x, _y, _z], 1, 1, 'Enoki', false)
 			];
 
-			this.obj_kart = new Kart(_scene, [_x, _y, _z], 1, .1, _loader);
+			this.obj_kart = new Kart(scene, [_x, _y, _z], 1, .1, loader);
 		
 		//Player states:
 			//Flying:
@@ -155,7 +184,10 @@ export default class Player{
 	}
 	
 	//Function for player input and movement:
-	fn_play(camera, input){		
+	fn_play(){		
+		const input = a_inputs[int_playerNum.get(this)];
+		const camera = a_cameras[int_playerNum.get(this)];
+
 		if(input.fn_press_fly(this.b_done)){
 			var infoParagraph = document.getElementById("info");
 			if(this.b_flying){
@@ -626,7 +658,10 @@ export default class Player{
 	}
 	
 	
-	fn_update(camera, input, _int_frames){
+	fn_update(_int_frames){
+		const input = a_inputs[int_playerNum.get(this)];
+		const camera = a_cameras[int_playerNum.get(this)];
+		
 		//Code to run when wall is hit:
 			if(this.b_hitWall){			
 				//Only reduce speed from a collision when not in a speed boost:
