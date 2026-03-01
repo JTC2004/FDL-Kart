@@ -92,12 +92,20 @@ export default class Obj{
 			map: this.spriteMap,
 			transparent: true,	
 			alphaTest: 0.5,			//Helps discard transparent pixels.
-			color: 0xffffff
+			color: 0xffffff,
 		});
 		this.sprite = new THREE.Sprite( this.spriteMaterial );
 		
-		this.sprite.scale.set(this.f_scale * a_multip[0], this.f_scale * a_multip[1], this.f_scale * a_multip[2] );
-		this.sprite.position.set(this.f_x + a_offset[0], this.f_y + a_offset[1], this.f_z + a_offset[2]);
+		this.sprite.scale.set(
+			this.f_scale * a_multip[0], 
+			this.f_scale * a_multip[1], 
+			this.f_scale * a_multip[2] 
+		);
+		this.sprite.position.set(
+			this.f_x + a_offset[0], 
+			this.f_y + a_offset[1], 
+			this.f_z + a_offset[2]
+		);
 		scene.add( this.sprite );
 	}
 

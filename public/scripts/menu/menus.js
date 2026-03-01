@@ -131,9 +131,8 @@ export function fn_updateMenus(){
 			a_options.push([
 				new Option(str_currentMenu, [-.25, .25, 0], [3.2, 1.6], "Connect Controller", "horizontal medium"),
 			]);
-			//const loader = new GLTFLoader();
-			//const obj_controllerSprite = new Object([0, 0, 0], 1, false, false, 1);
-			//obj_controllerSprite.fn_addSprite(0, 1, "Placeholder 256");
+			//const obj_controllerSprite = new Object([-.25, -2.05, .5], 1, false, false, 1);
+			//obj_controllerSprite.fn_addSprite([0,0,0], [1,1,1], "Placeholder");
 		}
 		else if(str_currentMenu == "Settings"){
 			str_parentMenu = "Main";

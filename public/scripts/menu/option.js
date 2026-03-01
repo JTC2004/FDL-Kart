@@ -251,7 +251,15 @@ export default class Option{
 
     fn_newSprite(_str_name){
         this.spriteMap = new THREE.TextureLoader().load( 'assets/sprites/UI/'+ _str_name + '.png' );
-        this.spriteMaterial = new THREE.SpriteMaterial({ map: this.spriteMap, transparent: true, color: 0xffffff});
+        this.spriteMaterial = new THREE.SpriteMaterial({ 
+            map: this.spriteMap, 
+            transparent: true, 
+            alphaTest: 0.5,			//Helps discard transparent pixels.
+            color: 0xffffff,
+            depthTest: false,
+            depthWrite: false,
+            renderOrder: 0
+        });
         return new THREE.Sprite( this.spriteMaterial );
     }
 
