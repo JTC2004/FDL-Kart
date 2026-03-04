@@ -760,6 +760,15 @@ export default class Player{
 		return new THREE.Box3().setFromObject(this.player);
 		//return this.player.geometry;
 	}
+
+	fn_getCapsuleMesh(){
+		if(b_showCapsule){
+			return this.capsuleMesh;
+		}
+		else{
+			return false;
+		}
+	}
 	
 	fn_checkpointUpdate(_checkpoint){
 		

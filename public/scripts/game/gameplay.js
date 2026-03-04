@@ -288,6 +288,8 @@ function fn_initializeGame(){
 			3
 		));
 
+		//worldOctree.fromGraphNode(a_players[i].fn_getCapsuleMesh());
+
 		//If there is only 1 camera, break.
 		if(!b_multiplayer){
 			break;
