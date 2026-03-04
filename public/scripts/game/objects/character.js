@@ -4,13 +4,13 @@ import Obj from "../object.js";
 export default class Character extends Obj{
 	//Tutorial for adding sprites: https://threejs.org/docs/#api/en/objects/Sprite 	
 
-	constructor(a_xyz, _worldScale, _localScale, _str_name, _b_driving){
+	constructor(a_xyz, _worldScale, _localScale, _str_name, _num, _b_driving){
 		super(a_xyz, _worldScale, false, true, _localScale * 1.4);	
 		
 		this.str_name = _str_name;
 		
 		//this.fn_addSprite([0,0,0], [1,1,1], this.str_name + ' gremlin (transp)');
-		this.fn_addSpriteSheet([0,0,0], [1,1,1], `Characters/${_str_name}/Y_256_Frame_2`, 6);
+		this.fn_addSpriteSheet([0,0,0], [1,1,1], `Characters/${_str_name}/P${_num + 1}_256_Frame_2`, 6);
 
 		//State variables:
 		this.b_driving = _b_driving;

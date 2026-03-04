@@ -274,7 +274,19 @@ function fn_initializeGame(){
 
 	//Adding player(s):
 	for(let i = 0; i < a_inputs.length; i++){
-		a_players.push(new Player(i, [v_mapPos.x + i * 2.5, v_mapPos.y, v_mapPos.z], 1, a_checkpoints.length, int_numKeys, 3));
+		a_players.push(new Player(
+			i, 
+			[
+				v_mapPos.x + i * 2.5, 
+				v_mapPos.y, 
+				v_mapPos.z
+			],
+			'Enoki', 
+			1, 
+			a_checkpoints.length, 
+			int_numKeys, 
+			3
+		));
 
 		//If there is only 1 camera, break.
 		if(!b_multiplayer){

@@ -49,7 +49,7 @@ import Character from "./objects/character.js";
 
 export default class Player{
 
-	constructor(_num, [_x, _y, _z], _scale, _numChecks, _numKeys, _int_numLaps){
+	constructor(_num, [_x, _y, _z], _character, _scale, _numChecks, _numKeys, _int_numLaps){
 		//Essentials:
 			scene = fn_getScene();
 			renderer = fn_getRenderer();
@@ -90,8 +90,8 @@ export default class Player{
 		
 		//Code for player sprites & model(s):
 			this.obj_characters = [
-				new Character([_x, _y, _z], 1, 1, 'Enoki', true),
-				new Character([_x, _y, _z], 1, 1, 'Enoki', false)
+				new Character([_x, _y, _z], 1, 1, _character, _num, true),
+				new Character([_x, _y, _z], 1, 1, _character, _num, false)
 			];
 
 			this.obj_kart = new Kart([_x, _y, _z], 1, .1);
