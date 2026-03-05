@@ -303,8 +303,6 @@ function fn_initializeGame(){
 	if(b_multiplayer){
 		document.getElementById("p_time").style.left = "40%";
 	}
-
-	console.log(`a_objectsDSOC = ${a_objectsDSOC}`);
 }
 
 
