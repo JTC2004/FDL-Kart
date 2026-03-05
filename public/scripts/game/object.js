@@ -38,24 +38,24 @@ export default class Obj{
 	fn_addBox(a_offset, a_multip, _color){
 		this.geometry = new THREE.BoxGeometry( this.f_scale * a_multip[0], this.f_scale * a_multip[1], this.f_scale * a_multip[2] );
 		this.material = new THREE.MeshPhongMaterial( { color: _color } );
-		this.box = new THREE.Mesh( this.geometry, this.material );
-		scene.add( this.box );
-		this.box.position.set(this.f_x + a_offset[0], this.f_y + a_offset[1], this.f_z + a_offset[2]);
+		this.mesh = new THREE.Mesh( this.geometry, this.material );
+		scene.add( this.mesh );
+		this.mesh.position.set(this.f_x + a_offset[0], this.f_y + a_offset[1], this.f_z + a_offset[2]);
 		
 		//Create bounding box:
-		this.boundingBox = new THREE.Box3().setFromObject(this.box);
+		this.boundingBox = new THREE.Box3().setFromObject(this.mesh);
 	}
 	
 	//Adds a transparent mesh to the object:
 	fn_addBoxTransp(a_offset, a_multip, _color, _opacity){
 		this.geometry = new THREE.BoxGeometry( this.f_scale * a_multip[0], this.f_scale * a_multip[1], this.f_scale * a_multip[2] );
 		this.material = new THREE.MeshPhongMaterial( { color: _color, transparent: true, opacity: _opacity } );
-		this.box = new THREE.Mesh( this.geometry, this.material );
-		scene.add( this.box );
-		this.box.position.set(this.f_x + a_offset[0], this.f_y + a_offset[1], this.f_z + a_offset[2]);
+		this.mesh = new THREE.Mesh( this.geometry, this.material );
+		scene.add( this.mesh );
+		this.mesh.position.set(this.f_x + a_offset[0], this.f_y + a_offset[1], this.f_z + a_offset[2]);
 		
 		//Create bounding box:
-		this.boundingBox = new THREE.Box3().setFromObject(this.box);
+		this.boundingBox = new THREE.Box3().setFromObject(this.mesh);
 	}
 	
 	//Adds a mesh from a GLTF model:
@@ -186,7 +186,7 @@ export default class Obj{
 
 			if(this.model){		this.model.position.copy(v_xyz);	}
 			if(this.sprite){	this.sprite.position.copy(v_xyz);	}
-			if(this.cube){		this.box.position.copy(v_xyz)		}
+			if(this.cube){		this.mesh.position.copy(v_xyz)		}
 		}
 
 		fn_setY(_f_Y){
@@ -194,7 +194,7 @@ export default class Obj{
 
 			if(this.model){		this.model.position.copy(new THREE.Vector3(this.f_x, _f_Y, this.f_z));	}
 			if(this.sprite){	this.sprite.position.copy(new THREE.Vector3(this.f_x, _f_Y, this.f_z));	}
-			if(this.cube){		this.box.position.copy(new THREE.Vector3(this.f_x, _f_Y, this.f_z))		}
+			if(this.cube){		this.mesh.position.copy(new THREE.Vector3(this.f_x, _f_Y, this.f_z))		}
 		}
 
 		fn_addX(_f_x){
@@ -202,7 +202,7 @@ export default class Obj{
 
 			if(this.model){		this.model.position.x = this.f_x;	}
 			if(this.sprite){	this.sprite.position.x = this.f_x;	}
-			if(this.cube){		this.box.position.x = this.f_x;		}
+			if(this.cube){		this.mesh.position.x = this.f_x;		}
 		}
 
 		fn_addY(_f_y){
@@ -210,7 +210,7 @@ export default class Obj{
 
 			if(this.model){		this.model.position.y = this.f_y;	}
 			if(this.sprite){	this.sprite.position.y = this.f_y;	}
-			if(this.cube){		this.box.position.y = this.f_y;		}
+			if(this.cube){		this.mesh.position.y = this.f_y;		}
 		}
 
 		fn_addZ(_f_z){
@@ -218,7 +218,7 @@ export default class Obj{
 
 			if(this.model){		this.model.position.z = this.f_z;	}
 			if(this.sprite){	this.sprite.position.z = this.f_z;	}
-			if(this.cube){		this.box.position.z = this.f_z;		}
+			if(this.cube){		this.mesh.position.z = this.f_z;		}
 		}
 
 		fn_setRotation(v_xyz){
@@ -228,7 +228,7 @@ export default class Obj{
 				this.model.rotation.y = v_xyz.y;
 				this.model.rotation.z = v_xyz.z;	
 			}
-			if(this.cube){		this.box.rotation.copy(v_xyz)		}
+			if(this.cube){		this.mesh.rotation.copy(v_xyz)		}
 		}
 		fn_setSpriteTile(_x, _y){
 			//x negative to pos is left to right.
@@ -254,8 +254,8 @@ export default class Obj{
 		}
 		
 		//Use this for checking for non-octree collisions:
-		fn_meshCollisionCheck(_playerBoundingBox){
-			if(this.boundingBox.intersectsBox(_playerBoundingBox)){
+		fn_meshCollisionCheck(_playerBoundingSphere){
+			if(this.boundingBox.intersectsSphere(_playerBoundingSphere)){
 				//console.log("Object collision");
 				return true;
 			}
@@ -264,6 +264,11 @@ export default class Obj{
 				return false;
 			}
 			//return false;
+		}
+
+		//Do something on collision (override this with child):
+		fn_DSOC(_player){
+			return this.b_DSOC;
 		}
 	
 	

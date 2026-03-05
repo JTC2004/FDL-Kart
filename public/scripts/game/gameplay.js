@@ -40,7 +40,8 @@
 		let b_multiplayer;
 		let str_map;
 
-	const a_objects = [];
+	const a_objectsStatic = [];
+	const a_objectsDSOC = [];
 	const a_checkpoints = [];
 	
 	const worldOctree = new Octree();		//Collision detector initialization.
@@ -253,21 +254,21 @@ function fn_initializeGame(){
 	);
 		
 	//Adding item boxes:
-		a_objects.push(new ItemBoxRow([-53, 7.1, -61], f_mapScale, 6, .85, 1));
+		a_objectsStatic.push(new ItemBoxRow([-53, 7.1, -61], f_mapScale, 6, .85, 1));
 	//Adding pipes:
-		a_objects.push(new Pipe([-102, 7.19, -74.5], f_mapScale, 1));
-		a_objects.push(new Pipe([-102, 7.19, -65], f_mapScale, 1));
-		a_objects.push(new Pipe([-116, 7.19, -66], f_mapScale, 1));
-		a_objects.push(new Pipe([-116, 7.19, -81], f_mapScale, 1));
-		a_objects.push(new Pipe([-119.7, 7.19, 27], f_mapScale, 1));
-		a_objects.push(new Pipe([-103, 7.22, 40], f_mapScale, 1));
-		a_objects.push(new Pipe([-93, 7.22, 35.5], f_mapScale, 1));
-		a_objects.push(new Pipe([-52, 7.22, 21], f_mapScale, 1));
+		a_objectsStatic.push(new Pipe([-102, 7.19, -74.5], f_mapScale, 1));
+		a_objectsStatic.push(new Pipe([-102, 7.19, -65], f_mapScale, 1));
+		a_objectsStatic.push(new Pipe([-116, 7.19, -66], f_mapScale, 1));
+		a_objectsStatic.push(new Pipe([-116, 7.19, -81], f_mapScale, 1));
+		a_objectsStatic.push(new Pipe([-119.7, 7.19, 27], f_mapScale, 1));
+		a_objectsStatic.push(new Pipe([-103, 7.22, 40], f_mapScale, 1));
+		a_objectsStatic.push(new Pipe([-93, 7.22, 35.5], f_mapScale, 1));
+		a_objectsStatic.push(new Pipe([-52, 7.22, 21], f_mapScale, 1));
 		
 	//Adding solid objects to the octree:
-		for(let i = 0; i < a_objects.length; i++){
-			if(a_objects[i].fn_getSolid()){
-				worldOctree.fromGraphNode(a_objects[i].fn_getCollider());
+		for(let i = 0; i < a_objectsStatic.length; i++){
+			if(a_objectsStatic[i].fn_getSolid()){
+				worldOctree.fromGraphNode(a_objectsStatic[i].fn_getCollider());
 			}
 		}
 
@@ -287,6 +288,8 @@ function fn_initializeGame(){
 			int_numKeys, 
 			3
 		));
+		//REMEMBER TO PUSH OTHER NON-STATIC COLLIDABLE OBJECTS AFTER PLAYERS!!
+		a_objectsDSOC.push(a_players[i]);
 
 		//worldOctree.fromGraphNode(a_players[i].fn_getCapsuleMesh());
 
@@ -300,6 +303,8 @@ function fn_initializeGame(){
 	if(b_multiplayer){
 		document.getElementById("p_time").style.left = "40%";
 	}
+
+	console.log(`a_objectsDSOC = ${a_objectsDSOC}`);
 }
 
 
@@ -331,9 +336,8 @@ export function fn_updateGame(f_fps){
 
 			
 			//Update objects:
-			for(let i = 0; i < a_objects.length; i++){
-				a_objects[i].fn_animate(int_frames);
-				
+			for(let i = 0; i < a_objectsStatic.length; i++){
+				a_objectsStatic[i].fn_animate(int_frames);
 			}
 
 			//Player actions:
@@ -357,10 +361,22 @@ export function fn_updateGame(f_fps){
 						player.fn_getPos().z.toFixed(2) + 
 					")");
 				}
+				
+				//If collidable object collides with player, do something:
+				for(let i = 0; i < a_objectsDSOC.length; i++){
+					if(i == player.fn_getPlayerIndex()){
+						continue;
+					}
+					
+					if(a_objectsDSOC[i].fn_meshCollisionCheck(player)){
+						a_objectsDSOC[i].fn_DSOC(player);
+					}
+				}
+				
 
 				//Colision:
 				if(offroadModel){
-					player.fn_offroad(offroadOctree, true)
+					player.fn_offroad(offroadOctree, false);
 				}
 				if(courseModel){
 					player.fn_collision(worldOctree);

@@ -13,16 +13,16 @@ export default class Cube extends Obj{
 			
 			if(this.b_key){
 				this.fn_addBoxTransp([0,0,0], a_dimensions, 0x00ff00, 0.1);
-				this.box.visible = false;
+				this.mesh.visible = false;
 			}
 			else{
 				this.fn_addBoxTransp([0,0,0], a_dimensions, 0x0026ff, 0.2);
-				this.box.visible = false;
+				this.mesh.visible = false;
 			}
 			
 			this.int_ID = _int_ID;
-			this.box.rotation.y = _b_rotation;
-			this.boundingBox = new THREE.Box3().setFromObject(this.box);		//Update bounding box.
+			this.mesh.rotation.y = _b_rotation;
+			this.boundingBox = new THREE.Box3().setFromObject(this.mesh);		//Update bounding box.
 			
 			//Create a helper to visualize the boundingbox:
 			//if(this.b_key){
@@ -57,7 +57,7 @@ export default class Cube extends Obj{
 		}
 		
 		fn_getMesh(){
-			return this.box;
+			return this.mesh;
 		}
 		
 		fn_getHitbox(){

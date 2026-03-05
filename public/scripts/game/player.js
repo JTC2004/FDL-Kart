@@ -71,6 +71,11 @@ export default class Player{
 			this.player.position.set(_x, _y, _z);
 			this.player.visible = false;
 
+			this.playerGeometry.computeBoundingSphere();
+
+			this.boundingSphere = this.playerGeometry.boundingSphere.clone();					//Used for collisions with non-octree objects:
+			this.boundingSphere.center.copy(this.player.position);
+
 		//Collision capsule:
 			this.worldCollider = new Capsule( new THREE.Vector3( _x, _y, _z ), new THREE.Vector3( _x, _y + this.f_radius, _z ), this.f_radius );	//Collider with the map.
 			this.worldCollider.visible = true;
@@ -115,6 +120,7 @@ export default class Player{
 				this.f_chargeJumpHeight = -0.425;
 			//Collision:
 				this.b_hitWall = false;															//True when collider collides w/ a wall.
+				this.b_hitPlayer = false;														//True when bounding box collides with another player's bounding box.
 				this.b_onGround = false;														//Player is on ground when true.
 				this.b_prevOnGround = false;
 				this.b_firstLanded = false;														//Equals true ONLY the first frame player lands on ground.
@@ -138,7 +144,7 @@ export default class Player{
 				f_baseMaxSpeed.set(this, .0043 * int_CC.get(this) + 0.105 + f_stat_speed.get(this) * .01);	//The player's max speed.	
 				this.f_maxSpeed = f_baseMaxSpeed.get(this);										//The current max speed.
 				this.f_speed = 0.0;																//The current amount the player moves forwards per frame.
-				this.f_speedBounceBack = 1.0;													//Equals negative when player is rebounding from a wall or player collision.
+				this.f_pushedBack = 1.0;													//Equals negative when player is rebounding from a wall or player collision.
 				f_baseAcceletation.set(this, f_stat_acceleration.get(this) * 0.0017);
 				this.f_acceleration = f_baseAcceletation.get(this);								//The amount of speed the player gains while accelerating.
 			//Steering:
@@ -591,18 +597,18 @@ export default class Player{
 				//console.log(`Charge jumping = ${this.b_chargeJumping}`);
 			
 			//Update player's position:
-				this.player.position.x -= Math.sin(this.player.rotation.y) * this.f_speed * this.f_speedBounceBack;
-				this.player.position.z -= Math.cos(this.player.rotation.y) * this.f_speed * this.f_speedBounceBack;
+				this.player.position.x -= Math.sin(this.player.rotation.y) * this.f_speed * this.f_pushedBack;
+				this.player.position.z -= Math.cos(this.player.rotation.y) * this.f_speed * this.f_pushedBack;
 				this.player.rotation.y += this.f_turning;
 			//Update world collider:
 				this.worldCollider.start.set(this.player.position.x, this.player.position.y, this.player.position.z);
 				this.worldCollider.end.set(this.worldCollider.start.x, this.worldCollider.start.y + this.f_radius * .35, this.worldCollider.start.z);
 			
-			if(this.f_speedBounceBack < 1.0){
-				this.f_speedBounceBack += 0.07;
+			if(this.f_pushedBack >= 1.0){
+				this.f_pushedBack = 1.0;
 			}
 			else{
-				this.f_speedBounceBack = 1.0;
+				this.f_pushedBack += 0.07;
 			}
 			
 			//this.playerCollider.start.x -= Math.sin(this.player.rotation.y) * this.f_acceleration;
@@ -610,6 +616,8 @@ export default class Player{
 			
 			this.b_onGround = false;
 			this.b_firstLanded = false;
+
+			this.boundingSphere.center.copy(this.player.position);
 		}
 	}
 	
@@ -680,6 +688,24 @@ export default class Player{
 			}
 		}
 	}
+
+	//Use this for checking for non-octree collisions:
+		fn_meshCollisionCheck(_player){
+			if(this.boundingSphere.intersectsSphere(_player.fn_getHitbox())){
+				//console.log(`Player #${int_playerNum.get(this)} collided with player #${this.fn_getPlayerIndex()}`);
+				return true;
+			}
+			else{
+				//console.log("No object collision");
+				return false;
+			}
+			//return false;
+		}
+
+	//If another player collides with this player, push them back:
+	fn_DSOC(_player){
+		_player.fn_setHitWall(true, true);
+	}
 	
 	
 	fn_update(_int_frames){
@@ -690,21 +716,32 @@ export default class Player{
 			if(this.b_hitWall){			
 				//Only reduce speed from a collision when not in a speed boost:
 				if(this.f_speedBoostTimer == 0.0){
-					if(this.f_speed > .35){
-						this.f_speedBounceBack = -this.f_speed * .5;
+					//Make player bounce back:
+					//if(this.f_speed > .7){
+						this.f_pushedBack = -this.f_speed;
+					//}
+					//else{
+						//this.f_pushedBack = -this.f_speed * .5;
+					//}
+
+					if(this.b_hitPlayer){
+						this.f_pushedBack += - 0.8;
 					}
 					
-					this.f_speed -= this.f_speed / 6;
+					console.log(`f_pushedBack = ${this.f_pushedBack}`);
+
+					this.f_speed = this.f_speed / 2;
 
 					if(this.f_speed < 0){
 						this.f_speed = 0;
 					}
 				}
 
-				//MAKE PLAYER BOUNCE BACK
 				
-				console.log("Wall collision detected!");
+				
+				//console.log("Wall collision detected!");
 				this.b_hitWall = false;
+				this.b_hitPlayer = false;
 				this.fn_stopDrifting();
 			}
 		
@@ -764,12 +801,22 @@ export default class Player{
 		return this.player;
 	}
 
+	fn_getPlayerIndex(){
+		return int_playerNum.get(this);
+	}
+
 	fn_getPos(){
 		return this.player.position;
 	}
 	
 	fn_getHitbox(){
-		return new THREE.Box3().setFromObject(this.player);
+		if(this.boundingSphere){
+			return this.boundingSphere;
+		}
+		else{
+			return false;
+		}
+		
 		//return this.player.geometry;
 	}
 
@@ -780,6 +827,11 @@ export default class Player{
 		else{
 			return false;
 		}
+	}
+
+	fn_setHitWall(_b_newHitWall, _b_newHitPlayer){
+		this.b_hitWall = _b_newHitWall;
+		this.b_hitPlayer = _b_newHitPlayer
 	}
 	
 	fn_checkpointUpdate(_checkpoint){
