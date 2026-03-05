@@ -363,7 +363,7 @@ export function fn_updateGame(f_fps){
 					player.fn_offroad(offroadOctree, true)
 				}
 				if(courseModel){
-					player.fn_collision(worldOctree, false);
+					player.fn_collision(worldOctree);
 				}
 			
 				if(skyboxModel && str_map != "SNES MC1"){

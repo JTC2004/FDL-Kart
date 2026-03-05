@@ -138,6 +138,7 @@ export default class Player{
 				f_baseMaxSpeed.set(this, .0043 * int_CC.get(this) + 0.105 + f_stat_speed.get(this) * .01);	//The player's max speed.	
 				this.f_maxSpeed = f_baseMaxSpeed.get(this);										//The current max speed.
 				this.f_speed = 0.0;																//The current amount the player moves forwards per frame.
+				this.f_speedBounceBack = 1.0;													//Equals negative when player is rebounding from a wall or player collision.
 				f_baseAcceletation.set(this, f_stat_acceleration.get(this) * 0.0017);
 				this.f_acceleration = f_baseAcceletation.get(this);								//The amount of speed the player gains while accelerating.
 			//Steering:
@@ -435,7 +436,7 @@ export default class Player{
 					
 					
 					//Loss of speed when turning (doesn't occur during a speed boost):		(NEED TO MAKE THIS ACCOUNT FOR CC)
-					if(!this.b_drifting && this.b_onGround && this.f_speedBoostTimer == 0.0){
+					if(!this.b_drifting && this.b_onGround && this.f_speedBoostTimer == 0.0 && !this.b_hitWall){
 						if(this.b_steeringBounceBack && this.f_acceleration + this.f_steeringSpeedOffset < f_baseAcceletation.get(this)){
 							this.f_acceleration += this.f_steeringSpeedOffset;
 							this.f_steeringSpeedOffset *= 1.00075;						//% of the value that decays.
@@ -590,12 +591,19 @@ export default class Player{
 				//console.log(`Charge jumping = ${this.b_chargeJumping}`);
 			
 			//Update player's position:
-				this.player.position.x -= Math.sin(this.player.rotation.y) * this.f_speed;
-				this.player.position.z -= Math.cos(this.player.rotation.y) * this.f_speed;
+				this.player.position.x -= Math.sin(this.player.rotation.y) * this.f_speed * this.f_speedBounceBack;
+				this.player.position.z -= Math.cos(this.player.rotation.y) * this.f_speed * this.f_speedBounceBack;
 				this.player.rotation.y += this.f_turning;
 			//Update world collider:
 				this.worldCollider.start.set(this.player.position.x, this.player.position.y, this.player.position.z);
 				this.worldCollider.end.set(this.worldCollider.start.x, this.worldCollider.start.y + this.f_radius * .35, this.worldCollider.start.z);
+			
+			if(this.f_speedBounceBack < 1.0){
+				this.f_speedBounceBack += 0.07;
+			}
+			else{
+				this.f_speedBounceBack = 1.0;
+			}
 			
 			//this.playerCollider.start.x -= Math.sin(this.player.rotation.y) * this.f_acceleration;
 			//this.playerCollider.start.z -= Math.cos(this.player.rotation.y) * this.f_acceleration;
@@ -638,16 +646,15 @@ export default class Player{
 	}
 	
 	//Checks for contact with off-road:
-	fn_offroad(offroadOctree){
+	fn_offroad(offroadOctree, _enabled){
 		this.result = offroadOctree.capsuleIntersect( this.worldCollider );
-		if ( this.result.depth > 1e-10 ) {
+		
+		if ( this.result.depth > 1e-10 && _enabled) {
 			this.b_inOffroad = true;
 		}
 		else{
 			this.b_inOffroad = false;
 		}
-
-		//console.log(`b_inOffroad = ${this.b_inOffroad}`);
 	}
 	
 	//Checks for collisions with course and environment:
@@ -683,7 +690,12 @@ export default class Player{
 			if(this.b_hitWall){			
 				//Only reduce speed from a collision when not in a speed boost:
 				if(this.f_speedBoostTimer == 0.0){
+					if(this.f_speed > .35){
+						this.f_speedBounceBack = -this.f_speed * .5;
+					}
+					
 					this.f_speed -= this.f_speed / 6;
+
 					if(this.f_speed < 0){
 						this.f_speed = 0;
 					}
