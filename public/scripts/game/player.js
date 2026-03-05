@@ -716,19 +716,13 @@ export default class Player{
 			if(this.b_hitWall){			
 				//Only reduce speed from a collision when not in a speed boost:
 				if(this.f_speedBoostTimer == 0.0){
-					//Make player bounce back:
-					//if(this.f_speed > .7){
-						this.f_pushedBack = -this.f_speed;
-					//}
-					//else{
-						//this.f_pushedBack = -this.f_speed * .5;
-					//}
+					this.f_pushedBack = -this.f_speed;
 
 					if(this.b_hitPlayer){
 						this.f_pushedBack += - 0.8;
 					}
 					
-					console.log(`f_pushedBack = ${this.f_pushedBack}`);
+					//console.log(`f_pushedBack = ${this.f_pushedBack}`);
 
 					this.f_speed = this.f_speed / 2;
 

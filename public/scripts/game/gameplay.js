@@ -376,7 +376,7 @@ export function fn_updateGame(f_fps){
 
 				//Colision:
 				if(offroadModel){
-					player.fn_offroad(offroadOctree, false);
+					player.fn_offroad(offroadOctree, true);
 				}
 				if(courseModel){
 					player.fn_collision(worldOctree);
