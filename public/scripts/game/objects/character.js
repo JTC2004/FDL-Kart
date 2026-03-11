@@ -10,7 +10,7 @@ export default class Character extends Obj{
 		this.str_name = _str_name;
 		
 		//this.fn_addSprite([0,0,0], [1,1,1], this.str_name + ' gremlin (transp)');
-		this.fn_addSpriteSheet([0,0,0], [1,1,1], `Characters/${_str_name}/P${_num + 1}_256_Frame_2`, 6);
+		this.fn_addSpriteSheets([0,0,0], [1,1,1], `Characters/${_str_name}/P${_num + 1}_256_Frame_`, 6);
 
 		//State variables:
 		this.b_driving = _b_driving;
@@ -21,6 +21,8 @@ export default class Character extends Obj{
 		this.f_tilt = 0.0;
 		this.f_tiltIncrement = 0.25;
 		this.f_tiltMax = 2;
+		this.int_wiggleIndex = 1;
+		this.int_wiggleIncrement = 1;
 	}	
 	
 	//Overriden functions:
@@ -81,8 +83,24 @@ export default class Character extends Obj{
 						this.fn_setSpriteTile(0, 0);
 						this.fn_flipSprite(1);
 					}
-					
-					
+
+					//Update the sprite 'wiggle':
+					this.fn_changeSpriteSheet(this.int_wiggleIndex);
+					this.int_wiggleIndex += this.int_wiggleIncrement;
+
+					if(this.int_wiggleIndex > 2){
+						this.int_wiggleIncrement = -1;
+						this.int_wiggleIndex = 1;
+					}
+					if(this.int_wiggleIndex < 0){
+						this.int_wiggleIncrement = 1;
+						this.int_wiggleIndex = 1;
+					}
+
+					/*this.int_wiggleIndex += 1;
+					if(this.int_wiggleIndex > 2){
+						this.int_wiggleIndex = 0;
+					}*/
 				}
 			}
 			//Driving character animation:

@@ -130,6 +130,38 @@ export default class Obj{
 		this.sprite.position.set(this.f_x + a_offset[0], this.f_y + a_offset[1], this.f_z + a_offset[2]);
 		scene.add( this.sprite );
 	}
+
+	//Adds sprite sheet w/ 'wiggle' frames to the object:
+	fn_addSpriteSheets(a_offset, a_multip, str_spriteName, _int_numTilesTall){
+		this.int_numTilesTall = _int_numTilesTall;
+		
+		this.a_spriteMaps = [
+			new THREE.TextureLoader().load('assets/sprites/gameplay/'+ str_spriteName +'1.png'),
+			new THREE.TextureLoader().load('assets/sprites/gameplay/'+ str_spriteName +'2.png'),
+			new THREE.TextureLoader().load('assets/sprites/gameplay/'+ str_spriteName +'3	.png')
+		];
+
+		//this.spriteMap = new THREE.TextureLoader().load('assets/sprites/gameplay/'+ str_spriteName +'.png');
+		
+		this.int_spriteMapsIndex = 1;
+		for(const spriteMap of this.a_spriteMaps){
+			spriteMap.repeat.set(1/this.int_numTilesTall, 1/this.int_numTilesTall);
+			spriteMap.offset.x = 0;
+			spriteMap.offset.y = 1 - 1/this.int_numTilesTall;
+		}
+		
+		this.spriteMaterial = new THREE.SpriteMaterial({ 
+			map: this.a_spriteMaps[this.int_spriteMapsIndex],
+			transparent: true,	
+			alphaTest: 0.5,			//Helps discard transparent pixels.
+			color: 0xffffff
+		});
+		this.sprite = new THREE.Sprite( this.spriteMaterial );
+		
+		this.sprite.scale.set(this.f_scale * a_multip[0], this.f_scale * a_multip[1], this.f_scale * a_multip[2] );
+		this.sprite.position.set(this.f_x + a_offset[0], this.f_y + a_offset[1], this.f_z + a_offset[2]);
+		scene.add( this.sprite );
+	}
 	
 	//Add bounding cylinder to the object:
 	fn_addHitbox(a_offset, a_multip){
@@ -232,20 +264,39 @@ export default class Obj{
 		}
 		fn_setSpriteTile(_x, _y){
 			//x negative to pos is left to right.
-			//y negative to pos is up to down.
+			//y negative to pos is up to down.	this.int_spriteMapsIndex
 			this.a_currentTile = [_x, _y];
 			
-			this.spriteMap.offset.x = this.a_currentTile[0]/this.int_numTilesTall;
-			this.spriteMap.offset.y = 1 - (this.a_currentTile[1] + 1)/this.int_numTilesTall;
+			if(this.a_spriteMaps){
+				for(const spriteMap of this.a_spriteMaps){
+					spriteMap.offset.x = this.a_currentTile[0]/this.int_numTilesTall;
+					spriteMap.offset.y = 1 - (this.a_currentTile[1] + 1)/this.int_numTilesTall;
+				}
+			}
+			else if(this.spriteMap){
+				this.spriteMap.offset.x = this.a_currentTile[0]/this.int_numTilesTall;
+				this.spriteMap.offset.y = 1 - (this.a_currentTile[1] + 1)/this.int_numTilesTall;
+			}
 		}
 		fn_flipSprite(_int_newFlip){
-			if(!this.spriteMap) return;
-
 			const tileSize = 1 / this.int_numTilesTall;
 
-			this.spriteMap.repeat.x = _int_newFlip * tileSize;
-			this.spriteMap.offset.x =
+			if(this.a_spriteMaps){
+				for(const spriteMap of this.a_spriteMaps){
+					spriteMap.repeat.x = _int_newFlip * tileSize;
+					spriteMap.offset.x =
+					(this.a_currentTile[0] + Math.abs((1 - _int_newFlip) / 2)) * tileSize;
+				}
+			}
+			else if(this.spriteMap){
+				this.spriteMap.repeat.x = _int_newFlip * tileSize;
+				this.spriteMap.offset.x =
 				(this.a_currentTile[0] + Math.abs((1 - _int_newFlip) / 2)) * tileSize;
+			}
+		}
+		fn_changeSpriteSheet(_int_i){
+			this.sprite.material.map = this.a_spriteMaps[_int_i];
+			this.sprite.material.needsUpdate = true;	
 		}
 	
 	//Methods that execute every frame:
