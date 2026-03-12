@@ -29,7 +29,8 @@ var b_gameplay = false;
 var b_multiplayer = false;
 var input_kb = new InputHandlerKB();
 var a_inputs = [input_kb];
-var a_gamepads = navigator.getGamepads();
+var a_gamepads = navigator.getGamepads();   //SEPARATE FROM ARRAY OF INPUTS.
+var int_numGamepads = 0;                    //Used to tell if a new gamepad is connected.
 //let renderer;
 
 var b_fullScreen = false;
@@ -109,9 +110,18 @@ try{
     fn_checkFullscreen(menuCamera, frustumHeight);
     gameLoop.addCallback((dt) => {
         //Handle input stuff every frame:
+            //Get a snapshot of what controllers are connected (empty player slots are null in Chromium):
+            const rawGamepads = navigator.getGamepads();
+
+            //Only add non-null controllers to array of controllers:
+            a_gamepads = [];
+            for (const gamePad of rawGamepads) {
+                if (gamePad) a_gamepads.push(gamePad);
+            }
+        
             //Handling changes in player count:
-            if(navigator.getGamepads().length != a_gamepads.length){
-                a_gamepads = navigator.getGamepads();
+            if(a_gamepads.length != int_numGamepads){
+                int_numGamepads = a_gamepads.length;
 
                 //If there is a new controller, add it to the array of inputs at the front:
                 if(a_gamepads.length > 0){
@@ -122,9 +132,15 @@ try{
                     a_inputs = [input_kb];
                 }
             }
-
-            //console.log("a_inputs[0] = " + a_inputs[0] + ", \t" + "a_inputs = " + a_inputs);
-
+            
+            /*var str_inputString = `a_inputs = [${a_inputs[0].fn_getType()}`;
+            for(let i = 1; i < a_inputs.length; i++){
+                str_inputString += `, ${a_inputs[i].fn_getType()}`
+            }
+            str_inputString += `]`
+            console.log(str_inputString);*/
+            
+        
         //Fixed update (60 hz):
         if(dt > 0){
             //Get input for gamepad(s):

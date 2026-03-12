@@ -3,6 +3,7 @@ export default class InputHandlerGP{
 	constructor(gamepad){
 		console.log("gamepad ID = " + gamepad.id);
 		
+		this.int_index = gamepad.index;
 		this.b_printButton = false;
 
 		this.a_prevButtons = [];		//Array of buttons held down in a previous frame.
@@ -224,6 +225,11 @@ export default class InputHandlerGP{
 	}
 	fn_get_rightY(){
 		return this.f_rightY;
+	}
+
+	//Return if this is a keyboard or gamepad:
+	fn_getType(){
+		return `GP${this.int_index}`;
 	}
 
 	//Make sure array of inputs updates to kep track of it a :

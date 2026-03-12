@@ -186,6 +186,11 @@ export default class InputHandlerKB{
 	fn_get_rightY(){
 		return 0;
 	}
+
+	//Return if this is a keyboard or gamepad:
+	fn_getType(){
+		return "KB";
+	}
 	
 	//This needs to be here, but not need anything in it:
 	fn_updateGP(gp){
