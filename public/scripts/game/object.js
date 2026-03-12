@@ -88,6 +88,7 @@ export default class Obj{
 	//Adds a single sprite to the object:
 	fn_addSprite(a_offset, a_multip, str_spriteName){
 		this.spriteMap = new THREE.TextureLoader().load( 'assets/sprites/gameplay/'+ str_spriteName +'.png' );
+		this.spriteMap.colorSpace = THREE.SRGBColorSpace;
 		this.spriteMaterial = new THREE.SpriteMaterial({ 
 			map: this.spriteMap,
 			transparent: true,	
@@ -117,6 +118,7 @@ export default class Obj{
 		this.spriteMap.repeat.set(1/this.int_numTilesTall, 1/this.int_numTilesTall);
 		this.spriteMap.offset.x = 0;
 		this.spriteMap.offset.y = 1 - 1/this.int_numTilesTall;
+		this.spriteMap.colorSpace = THREE.SRGBColorSpace;
 		
 		this.spriteMaterial = new THREE.SpriteMaterial({ 
 			map: this.spriteMap,
@@ -148,6 +150,7 @@ export default class Obj{
 			spriteMap.repeat.set(1/this.int_numTilesTall, 1/this.int_numTilesTall);
 			spriteMap.offset.x = 0;
 			spriteMap.offset.y = 1 - 1/this.int_numTilesTall;
+			spriteMap.colorSpace = THREE.SRGBColorSpace;
 		}
 		
 		this.spriteMaterial = new THREE.SpriteMaterial({ 

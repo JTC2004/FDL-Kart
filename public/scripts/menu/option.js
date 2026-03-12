@@ -46,6 +46,7 @@ export default class Option{
             
             this.spr_border.scale.set(this.f_width, this.f_height, 1);  //3rd param is ignored for sprites, but still required.
             this.spr_border.position.set(this.f_x, this.f_y, this.f_z);
+            this.spr_border.material.color.setRGB(1.5, 1.5, 1.5);
             scene.add( this.spr_border );
         //Text
             this.spr_text = this.fn_newSprite('text/'+ _text);
@@ -116,12 +117,12 @@ export default class Option{
             else if(_text == "Controls (gamepad)" || _text == "Controls (keyboard)"){
                 scene.remove( this.spr_highlight );
                 this.b_static = true;
-                this.spr_text.material.color.setRGB(.9, .9, .9);
+                this.spr_text.material.color.setRGB(1.5, 1.5, 1.5);
             }
         else{
             this.b_enabled = false;
-            this.spr_border.material.color.setRGB(.35, .35, .35);
-            this.spr_text.material.color.setRGB(.35, .35, .35);
+            this.spr_border.material.color.setRGB(.4, .4, .4);
+            this.spr_text.material.color.setRGB(.4, .4, .4);
             
         }
 
@@ -189,7 +190,7 @@ export default class Option{
             this.spr_highlight.visible = true;
         }
         if(this.b_enabled && !this.b_static){
-            this.spr_border.material.color.setRGB(1.5, 1.5, 1.25);
+            this.spr_border.material.color.setRGB(2.5, 2.5, 2);
         }
         var info = document.getElementById("info");
         if(this.str_menu == "Main"){
@@ -216,7 +217,7 @@ export default class Option{
             this.spr_highlight.visible = false;
         }
         if(this.b_enabled){
-            this.spr_border.material.color.setRGB(1, 1, 1);
+            this.spr_border.material.color.setRGB(1.5, 1.5, 1.5);
         }
     }
 
@@ -251,6 +252,7 @@ export default class Option{
 
     fn_newSprite(_str_name){
         this.spriteMap = new THREE.TextureLoader().load( 'assets/sprites/UI/'+ _str_name + '.png' );
+        this.spriteMap.colorSpace = THREE.SRGBColorSpace;
         this.spriteMaterial = new THREE.SpriteMaterial({ 
             map: this.spriteMap, 
             transparent: true, 
