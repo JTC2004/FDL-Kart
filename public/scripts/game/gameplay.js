@@ -26,7 +26,7 @@
 		import Checkpoint from "./objects/checkpoint.js";
 		import Pipe from "./objects/pipe.js";
 		import ItemBox from "./objects/itemBox.js";
-		import ItemBoxRow from "./objects/itemBoxRow.js";
+		import ItemPotRow from "./objects/itemPotRow.js";
 	
 
 //Variable initializations:
@@ -75,6 +75,10 @@
 
 //This method runs once when gameplay is started:	
 function fn_initializeGame(){
+	document.getElementById("p_item0-0").style.display = "block";
+	document.getElementById("p_item0-1").style.display = "block";
+	document.getElementById("p_item0-2").style.display = "block";
+	
 	scene = fn_getScene();
 	renderer = fn_getRenderer();
 	loader = fn_getLoader();
@@ -254,7 +258,7 @@ function fn_initializeGame(){
 	);
 		
 	//Adding item boxes:
-		a_objectsStatic.push(new ItemBoxRow([-53, 7.1, -61], f_mapScale, 6, .85, 1));
+		a_objectsStatic.push(new ItemPotRow([-53, 7.1, -61], f_mapScale, 6, .85, 1, a_objectsDSOC));
 	//Adding pipes:
 		a_objectsStatic.push(new Pipe([-102, 7.19, -74.5], f_mapScale, 1));
 		a_objectsStatic.push(new Pipe([-102, 7.19, -65], f_mapScale, 1));
@@ -366,7 +370,7 @@ export function fn_updateGame(f_fps){
 						continue;
 					}
 					
-					if(a_objectsDSOC[i].fn_meshCollisionCheck(player)){
+					if(a_objectsDSOC[i].fn_meshCollisionCheck(player.fn_getHitbox())){
 						a_objectsDSOC[i].fn_DSOC(player);
 					}
 				}

@@ -43,6 +43,10 @@
 
 //Initializing the scene:
 function fn_initializeMenus(){
+		document.getElementById("p_item0-0").style.display = "none";
+		document.getElementById("p_item0-1").style.display = "none";
+		document.getElementById("p_item0-2").style.display = "none";
+	
 		scene = fn_getScene();
 		renderer = fn_getRenderer();
 		loader = fn_getLoader();

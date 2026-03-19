@@ -19,42 +19,28 @@ html, body{
 	font-size:2vw;
 }
 
-#p_item0-0 {
+#p_item0-0, #p_item0-1, #p_item0-2 {
 	position: absolute;
-	left: 2.5%;
-	top: 6%;
-	width: 9vw;
-	height: 9vw;
-
-	border: 4px solid black;
-	border-radius: 20px;
-	padding: 6px;
-	box-sizing: border-box;
-}
-
-#p_item0-0::before {
-	content: "";
-	display: block;
-	width: 100%;
-	height: 100%;
-	border: 4px solid black;
-	border-radius: 14px;
+	left: 2%;
+	top: 4%;
+	width: 17vw;
+	height: 12vw;
 }
 
 #p_fps {
-	top: 22%;
-}
-
-#p_coords {
 	top: 27%;
 }
 
-#p_check {
+#p_coords {
 	top: 32%;
 }
 
-#p_name {
+#p_check {
 	top: 37%;
+}
+
+#p_name {
+	top: 42%;
 }
 
 #p_time {

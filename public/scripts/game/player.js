@@ -690,8 +690,8 @@ export default class Player{
 	}
 
 	//Use this for checking for non-octree collisions:
-		fn_meshCollisionCheck(_player){
-			if(this.boundingSphere.intersectsSphere(_player.fn_getHitbox())){
+		fn_meshCollisionCheck(_playerBoundingSphere){
+			if(this.boundingSphere.intersectsSphere(_playerBoundingSphere)){
 				//console.log(`Player #${int_playerNum.get(this)} collided with player #${this.fn_getPlayerIndex()}`);
 				return true;
 			}
