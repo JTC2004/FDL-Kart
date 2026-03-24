@@ -8,11 +8,11 @@ export default class ItemPotRow extends Obj{
 		//Adds the cube to the scene:
 			super(a_xyz, _worldScale, false, false);
 
-			this.a_boxes = new Array(_num);
+			this.a_boxes = [];
 			
             for(let i = 0; i < _num; i++){
                 this.a_boxes.push(new ItemPot([a_xyz[0] - i * _proximity, a_xyz[1], a_xyz[2] + i * 2 * _proximity], _worldScale, _localScale, a_objectsDSOC));
-                //a_objectsDSOC.push(this.a_boxes[i]);
+                a_objectsDSOC.push(this.a_boxes[i]);
                 //console.log("this.a_boxes[i] = " + this.a_boxes[i]);    
             }
 			

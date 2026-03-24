@@ -167,6 +167,9 @@ try{
 
         //Render every frame:
         if(b_gameplay){
+            //Debug only:
+            //fn_updateGame(gameLoop.fn_getFPS());
+            
             if(b_multiplayer){
                 window.b_debug = false;             //Also disable debug prints in multiplayer.
                 var int_i = 0;

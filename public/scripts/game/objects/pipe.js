@@ -14,7 +14,7 @@ export default class Pipe extends Obj{
 		this.fn_addSimpleShadow(.48, .45, 0.9);
 		
 		//Add hitbox (cylinder):
-		this.fn_addHitbox([0,0,0], [.325, .325, .9]);
+		this.fn_addColliderSphere([0,0,0], [.325, .325, .9]);
 	}	
 	
 	//Overriden functions:

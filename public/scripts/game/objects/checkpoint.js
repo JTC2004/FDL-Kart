@@ -12,12 +12,10 @@ export default class Cube extends Obj{
 			this.b_goal = false;
 			
 			if(this.b_key){
-				this.fn_addBoxTransp([0,0,0], a_dimensions, 0x00ff00, 0.1);
-				this.mesh.visible = false;
+				this.fn_addBoxTransp([0,0,0], a_dimensions, 0x00ff00, 0.1, false);
 			}
 			else{
-				this.fn_addBoxTransp([0,0,0], a_dimensions, 0x0026ff, 0.2);
-				this.mesh.visible = false;
+				this.fn_addBoxTransp([0,0,0], a_dimensions, 0x0026ff, 0.2, false);
 			}
 			
 			this.int_ID = _int_ID;

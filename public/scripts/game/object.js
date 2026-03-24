@@ -35,27 +35,35 @@ export default class Obj{
 	}
 	
 	//Adds a mesh to the object:
-	fn_addBox(a_offset, a_multip, _color){
+	fn_addBox(a_offset, a_multip, _color, _visible){
 		this.geometry = new THREE.BoxGeometry( this.f_scale * a_multip[0], this.f_scale * a_multip[1], this.f_scale * a_multip[2] );
 		this.material = new THREE.MeshPhongMaterial( { color: _color } );
 		this.mesh = new THREE.Mesh( this.geometry, this.material );
 		scene.add( this.mesh );
 		this.mesh.position.set(this.f_x + a_offset[0], this.f_y + a_offset[1], this.f_z + a_offset[2]);
+		if(!_visible){
+			this.mesh.visible = false;
+		}
 		
 		//Create bounding box:
 		this.boundingBox = new THREE.Box3().setFromObject(this.mesh);
+		this.boundingBox.visible = false;
 	}
 	
 	//Adds a transparent mesh to the object:
-	fn_addBoxTransp(a_offset, a_multip, _color, _opacity){
+	fn_addBoxTransp(a_offset, a_multip, _color, _opacity, _visible){
 		this.geometry = new THREE.BoxGeometry( this.f_scale * a_multip[0], this.f_scale * a_multip[1], this.f_scale * a_multip[2] );
 		this.material = new THREE.MeshPhongMaterial( { color: _color, transparent: true, opacity: _opacity } );
 		this.mesh = new THREE.Mesh( this.geometry, this.material );
 		scene.add( this.mesh );
 		this.mesh.position.set(this.f_x + a_offset[0], this.f_y + a_offset[1], this.f_z + a_offset[2]);
+		if(!_visible){
+			this.mesh.visible = false;
+		}
 		
 		//Create bounding box:
 		this.boundingBox = new THREE.Box3().setFromObject(this.mesh);
+		this.boundingBox.visible = false;
 	}
 	
 	//Adds a mesh from a GLTF model:
@@ -74,6 +82,7 @@ export default class Obj{
 				
 				//Create bounding box:
 				this.boundingBox = new THREE.Box3().setFromObject(this.model);
+				this.boundingBox.visible = false;
 				
 				if (onLoad) onLoad(this.model);		//Set rotation AFTER model is loaded.
 
@@ -167,7 +176,7 @@ export default class Obj{
 	}
 	
 	//Add bounding cylinder to the object:
-	fn_addHitbox(a_offset, a_multip){
+	fn_addColliderSphere(a_offset, a_multip){
 		this.colliderGeom = new THREE.CylinderGeometry( this.f_scale * a_multip[0], this.f_scale * a_multip[1], this.f_scale * a_multip[2], 16); 
 		this.colliderMat = new THREE.MeshBasicMaterial( {color: 0xffff00} ); 
 		this.colliderMesh = new THREE.Mesh( this.colliderGeom, this.colliderMat );
@@ -308,9 +317,10 @@ export default class Obj{
 		}
 		
 		//Use this for checking for non-octree collisions:
-		fn_meshCollisionCheck(_playerBoundingSphere){
-			if(this.boundingBox.intersectsSphere(_playerBoundingSphere)){
+		fn_meshCollisionCheck(player){
+			if(this.boundingBox.intersectsSphere(player.fn_getHitbox())){
 				//console.log("Object collision");
+				this.fn_DSOC(player);
 				return true;
 			}
 			else{
@@ -321,7 +331,7 @@ export default class Obj{
 		}
 
 		//Do something on collision (override this with child):
-		fn_DSOC(_player){
+		fn_DSOC(player){
 			return this.b_DSOC;
 		}
 	

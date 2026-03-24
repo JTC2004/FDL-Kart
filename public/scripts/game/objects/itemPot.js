@@ -12,7 +12,7 @@ export default class ItemPot extends Obj{
 				model.rotation.x = Math.random() * 2*Math.PI;
 				model.rotation.y = Math.random() * 2*Math.PI;
 			});
-			this.fn_addBox([0,0,0], [1,1,1], 0x00ffff);
+			this.fn_addBox([0,0,0], [1,1,1], 0x00ffff, false);
 			this.fn_addSprite([0,0,0], [1.2, 1.2, 1.2], "mk_ques2");
 			
 			this.f_amplitude = 0.004;
@@ -26,12 +26,16 @@ export default class ItemPot extends Obj{
 		fn_getType(){
 			return "item box";
 		}
+
+		fn_DSOC(player){
+			console.log(`Item box collided with player ${player.fn_getPlayerIndex()}!`);
+		}
 		
 		fn_animate(_frames){
 			//Mesh rotation:
-			if(_frames % 3 == 0){
-				this.model.rotation.x += -0.011 * 3;
-				this.model.rotation.y += 0.022 * 3;
+			if(_frames % 1 == 0){
+				this.model.rotation.x += -0.011;
+				this.model.rotation.y += 0.022;
 			}
 			
 			//Make box slightly bob up and down (ChatGPT helped):
