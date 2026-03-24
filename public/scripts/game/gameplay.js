@@ -338,12 +338,6 @@ export function fn_updateGame(f_fps){
 				timeElement.innerHTML = "TIME " + fn_formatTime(f_secs);
 			}
 
-			
-			//Update objects:
-			for(let i = 0; i < a_objectsStatic.length; i++){
-				a_objectsStatic[i].fn_animate(int_frames);
-			}
-
 			//Player actions:
 			for(const player of a_players){
 				//Check for player collision with checkpoints:
@@ -389,6 +383,11 @@ export function fn_updateGame(f_fps){
 				}
 				player.fn_update(int_frames);
 			}	
+
+			//Update objects:
+			for(let i = 0; i < a_objectsStatic.length; i++){
+				a_objectsStatic[i].fn_animate(int_frames);
+			}
 			
 		}
 		else{

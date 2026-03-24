@@ -16,6 +16,8 @@ export default class ItemPot extends Obj{
 			this.fn_addSprite([0,0,0], [1.2, 1.2, 1.2], "mk_ques2");
 			
 			this.f_amplitude = 0.004;
+			this.f_respawnTime = .91;
+			this.f_respawnTimer = 0.0;
 			//if(this.boundingBox){
 			//	console.log("Item pot created w/ bounding box!");
 			//}
@@ -28,17 +30,37 @@ export default class ItemPot extends Obj{
 		}
 
 		fn_DSOC(player){
-			console.log(`Item box collided with player ${player.fn_getPlayerIndex()}!`);
+			if(this.f_respawnTimer == 0.0){
+				console.log(`Item box collided with player ${player.fn_getPlayerIndex()}!`);
+				this.f_respawnTimer = this.f_respawnTime;
+				this.model.visible = false;
+				this.sprite.visible = false;
+			}
 		}
 		
 		fn_animate(_frames){
-			//Mesh rotation:
-			if(_frames % 1 == 0){
-				this.model.rotation.x += -0.011;
-				this.model.rotation.y += 0.022;
+			//Animate the box if spawned:
+			if(this.f_respawnTimer == 0.0){
+				//Mesh rotation:
+				if(_frames % 1 == 0){
+					this.model.rotation.x += -0.011;
+					this.model.rotation.y += 0.022;
+				}
+				
+				//Make box slightly bob up and down (ChatGPT helped):
+				this.fn_addY(this.f_amplitude * Math.sin(performance.now() * 0.0003 * Math.PI * 2.0));
+			}
+			//Else, count down respawn time:
+			else if(this.f_respawnTimer > 0){
+				this.f_respawnTimer -= 1 / 60;
+				console.log(`Respawn timer = ${this.f_respawnTimer}`);
+			}
+			else{
+				this.f_respawnTimer = 0.0;
+				this.model.visible = true;
+				this.sprite.visible = true;
 			}
 			
-			//Make box slightly bob up and down (ChatGPT helped):
-			this.fn_addY(this.f_amplitude * Math.sin(performance.now() * 0.0003 * Math.PI * 2.0));
+			
 		}
 }
