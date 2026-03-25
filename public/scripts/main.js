@@ -2,6 +2,9 @@
 import * as THREE from 'three';
 import WebGL from 'three/addons/capabilities/WebGL.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+//import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+//import { FilmPass } from 'three/addons/postprocessing/FilmPass.js';
+
 import gameLoop from "./GameLoop.js";
 import InputHandlerKB from "./inputKB.js";
 import InputHandlerGP from "./inputGP.js";
@@ -79,6 +82,16 @@ var int_sharpPixelIndex = 0;
 	renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));	//Sets ratio of CSS pixels to actual pixels. 1 is for 1080p screens, 2 is for 4K, 3 is for smartphone.
 	renderer.setSize( window.innerWidth, window.innerHeight);
 	document.body.appendChild( renderer.domElement );
+
+    //Add a grain effect:
+    /*const composer = new EffectComposer(renderer);
+        const filmPass = new FilmPass(
+        0.5,  // noise intensity
+        0.0,  // scanlines intensity
+        0,    // scanlines count
+        false // grayscale
+    );*/
+    //composer.addPass(filmPass);
 
 //Event listeners:
     //Renderer resize handler:
