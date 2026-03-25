@@ -21,7 +21,8 @@ export default class ItemSlots{
 		this.img_item0 = document.getElementById(`img_item${this.int_playerNum}-0`);
 		this.img_item1 = document.getElementById(`img_item${this.int_playerNum}-1`);
 
-		this.a_items = [3, 1];
+		this.a_items = [3, 0];
+		this.int_rollingRoulette = 0;
 		this.f_rollTime = 2.00;
 		this.f_rollTimer = 0.0;
 
@@ -34,13 +35,14 @@ export default class ItemSlots{
 		//	- 1 = Ice Cream 1x
 		//	- 2 = Ice Cream 2x
 		//	- 3 = Ice Cream 3x
+
+		this.int_numItems = 3;			//Increase this as more items are added.
 		
 	}
 	
 	//Update the image every frame:
 	fn_update(_frames){
-		if(this.f_rollTimer == 0.0){
-			//Update image here:
+		//Update image here:
 			if(_frames % 5 == 0){
 				if(this.a_items[0] > 0){
 					this.img_item0.src = `assets/sprites/gameplay/items/${this.a_items[0]}_frame${this.int_wiggleIndex}.png`;
@@ -58,17 +60,24 @@ export default class ItemSlots{
 					this.img_item1.style.display = "none";
 				}
 			}
-			
-			//Animation here
 
+		if(this.f_rollTimer == 0.0){
+			//Thing that happens only when roulette isn't rolling here.
 		}
 		//Else, count down time of roulette roll:
 		else if(this.f_rollTimer > 0){
 			this.f_rollTimer -= 1 / 60;
+			this.a_items[this.int_rollingRoulette] += 1;
+			if(this.a_items[this.int_rollingRoulette] > this.int_numItems){
+				this.a_items[this.int_rollingRoulette] = 1;
+			}
+			//console.log("Item roulette rolling!");
 		}
+		//Got item:
 		else{
 			this.f_rollTimer = 0.0;
-			
+			this.a_items[this.int_rollingRoulette] = Math.floor(Math.random() * 3) + 1;
+			console.log(`Got item ${this.a_items[0]}!`);
 		}
 
 		this.a_prevItems = this.a_items;
@@ -77,30 +86,57 @@ export default class ItemSlots{
 	//When called, cycle the roulette of the active slot based on the player's position:
 	fn_roll(){
 		this.f_rollTimer = this.f_rollTime;
+		this.int_rollingRoulette = 0;
 	}
 
 	//Swap the items in the 2 slots:
 	fn_swap(){
 		[this.a_items[0], this.a_items[1]] = [this.a_items[1], this.a_items[0]];
+
+		if(this.int_rollingRoulette == 0){
+			this.int_rollingRoulette = 1;
+		}
+		else if(this.int_rollingRoulette == 1){
+			this.int_rollingRoulette = 0;
+		}
 	}
 
 	//What happens when the current item is used:
 	fn_use(player){
-		if(this.a_items[0] == 1){
-			//Apply effect of 1 ice cream.
-			this.a_items[0] = 0;
-		}
-		else if(this.a_items[0] == 2){
-			//Apply effect of 1 ice cream.
-			this.a_items[0] = 1;
-		}
-		else if(this.a_items[0] == 3){
-			//Apply effect of 1 ice cream.
-			this.a_items[0] = 2;
+		//Make it so item can only be used if the active slot isn't rolling:
+		if(this.f_rollTimer == 0.0 && this.int_rollingRoulette == 0){
+			if(this.a_items[0] == 1){
+				//Apply effect of 1 ice cream.
+				this.a_items[0] = 0;
+			}
+			else if(this.a_items[0] == 2){
+				//Apply effect of 1 ice cream.
+				this.a_items[0] = 1;
+			}
+			else if(this.a_items[0] == 3){
+				//Apply effect of 1 ice cream.
+				this.a_items[0] = 2;
+			}
+
+			//console.log(`Used item ${this.a_items[0]}!`);
 		}
 
-		console.log(`Used item ${this.a_items[0]}`);
+		//Spamming the roulette:
+		if(this.f_rollTimer < 1.5 && this.int_rollingRoulette == 0){
+			this.f_rollTimer = 0;
+		}
 	}
 	
-	
+	fn_getActiveItem(){
+		return this.a_items[0];
+	}
+
+	fn_canGetItem(){
+		if(this.a_items[0] == 0 && this.f_rollTimer == 0.0){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 }

@@ -32,10 +32,11 @@ export default class ItemPot extends Obj{
 
 		fn_DSOC(player){
 			if(this.f_respawnTimer == 0.0){
-				console.log(`Item box collided with player ${player.fn_getPlayerIndex()}!`);
 				this.f_respawnTimer = this.f_respawnTime;
 				this.sprite.visible = false;
 			}
+
+			player.fn_getItem();
 		}
 		
 		fn_animate(_frames){

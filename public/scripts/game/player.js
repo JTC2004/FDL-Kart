@@ -914,6 +914,14 @@ export default class Player{
 		this.str_MT = "";
 	}
 
+	//Roll the item roulette:
+	fn_getItem(){
+		if(this.itemSlots.fn_canGetItem()){
+			this.itemSlots.fn_roll();
+		}
+		
+	}
+
 	//Changes to state:
 	fn_addSpeedBoost(_str_power, _f_duration){
 		if(_str_power.slice(0, -1) == "MT"){
