@@ -292,9 +292,9 @@ function fn_initializeGame(){
 		a_objectsDSOC.push(a_players[i]);
 
 		//Adding item slot UI for this player:
-		document.getElementById(`p_item${i}-0`).style.display = "block";
-		document.getElementById(`p_item${i}-1`).style.display = "block";
-		document.getElementById(`p_item${i}-2`).style.display = "block";
+		document.getElementById(`p_itemSlot${i}-0`).style.display = "block";
+		document.getElementById(`p_itemSlot${i}-1`).style.display = "block";
+		document.getElementById(`p_itemSlot${i}-2`).style.display = "block";
 
 		//If there is only 1 camera, break.
 		if(b_multiplayer){

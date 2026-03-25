@@ -6,7 +6,7 @@ export default class Pipe extends Obj{
 
 	constructor(a_xyz, _worldScale, _localScale){
 		super(a_xyz, _worldScale, false, true, _localScale * 2);
-		this.fn_addSprite([0,0,0], [1,1,1], 'pipe');
+		this.fn_addSprite([0,0,0], [1,1,1], 'objects/pipe');
 		
 		//this.boundingCylinder = new THREE.CylinderGeometry( 5, 5, 20, 32 ); 
 		

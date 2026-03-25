@@ -13,7 +13,7 @@ export default class ItemPot extends Obj{
 				model.rotation.y = Math.random() * 2*Math.PI;
 			});
 			this.fn_addBox([0,0,0], [1,1,1], 0x00ffff, false);
-			this.fn_addSprite([0,0,0], [1.2, 1.2, 1.2], "mk_ques2");
+			this.fn_addSprite([0,0,0], [1.2, 1.2, 1.2], "objects/mk_ques2");
 			
 			this.f_amplitude = 0.004;
 			this.f_respawnTime = 1.00;

@@ -147,9 +147,9 @@ export default class Obj{
 		this.int_numTilesTall = _int_numTilesTall;
 		
 		this.a_spriteMaps = [
+			new THREE.TextureLoader().load('assets/sprites/gameplay/'+ str_spriteName +'0.png'),
 			new THREE.TextureLoader().load('assets/sprites/gameplay/'+ str_spriteName +'1.png'),
-			new THREE.TextureLoader().load('assets/sprites/gameplay/'+ str_spriteName +'2.png'),
-			new THREE.TextureLoader().load('assets/sprites/gameplay/'+ str_spriteName +'3	.png')
+			new THREE.TextureLoader().load('assets/sprites/gameplay/'+ str_spriteName +'2.png')
 		];
 
 		//this.spriteMap = new THREE.TextureLoader().load('assets/sprites/gameplay/'+ str_spriteName +'.png');
