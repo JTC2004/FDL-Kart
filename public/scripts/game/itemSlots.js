@@ -21,10 +21,9 @@ export default class ItemSlots{
 		this.img_item0 = document.getElementById(`img_item${this.int_playerNum}-0`);
 		this.img_item1 = document.getElementById(`img_item${this.int_playerNum}-1`);
 
-		this.a_items = [3, 0];
-		this.int_rollingRoulette = 0;
+		this.a_items = [3, 0];			//Index 0 is always the active item slot.
+		this.a_rollTimer = [0.0, 0.0];
 		this.f_rollTime = 2.00;
-		this.f_rollTimer = 0.0;
 
 		//Animation variables:
 		this.int_wiggleIndex = 1;
@@ -59,52 +58,65 @@ export default class ItemSlots{
 				else{
 					this.img_item1.style.display = "none";
 				}
+
+
+				//Lineart wiggle:
+				this.int_wiggleIndex += this.int_wiggleIncrement;
+
+				if(this.int_wiggleIndex > 2){
+					this.int_wiggleIncrement = -1;
+					this.int_wiggleIndex = 1;
+				}
+				if(this.int_wiggleIndex < 0){
+					this.int_wiggleIncrement = 1;
+					this.int_wiggleIndex = 1;
+				}
 			}
 
-		if(this.f_rollTimer == 0.0){
-			//Thing that happens only when roulette isn't rolling here.
-		}
-		//Else, count down time of roulette roll:
-		else if(this.f_rollTimer > 0){
-			this.f_rollTimer -= 1 / 60;
-			this.a_items[this.int_rollingRoulette] += 1;
-			if(this.a_items[this.int_rollingRoulette] > this.int_numItems){
-				this.a_items[this.int_rollingRoulette] = 1;
+		//Counting down roulette timer:
+
+		
+		for(let i = 0; i < 2; i++){
+			if(this.a_rollTimer[i] == 0){
+				//Do something idle.
 			}
-			//console.log("Item roulette rolling!");
+			//Else, count down time of roulette roll:
+			else if(this.a_rollTimer[i] > 0){
+				this.a_rollTimer[i] -= 1 / 60;
+				
+				this.a_items[i] += 1;
+				if(this.a_items[i] > this.int_numItems){
+					this.a_items[i] = 1;
+				}
+			}
+			//Got item:
+			else{
+				this.a_rollTimer[i] = 0.0;
+				this.a_items[i] = Math.floor(Math.random() * 3) + 1;
+				console.log(`Got item ${this.a_items[0]}!`);
+			}
 		}
 		//Got item:
-		else{
-			this.f_rollTimer = 0.0;
-			this.a_items[this.int_rollingRoulette] = Math.floor(Math.random() * 3) + 1;
-			console.log(`Got item ${this.a_items[0]}!`);
-		}
+		
 
 		this.a_prevItems = this.a_items;
 	}
 
 	//When called, cycle the roulette of the active slot based on the player's position:
 	fn_roll(){
-		this.f_rollTimer = this.f_rollTime;
-		this.int_rollingRoulette = 0;
+		this.a_rollTimer[0] = this.f_rollTime;
 	}
 
 	//Swap the items in the 2 slots:
 	fn_swap(){
 		[this.a_items[0], this.a_items[1]] = [this.a_items[1], this.a_items[0]];
-
-		if(this.int_rollingRoulette == 0){
-			this.int_rollingRoulette = 1;
-		}
-		else if(this.int_rollingRoulette == 1){
-			this.int_rollingRoulette = 0;
-		}
+		[this.a_rollTimer[0], this.a_rollTimer[1]] = [this.a_rollTimer[1], this.a_rollTimer[0]];
 	}
 
 	//What happens when the current item is used:
 	fn_use(player){
 		//Make it so item can only be used if the active slot isn't rolling:
-		if(this.f_rollTimer == 0.0 && this.int_rollingRoulette == 0){
+		if(this.a_rollTimer[0] == 0.0){
 			if(this.a_items[0] == 1){
 				//Apply effect of 1 ice cream.
 				this.a_items[0] = 0;
@@ -121,8 +133,8 @@ export default class ItemSlots{
 			//console.log(`Used item ${this.a_items[0]}!`);
 		}
 		//Spamming the roulette:
-		else if(this.f_rollTimer < 1.5 && this.int_rollingRoulette == 0){
-			this.f_rollTimer = 1 / 60;
+		else if(this.a_rollTimer[0] < 1.5){
+			this.a_rollTimer[0] = 1 / 60;
 		}
 	}
 	
@@ -131,7 +143,7 @@ export default class ItemSlots{
 	}
 
 	fn_canGetItem(){
-		if(this.a_items[0] == 0 && this.f_rollTimer == 0.0){
+		if(this.a_items[0] == 0 && this.a_rollTimer[0] == 0.0){
 			return true;
 		}
 		else{
