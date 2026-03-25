@@ -16,6 +16,8 @@ export default class ItemPot extends Obj{
 
 			this.int_wiggleIndex = 1;
 			this.int_wiggleIncrement = 1;
+
+			this.f_glow = 1.0;
 			//if(this.boundingBox){
 			//	console.log("Item pot created w/ bounding box!");
 			//}
@@ -39,7 +41,7 @@ export default class ItemPot extends Obj{
 			//Animate the box if spawned:
 			if(this.f_respawnTimer == 0.0){
 				//Sprite 'wiggle':
-				if(_frames % 3 == 0){
+				if(_frames % 5 == 0){
 					this.fn_changeSpriteSheet(this.int_wiggleIndex);
 					this.int_wiggleIndex += this.int_wiggleIncrement;
 
@@ -52,6 +54,13 @@ export default class ItemPot extends Obj{
 						this.int_wiggleIndex = 1;
 					}
 				}
+
+				//Sprite glow:
+				this.sprite.material.color.setRGB(
+					(Math.sin(performance.now() * 0.003) + 2.75) / 1.35,  
+					(Math.sin(performance.now() * 0.003) + 2.75) / 1.35,
+					((Math.sin(performance.now() * 0.003) + 2.75) / 1.35) * 1.4
+				);
 				
 				//Make box slightly bob up and down (ChatGPT helped):
 				this.fn_addY(this.f_amplitude * Math.sin(performance.now() * 0.0003 * Math.PI * 2.0));
