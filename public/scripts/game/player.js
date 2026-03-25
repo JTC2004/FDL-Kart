@@ -13,6 +13,7 @@ import Character from "./objects/character.js";
 	import { fn_getCameras } from "../main.js";
 	import { fn_isMultiplayer } from "../main.js";
 	import { fn_getInputs } from "../main.js";
+	import ItemSlots from './itemSlots.js';
 
 //Declaring constants:
 	//Essentials:
@@ -63,6 +64,8 @@ export default class Player{
 			this.f_scale = _scale;															//The scale of the player.
 		//Add the player to the scene:
 			int_playerNum.set(this, _num);
+			this.itemSlots = new ItemSlots(int_playerNum.get(this));						//The item slots for this player.
+
 			
 			this.playerGeometry = new THREE.SphereGeometry( this.f_radius, 8, 8);				
 			this.playerMaterial = new THREE.MeshPhongMaterial( { color: 0xff0000 } );
@@ -740,6 +743,17 @@ export default class Player{
 				this.b_hitPlayer = false;
 				this.fn_stopDrifting();
 			}
+
+		//Update item slots:
+		this.itemSlots.fn_update(_int_frames);
+
+		if(input.fn_press_swap(this.b_done)){
+			this.itemSlots.fn_swap();
+		}
+
+		if(input.fn_press_item(this.b_done)){
+			this.itemSlots.fn_use(this.player);
+		}
 		
 		if(b_showCapsule){
 			//Update collision capsule visulizers:

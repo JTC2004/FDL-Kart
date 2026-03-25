@@ -43,9 +43,9 @@
 
 //Initializing the scene:
 function fn_initializeMenus(){
-		document.getElementById("p_itemSlot0-0").style.display = "none";
-		document.getElementById("p_itemSlot0-1").style.display = "none";
-		document.getElementById("p_itemSlot0-2").style.display = "none";
+		document.getElementById("img_itemSlot0-0").style.display = "none";
+		document.getElementById("img_itemSlot0-1").style.display = "none";
+		document.getElementById("img_itemSlot0-2").style.display = "none";
 	
 		scene = fn_getScene();
 		renderer = fn_getRenderer();

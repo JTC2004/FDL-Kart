@@ -14,6 +14,7 @@ export default class ItemPot extends Obj{
 			this.f_respawnTime = 1.00;
 			this.f_respawnTimer = 0.0;
 
+			//Animation variables:
 			this.int_wiggleIndex = 1;
 			this.int_wiggleIncrement = 1;
 

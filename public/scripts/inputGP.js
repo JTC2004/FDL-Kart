@@ -25,7 +25,7 @@ export default class InputHandlerGP{
 		this.int_gp_right = 15;
 		this.int_gp_accelerate = 0;
 		this.int_gp_drift = 7;
-		this.int_gp_itemSlot = 6;
+		this.int_gimg_itemSlot = 6;
 		this.int_gp_swap = 4;
 		this.int_gp_rear = 2;
 		this.int_gp_pause = 9;
@@ -162,11 +162,11 @@ export default class InputHandlerGP{
 	//Function for item input:
 	fn_press_item(_modifier){	
 		if(_modifier) return false;
-		return this.a_press[this.int_gp_itemSlot];
+		return this.a_press[this.int_gimg_itemSlot];
 	}
 	fn_hold_item(_modifier){	
 		if(_modifier) return false;
-		return this.a_hold[this.int_gp_itemSlot];
+		return this.a_hold[this.int_gimg_itemSlot];
 	}
 
 	//Function for swapping input:
