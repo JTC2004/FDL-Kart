@@ -120,10 +120,9 @@ export default class ItemSlots{
 
 			//console.log(`Used item ${this.a_items[0]}!`);
 		}
-
 		//Spamming the roulette:
-		if(this.f_rollTimer < 1.5 && this.int_rollingRoulette == 0){
-			this.f_rollTimer = 0;
+		else if(this.f_rollTimer < 1.5 && this.int_rollingRoulette == 0){
+			this.f_rollTimer = 1 / 60;
 		}
 	}
 	
