@@ -23,8 +23,20 @@ html, body{
 	position: absolute;
 	left: 2%;
 	top: 4%;
-	width: 17vw;
-	height: 12vw;
+	width: 15vw;
+	height: 11vw;
+
+	display: none;
+}
+
+#p_item1-0, #p_item1-1, #p_item1-2 {
+	position: absolute;
+	right: 2%;
+	top: 4%;
+	width: 15vw;
+	height: 11vw;
+
+	display: none;
 }
 
 #p_fps {

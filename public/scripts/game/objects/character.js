@@ -10,7 +10,7 @@ export default class Character extends Obj{
 		this.str_name = _str_name;
 		
 		//this.fn_addSprite([0,0,0], [1,1,1], this.str_name + ' gremlin (transp)');
-		this.fn_addSpriteSheets([0,0,0], [1,1,1], `Characters/${_str_name}/P${_num + 1}_256_Frame_`, 6);
+		this.fn_addSpriteSheets([0,0,0], [1,1,1], `characters/${_str_name}/P${_num + 1}_256_Frame_`, 6);
 
 		//State variables:
 		this.b_driving = _b_driving;

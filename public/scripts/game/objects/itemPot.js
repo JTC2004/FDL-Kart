@@ -16,7 +16,7 @@ export default class ItemPot extends Obj{
 			this.fn_addSprite([0,0,0], [1.2, 1.2, 1.2], "mk_ques2");
 			
 			this.f_amplitude = 0.004;
-			this.f_respawnTime = .91;
+			this.f_respawnTime = 1.00;
 			this.f_respawnTimer = 0.0;
 			//if(this.boundingBox){
 			//	console.log("Item pot created w/ bounding box!");
@@ -53,7 +53,6 @@ export default class ItemPot extends Obj{
 			//Else, count down respawn time:
 			else if(this.f_respawnTimer > 0){
 				this.f_respawnTimer -= 1 / 60;
-				console.log(`Respawn timer = ${this.f_respawnTimer}`);
 			}
 			else{
 				this.f_respawnTimer = 0.0;

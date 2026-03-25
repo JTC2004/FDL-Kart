@@ -49,10 +49,6 @@ var int_sharpPixelIndex = 0;
 
 
 //Initializing the scene:
-    document.getElementById("p_item0-0").style.display = "none";
-	document.getElementById("p_item0-1").style.display = "none";
-	document.getElementById("p_item0-2").style.display = "none";
-
     //3 things needed for anything: scene, camera, & renderer.
     const scene = new THREE.Scene();
     const loader = new GLTFLoader();

@@ -75,9 +75,6 @@
 
 //This method runs once when gameplay is started:	
 function fn_initializeGame(){
-	document.getElementById("p_item0-0").style.display = "block";
-	document.getElementById("p_item0-1").style.display = "block";
-	document.getElementById("p_item0-2").style.display = "block";
 	
 	scene = fn_getScene();
 	renderer = fn_getRenderer();
@@ -294,10 +291,16 @@ function fn_initializeGame(){
 		//REMEMBER TO PUSH OTHER NON-STATIC COLLIDABLE OBJECTS AFTER PLAYERS!!
 		a_objectsDSOC.push(a_players[i]);
 
-		//worldOctree.fromGraphNode(a_players[i].fn_getCapsuleMesh());
+		//Adding item slot UI for this player:
+		document.getElementById(`p_item${i}-0`).style.display = "block";
+		document.getElementById(`p_item${i}-1`).style.display = "block";
+		document.getElementById(`p_item${i}-2`).style.display = "block";
 
 		//If there is only 1 camera, break.
-		if(!b_multiplayer){
+		if(b_multiplayer){
+			//Multiplayer-only stuff here.
+		}
+		else{
 			break;
 		}
 	}
