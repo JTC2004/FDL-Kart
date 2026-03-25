@@ -752,7 +752,7 @@ export default class Player{
 		}
 
 		if(input.fn_press_item(this.b_done)){
-			this.itemSlots.fn_use(this.player);
+			this.itemSlots.fn_use(this);
 		}
 		
 		if(b_showCapsule){
@@ -948,7 +948,7 @@ export default class Player{
 			this.f_speedBoost = .16;
 			
 			if(!_f_duration){
-				this.f_speedBoostTimer = 1.8;
+				this.f_speedBoostTimer = 1.5;
 			}
 			else{
 				this.f_speedBoostTimer = _f_duration;

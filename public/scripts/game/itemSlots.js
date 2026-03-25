@@ -118,15 +118,15 @@ export default class ItemSlots{
 		//Make it so item can only be used if the active slot isn't rolling:
 		if(this.a_rollTimer[0] == 0.0){
 			if(this.a_items[0] == 1){
-				//Apply effect of 1 ice cream.
+				player.fn_addSpeedBoost("T");
 				this.a_items[0] = 0;
 			}
 			else if(this.a_items[0] == 2){
-				//Apply effect of 1 ice cream.
+				player.fn_addSpeedBoost("T");
 				this.a_items[0] = 1;
 			}
 			else if(this.a_items[0] == 3){
-				//Apply effect of 1 ice cream.
+				player.fn_addSpeedBoost("T");
 				this.a_items[0] = 2;
 			}
 
