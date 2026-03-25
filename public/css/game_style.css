@@ -34,6 +34,8 @@ html, body{
 	top: 8.5%;
 	width: 7vw;
 	height: 7vw;
+
+	display: none;
 }
 #p_item0-1 {
 	position: absolute;
@@ -41,7 +43,8 @@ html, body{
 	top: 7.5%;
 	width: 5vw;
 	height: 5vw;
-	
+
+	display: none;
 }
 
 #p_itemSlot1-0, #p_itemSlot1-1, #p_itemSlot1-2 {

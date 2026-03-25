@@ -7,17 +7,15 @@ export default class ItemPot extends Obj{
 		//Adds the cube to the scene:
 			super(a_xyz, _worldScale, false, false, _localScale);
 
-			this.fn_addModel([0,0,0], [.8,.8,.8], "ItemBox", (model) => {
-				//Randomize rotation:
-				model.rotation.x = Math.random() * 2*Math.PI;
-				model.rotation.y = Math.random() * 2*Math.PI;
-			});
 			this.fn_addBox([0,0,0], [1,1,1], 0x00ffff, false);
-			this.fn_addSprite([0,0,0], [1.2, 1.2, 1.2], "objects/mk_ques2");
+			this.fn_addSpriteSheets([0,0,0], [1.8, 1.8, 1.8], "objects/Item_Pot_frame_", 1);
 			
 			this.f_amplitude = 0.004;
 			this.f_respawnTime = 1.00;
 			this.f_respawnTimer = 0.0;
+
+			this.int_wiggleIndex = 1;
+			this.int_wiggleIncrement = 1;
 			//if(this.boundingBox){
 			//	console.log("Item pot created w/ bounding box!");
 			//}
@@ -33,7 +31,6 @@ export default class ItemPot extends Obj{
 			if(this.f_respawnTimer == 0.0){
 				console.log(`Item box collided with player ${player.fn_getPlayerIndex()}!`);
 				this.f_respawnTimer = this.f_respawnTime;
-				this.model.visible = false;
 				this.sprite.visible = false;
 			}
 		}
@@ -41,10 +38,19 @@ export default class ItemPot extends Obj{
 		fn_animate(_frames){
 			//Animate the box if spawned:
 			if(this.f_respawnTimer == 0.0){
-				//Mesh rotation:
-				if(_frames % 1 == 0){
-					this.model.rotation.x += -0.011;
-					this.model.rotation.y += 0.022;
+				//Sprite 'wiggle':
+				if(_frames % 3 == 0){
+					this.fn_changeSpriteSheet(this.int_wiggleIndex);
+					this.int_wiggleIndex += this.int_wiggleIncrement;
+
+					if(this.int_wiggleIndex > 2){
+						this.int_wiggleIncrement = -1;
+						this.int_wiggleIndex = 1;
+					}
+					if(this.int_wiggleIndex < 0){
+						this.int_wiggleIncrement = 1;
+						this.int_wiggleIndex = 1;
+					}
 				}
 				
 				//Make box slightly bob up and down (ChatGPT helped):
@@ -56,7 +62,6 @@ export default class ItemPot extends Obj{
 			}
 			else{
 				this.f_respawnTimer = 0.0;
-				this.model.visible = true;
 				this.sprite.visible = true;
 			}
 			
