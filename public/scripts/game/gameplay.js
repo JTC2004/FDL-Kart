@@ -286,7 +286,7 @@ function fn_initializeGame(){
 			1, 
 			a_checkpoints.length, 
 			int_numKeys, 
-			3
+			5
 		));
 		//REMEMBER TO PUSH OTHER NON-STATIC COLLIDABLE OBJECTS AFTER PLAYERS!!
 		a_objectsDSOC.push(a_players[i]);
@@ -307,6 +307,7 @@ function fn_initializeGame(){
 
 	//Adding non-static objects:
 		a_objectsStatic.push(new ItemPotRow([-53, 7.1, -61], f_mapScale, 6, .85, 1, a_objectsDSOC));
+		a_objectsStatic.push(new ItemPotRow([-46, 7.1, 9.7], f_mapScale, 3, 1.5, 1, a_objectsDSOC));
 
 	//Adjusting UI based on multiplayer:
 	if(b_multiplayer){

@@ -132,6 +132,7 @@ export default class Player{
 				this.b_prevBrakeDrifting = false;
 				this.b_standstill = false;														//True when player is standstill drifitng.
 				this.b_inOffroad = false;														//True when collider is in offroad.
+				this.b_offroadEnable = true;													//True when player can be slowed by offroad.
 				this.b_reverse = false;															//True when the player is braking or reversing.
 			
 		//Movement variables:
@@ -583,6 +584,7 @@ export default class Player{
 				else{
 					this.f_speedBoost = 0.0;
 					this.f_speedBoostTimer = 0.0;
+					this.b_offroadEnable = true;
 				}
 			
 			//Gravity:
@@ -660,7 +662,7 @@ export default class Player{
 	fn_offroad(offroadOctree, _enabled){
 		this.result = offroadOctree.capsuleIntersect( this.worldCollider );
 		
-		if ( this.result.depth > 1e-10 && _enabled) {
+		if ( this.result.depth > 1e-10 && this.b_offroadEnable && _enabled) {
 			this.b_inOffroad = true;
 		}
 		else{
@@ -925,7 +927,7 @@ export default class Player{
 	//Changes to state:
 	fn_addSpeedBoost(_str_power, _f_duration){
 		if(_str_power.slice(0, -1) == "MT"){
-			this.f_speedBoost = .07;
+			this.f_speedBoost += .07;
 			this.f_speedBoost += Number(_str_power.at(-1)) * 0.01;
 			
 			if(_str_power == "MT1"){
@@ -945,15 +947,25 @@ export default class Player{
 			this.f_speedBoostTimer += f_stat_miniTurbo.get(this) / 15;
 		}
 		else if(_str_power == "T"){
-			this.f_speedBoost = .16;
+			this.f_speedBoost += .2;
+			this.b_offroadEnable = false;
 			
 			if(!_f_duration){
-				this.f_speedBoostTimer = 1.5;
+				this.f_speedBoostTimer = 1.3;
 			}
 			else{
 				this.f_speedBoostTimer = _f_duration;
 			}
 		}
+
+		//Cap on max speed boost and duration:
+		if(this.f_speedBoost > .2){
+			this.f_speedBoost = .2;
+		}
+		if(this.f_speedBoostTimer > 1.3){
+			this.f_speedBoostTimer = 1.3;
+		}
+
 		this.f_speed += this.f_maxSpeed * .9;
 	}
 }
