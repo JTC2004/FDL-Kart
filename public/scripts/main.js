@@ -38,7 +38,7 @@ var int_numGamepads = 0;                    //Used to tell if a new gamepad is c
 
 var b_fullScreen = false;
 window.b_debug = true;
-var str_map = "SNES MC1";
+var str_map = "FDL Circuit";
 window.int_gameMode = 2;      //0 is Practice, 
 //                              1 is Grand Prix, 
 //                              2 is Time Trials, 

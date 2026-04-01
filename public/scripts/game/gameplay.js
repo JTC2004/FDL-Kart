@@ -123,6 +123,10 @@ function fn_initializeGame(){
 		f_mapScale = 1.2;
 		v_mapPos = new THREE.Vector3(40, 20, 25);
 	}
+	else if(str_map == "FDL Circuit"){
+		f_mapScale = 0.9;
+		v_mapPos = new THREE.Vector3(-26, 20, -42);
+	}
 
 	//Render background:
 	if(str_map == "SNES MC1"){
@@ -253,24 +257,26 @@ function fn_initializeGame(){
 			console.error( error );
 		} 
 	);
-		
 	
-	//Adding pipes:
-		a_objectsStatic.push(new Pipe([-102, 7.19, -74.5], f_mapScale, 1));
-		a_objectsStatic.push(new Pipe([-102, 7.19, -65], f_mapScale, 1));
-		a_objectsStatic.push(new Pipe([-116, 7.19, -66], f_mapScale, 1));
-		a_objectsStatic.push(new Pipe([-116, 7.19, -81], f_mapScale, 1));
-		a_objectsStatic.push(new Pipe([-119.7, 7.19, 27], f_mapScale, 1));
-		a_objectsStatic.push(new Pipe([-103, 7.22, 40], f_mapScale, 1));
-		a_objectsStatic.push(new Pipe([-93, 7.22, 35.5], f_mapScale, 1));
-		a_objectsStatic.push(new Pipe([-52, 7.22, 21], f_mapScale, 1));
-		
-	//Adding solid objects to the octree:
-		for(let i = 0; i < a_objectsStatic.length; i++){
-			if(a_objectsStatic[i].fn_getSolid()){
-				worldOctree.fromGraphNode(a_objectsStatic[i].fn_getCollider());
+	//Adding objects:
+	if(str_map == "SNES MC1"){
+		//Adding pipes:
+			a_objectsStatic.push(new Pipe([-102, 7.19, -74.5], f_mapScale, 1));
+			a_objectsStatic.push(new Pipe([-102, 7.19, -65], f_mapScale, 1));
+			a_objectsStatic.push(new Pipe([-116, 7.19, -66], f_mapScale, 1));
+			a_objectsStatic.push(new Pipe([-116, 7.19, -81], f_mapScale, 1));
+			a_objectsStatic.push(new Pipe([-119.7, 7.19, 27], f_mapScale, 1));
+			a_objectsStatic.push(new Pipe([-103, 7.22, 40], f_mapScale, 1));
+			a_objectsStatic.push(new Pipe([-93, 7.22, 35.5], f_mapScale, 1));
+			a_objectsStatic.push(new Pipe([-52, 7.22, 21], f_mapScale, 1));
+			
+		//Adding solid objects to the octree:
+			for(let i = 0; i < a_objectsStatic.length; i++){
+				if(a_objectsStatic[i].fn_getSolid()){
+					worldOctree.fromGraphNode(a_objectsStatic[i].fn_getCollider());
+				}
 			}
-		}
+	}
 
 
 	//Adding player(s):
@@ -306,8 +312,13 @@ function fn_initializeGame(){
 	}
 
 	//Adding non-static objects:
+	if(str_map == "SNES MC1"){
 		a_objectsStatic.push(new ItemPotRow([-53, 7.1, -61], f_mapScale, 6, .85, 1, a_objectsDSOC));
 		a_objectsStatic.push(new ItemPotRow([-46, 7.1, 9.7], f_mapScale, 3, 1.5, 1, a_objectsDSOC));
+	}
+	else if(str_map == "FDL Circuit"){
+		a_objectsStatic.push(new ItemPotRow([-28, 3.8, 37], f_mapScale, 6, 1.2, 1, a_objectsDSOC));
+	}
 
 	//Adjusting UI based on multiplayer:
 	if(b_multiplayer){
