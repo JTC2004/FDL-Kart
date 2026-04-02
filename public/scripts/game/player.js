@@ -107,7 +107,7 @@ export default class Player{
 		//Player states:
 			//Flying:
 				this.b_flying = false;															//When true, player is in free-cam mode.
-				this.int_cameraSpd = .75;														//Speed the camera moves while flying.
+				this.f_flySpd = .75;														//Speed the camera moves while flying.
 			//Jummping & falling:
 				f_gravityRate.set(this, 0.02);
 				f_baseGravity.set(this, .14);
@@ -145,7 +145,7 @@ export default class Player{
 				f_stat_traction.set(this, 3);
 			//Speed & acceleration:
 				int_CC.set(this, 150);	
-				f_baseMaxSpeed.set(this, .0043 * int_CC.get(this) + 0.105 + f_stat_speed.get(this) * .01);	//The player's max speed.	
+						f_baseMaxSpeed.set(this, .0043 * int_CC.get(this) + 0.105 + f_stat_speed.get(this) * .01);	//The player's max speed.	
 				this.f_maxSpeed = f_baseMaxSpeed.get(this);										//The current max speed.
 				this.f_speed = 0.0;																//The current amount the player moves forwards per frame.
 				this.f_pushedBack = 1.0;													//Equals negative when player is rebounding from a wall or player collision.
@@ -238,38 +238,38 @@ export default class Player{
 			//Horizontal movement:
 				if(input.fn_hold_forward(this.b_done)){
 					//camera.position.z -= 1;
-					camera.position.z -= Math.cos(camera.rotation.y) * this.int_cameraSpd;
-					camera.position.x -= Math.sin(camera.rotation.y) * this.int_cameraSpd;
+					this.player.position.z -= Math.cos(this.player.rotation.y) * this.f_flySpd;
+					this.player.position.x -= Math.sin(this.player.rotation.y) * this.f_flySpd;
 				}
 				if(input.fn_hold_back(this.b_done)){
 					//camera.position.z += 1;
-					camera.position.z += Math.cos(camera.rotation.y) * this.int_cameraSpd;
-					camera.position.x += Math.sin(camera.rotation.y) * this.int_cameraSpd;
+					this.player.position.z += Math.cos(this.player.rotation.y) * this.f_flySpd;
+					this.player.position.x += Math.sin(this.player.rotation.y) * this.f_flySpd;
 				}
 				if(input.fn_hold_left(this.b_done)){		//Slide camera left.
 					//camera.rotation.y += .02;
-					camera.position.z += Math.sin(camera.rotation.y) * this.int_cameraSpd;
-					camera.position.x -= Math.cos(camera.rotation.y) * this.int_cameraSpd;
+					this.player.position.z += Math.sin(this.player.rotation.y) * this.f_flySpd;
+					this.player.position.x -= Math.cos(this.player.rotation.y) * this.f_flySpd;
 				}
 				if(input.fn_hold_right(this.b_done)){		//Slide camera right.
 					//camera.rotation.y -= .02;
-					camera.position.z -= Math.sin(camera.rotation.y) * this.int_cameraSpd;
-					camera.position.x += Math.cos(camera.rotation.y) * this.int_cameraSpd;
+					this.player.position.z -= Math.sin(this.player.rotation.y) * this.f_flySpd;
+					this.player.position.x += Math.cos(this.player.rotation.y) * this.f_flySpd;
 				}
 			//Rotation:	
 				if(input.fn_hold_item(this.b_done)){
-					camera.rotation.y += f_baseMaxTurning.get(this) + .005;
+					this.player.rotation.y += f_baseMaxTurning.get(this) + .005;
 				}
 				if(input.fn_hold_rear(this.b_done)){
-					camera.rotation.y -= f_baseMaxTurning.get(this) + .005;
+					this.player.rotation.y -= f_baseMaxTurning.get(this) + .005;
 				}
 			
 			//Vertical movement:
 				if(input.fn_hold_accelerate(this.b_done)){
-					camera.position.y += .4;
+					this.player.position.y += .4;
 				}
 				if(input.fn_hold_drift(this.b_done)){
-					camera.position.y -= .4;
+					this.player.position.y -= .4;
 				}
 		}
 		else{			
@@ -780,27 +780,22 @@ export default class Player{
 			// /this.model_kart.fn_setY(this.player.position.y + 0.02 * this.f_scale);
 				
 		//Update camera's position:
-			if(!this.b_flying){
-				this.f_posY = this.player.position.y + 2;
-				this.f_lookY = this.player.position.y + 1.15;
-				if(this.b_jumping){
-					this.f_posY = this.f_jumpStartY + 2;
-					this.f_lookY = this.f_jumpStartY + 1.15;
-				}
-				//console.log(`f_lookY = ${this.f_lookY}`);
-				
-				//Rear view:
-				if(input.fn_hold_rear(this.b_done)){
-					camera.position.set(this.player.position.x - 4.5 * Math.sin(this.player.rotation.y), this.f_posY, this.player.position.z - 4.5 * Math.cos(this.player.rotation.y));
-					camera.lookAt( this.player.position.x, this.f_lookY, this.player.position.z );
-				}
-				else{
-					camera.position.set(this.player.position.x + 5.75 * Math.sin(this.player.rotation.y), this.f_posY, this.player.position.z + 5.75 * Math.cos(this.player.rotation.y));
-					camera.lookAt( this.player.position.x, this.f_lookY, this.player.position.z );
-				}
+			this.f_posY = this.player.position.y + 2;
+			this.f_lookY = this.player.position.y + 1.15;
+			if(this.b_jumping){
+				this.f_posY = this.f_jumpStartY + 2;
+				this.f_lookY = this.f_jumpStartY + 1.15;
+			}
+			//console.log(`f_lookY = ${this.f_lookY}`);
+			
+			//Rear view:
+			if(input.fn_hold_rear(this.b_done) && !this.b_flying){
+				camera.position.set(this.player.position.x - 4.5 * Math.sin(this.player.rotation.y), this.f_posY, this.player.position.z - 4.5 * Math.cos(this.player.rotation.y));
+				camera.lookAt( this.player.position.x, this.f_lookY, this.player.position.z );
 			}
 			else{
-				//camera.lookAt(-40, 0, -20);
+				camera.position.set(this.player.position.x + 5.75 * Math.sin(this.player.rotation.y), this.f_posY, this.player.position.z + 5.75 * Math.cos(this.player.rotation.y));
+				camera.lookAt( this.player.position.x, this.f_lookY, this.player.position.z );
 			}
 		
 		if(this.b_onGround && !this.b_prevOnGround){
