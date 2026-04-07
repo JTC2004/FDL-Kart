@@ -124,7 +124,7 @@ function fn_initializeGame(){
 		v_mapPos = new THREE.Vector3(40, 20, 25);
 	}
 	else if(str_map == "FDL Circuit"){
-		f_mapScale = 0.9;
+		f_mapScale = 1.1;
 		v_mapPos = new THREE.Vector3(-26, 20, -42);
 	}
 
