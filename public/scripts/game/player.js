@@ -688,7 +688,7 @@ export default class Player{
 			}
 			
 			//Wall collision:
-			if(Math.abs(this.result.normal.x) > 0.1 || Math.abs(this.result.normal.z) > 0.1) {
+			if(Math.abs(this.result.normal.x) > 0.2 || Math.abs(this.result.normal.z) > 0.2) {
 				this.b_hitWall = true;
 			}
 		}

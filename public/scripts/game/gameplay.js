@@ -124,7 +124,7 @@ function fn_initializeGame(){
 		v_mapPos = new THREE.Vector3(40, 20, 25);
 	}
 	else if(str_map == "FDL Circuit"){
-		f_mapScale = 1.1;
+		f_mapScale = 1.0;
 		v_mapPos = new THREE.Vector3(-26, 20, -42);
 	}
 
@@ -208,7 +208,7 @@ function fn_initializeGame(){
 	//Loading objects into the scene:
 	//Loading a 3D model (followed this tutorial https://youtu.be/WBe3xrV4CPM?si=qzzC8TYFBhorqRcs):
 	
-	loader.load( 'assets/models/maps/'+ str_map +'/main.glb',		//I should make a method for this. 
+	loader.load( 'assets/models/maps/'+ str_map +'/geo.glb',		//I should make a method for this. 
 		function ( gltf ) {
 			
 			courseModel = gltf.scene;
