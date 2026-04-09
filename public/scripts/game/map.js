@@ -223,11 +223,12 @@ export default class Map{
 
 	fn_addObjectsDSOC(a_objects, a_objectsDSOC){
 		if(str_map == "SNES MC1"){
-			a_objects.push(new ItemPotRow([-53, 7.1, -61], f_mapScale, 6, .85, 1, a_objectsDSOC));
-			a_objects.push(new ItemPotRow([-46, 7.1, 9.7], f_mapScale, 3, 1.5, 1, a_objectsDSOC));
+			a_objects.push(new ItemPotRow([-53, 7.1, -61], f_mapScale, 6, .85, 2, 1, a_objectsDSOC));
+			a_objects.push(new ItemPotRow([-46, 7.1, 9.7], f_mapScale, 3, 1.5, 2, 1, a_objectsDSOC));
 		}
 		else if(str_map == "FDL Circuit"){
-			a_objects.push(new ItemPotRow([35, 3.8, -70], f_mapScale, 6, 1.2, 1, a_objectsDSOC));
+			a_objects.push(new ItemPotRow([37, 3.8, -70], f_mapScale, 6, 2, 0, 1, a_objectsDSOC));
+			a_objects.push(new ItemPotRow([16, 3.8, -126], f_mapScale, 2, 3, 2, 1, a_objectsDSOC));
 		}
 	}
 
