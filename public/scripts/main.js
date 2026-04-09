@@ -44,7 +44,7 @@ window.int_gameMode = 2;      //0 is Practice,
 //                              2 is Time Trials, 
 //                              3 is Adventure.
 
-//Settings variables:
+//Settings variables:   
 var b_trueAntiAlias = false;
 var int_resolutionIndex = 4;
 var int_sharpPixelIndex = 0;

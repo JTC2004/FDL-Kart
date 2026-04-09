@@ -55,6 +55,7 @@
 	var b_playerDone = false;
 	var a_players = [];
 	let offroadModel;
+	let geoModel;
 	let courseModel;
 	let skyboxModel;
 
@@ -211,6 +212,25 @@ function fn_initializeGame(){
 	loader.load( 'assets/models/maps/'+ str_map +'/geo.glb',		//I should make a method for this. 
 		function ( gltf ) {
 			
+			geoModel = gltf.scene;
+			geoModel.position.set(0,0,0);
+			geoModel.scale.set(f_mapScale, f_mapScale, f_mapScale);
+			geoModel.visible = true;
+			
+			geoModel.updateMatrixWorld(true);
+			worldOctree.fromGraphNode( geoModel );
+			
+			scene.add( geoModel );
+			
+		}, 
+		undefined, function ( error ) {
+			console.error( error );
+		} 
+	);
+
+	/*loader.load( 'assets/models/maps/'+ str_map +'/main.glb',		//I should make a method for this. 
+		function ( gltf ) {
+			
 			courseModel = gltf.scene;
 			courseModel.position.set(0,0,0);
 			courseModel.scale.set(f_mapScale, f_mapScale, f_mapScale);
@@ -225,8 +245,7 @@ function fn_initializeGame(){
 		undefined, function ( error ) {
 			console.error( error );
 		} 
-	);
-	
+	);*/
 	
 	loader.load( 'assets/models/maps/'+ str_map +'/offroad.glb', 
 		function ( gltf ) {
@@ -389,7 +408,7 @@ export function fn_updateGame(f_fps){
 				if(offroadModel){
 					player.fn_offroad(offroadOctree, true);
 				}
-				if(courseModel){
+				if(geoModel){
 					player.fn_collision(worldOctree);
 				}
 			
