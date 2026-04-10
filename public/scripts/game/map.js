@@ -63,62 +63,67 @@ export default class Map{
 
 		//Map scale:
 			if(str_map == "testcourse1"){
-				f_mapScale = 2;
+				f_mapScale = 2.5;
 				v_mapPos = new THREE.Vector3(36,8,-3);
+				b_hasGeo = true;	b_hasOffroad = false;	b_hasSkybox = false;
 			}
 			else if(str_map == "N64 Mario Raceway"){
 				f_mapScale = .75;
-				v_mapPos = new THREE.Vector3(-220, 35, -35);
+				v_mapPos = new THREE.Vector3(-220, 27, -35);
+				b_hasGeo = true;	b_hasOffroad = true;	b_hasSkybox = false;
 			}
 			else if(str_map == "N64 Block Fort"){
 				f_mapScale = 1.25;
-				v_mapPos = new THREE.Vector3(0, 60, 85);
+				v_mapPos = new THREE.Vector3(0, 40, 85);
+				b_hasGeo = true;	b_hasOffroad = false;	b_hasSkybox = true;
 			}
 			else if(str_map == "SNES MC1"){
 				f_mapScale = 1.2;
-				v_mapPos = new THREE.Vector3(40, 20, 25);
+				v_mapPos = new THREE.Vector3(40, 9, 25);
+				b_hasGeo = true;	b_hasOffroad = true;	b_hasSkybox = true;
 			}
 			else if(str_map == "FDL Circuit"){
 				f_mapScale = 1.0;
 				v_mapPos = new THREE.Vector3(29, 4, 77);
 				f_mapRot = 3.14;
+				b_hasGeo = true;	b_hasOffroad = true;	b_hasSkybox = false;
 			}
-		
-		//Loading a 3D model (followed this tutorial https://youtu.be/WBe3xrV4CPM?si=qzzC8TYFBhorqRcs):
-		//THIS IS AN ASYNC METHOD:
-		function fn_loadModel(model, _str_modelName, _b_visible, octree){
-			return new Promise((resolve, reject) => {
-				loader.load( `assets/models/maps/${str_map}/${_str_modelName}.glb`, 
-					( gltf ) => {
-						
-						model = gltf.scene;
-						model.position.set(0,0,0);
-						model.scale.set(f_mapScale, f_mapScale, f_mapScale);
-						model.rotation.set(0, f_mapRot, 0);
-						model.visible = _b_visible;
-						
-						if(_str_modelName == 'geo' || _str_modelName == 'offroad')
-						{
-							model.updateMatrixWorld(true);
-							octree.fromGraphNode( model );
-						}
-						
-						scene.add( model );
-						resolve(true);
-					}, 
-					undefined, ( error ) => {
-						//console.error( error );
-						reject(false);
-					} 
-				);
-			});
-		}
-		async function addModels() {
-			b_hasGeo = await fn_loadModel(geoModel, 'geo', true, worldOctree);
-			b_hasOffroad = await fn_loadModel(offroadModel, 'offroad', false, offroadOctree);
-			b_hasSkybox = await fn_loadModel(skyboxModel, 'skybox', true);
-		}
-		addModels();
+	}	
+
+	async addModels(worldOctree, offroadOctree) {
+		if(b_hasGeo) await this.fn_loadModel(geoModel, 'geo', true, worldOctree);
+		if(b_hasOffroad) await this.fn_loadModel(offroadModel, 'offroad', false, offroadOctree);
+		if(b_hasSkybox) await this.fn_loadModel(skyboxModel, 'skybox', true);
+	}
+
+	//Loading a 3D model (followed this tutorial https://youtu.be/WBe3xrV4CPM?si=qzzC8TYFBhorqRcs):
+	//THIS IS AN ASYNC METHOD:
+	fn_loadModel(model, _str_modelName, _b_visible, octree){
+		return new Promise((resolve, reject) => {
+			loader.load( `assets/models/maps/${str_map}/${_str_modelName}.glb`, 
+				( gltf ) => {
+					
+					model = gltf.scene;
+					model.position.set(0,0,0);
+					model.scale.set(f_mapScale, f_mapScale, f_mapScale);
+					model.rotation.set(0, f_mapRot, 0);
+					model.visible = _b_visible;
+					
+					if(_str_modelName == 'geo' || _str_modelName == 'offroad')
+					{
+						model.updateMatrixWorld(true);
+						octree.fromGraphNode( model );
+					}
+					
+					scene.add( model );
+					resolve(true);
+				}, 
+				undefined, ( error ) => {
+					//console.error( error );
+					reject(false);
+				} 
+			);
+		});
 	}
 
 	//Add checkpoints & background:

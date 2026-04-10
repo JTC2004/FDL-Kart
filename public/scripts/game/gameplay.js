@@ -61,11 +61,12 @@
 	var b_paused = false;
 	var coordsButton = document.getElementById("p_coords");
 	var b_isInitialized = false;
+	let promise_init = null;
 	
 
 
 //This method runs once when gameplay is started:	
-function fn_initializeGame(){
+async function fn_initializeGame(){
 	
 	scene = fn_getScene();
 	renderer = fn_getRenderer();
@@ -85,6 +86,7 @@ function fn_initializeGame(){
 	request.send(null);
 
 	map = new Map(str_map, worldOctree, offroadOctree);
+	await map.addModels(worldOctree, offroadOctree);
 
 	//Add checkpoints & background:
 	map.fn_addCheckpoints(a_checkpoints);
@@ -126,15 +128,23 @@ function fn_initializeGame(){
 	if(b_multiplayer){
 		document.getElementById("p_time").style.left = "40%";
 	}
+
+	b_isInitialized = true;
 }
 
 
 //The game loop:
 export function fn_updateGame(f_fps){
 	//console.log("Game is running");
-	if(!b_isInitialized){
-		fn_initializeGame();
-		b_isInitialized = true;
+	
+	//Start initialization ONCE:
+	if(!promise_init){
+		promise_init = fn_initializeGame();
+		return true; // skip frame
+	}
+	//Wait until it's done
+	if(promise_init && !b_isInitialized){
+		return true; // still loading, skip update
 	}
 
 		//Displaying FPS:
