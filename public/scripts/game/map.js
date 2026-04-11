@@ -67,17 +67,7 @@ export default class Map{
 				v_mapPos = new THREE.Vector3(36,8,-3);
 				b_hasGeo = true;	b_hasOffroad = false;	b_hasSkybox = false;
 			}
-			else if(str_map == "N64 Mario Raceway"){
-				f_mapScale = .75;
-				v_mapPos = new THREE.Vector3(-220, 27, -35);
-				b_hasGeo = true;	b_hasOffroad = true;	b_hasSkybox = false;
-			}
-			else if(str_map == "N64 Block Fort"){
-				f_mapScale = 1.25;
-				v_mapPos = new THREE.Vector3(0, 40, 85);
-				b_hasGeo = true;	b_hasOffroad = false;	b_hasSkybox = true;
-			}
-			else if(str_map == "SNES MC1"){
+			else if(str_map == "MC1"){
 				f_mapScale = 1.2;
 				v_mapPos = new THREE.Vector3(40, 9, 25);
 				b_hasGeo = true;	b_hasOffroad = true;	b_hasSkybox = true;
@@ -128,7 +118,7 @@ export default class Map{
 
 	//Add checkpoints & background:
 	fn_addCheckpoints(a_checkpoints){
-		if(str_map == "SNES MC1"){
+		if(str_map == "MC1"){
 			renderer.setClearColor( 0xe8f870, 1);
 			//Adding Checkpoints:
 				a_checkpoints.push(new Checkpoint([30, 14, 7], 1, [.2, 16, 40], 1.5708, true, 0));
@@ -206,7 +196,7 @@ export default class Map{
 	}
 
 	fn_addObjectsStatic(a_objects, worldOctree){
-		if(str_map == "SNES MC1"){
+		if(str_map == "MC1"){
 			//Adding pipes:
 				a_objects.push(new Pipe([-102, 7.19, -74.5], f_mapScale, 1));
 				a_objects.push(new Pipe([-102, 7.19, -65], f_mapScale, 1));
@@ -227,7 +217,7 @@ export default class Map{
 	}
 
 	fn_addObjectsDSOC(a_objects, a_objectsDSOC){
-		if(str_map == "SNES MC1"){
+		if(str_map == "MC1"){
 			a_objects.push(new ItemPotRow([-53, 7.1, -61], f_mapScale, 6, .85, 2, 1, a_objectsDSOC));
 			a_objects.push(new ItemPotRow([-46, 7.1, 9.7], f_mapScale, 3, 1.5, 2, 1, a_objectsDSOC));
 		}
@@ -238,7 +228,7 @@ export default class Map{
 	}
 
 	fn_animate(){
-		if(skyboxModel && str_map != "SNES MC1"){
+		if(skyboxModel && str_map != "MC1"){
 			skyboxModel.rotation.y += 0.0004;
 		}
 	}
