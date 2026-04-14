@@ -66,7 +66,6 @@ class GameLoop{
 	}
 
 	fn_getFPS(){
-		//console.log(`FPS = ${1 / frameTime}`);
 		return 1 / frameTime;
 	}
 }

@@ -30,6 +30,7 @@
 	var b_isInitialized = false;
 
 	var str_currentMenu = "Main";
+
 	//var str_currentMenu = "Split-Screen/Connect Controllers";
 	var str_parentMenu = "";
 	var str_lastMenu = "";
@@ -62,11 +63,16 @@ function fn_initializeMenus(){
 		directionalLight.position.set (1, 1, 3);
 		directionalLight.position.z = 3;
 		scene.add(directionalLight);*/
+
+		//Debug mode:
+		if(window.b_debug){
+			str_currentMenu = 2;	//Game Mode for debug.
+		}
 }
 
 //The menu loop:
 export function fn_updateMenus(){
-
+	
 	//Initializing variables dependent on scene, camera, etc.
 	if(!b_isInitialized){
 		fn_initializeMenus();

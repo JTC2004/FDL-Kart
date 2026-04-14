@@ -217,7 +217,7 @@ export default class Player{
 		const input = a_inputs[int_playerNum.get(this)];
 		const camera = a_cameras[int_playerNum.get(this)];
 
-		if(input.fn_press_fly(this.b_done)){
+		if(input.fn_press_fly(this.b_done) && window.b_debug){
 			var infoParagraph = document.getElementById("info");
 			if(this.b_flying){
 				//infoParagraph.innerHTML = "Use Space to accelerate, WASD to steer, & J to drift/brake.<br /> Press f to toggle free cam.";

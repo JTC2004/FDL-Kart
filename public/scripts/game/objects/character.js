@@ -8,6 +8,8 @@ export default class Character extends Obj{
 		super(a_xyz, _worldScale, false, true, _localScale * 1.4);	
 		
 		this.str_name = _str_name;
+		this.f_xOffset = 0.0;
+		this.f_zOffset = 0.0;
 		
 		//this.fn_addSprite([0,0,0], [1,1,1], this.str_name + ' gremlin (transp)');
 		this.fn_addSpriteSheets([0,0,0], [1,1,1], `characters/${_str_name}/P${_num + 1}_256_f`, 6);
@@ -17,6 +19,7 @@ export default class Character extends Obj{
 
 		//Animation variables:
 		this.int_animRate = 5;
+		this.f_swapTimer = 0.0;
 
 		this.f_tilt = 0.0;
 		this.f_tiltIncrement = 0.25;
@@ -31,18 +34,10 @@ export default class Character extends Obj{
 
 			//Update character position:
 			if(!this.b_driving){
-				this.fn_setPos(new THREE.Vector3(
-					_playerPos.x + 0.45 * Math.sin(_playerRotation), 
-					_playerPos.y + 0.1 * this.f_scale, 
-					_playerPos.z + 0.45 * Math.cos(_playerRotation)
-				));
+				this.fn_setGunnerPos(_playerPos, _playerRotation);
 			}
 			else{
-				this.fn_setPos(new THREE.Vector3(
-					_playerPos.x - 0.35 * Math.sin(_playerRotation), 
-					_playerPos.y + 0.1 * this.f_scale, 
-					_playerPos.z - 0.35 * Math.cos(_playerRotation)
-				));
+				this.fn_setDriverPos(_playerPos, _playerRotation);
 			}
 
 			//'Gunning' character animation:
@@ -110,9 +105,43 @@ export default class Character extends Obj{
 
 			//Swapping:
 			if(input.fn_press_swap()){
-				this.b_driving = !this.b_driving;
+				this.f_swapTimer = 0.2;		
+			}
+
+			//Swapping animation:
+			if(this.f_swapTimer > 0.0){
+				this.f_swapTimer -= 1/60;			//Decrement offset timer,
+				
+				if(!this.b_driving){
+				//this.f_xOffset += 0.5;				//Move the sprite position offset:
+				this.f_zOffset += 0.05;
+				}
+
+				if(this.f_swapTimer <= 0.0){
+					this.f_swapTimer = 0.0;
+					this.f_xOffset = 0.0;
+					this.f_zOffset = 0.0;
+
+					this.b_driving = !this.b_driving;
+				}
 			}
 			
+		}
+
+		fn_setGunnerPos(_playerPos, _playerRotation){
+			this.fn_setPos(new THREE.Vector3(
+				_playerPos.x + (0.45 + this.f_xOffset) * Math.sin(_playerRotation), 
+				_playerPos.y + 0.1 * this.f_scale, 
+				_playerPos.z + (0.45 - this.f_zOffset) * Math.cos(_playerRotation)
+			));
+		}
+
+		fn_setDriverPos(_playerPos, _playerRotation){
+			this.fn_setPos(new THREE.Vector3(
+				_playerPos.x - 0.35 * Math.sin(_playerRotation), 
+				_playerPos.y + 0.1 * this.f_scale, 
+				_playerPos.z - 0.35 * Math.cos(_playerRotation)
+			));
 		}
 
 		fn_getType(){
