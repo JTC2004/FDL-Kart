@@ -1,38 +1,33 @@
-<!--Current version:				0.1.5 (Maps & More items)
+<!--Current version:				0.1.6 (Characters)
 	Last version uploaded to main:	0.1.5 (Maps & More items)			4/11/26	~3:22 PM
 
 Note:
 	- For offroad.blend, offset height by 0.141, then round down!
 
 Features added since last version:
-	- Added a WIP map: FDL Circuit.
-	- Make debug flight control player position instead of camera.
-	- Fixed collisions in FDL Circuit model.
-		- Instead of duplicating a mesh by ctrl+v and -y scale, instead simply apply mirror modifier.
-	- Optimized vertex vount in FDL Circuit.
-	- Map object.
-	- Item pots able to be at any angle.
-
-	- Wait to execute game logic until all assets are loaded. 
-	- Fixed an issue where only 1 of the 3 sprite sheets was getting loaded on Vercel.
+	- Added Maple.
+	- Characters now swap along with items.
 
 To do this version:
 	- Add checkpoints to FDL Circuit.
+	- Add textures to FDL Circuit.
+
+	- Add character select screen.
+	- Add Aaron.
+	- Add Rufus.
+	- Add at least some character abilities.
+	
+	- Make what item you get depend on distance into the course.
+	- Player placements.
+	- Add at least 1 new item.
+	- Player swapping animations.
+	- Add a 4th turning sprite. Have regular turning sprites 0 - 2, and drifting only use 2 - 4.
+	
 
 To do next (major):
-			
-	- Characters & more animations:
-		- Make what item you get depend on distance into the course.
-		- Player placements.
-	
-		- Add a 4th turning sprite. Have regular turning sprites 0 - 2, and drifting only use 2 - 4.
-		- Swapping animation!	
-		- Driver character sprite changes based on perspective.
-		- Mini-turbo sprites.
-		- Universal lineart wiggle operaiton.
-		- Film-grain effect.
 	- Polish & improvements:
 		- FOV increase during speed boosts.
+		- Driver character sprite changes based on perspective.
 		- Add a preview image and tab icon to the site!
 		- Make player unable to have 2 of the same item.
 		- Update the How to Play section.
@@ -42,8 +37,11 @@ To do next (major):
 		- Title screen (first controller to press a key/button becomes player 1).
 		- Make split-screen friendly with different resolutions.
 		- 3 and 4 player split-screen.
-		- Player swapping animations.
+		
+		- Mini-turbo sprites.
 		- Make settings changes happen inside option.js with getters & setters from main.js, instead of it happening in main.js (?).
+		- Universal lineart wiggle operaiton.
+		- Film-grain effect.
 	
 	- Improve collisions:
 		- Make sure player can't clip through walls.

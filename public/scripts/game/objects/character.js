@@ -107,10 +107,17 @@ export default class Character extends Obj{
 			else{
 
 			}
+
+			//Swapping:
+			if(input.fn_press_swap()){
+				this.b_driving = !this.b_driving;
+			}
 			
 		}
 
 		fn_getType(){
 			return "character";
 		}
+
+		
 }

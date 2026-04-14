@@ -222,8 +222,8 @@ export default class Map{
 			a_objects.push(new ItemPotRow([-46, 7.1, 9.7], f_mapScale, 3, 1.5, 2, 1, a_objectsDSOC));
 		}
 		else if(str_map == "FDL Circuit"){
-			a_objects.push(new ItemPotRow([37, 3.8, -70], f_mapScale, 6, 2, 0, 1, a_objectsDSOC));
-			a_objects.push(new ItemPotRow([16, 4.8, -126], f_mapScale, 2, 3, 2, 1, a_objectsDSOC));
+			a_objects.push(new ItemPotRow([37, 3.9, -70], f_mapScale, 6, 2, 0, 1, a_objectsDSOC));
+			a_objects.push(new ItemPotRow([16, 5.1, -126], f_mapScale, 2, 3, 2, 1, a_objectsDSOC));
 		}
 	}
 
