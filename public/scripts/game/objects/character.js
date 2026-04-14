@@ -44,87 +44,107 @@ export default class Character extends Obj{
 			//Update character position:
 			this.fn_setCharPos(_playerPos, _playerRotation);
 
-			//'Gunning' character animation:
-			if(!this.b_driving){
-				
-				//Leaning with turns:
-					if((this.f_tilt < 0 && !input.fn_hold_right(_b_done)) || input.fn_hold_left(_b_done)){
-						this.f_tilt += this.f_tiltIncrement;
-					}
-					if((this.f_tilt > 0 && !input.fn_hold_left(_b_done)) || input.fn_hold_right(_b_done)){
-						this.f_tilt -= this.f_tiltIncrement;
-					}
-					//Margin when character tilt is close enough to 0, set it to 0:
-					if(this.f_tilt < this.f_tiltIncrement && this.f_tilt > -this.f_tiltIncrement ){
-						this.f_tilt = 0.0;
-					}
+			//Normal animation while not swapping:
+			if(this.f_swapTimer == 0.0){
+				//'Gunning' character animation:
+				if(!this.b_driving){
 					
-						//Limits on how far character can tilt:
-						if(this.f_tilt > this.f_tiltMax + this.f_tiltIncrement){
-							this.f_tilt = this.f_tiltMax; //+ _int_driftDirec;		//UNCOMMENT THIS WHEN I ADD 4TH TURNING SPRITE
+					//Leaning with turns:
+						if((this.f_tilt < 0 && !input.fn_hold_right(_b_done)) || input.fn_hold_left(_b_done)){
+							this.f_tilt += this.f_tiltIncrement;
 						}
-						if(this.f_tilt < -this.f_tiltMax){
-							this.f_tilt = -this.f_tiltMax; //+ _int_driftDirec;
+						if((this.f_tilt > 0 && !input.fn_hold_left(_b_done)) || input.fn_hold_right(_b_done)){
+							this.f_tilt -= this.f_tiltIncrement;
+						}
+						//Margin when character tilt is close enough to 0, set it to 0:
+						if(this.f_tilt < this.f_tiltIncrement && this.f_tilt > -this.f_tiltIncrement ){
+							this.f_tilt = 0.0;
 						}
 						
+							//Limits on how far character can tilt:
+							if(this.f_tilt > this.f_tiltMax + this.f_tiltIncrement){
+								this.f_tilt = this.f_tiltMax; //+ _int_driftDirec;		//UNCOMMENT THIS WHEN I ADD 4TH TURNING SPRITE
+							}
+							if(this.f_tilt < -this.f_tiltMax){
+								this.f_tilt = -this.f_tiltMax; //+ _int_driftDirec;
+							}
+							
 
-				//Animaiton update:
-				if(_int_frames % this.int_animRate == 0){
-					
-					//Tilting:
-					if(this.f_tilt != 0){
-						//console.log(`lean = ${this.f_tilt}`);
+					//Animaiton update:
+					if(_int_frames % this.int_animRate == 0){
 						
-						this.fn_setSpriteTile(Math.round(Math.abs(this.f_tilt + _int_driftDirec)), 0);
-						this.fn_flipSprite(Math.sign(this.f_tilt));
-					}
-					else{
-						this.fn_setSpriteTile(0, 0);
-						this.fn_flipSprite(1);
-					}
+						//Tilting:
+						if(this.f_tilt != 0){
+							//console.log(`lean = ${this.f_tilt}`);
+							
+							this.fn_setSpriteTile(Math.round(Math.abs(this.f_tilt + _int_driftDirec)), 0);
+							this.fn_flipSprite(Math.sign(this.f_tilt));
+						}
+						else{
+							this.fn_setSpriteTile(0, 0);
+							this.fn_flipSprite(1);
+						}
 
-					//Update the sprite 'wiggle':
-					this.fn_changeSpriteSheet(this.int_wiggleIndex);
-					this.int_wiggleIndex += this.int_wiggleIncrement;
-
-					if(this.int_wiggleIndex > 2){
-						this.int_wiggleIncrement = -1;
-						this.int_wiggleIndex = 1;
+						/*this.int_wiggleIndex += 1;
+						if(this.int_wiggleIndex > 2){
+							this.int_wiggleIndex = 0;
+						}*/
 					}
-					if(this.int_wiggleIndex < 0){
-						this.int_wiggleIncrement = 1;
-						this.int_wiggleIndex = 1;
-					}
+				}
+				//Driving character animation:
+				else{
+					
+				}
 
-					/*this.int_wiggleIndex += 1;
-					if(this.int_wiggleIndex > 2){
-						this.int_wiggleIndex = 0;
-					}*/
+				//Swapping:
+				if(input.fn_press_swap()){
+					this.f_swapTimer = 0.2;	
+					this.fn_flipSprite(1);	
 				}
 			}
-			//Driving character animation:
+			//Else, swapping animation:
 			else{
-
-			}
-
-			//Swapping:
-			if(input.fn_press_swap() && this.f_swapTimer == 0.0){
-				this.f_swapTimer = 0.2;		
-			}
-
-			//Swapping animation:
-			if(this.f_swapTimer > 0.0){
-				this.f_swapTimer -= 1/60;			//Decrement offset timer,
+				//Decrement swap timer:
+				this.f_swapTimer -= 1/60;			
 				
+				//Rotating the sprites around:
 				if(!this.b_driving){
-					this.f_rightOffset += 0.25;				//Move the sprite position offset:
+					this.f_rightOffset += 0.25;
 					this.f_forwardOffset -= 0.05;
+					
+					if(this.f_forwardOffset < this.f_gunnerBaseOffset - 0.25){
+						this.fn_setSpriteTile(1, 2);
+						this.fn_flipSprite(1);	
+					}
+					else if(this.f_forwardOffset < this.f_gunnerBaseOffset - 0.15){
+						this.fn_setSpriteTile(0, 2);
+						this.fn_flipSprite(1);	
+					}
+					else if(this.f_forwardOffset <= this.f_gunnerBaseOffset){
+						this.fn_setSpriteTile(1, 0);
+						this.fn_flipSprite(0);
+					}
+					
 				}
 				else{
 					this.f_rightOffset -= 0.25;	
 					this.f_forwardOffset += 0.05;
+
+					if(this.f_forwardOffset > this.f_driverBaseOffset + 0.2){
+						this.fn_setSpriteTile(3, 2);
+						this.fn_flipSprite(1);	
+					}
+					else if(this.f_forwardOffset > this.f_driverBaseOffset + 0.1){
+						this.fn_setSpriteTile(2, 2);
+						this.fn_flipSprite(1);	
+					}
+					else if(this.f_forwardOffset >= this.f_driverBaseOffset){
+						this.fn_setSpriteTile(1, 0);
+						this.fn_flipSprite(0);
+					}
 				}
 
+				//When swapping is done:
 				if(this.f_swapTimer <= 0.0){
 					this.f_swapTimer = 0.0;
 					this.b_driving = !this.b_driving;
@@ -135,16 +155,30 @@ export default class Character extends Obj{
 						this.f_forwardOffset = this.f_gunnerBaseOffset;
 					}
 					else{
-						
 						this.f_forwardOffset = this.f_driverBaseOffset;
 					}
+					this.fn_setSpriteTile(0, 0);
 
 					if(this.b_driving){
 						console.log(`${this.str_name} is driving`);
 					}	
 				}
 			}
-			
+
+			//Update the sprite 'wiggle':
+			if(_int_frames % this.int_animRate == 0){
+				this.fn_changeSpriteSheet(this.int_wiggleIndex);
+				this.int_wiggleIndex += this.int_wiggleIncrement;
+
+				if(this.int_wiggleIndex > 2){
+					this.int_wiggleIncrement = -1;
+					this.int_wiggleIndex = 1;
+				}
+				if(this.int_wiggleIndex < 0){
+					this.int_wiggleIncrement = 1;
+					this.int_wiggleIndex = 1;
+				}
+			}
 		}
 
 		fn_setCharPos(_playerPos, _playerRotation){
