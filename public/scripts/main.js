@@ -37,7 +37,8 @@ var int_numGamepads = 0;                    //Used to tell if a new gamepad is c
 //let renderer;
 
 var b_fullScreen = false;
-window.b_debug = false;
+window.b_debug = true;
+window.b_birdEye = false;
 var str_map = "FDL Circuit";
 window.int_gameMode = 2;      //0 is Practice, 
 //                              1 is Grand Prix, 

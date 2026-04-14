@@ -5,21 +5,21 @@ import Obj from "../object.js";
 
 export default class Cube extends Obj{
 
-	constructor(a_xyz, _worldScale, a_dimensions, _b_rotation, _b_key, _int_ID){
+	constructor(a_xyz, _worldScale, a_dimensions, _f_rotation, _b_key, _int_ID){
 		//Adds the checkpoint to the scene:
 			super(a_xyz, _worldScale, true, false, _worldScale);
 			this.b_key = _b_key;
 			this.b_goal = false;
 			
 			if(this.b_key){
-				this.fn_addBoxTransp([0,0,0], a_dimensions, 0x00ff00, 0.1, false);
+				this.fn_addBoxTransp([0,0,0], a_dimensions, 0x00ff00, 0.1, true);
 			}
 			else{
-				this.fn_addBoxTransp([0,0,0], a_dimensions, 0x0026ff, 0.2, false);
+				this.fn_addBoxTransp([0,0,0], a_dimensions, 0x0026ff, 0.2, true);
 			}
 			
 			this.int_ID = _int_ID;
-			this.mesh.rotation.y = _b_rotation;
+			this.mesh.rotation.y = _f_rotation;
 			this.boundingBox = new THREE.Box3().setFromObject(this.mesh);		//Update bounding box.
 			
 			//Create a helper to visualize the boundingbox:

@@ -780,6 +780,7 @@ export default class Player{
 			// /this.model_kart.fn_setY(this.player.position.y + 0.02 * this.f_scale);
 				
 		//Update camera's position:
+		if(!window.b_birdEye){
 			this.f_posY = this.player.position.y + 2;
 			this.f_lookY = this.player.position.y + 1.15;
 			if(this.b_jumping){
@@ -797,6 +798,11 @@ export default class Player{
 				camera.position.set(this.player.position.x + 5.75 * Math.sin(this.player.rotation.y), this.f_posY, this.player.position.z + 5.75 * Math.cos(this.player.rotation.y));
 				camera.lookAt( this.player.position.x, this.f_lookY, this.player.position.z );
 			}
+		}
+		else{
+			camera.position.set(0, 420, -30);
+			camera.lookAt(0, 0, -30);
+		}
 		
 		if(this.b_onGround && !this.b_prevOnGround){
 			this.b_firstLanded = true;

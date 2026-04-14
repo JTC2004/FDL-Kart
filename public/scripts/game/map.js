@@ -189,6 +189,44 @@ export default class Map{
 				
 				int_numKeys = 4;
 		}
+		else if(str_map == "FDL Circuit"){
+			renderer.setClearColor( 0x74bcff, 1);
+			
+			//Adding Checkpoints:
+				//Goal:
+				a_checkpoints.push(new Checkpoint([45, 8, 50], 1, [.2, 16, 90], 1.5708, true, 0));
+				a_checkpoints[0].fn_setGoal();
+				a_checkpoints[0].fn_setNextKey(10);	//Number here is endex of next key checkpoint
+
+				//First stretch:
+				a_checkpoints.push(new Checkpoint([45, 8, 40], f_mapScale, [.2, 16, 90], 1.5708, false, 1));
+				a_checkpoints.push(new Checkpoint([45, 8, 30], f_mapScale, [.2, 16, 90], 1.5708, false, 2));
+				a_checkpoints.push(new Checkpoint([45, 8, 20], f_mapScale, [.2, 16, 90], 1.5708, false, 3));
+				a_checkpoints.push(new Checkpoint([45, 8, 10], f_mapScale, [.2, 16, 90], 1.5708, false, 4));
+				a_checkpoints.push(new Checkpoint([45, 8, 0], f_mapScale, [.2, 16, 90], 1.5708, false, 5));
+				a_checkpoints.push(new Checkpoint([45, 8, -10], f_mapScale, [.2, 16, 90], 1.5708, false, 6));
+				a_checkpoints.push(new Checkpoint([45, 8, -20], f_mapScale, [.2, 16, 90], 1.5708, false, 7));
+				a_checkpoints.push(new Checkpoint([45, 8, -30], f_mapScale, [.2, 16, 90], 1.5708, false, 8));
+				a_checkpoints.push(new Checkpoint([45, 8, -40], f_mapScale, [.2, 16, 90], 1.5708, false, 9));
+				a_checkpoints.push(new Checkpoint([45, 8, -50], f_mapScale, [.2, 16, 90], 1.5708, true, 10));
+				a_checkpoints[10].fn_setNextKey(0);
+
+				a_checkpoints.push(new Checkpoint([30, 5, -60], f_mapScale, [.2, 16, 60], 1.5708, false, 11));
+				
+				
+
+				//Ending stretch:
+				a_checkpoints.push(new Checkpoint([45, 8, 55], f_mapScale, [.2, 16, 90], 1.5708, false, 48));
+				a_checkpoints.push(new Checkpoint([45, 8, 60], f_mapScale, [.2, 16, 90], 1.5708, false, 51));
+				a_checkpoints.push(new Checkpoint([45, 8, 65], f_mapScale, [.2, 16, 90], 1.5708, false, 50));
+				a_checkpoints.push(new Checkpoint([45, 8, 70], f_mapScale, [.2, 16, 90], 1.5708, false, 53));
+				a_checkpoints.push(new Checkpoint([45, 8, 75], f_mapScale, [.2, 16, 90], 1.5708, false, 52));
+				a_checkpoints.push(new Checkpoint([45, 8, 80], f_mapScale, [.2, 16, 90], 1.5708, false, 55));
+				a_checkpoints.push(new Checkpoint([45, 8, 85], f_mapScale, [.2, 16, 90], 1.5708, false, 54));
+				
+				
+				int_numKeys = 4;
+		}
 		else{
 			renderer.setClearColor( 0x74bcff, 1);
 			int_numKeys = 0;
