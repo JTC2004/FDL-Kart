@@ -49,6 +49,11 @@ var b_trueAntiAlias = false;
 var int_resolutionIndex = 4;
 var int_sharpPixelIndex = 0;
 
+//Debug overrides:
+if(window.b_debug){
+    //b_multiplayer = true;
+}
+
 
 
 //Initializing the scene:

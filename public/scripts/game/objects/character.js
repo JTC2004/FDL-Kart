@@ -8,14 +8,23 @@ export default class Character extends Obj{
 		super(a_xyz, _worldScale, false, true, _localScale * 1.4);	
 		
 		this.str_name = _str_name;
-		this.f_xOffset = 0.0;
-		this.f_zOffset = 0.0;
+		this.f_driverBaseOffset = -0.2;		//The default distance from the steering wheel in the driving position.
+		this.f_gunnerBaseOffset = 0.45;		//The default distance from the steering wheel in the driving position.
+		
+		this.f_rightOffset = 0.0;
+		this.f_forwardOffset = 0.0;
 		
 		//this.fn_addSprite([0,0,0], [1,1,1], this.str_name + ' gremlin (transp)');
 		this.fn_addSpriteSheets([0,0,0], [1,1,1], `characters/${_str_name}/P${_num + 1}_256_f`, 6);
 
 		//State variables:
 		this.b_driving = _b_driving;
+		if(!this.b_driving){
+			this.f_forwardOffset = this.f_gunnerBaseOffset;
+		}
+		else{
+			this.f_forwardOffset = this.f_driverBaseOffset;
+		}
 
 		//Animation variables:
 		this.int_animRate = 5;
@@ -33,12 +42,7 @@ export default class Character extends Obj{
 			//this.spriteMap.offset.x += 0.1;
 
 			//Update character position:
-			if(!this.b_driving){
-				this.fn_setGunnerPos(_playerPos, _playerRotation);
-			}
-			else{
-				this.fn_setDriverPos(_playerPos, _playerRotation);
-			}
+			this.fn_setCharPos(_playerPos, _playerRotation);
 
 			//'Gunning' character animation:
 			if(!this.b_driving){
@@ -104,7 +108,7 @@ export default class Character extends Obj{
 			}
 
 			//Swapping:
-			if(input.fn_press_swap()){
+			if(input.fn_press_swap() && this.f_swapTimer == 0.0){
 				this.f_swapTimer = 0.2;		
 			}
 
@@ -113,34 +117,45 @@ export default class Character extends Obj{
 				this.f_swapTimer -= 1/60;			//Decrement offset timer,
 				
 				if(!this.b_driving){
-				//this.f_xOffset += 0.5;				//Move the sprite position offset:
-				this.f_zOffset += 0.05;
+					this.f_rightOffset += 0.25;				//Move the sprite position offset:
+					this.f_forwardOffset -= 0.05;
+				}
+				else{
+					this.f_rightOffset -= 0.25;	
+					this.f_forwardOffset += 0.05;
 				}
 
 				if(this.f_swapTimer <= 0.0){
 					this.f_swapTimer = 0.0;
-					this.f_xOffset = 0.0;
-					this.f_zOffset = 0.0;
-
 					this.b_driving = !this.b_driving;
+
+					this.f_rightOffset = 0.0;
+					//This needs to be AFTER driver boolean is toggled://This needs to be AFTER driver boolean is toggled:
+					if(!this.b_driving){				
+						this.f_forwardOffset = this.f_gunnerBaseOffset;
+					}
+					else{
+						
+						this.f_forwardOffset = this.f_driverBaseOffset;
+					}
+
+					if(this.b_driving){
+						console.log(`${this.str_name} is driving`);
+					}	
 				}
 			}
 			
 		}
 
-		fn_setGunnerPos(_playerPos, _playerRotation){
+		fn_setCharPos(_playerPos, _playerRotation){
 			this.fn_setPos(new THREE.Vector3(
-				_playerPos.x + (0.45 + this.f_xOffset) * Math.sin(_playerRotation), 
+				_playerPos.x 
+					+ this.f_forwardOffset * Math.sin(_playerRotation)
+					+ (Math.sin(this.f_rightOffset) / 3 + 0.07) * Math.cos(_playerRotation), 
 				_playerPos.y + 0.1 * this.f_scale, 
-				_playerPos.z + (0.45 - this.f_zOffset) * Math.cos(_playerRotation)
-			));
-		}
-
-		fn_setDriverPos(_playerPos, _playerRotation){
-			this.fn_setPos(new THREE.Vector3(
-				_playerPos.x - 0.35 * Math.sin(_playerRotation), 
-				_playerPos.y + 0.1 * this.f_scale, 
-				_playerPos.z - 0.35 * Math.cos(_playerRotation)
+				_playerPos.z 
+					+ this.f_forwardOffset * Math.cos(_playerRotation)
+					- (Math.sin(this.f_rightOffset) / 3 + 0.07) * Math.sin(_playerRotation), 
 			));
 		}
 

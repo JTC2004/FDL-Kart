@@ -24,6 +24,7 @@ export default class ItemSlots{
 		this.a_items = [3, 0];			//Index 0 is always the active item slot.
 		this.a_rollTimer = [0.0, 0.0];
 		this.f_rollTime = 2.00;
+		this.f_swapTimer = 0.0;
 
 		//Animation variables:
 		this.int_wiggleIndex = 1;
@@ -74,8 +75,6 @@ export default class ItemSlots{
 			}
 
 		//Counting down roulette timer:
-
-		
 		for(let i = 0; i < 2; i++){
 			if(this.a_rollTimer[i] == 0){
 				//Do something idle.
@@ -99,6 +98,14 @@ export default class ItemSlots{
 		//Got item:
 		
 
+		//Swap timer:
+		if(this.f_swapTimer > 0.0){
+			this.f_swapTimer -= 1/60;
+			if(this.f_swapTimer <= 0.0){
+				this.f_swapTimer = 0.0;
+			}
+		}
+
 		this.a_prevItems = this.a_items;
 	}
 
@@ -109,8 +116,11 @@ export default class ItemSlots{
 
 	//Swap the items in the 2 slots:
 	fn_swap(){
-		[this.a_items[0], this.a_items[1]] = [this.a_items[1], this.a_items[0]];
-		[this.a_rollTimer[0], this.a_rollTimer[1]] = [this.a_rollTimer[1], this.a_rollTimer[0]];
+		if(this.f_swapTimer == 0){
+			[this.a_items[0], this.a_items[1]] = [this.a_items[1], this.a_items[0]];
+			[this.a_rollTimer[0], this.a_rollTimer[1]] = [this.a_rollTimer[1], this.a_rollTimer[0]];
+			this.f_swapTimer = 0.2;
+		}
 	}
 
 	//What happens when the current item is used:
