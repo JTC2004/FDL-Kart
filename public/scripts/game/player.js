@@ -194,8 +194,8 @@ export default class Player{
 			this.p_hudSpd = document.getElementById(`p_spd${int_playerNum.get(this)}`);
 			this.p_hudFinish = document.getElementById(`p_finish${int_playerNum.get(this)}`);
 		
-			this.str_speedometerTextColor = "gold";
-			this.str_speedometerBorderColor = "#d57900";
+			this.str_speedometerTextColor = "white";
+			this.str_speedometerBorderColor = "black";
 
 			//Adjust HUD positions in split-screen:
 			if(b_multiplayer){
@@ -570,8 +570,8 @@ export default class Player{
 					this.str_speedometerBorderColor = "white";
 				}
 				else{
-					this.str_speedometerTextColor = "gold";
-					this.str_speedometerBorderColor = "#d57900";
+					this.str_speedometerTextColor = "white";
+					this.str_speedometerBorderColor = "black";
 				}
 			//Speed boosts & mini-turbos:
 				if(this.f_speedBoostTimer > 0.0){
