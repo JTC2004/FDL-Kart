@@ -74,7 +74,7 @@ export default class Map{
 			}
 			else if(str_map == "FDL Circuit"){
 				f_mapScale = 1.0;
-				v_mapPos = new THREE.Vector3(29, 4, 77);
+				v_mapPos = new THREE.Vector3(29, 4, 60);
 				f_mapRot = 3.14;
 				b_hasGeo = true;	b_hasOffroad = true;	b_hasSkybox = false;
 			}
@@ -369,7 +369,7 @@ export default class Map{
 
 	}
 
-	fn_getMapPos(i){	//Used for getting player position
+	fn_getMapPos(i, a_checkpoints){	//Used for getting player position
 		return [
 				v_mapPos.x + i * 2.5, 
 				v_mapPos.y, 
