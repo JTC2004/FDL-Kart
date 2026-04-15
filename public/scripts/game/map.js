@@ -197,7 +197,7 @@ export default class Map{
 				//Goal:
 				a_checkpoints.push(new Checkpoint([45, 8, 50], 1, [.2, 16, 90], 1.5708, true, 0));
 				a_checkpoints[0].fn_setGoal();
-				a_checkpoints[0].fn_setNextKey(40);	//Number here is endex of next key checkpoint
+				a_checkpoints[0].fn_setNextKey(43);	//Number here is endex of next key checkpoint
 
 				//First stretch:
 				a_checkpoints.push(new Checkpoint([45, 8, 40], f_mapScale, [.2, 16, 90], 1.5708, false, 1));
@@ -247,11 +247,11 @@ export default class Map{
 				//Top of bridge:
 				a_checkpoints.push(new Checkpoint([110, 22, -60], f_mapScale, [.2, 16, 60], 0, false, 38));
 				a_checkpoints.push(new Checkpoint([100, 22, -60], f_mapScale, [.2, 16, 60], 0, false, 39));
-				a_checkpoints.push(new Checkpoint([90, 22, -55], f_mapScale, [.2, 16, 70], 0, true, 40));
-				a_checkpoints[40].fn_setNextKey(64);
+				a_checkpoints.push(new Checkpoint([90, 22, -55], f_mapScale, [.2, 16, 70], 0, false, 40));
 				a_checkpoints.push(new Checkpoint([80, 22, -60], f_mapScale, [.2, 16, 60], 0, false, 41));
 				a_checkpoints.push(new Checkpoint([70, 22, -65], f_mapScale, [.2, 16, 50], 0, false, 42));
-				a_checkpoints.push(new Checkpoint([60, 22, -65], f_mapScale, [.2, 16, 50], 0, false, 43));
+				a_checkpoints.push(new Checkpoint([60, 22, -65], f_mapScale, [.2, 16, 50], 0, true, 43));
+				a_checkpoints[43].fn_setNextKey(64);
 				a_checkpoints.push(new Checkpoint([50, 22, -68], f_mapScale, [.2, 16, 40], 0, false, 44));
 				a_checkpoints.push(new Checkpoint([40, 22, -68], f_mapScale, [.2, 16, 35], 0, false, 45));
 				a_checkpoints.push(new Checkpoint([30, 22, -68], f_mapScale, [.2, 16, 35], 0, false, 46));
@@ -357,6 +357,7 @@ export default class Map{
 		else if(str_map == "FDL Circuit"){
 			a_objects.push(new ItemPotRow([37, 3.9, -70], f_mapScale, 6, 2, 0, 1, a_objectsDSOC));
 			a_objects.push(new ItemPotRow([16, 5.1, -126], f_mapScale, 2, 3, 2, 1, a_objectsDSOC));
+			a_objects.push(new ItemPotRow([-142, 15.2, 6], f_mapScale, 5, 3, 0, 1, a_objectsDSOC));
 		}
 	}
 
