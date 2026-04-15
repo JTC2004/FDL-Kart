@@ -780,7 +780,7 @@ export default class Player{
 			// /this.model_kart.fn_setY(this.player.position.y + 0.02 * this.f_scale);
 				
 		//Update camera's position:
-		if(!window.b_birdEye){
+		if(!window.b_birdEye || this.b_flying){
 			this.f_posY = this.player.position.y + 2;
 			this.f_lookY = this.player.position.y + 1.15;
 			if(this.b_jumping){
@@ -849,7 +849,7 @@ export default class Player{
 	
 	fn_checkpointUpdate(_checkpoint){
 		
-		if(this.int_courseProgress + 10 >= _checkpoint.fn_getID() && this.b_inOrder){	//Doesn't count checkpoints that are too far ahead.
+		if(this.int_courseProgress + 30 >= _checkpoint.fn_getID() && this.b_inOrder){	//Doesn't count checkpoints that are too far ahead.
 			this.int_courseProgress = _checkpoint.fn_getID() /*+ (int_numChecks.get(this) + 1) * (this.int_lap - 1)*/;
 		}
 
