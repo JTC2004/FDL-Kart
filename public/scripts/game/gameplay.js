@@ -102,7 +102,7 @@ async function fn_initializeGame(){
 			1, 
 			a_checkpoints.length, 
 			map.fn_getNumKeys(), 
-			5
+			map.fn_getNumLaps()
 		));
 		//REMEMBER TO PUSH OTHER NON-STATIC COLLIDABLE OBJECTS AFTER PLAYERS!!
 		a_objectsDSOC.push(a_players[i]);

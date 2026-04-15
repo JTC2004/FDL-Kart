@@ -177,7 +177,8 @@ export default class Player{
 			this.b_inOrder = true;															//True if the player is passing the key checkpoints in order.
 			int_numLaps.set(this, _int_numLaps);													//Total # of laps.
 			this.int_lap = 1;																//This player's current lap.
-			this.int_courseProgress = 0;													//Number of checkpoints passed.
+			this.int_lapProgress = 0;													//Number of checkpoints passed in the current lap.
+			this.int_totalProgress = 0;													//Total number of checkpoints passed in the race.
 			int_numChecks.set(this, _numChecks);														//Total # of checkpoints.
 			
 			int_numKeys.set(this, _numKeys);														//Total # of key checkpoints.
@@ -849,13 +850,16 @@ export default class Player{
 	
 	fn_checkpointUpdate(_checkpoint){
 		
-		if(this.int_courseProgress + 30 >= _checkpoint.fn_getID() && this.b_inOrder){	//Doesn't count checkpoints that are too far ahead.
-			this.int_courseProgress = _checkpoint.fn_getID() /*+ (int_numChecks.get(this) + 1) * (this.int_lap - 1)*/;
+		if(this.int_lapProgress + 30 >= _checkpoint.fn_getID() && this.b_inOrder){	//Doesn't count checkpoints that are too far ahead.
+			this.int_lapProgress = _checkpoint.fn_getID();
+			this.int_totalProgress = _checkpoint.fn_getID() + int_numChecks.get(this) * (this.int_lap - 1);
 		}
 
 		if(window.b_debug){
-			const p_hudProgress = document.getElementById("p_check");
-			p_hudProgress.innerHTML = "Progress: " + this.int_courseProgress;
+			const p_lapProgress = document.getElementById("p_check");
+			p_lapProgress.innerHTML = "Lap Progress: " + this.int_lapProgress;
+			const p_totalProgress = document.getElementById("p_name");
+			p_totalProgress.innerHTML = "Total Progress: " + this.int_totalProgress;
 		}
 
 		if(_checkpoint.fn_getKey() && this.int_lastKey != _checkpoint.fn_getID()){

@@ -24,6 +24,7 @@ import { Octree } from 'three/addons/math/Octree.js';
 		let v_mapPos;
 		let f_mapRot;
 		let int_numKeys;
+		const int_numLaps = 4;
 
 		//Models for the map itself:
 		let geoModel;
@@ -379,6 +380,10 @@ export default class Map{
 
 	fn_getNumKeys(){
 		return int_numKeys;
+	}
+
+	fn_getNumLaps(){
+		return int_numLaps;
 	}
 
 	fn_hasGeo(){
