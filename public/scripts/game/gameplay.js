@@ -98,7 +98,7 @@ async function fn_initializeGame(){
 		a_players.push(new Player(
 			i, 
 			map.fn_getMapPos(i),
-			['Enoki', 'Maple'], 
+			['Maple', 'Enoki'], 
 			1, 
 			a_checkpoints.length, 
 			map.fn_getNumKeys(), 
