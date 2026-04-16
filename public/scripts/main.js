@@ -129,7 +129,7 @@ if(window.b_debug){
 try{
     fn_checkFullscreen(menuCamera, frustumHeight);
     gameLoop.addCallback((dt) => {
-        console.log(`Game mode ${window.int_gameMode}`);
+        //console.log(`Game mode ${window.int_gameMode}`);
         
         //Handle input stuff every frame:
             //Get a snapshot of what controllers are connected (empty player slots are null in Chromium):

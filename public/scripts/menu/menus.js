@@ -35,7 +35,7 @@
 	var b_isInitialized = false;
 
 	var str_currentMenu = "Main";
-	str_currentMenu = "1P Character Select";
+	//str_currentMenu = "1P Character Select";
 
 	var str_parentMenu = "";
 	var str_lastMenu = "";
@@ -46,6 +46,7 @@
 	let kart;
 	let a_characters;
 	let int_charIndex = 0;
+	let b_charIndexIncremented = false;
 	var int_frames = 0;
 
 	//console.log("str_currentMenu = " + str_currentMenu);
@@ -90,7 +91,7 @@ export function fn_updateMenus(){
 	const input = a_inputs[0];
 
 	//If menu has changed, update UI elements:
-	if(str_lastMenu != str_currentMenu){
+	if(str_lastMenu != str_currentMenu && str_currentMenu != "start"){
 		//Remove all elements from the scene:
 		fn_clearScene();
 		
@@ -100,11 +101,11 @@ export function fn_updateMenus(){
 		a_prevSelected = [-1, -1]
 		camera.rotation.y = -1.0;
 		b_slideIn = true;
+		int_charIndex = 0;
+		b_charIndexIncremented = false;
+		a_characters = [];
 		
-		if(str_currentMenu == "start"){
-			return true;
-		}
-		else if(Number.isInteger(Number(str_currentMenu))){
+		if(Number.isInteger(Number(str_currentMenu))){
 			//console.log("CHANGE MODE");
 			window.int_gameMode = Number(str_currentMenu);
 
@@ -112,7 +113,7 @@ export function fn_updateMenus(){
 				str_currentMenu = "2P Character Select";
 			}
 			else{
-				str_currentMenu = "1P Character Select"
+				str_currentMenu = "1P Character Select";
 			}
 		}
 
@@ -209,6 +210,31 @@ export function fn_updateMenus(){
 		
 		str_lastMenu = str_currentMenu;
 	}
+	else if(str_currentMenu == "start"){
+		if(int_charIndex < 1){
+			int_charIndex = 1;
+			a_selected[0] += 1
+			b_charIndexIncremented = true;
+			str_currentMenu = str_lastMenu;
+		}
+		else{
+			//Remove all elements from the scene:
+			fn_clearScene();
+			
+			//Reset variables:
+			a_options = [];
+			a_selected = [0, 0];
+			a_prevSelected = [-1, -1]
+			camera.rotation.y = -1.0;
+			b_slideIn = true;
+
+			document.getElementById("info").innerHTML = "";
+			return true;
+		}
+	}
+
+	console.log(`str_currentMenu = ${str_currentMenu}`);
+	
 
 	//Player input:
 	if(a_options[a_selected[1]].length > 0){
@@ -318,11 +344,11 @@ export function fn_updateMenus(){
 	if(kart){
 		kart.fn_setRotation(new THREE.Vector3(.4, 3.49066, 0));
 	}
-	if(a_characters){
+	if(a_characters.length > 0){
 		a_characters[0].fn_menuUpdate(input, int_frames);
 		a_characters[1].fn_menuUpdate(input, int_frames);
 		
-		if(input.fn_press_left() || input.fn_press_right() || input.fn_press_forward() || input.fn_press_back()){
+		if(input.fn_press_left() || input.fn_press_right() || input.fn_press_forward() || input.fn_press_back() || b_charIndexIncremented){
 			for(let i = 0; i < a_options.length; i++){
 				for(let e = 0; e < a_options[i].length; e++){
 					if(a_options[i][e].fn_isSelected()){
@@ -332,6 +358,7 @@ export function fn_updateMenus(){
 					} 
 				}
 			}
+			b_charIndexIncremented = false;
 		}	
 	}
 
