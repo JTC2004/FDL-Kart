@@ -15,6 +15,11 @@
 		import { fn_getMenuCamera } from "../main.js";
 		import { fn_getInputs } from "../main.js";
 
+		import Kart from "../game/objects/kart.js";
+		import Character from "../game/objects/character.js";
+
+
+
 	//Objects:
 		import Option from "./option.js";
 	
@@ -30,6 +35,7 @@
 	var b_isInitialized = false;
 
 	var str_currentMenu = "Main";
+	str_currentMenu = "1P Character Select";
 
 	var str_parentMenu = "";
 	var str_lastMenu = "";
@@ -37,6 +43,7 @@
 	var a_selected = [0, 0];
 	var a_prevSelected = [-1, -1];
 	var b_slideIn = true;
+	let kart;
 
 	//console.log("str_currentMenu = " + str_currentMenu);
 
@@ -99,10 +106,10 @@ export function fn_updateMenus(){
 			window.int_gameMode = Number(str_currentMenu);
 
 			if(window.int_gameMode > 3){
-				str_currentMenu = "Split-Screen/Character Select";
+				str_currentMenu = "2P Character Select";
 			}
 			else{
-				str_currentMenu = "Single Play/Character Select"
+				str_currentMenu = "1P Character Select"
 			}
 		}
 
@@ -142,22 +149,30 @@ export function fn_updateMenus(){
 				new Option(str_currentMenu, [-1.8, -2.05, 0], [1.05, .3], "Free Play", "horizontal medium"),
 			]);
 		}
-		else if(str_currentMenu == "Single Play/Character Select"){
+		else if(str_currentMenu == "1P Character Select"){
 			str_parentMenu = "Single Play/Game Mode";
 			a_options.push([
-				new Option(str_currentMenu, [fn_inRow(2.5, 0, 4), 1.5, 0], [.6, .6], "chara_Maple", "large"),
-				new Option(str_currentMenu, [fn_inRow(2.5, 1, 4), 1.5, 0], [.6, .6], "chara_Enoki", "large"),
-				new Option(str_currentMenu, [fn_inRow(2.5, 2, 4), 1.5, 0], [.6, .6], "chara_Aaron", "large"),
-				new Option(str_currentMenu, [fn_inRow(2.5, 3, 4), 1.5, 0], [.6, .6], "chara_Rufus", "large")
+				new Option(str_currentMenu, [fn_inRow(2.25, 0, 4) + 3, 1.5, 0], [.6, .6], "chara_Maple", "large"),
+				new Option(str_currentMenu, [fn_inRow(2.25, 1, 4) + 3, 1.5, 0], [.6, .6], "chara_Enoki", "large"),
+				new Option(str_currentMenu, [fn_inRow(2.25, 2, 4) + 3, 1.5, 0], [.6, .6], "chara_Aaron", "large"),
+				new Option(str_currentMenu, [fn_inRow(2.25, 3, 4) + 3, 1.5, 0], [.6, .6], "chara_Rufus", "large")
 			]);
 			a_options.push([
-				new Option(str_currentMenu, [fn_inRow(2.5, 0, 4), -1, 0], [.6, .6], "chara_ques", "large"),
-				new Option(str_currentMenu, [fn_inRow(2.5, 1, 4), -1, 0], [.6, .6], "chara_ques", "large"),
-				new Option(str_currentMenu, [fn_inRow(2.5, 2, 4), -1, 0], [.6, .6], "chara_ques", "large"),
-				new Option(str_currentMenu, [fn_inRow(2.5, 3, 4), -1, 0], [.6, .6], "chara_ques", "large")
+				new Option(str_currentMenu, [fn_inRow(2.25, 0, 4) + 3, -1, 0], [.6, .6], "chara_(unlockable)", "large"),
+				new Option(str_currentMenu, [fn_inRow(2.25, 1, 4) + 3, -1, 0], [.6, .6], "chara_(unlockable)", "large"),
+				new Option(str_currentMenu, [fn_inRow(2.25, 2, 4) + 3, -1, 0], [.6, .6], "chara_(unlockable)", "large"),
+				new Option(str_currentMenu, [fn_inRow(2.25, 3, 4) + 3, -1, 0], [.6, .6], "chara_(unlockable)", "large")
 			]);
+
+			const color = 0xfffde6;
+			const fillLight1 = new THREE.HemisphereLight( color, 0x77756a, 3 );
+			fillLight1.position.set( 2, 2, 1 );
+			scene.add( fillLight1 );
+
+			kart = new Kart([-5, -1, 0], 1, .2);
+			//console.log(`${kart.fn_getType()}`);
 		}
-		else if(str_currentMenu == "Split-Screen/Character Select"){
+		else if(str_currentMenu == "2P Character Select"){
 			str_parentMenu = "Main";
 			a_options.push([
 				new Option(str_currentMenu, [-.25, .25, 0], [3.2, 1.6], "Connect Controller", "horizontal medium"),
@@ -183,6 +198,11 @@ export function fn_updateMenus(){
 		}
 		
 		str_lastMenu = str_currentMenu;
+	}
+
+	//Kart on character select:
+	if(kart){
+		kart.fn_setRotation(new THREE.Vector3(.4, 3.49066, 0));
 	}
 
 

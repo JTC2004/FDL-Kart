@@ -266,7 +266,7 @@ export default class Obj{
 		}
 
 		fn_setRotation(v_xyz){
-			// /console.log(`New rotation: ${v_xyz}`);
+			console.log(`New rotation: ${v_xyz.x}, ${v_xyz.y}, ${v_xyz.z}`);
 			if(this.model){		
 				this.model.rotation.x = v_xyz.x;
 				this.model.rotation.y = v_xyz.y;

@@ -66,7 +66,7 @@ export default class Option{
         //Properties unique to each button:
         if(_text.includes("chara_")){
             this.str_goTo = "start";
-            this.str_info = _text.substring(5);
+            this.str_info = _text.substring(6);
         }
         else if(_text == "Single Play"){
             this.str_goTo = "Single Play/Game Mode";
@@ -190,7 +190,6 @@ export default class Option{
 
     fn_select(){
         this.selected = true;
-        console.log(`selected`);
         if(this.spr_highlight){
             this.spr_highlight.visible = true;
         }
@@ -198,7 +197,7 @@ export default class Option{
             this.spr_border.material.color.setRGB(2.5, 2.5, 2);
         }
         var info = document.getElementById("info");
-        if(this.str_menu == "Main"){
+        if(this.str_menu == "Main" || this.str_menu == "1P Character Select"){
             info.innerHTML = this.str_info;
             
             if(this.str_info == ""){
