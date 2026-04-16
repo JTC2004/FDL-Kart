@@ -31,7 +31,6 @@
 
 	var str_currentMenu = "Main";
 
-	//var str_currentMenu = "Split-Screen/Connect Controllers";
 	var str_parentMenu = "";
 	var str_lastMenu = "";
 	var a_options = [];
@@ -66,7 +65,7 @@ function fn_initializeMenus(){
 
 		//Debug mode:
 		if(window.b_debug){
-			str_currentMenu = 2;	//Game Mode for debug.
+			str_currentMenu == "start";	//Game Mode for debug.
 		}
 }
 
@@ -92,15 +91,22 @@ export function fn_updateMenus(){
 		camera.rotation.y = -1.0;
 		b_slideIn = true;
 		
-		if(Number.isInteger(Number(str_currentMenu))){
-			console.log("CHANGE MODE");
-			window.int_gameMode = Number(str_currentMenu);
-
-			
-
+		if(str_currentMenu == "start"){
 			return true;
 		}
-		else if(str_currentMenu == "Main"){
+		else if(Number.isInteger(Number(str_currentMenu))){
+			//console.log("CHANGE MODE");
+			window.int_gameMode = Number(str_currentMenu);
+
+			if(window.int_gameMode > 3){
+				str_currentMenu = "Split-Screen/Character Select";
+			}
+			else{
+				str_currentMenu = "Single Play/Character Select"
+			}
+		}
+
+		if(str_currentMenu == "Main"){
 			camera.rotation.y = -1.24;
 			str_parentMenu = "";
 			a_options.push([
@@ -136,13 +142,26 @@ export function fn_updateMenus(){
 				new Option(str_currentMenu, [-1.8, -2.05, 0], [1.05, .3], "Free Play", "horizontal medium"),
 			]);
 		}
-		else if(str_currentMenu == "Split-Screen/Connect Controllers"){
+		else if(str_currentMenu == "Single Play/Character Select"){
+			str_parentMenu = "Single Play/Game Mode";
+			a_options.push([
+				new Option(str_currentMenu, [fn_inRow(2.5, 0, 4), 1.5, 0], [.6, .6], "chara_Maple", "large"),
+				new Option(str_currentMenu, [fn_inRow(2.5, 1, 4), 1.5, 0], [.6, .6], "chara_Enoki", "large"),
+				new Option(str_currentMenu, [fn_inRow(2.5, 2, 4), 1.5, 0], [.6, .6], "chara_Aaron", "large"),
+				new Option(str_currentMenu, [fn_inRow(2.5, 3, 4), 1.5, 0], [.6, .6], "chara_Rufus", "large")
+			]);
+			a_options.push([
+				new Option(str_currentMenu, [fn_inRow(2.5, 0, 4), -1, 0], [.6, .6], "chara_ques", "large"),
+				new Option(str_currentMenu, [fn_inRow(2.5, 1, 4), -1, 0], [.6, .6], "chara_ques", "large"),
+				new Option(str_currentMenu, [fn_inRow(2.5, 2, 4), -1, 0], [.6, .6], "chara_ques", "large"),
+				new Option(str_currentMenu, [fn_inRow(2.5, 3, 4), -1, 0], [.6, .6], "chara_ques", "large")
+			]);
+		}
+		else if(str_currentMenu == "Split-Screen/Character Select"){
 			str_parentMenu = "Main";
 			a_options.push([
 				new Option(str_currentMenu, [-.25, .25, 0], [3.2, 1.6], "Connect Controller", "horizontal medium"),
 			]);
-			//const obj_controllerSprite = new Object([-.25, -2.05, .5], 1, false, false, 1);
-			//obj_controllerSprite.fn_addSprite([0,0,0], [1,1,1], "Placeholder");
 		}
 		else if(str_currentMenu == "Settings"){
 			str_parentMenu = "Main";
@@ -193,7 +212,7 @@ export function fn_updateMenus(){
 				if(typeof(a_options[i][e]) != "string" && a_options[i][e].fn_isSelected() && a_options[i][e].fn_confirm() != ""){
 					str_currentMenu = a_options[i][e].fn_confirm();
 					//console.log("str_currentMenu = " + str_currentMenu);
-				}
+				} 
 			}
 		}
 	}

@@ -37,13 +37,14 @@ var int_numGamepads = 0;                    //Used to tell if a new gamepad is c
 //let renderer;
 
 var b_fullScreen = false;
-window.b_debug = true;
+window.b_debug = false;
 window.b_birdEye = false;
 var str_map = "FDL Circuit";
 window.int_gameMode = 2;      //0 is Practice, 
 //                              1 is Grand Prix, 
 //                              2 is Time Trials, 
-//                              3 is Adventure.
+//                              3 is Adventure,
+//                              4 is Versus,
 
 //Settings variables:   
 var b_trueAntiAlias = false;
@@ -128,6 +129,8 @@ if(window.b_debug){
 try{
     fn_checkFullscreen(menuCamera, frustumHeight);
     gameLoop.addCallback((dt) => {
+        console.log(`Game mode ${window.int_gameMode}`);
+        
         //Handle input stuff every frame:
             //Get a snapshot of what controllers are connected (empty player slots are null in Chromium):
             const rawGamepads = navigator.getGamepads();

@@ -64,7 +64,11 @@ export default class Option{
 
 
         //Properties unique to each button:
-        if(_text == "Single Play"){
+        if(_text.includes("chara_")){
+            this.str_goTo = "start";
+            this.str_info = _text.substring(5);
+        }
+        else if(_text == "Single Play"){
             this.str_goTo = "Single Play/Game Mode";
             this.str_info = "Unlock characters & fill out your license.";
         }
@@ -78,12 +82,12 @@ export default class Option{
                 this.str_info = "Freely use save-states and rewind to practice shortcuts.";
             }
         else if(_text == "Split-Screen"){
-            this.str_goTo = "Split-Screen/Connect Controllers";
+            this.str_goTo = "4";
             this.str_info = "Play with multiple people at once!";
         }
             else if(_text == "Connect Controller"){
                 fn_changeSettings("Multiplayer true");
-                this.str_goTo = "2";
+                this.str_goTo = "start";
                 this.str_info = "";
                 scene.remove( this.spr_highlight );
                 //this.b_static = true;
@@ -186,6 +190,7 @@ export default class Option{
 
     fn_select(){
         this.selected = true;
+        console.log(`selected`);
         if(this.spr_highlight){
             this.spr_highlight.visible = true;
         }

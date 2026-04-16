@@ -350,15 +350,18 @@ export default class Map{
 	}
 
 	fn_addObjectsDSOC(a_objects, a_objectsDSOC){
-		if(str_map == "MC1"){
-			a_objects.push(new ItemPotRow([-53, 7.1, -61], f_mapScale, 6, .85, 2, 1, a_objectsDSOC));
-			a_objects.push(new ItemPotRow([-46, 7.1, 9.7], f_mapScale, 3, 1.5, 2, 1, a_objectsDSOC));
-		}
-		else if(str_map == "FDL Circuit"){
-			a_objects.push(new ItemPotRow([37, 3.9, -70], f_mapScale, 6, 2, 0, 1, a_objectsDSOC));
-			a_objects.push(new ItemPotRow([16, 5.1, -126], f_mapScale, 2, 3, 2, 1, a_objectsDSOC));
-			a_objects.push(new ItemPotRow([-142, 15.3, 6], f_mapScale, 5, 3, 0, 1, a_objectsDSOC));
-		}
+		//If mode isn't time trials, add item boxes.
+		//if(window.int_gameMode != 2){
+			if(str_map == "MC1"){
+				a_objects.push(new ItemPotRow([-53, 7.1, -61], f_mapScale, 6, .85, 2, 1, a_objectsDSOC));
+				a_objects.push(new ItemPotRow([-46, 7.1, 9.7], f_mapScale, 3, 1.5, 2, 1, a_objectsDSOC));
+			}
+			else if(str_map == "FDL Circuit"){
+				a_objects.push(new ItemPotRow([37, 3.9, -70], f_mapScale, 6, 2, 0, 1, a_objectsDSOC));
+				a_objects.push(new ItemPotRow([16, 5.1, -126], f_mapScale, 2, 3, 2, 1, a_objectsDSOC));
+				a_objects.push(new ItemPotRow([-142, 15.3, 6], f_mapScale, 5, 3, 0, 1, a_objectsDSOC));
+			}
+		//}
 	}
 
 	fn_animate(){
