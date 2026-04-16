@@ -44,6 +44,9 @@
 	var a_prevSelected = [-1, -1];
 	var b_slideIn = true;
 	let kart;
+	let a_characters;
+	let int_charIndex = 0;
+	var int_frames = 0;
 
 	//console.log("str_currentMenu = " + str_currentMenu);
 
@@ -170,6 +173,13 @@ export function fn_updateMenus(){
 			scene.add( fillLight1 );
 
 			kart = new Kart([-5, -1, 0], 1, .2);
+			a_characters = [
+				new Character([-5.5, .6, -1], 1, 2, "Maple", 0, true),
+				new Character([-5, -0.4, 1], 1, 2, "", 0, true),
+			];
+			a_characters[0].fn_setSpriteTile(5, 0);
+			a_characters[1].fn_setSpriteTile(4, 1);
+			int_charIndex = 0;
 			//console.log(`${kart.fn_getType()}`);
 		}
 		else if(str_currentMenu == "2P Character Select"){
@@ -199,12 +209,6 @@ export function fn_updateMenus(){
 		
 		str_lastMenu = str_currentMenu;
 	}
-
-	//Kart on character select:
-	if(kart){
-		kart.fn_setRotation(new THREE.Vector3(.4, 3.49066, 0));
-	}
-
 
 	//Player input:
 	if(a_options[a_selected[1]].length > 0){
@@ -310,7 +314,29 @@ export function fn_updateMenus(){
 		camera.rotation.x = input.fn_get_rightY() / 10;
 	}
 
+	//Kart on character select:
+	if(kart){
+		kart.fn_setRotation(new THREE.Vector3(.4, 3.49066, 0));
+	}
+	if(a_characters){
+		a_characters[0].fn_menuUpdate(input, int_frames);
+		a_characters[1].fn_menuUpdate(input, int_frames);
+		
+		if(input.fn_press_left() || input.fn_press_right() || input.fn_press_forward() || input.fn_press_back()){
+			for(let i = 0; i < a_options.length; i++){
+				for(let e = 0; e < a_options[i].length; e++){
+					if(a_options[i][e].fn_isSelected()){
+						a_characters[int_charIndex].fn_setCharacter(a_options[i][e].fn_getCharText());
+						a_characters[0].fn_setSpriteTile(5, 0);
+						a_characters[1].fn_setSpriteTile(4, 1);
+					} 
+				}
+			}
+		}	
+	}
+
 	//renderer.render( scene, camera );
+	int_frames ++;
 	return false;
 }
 

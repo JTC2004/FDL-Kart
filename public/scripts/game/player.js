@@ -97,7 +97,7 @@ export default class Player{
 		}
 		
 		//Code for player sprites & model(s):
-			this.obj_characters = [
+			this.a_characters = [
 				new Character([_x, _y, _z], 1, 1, _ch1, _num, true),
 				new Character([_x, _y, _z], 1, 1, _ch2, _num, false)
 			];
@@ -766,7 +766,7 @@ export default class Player{
 		}
 		
 		//Update the sprite/model positions:
-		for(const obj_character of this.obj_characters){
+		for(const obj_character of this.a_characters){
 			obj_character.fn_update(this.player.position, this.player.rotation.y, this.f_driftingDirec, input, this.b_done, _int_frames);
 		}
 			

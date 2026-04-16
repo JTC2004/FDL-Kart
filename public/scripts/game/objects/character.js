@@ -7,6 +7,7 @@ export default class Character extends Obj{
 	constructor(a_xyz, _worldScale, _localScale, _str_name, _num, _b_driving){
 		super(a_xyz, _worldScale, false, true, _localScale * 1.4);	
 		
+		this.int_altColor = _num + 1;
 		this.str_name = _str_name;
 		this.f_driverBaseOffset = -0.2;		//The default distance from the steering wheel in the driving position.
 		this.f_gunnerBaseOffset = 0.45;		//The default distance from the steering wheel in the driving position.
@@ -15,7 +16,7 @@ export default class Character extends Obj{
 		this.f_forwardOffset = 0.0;
 		
 		//this.fn_addSprite([0,0,0], [1,1,1], this.str_name + ' gremlin (transp)');
-		this.fn_addSpriteSheets([0,0,0], [1,1,1], `characters/${_str_name}/P${_num + 1}_256_f`, 6);
+		this.fn_addSpriteSheets([0,0,0], [1,1,1], `characters/${_str_name}/P${this.int_altColor}_256_f`, 6);
 
 		//State variables:
 		this.b_driving = _b_driving;
@@ -181,6 +182,23 @@ export default class Character extends Obj{
 			}
 		}
 
+		fn_menuUpdate(input, _int_frames){
+			//Update the sprite 'wiggle':
+			if(_int_frames % this.int_animRate == 0){
+				this.fn_changeSpriteSheet(this.int_wiggleIndex);
+				this.int_wiggleIndex += this.int_wiggleIncrement;
+
+				if(this.int_wiggleIndex > 2){
+					this.int_wiggleIncrement = -1;
+					this.int_wiggleIndex = 1;
+				}
+				if(this.int_wiggleIndex < 0){
+					this.int_wiggleIncrement = 1;
+					this.int_wiggleIndex = 1;
+				}
+			}
+		}
+
 		fn_setCharPos(_playerPos, _playerRotation){
 			this.fn_setPos(new THREE.Vector3(
 				_playerPos.x 
@@ -191,6 +209,10 @@ export default class Character extends Obj{
 					+ this.f_forwardOffset * Math.cos(_playerRotation)
 					- (Math.sin(this.f_rightOffset) / 3 + 0.07) * Math.sin(_playerRotation), 
 			));
+		}
+
+		fn_setCharacter(_str_newName){
+			this.fn_addSpriteSheets([0,0,0], [1,1,1], `characters/${_str_newName}/P${this.int_altColor}_256_f`, 6);
 		}
 
 		fn_getType(){

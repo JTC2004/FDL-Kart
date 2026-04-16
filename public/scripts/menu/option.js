@@ -291,4 +291,8 @@ export default class Option{
 
         label.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
     }
+
+    fn_getCharText(){
+        return this.str_text.substring(6);
+    }
 }

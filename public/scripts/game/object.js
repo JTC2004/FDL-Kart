@@ -144,6 +144,25 @@ export default class Obj{
 
 	//Adds sprite sheet w/ 'wiggle' frames to the object:
 	fn_addSpriteSheets(a_offset, a_multip, str_spriteName, _int_numTilesTall){
+		//Clean up the sprites if this function hasn't been called for the first time:
+		if (this.sprite) {
+			scene.remove(this.sprite);              // remove from scene
+			this.sprite.material.dispose();         // dispose material
+
+			if (this.sprite.material.map) {
+				this.sprite.material.map.dispose(); // dispose texture (optional if already handled)
+			}
+
+			this.sprite = null;
+		}
+
+		if(this.a_spriteMaps){
+			for (const map of this.a_spriteMaps) {
+				map.dispose();
+			}
+		}
+		this.a_spriteMaps = [];
+		
 		this.int_numTilesTall = _int_numTilesTall;
 		
 		this.a_spriteMaps = [
@@ -266,7 +285,7 @@ export default class Obj{
 		}
 
 		fn_setRotation(v_xyz){
-			console.log(`New rotation: ${v_xyz.x}, ${v_xyz.y}, ${v_xyz.z}`);
+			//console.log(`New rotation: ${v_xyz.x}, ${v_xyz.y}, ${v_xyz.z}`);
 			if(this.model){		
 				this.model.rotation.x = v_xyz.x;
 				this.model.rotation.y = v_xyz.y;
