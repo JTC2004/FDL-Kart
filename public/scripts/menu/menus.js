@@ -45,7 +45,7 @@
 	var b_slideIn = true;
 	let kart;
 	let a_characters;
-	let int_charIndex = 0;
+	let int_charaIndex = 0;
 	let b_charIndexIncremented = false;
 	var int_frames = 0;
 
@@ -101,7 +101,7 @@ export function fn_updateMenus(){
 		a_prevSelected = [-1, -1]
 		camera.rotation.y = -1.0;
 		b_slideIn = true;
-		int_charIndex = 0;
+		int_charaIndex = 0;
 		b_charIndexIncremented = false;
 		a_characters = [];
 		
@@ -180,7 +180,7 @@ export function fn_updateMenus(){
 			];
 			a_characters[0].fn_setSpriteTile(5, 0);
 			a_characters[1].fn_setSpriteTile(4, 1);
-			int_charIndex = 0;
+			int_charaIndex = 0;
 			//console.log(`${kart.fn_getType()}`);
 		}
 		else if(str_currentMenu == "2P Character Select"){
@@ -211,10 +211,10 @@ export function fn_updateMenus(){
 		str_lastMenu = str_currentMenu;
 	}
 	else if(str_currentMenu == "start"){
-		if(int_charIndex < 1){
-			int_charIndex = 1;
-			a_selected[0] += 1
+		if(int_charaIndex < 1){
+			int_charaIndex = 1;
 			b_charIndexIncremented = true;
+			a_selected[0] += 1
 			str_currentMenu = str_lastMenu;
 		}
 		else{
@@ -268,7 +268,12 @@ export function fn_updateMenus(){
 	}
 	//Going back to previous menu:
 	if(input.fn_press_drift()){
-		if(str_parentMenu != ""){
+		if(int_charaIndex > 0){
+			a_characters[int_charaIndex].fn_setCharacter('');
+			int_charaIndex = 0;
+			b_charIndexIncremented = true;
+		}
+		else if(str_parentMenu != ""){
 			str_currentMenu = str_parentMenu;
 		}
 	}
@@ -352,7 +357,7 @@ export function fn_updateMenus(){
 			for(let i = 0; i < a_options.length; i++){
 				for(let e = 0; e < a_options[i].length; e++){
 					if(a_options[i][e].fn_isSelected()){
-						a_characters[int_charIndex].fn_setCharacter(a_options[i][e].fn_getCharText());
+						a_characters[int_charaIndex].fn_setCharacter(a_options[i][e].fn_getCharText());
 						a_characters[0].fn_setSpriteTile(5, 0);
 						a_characters[1].fn_setSpriteTile(4, 1);
 					} 
