@@ -212,16 +212,15 @@ export default class Character extends Obj{
 		}
 
 		fn_setCharacter(_str_newName){
+			this.str_name = _str_newName;
+			
 			if(_str_newName == '' || _str_newName == '(unlockable)'){
 				this.sprite.visible = false;
-				return;
 			}
 			else{
 				this.sprite.visible = true;
-			}
-			
-			this.str_name = _str_newName;
-			this.fn_addSpriteSheets([0,0,0], [1,1,1], `characters/${this.str_name}/P${this.int_altColor}_256_f`, 6);
+				this.fn_addSpriteSheets([0,0,0], [1,1,1], `characters/${this.str_name}/P${this.int_altColor}_256_f`, 6);
+			}			
 		}
 
 		fn_getCharacter(){
