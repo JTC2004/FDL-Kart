@@ -39,6 +39,7 @@ var int_numGamepads = 0;                    //Used to tell if a new gamepad is c
 var b_fullScreen = false;
 window.b_debug = false;
 window.b_birdEye = false;
+window.a_characters = [['', ''], ['', ''], ['', ''], ['', '']]; 
 var str_map = "FDL Circuit";
 window.int_gameMode = 2;      //0 is Practice, 
 //                              1 is Grand Prix, 
@@ -54,6 +55,7 @@ var int_sharpPixelIndex = 0;
 //Debug overrides:
 if(window.b_debug){
     //b_multiplayer = true;
+    window.a_characters[0] = ['Maple', 'Enoki'];
 }
 
 

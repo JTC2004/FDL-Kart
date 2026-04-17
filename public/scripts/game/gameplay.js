@@ -98,12 +98,14 @@ async function fn_initializeGame(){
 		a_players.push(new Player(
 			i, 
 			map.fn_getMapPos(i),
-			['Maple', 'Enoki'], 
+			window.a_characters[i],
 			1, 
 			a_checkpoints.length, 
 			map.fn_getNumKeys(), 
 			map.fn_getNumLaps()
 		));
+
+		//console.log(`window.a_characters[0] = ${window.a_characters[0]}`);
 		//REMEMBER TO PUSH OTHER NON-STATIC COLLIDABLE OBJECTS AFTER PLAYERS!!
 		a_objectsDSOC.push(a_players[i]);
 

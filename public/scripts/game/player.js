@@ -98,8 +98,8 @@ export default class Player{
 		
 		//Code for player sprites & model(s):
 			this.a_characters = [
-				new Character([_x, _y, _z], 1, 1, _ch1, _num, true),
-				new Character([_x, _y, _z], 1, 1, _ch2, _num, false)
+				new Character([_x, _y, _z], 1, 1, _ch1, _num, false),
+				new Character([_x, _y, _z], 1, 1, _ch2, _num, true)
 			];
 
 			this.obj_kart = new Kart([_x, _y, _z], 1, .1);

@@ -220,7 +220,12 @@ export default class Character extends Obj{
 				this.sprite.visible = true;
 			}
 			
-			this.fn_addSpriteSheets([0,0,0], [1,1,1], `characters/${_str_newName}/P${this.int_altColor}_256_f`, 6);
+			this.str_name = _str_newName;
+			this.fn_addSpriteSheets([0,0,0], [1,1,1], `characters/${this.str_name}/P${this.int_altColor}_256_f`, 6);
+		}
+
+		fn_getCharacter(){
+			return this.str_name;
 		}
 
 		fn_getType(){

@@ -228,6 +228,14 @@ export function fn_updateMenus(){
 			camera.rotation.y = -1.0;
 			b_slideIn = true;
 
+			if(a_characters.length > 0){
+				window.a_characters[0] = [a_characters[0].fn_getCharacter(), a_characters[1].fn_getCharacter()];
+			}
+			else{
+				window.a_characters[0] = ['Enoki', 'Rufus'];
+				window.a_characters[1] = ['Enoki', 'Rufus'];
+			}
+
 			document.getElementById("info").innerHTML = "";
 			return true;
 		}
