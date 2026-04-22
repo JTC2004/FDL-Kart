@@ -3,7 +3,8 @@ export default class InputHandlerGP{
 	constructor(gamepad){
 		console.log("gamepad ID = " + gamepad.id);
 		
-		this.int_index = gamepad.index;
+		this.gamepad = gamepad;					//Should be an object pointer.
+		//this.int_index = gamepad.index;
 		this.b_printButton = false;
 
 		this.a_prevButtons = [];		//Array of buttons held down in a previous frame.
@@ -35,15 +36,15 @@ export default class InputHandlerGP{
 	}
 
 	//Update the gamepad:
-	fn_updateGP(gp){
+	fn_update(){
 		//Error handling:
-		if(!gp){
+		if(!this.gamepad){
 			console.log("Error, no controller here.");
 			return;
 		}
 		
 		//Tell the difference for whether a button is held or pressed:
-		gp.buttons.forEach((btn, i) => {
+		this.gamepad.buttons.forEach((btn, i) => {
 			const wasPressed = this.a_prevButtons[i] || false;
 			const isPressed  = btn.pressed;
 
@@ -64,19 +65,19 @@ export default class InputHandlerGP{
 			this.f_rightY = 0.0;
 
 			//Updating joystick axis variables:
-			if(Math.abs(gp.axes[0]) > this.f_deadZone){
-				this.f_leftX = gp.axes[0];
+			if(Math.abs(this.gamepad.axes[0]) > this.f_deadZone){
+				this.f_leftX = this.gamepad.axes[0];
 				this.b_inDeadZone = false;
 			}
-			if(Math.abs(gp.axes[1]) > this.f_deadZone){
-				this.f_leftY = gp.axes[1];
+			if(Math.abs(this.gamepad.axes[1]) > this.f_deadZone){
+				this.f_leftY = this.gamepad.axes[1];
 				this.b_inDeadZone = false;
 			}
-			if(Math.abs(gp.axes[2]) > this.f_deadZone + 0.01){
-				this.f_rightX = gp.axes[2];
+			if(Math.abs(this.gamepad.axes[2]) > this.f_deadZone + 0.01){
+				this.f_rightX = this.gamepad.axes[2];
 			}
-			if(Math.abs(gp.axes[3]) > this.f_deadZone + 0.01){
-				this.f_rightY = gp.axes[3];
+			if(Math.abs(this.gamepad.axes[3]) > this.f_deadZone + 0.01){
+				this.f_rightY = this.gamepad.axes[3];
 			}
 
 			//console.log("f_leftX = " + this.f_leftX + "\t f_leftY = " + this.f_leftY)
@@ -229,7 +230,7 @@ export default class InputHandlerGP{
 
 	//Return if this is a keyboard or gamepad:
 	fn_getType(){
-		return `GP${this.int_index}`;
+		return `GP${this.gamepad.index}`;
 	}
 
 	//Make sure array of inputs updates to kep track of it a :

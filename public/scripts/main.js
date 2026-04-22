@@ -161,28 +161,21 @@ try{
             for(const input of a_inputs){
                 str_inputs += `${input.fn_getType()}, `;
             }
-            //console.log(`a_inputs = [${str_inputs}]`);
-            
-            /*var str_inputString = `a_inputs = [${a_inputs[0].fn_getType()}`;
-            for(let i = 1; i < a_inputs.length; i++){
-                str_inputString += `, ${a_inputs[i].fn_getType()}`
-            }
-            str_inputString += `]`
-            console.log(str_inputString);*/
+            console.log(`a_inputs = [${str_inputs}]`);
             
         
         //Fixed update (60 hz):
         if(dt > 0){
             //Get input for gamepad(s):
             for(const input of a_inputs){
-                input.fn_updateGP(a_gamepads[0]);
+                input.fn_update();
             }
             
             if(b_gameplay){
                 b_gameplay = fn_updateGame(gameLoop.fn_getFPS());
             }
             else{
-                b_gameplay = fn_updateMenus(a_inputs[0]);
+                b_gameplay = fn_updateMenus();
             }
 
             //Advance input state ONCE PER FIXED UPDATE:

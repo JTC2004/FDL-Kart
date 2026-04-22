@@ -193,7 +193,7 @@ export default class InputHandlerKB{
 	}
 	
 	//This needs to be here, but not need anything in it:
-	fn_updateGP(gp){
+	fn_update(){
 		return;
 	}
 
