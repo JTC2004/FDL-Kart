@@ -10,6 +10,8 @@ export default class InputHandlerKB{
 		this.a_prevKeys = [];			//Array of keys held down in a previous frame.
 		this.a_press = [];				//Each index corresponds with a key, and returns true only if that key is pressed.
 		this.a_hold = [];				//Each index corresponds with a key, and returns true only if that key is held.
+		this.b_connected = true;
+		this.b_anyKeyPressed = false;
 		
 		this.char_kb_forward = "w";
 		this.char_kb_back = "s";
@@ -38,6 +40,8 @@ export default class InputHandlerKB{
 			this.a_press[e.key] = !wasPressed;		//If current key was already held last frame, it's not a press.
 			this.a_hold[e.key] = true;				//Add current key to list of keys held down.
 			this.a_prevKeys[e.key] = true;			//Add current key to list of keys held last frame.
+
+			this.b_anyKeyPressed = true;
 		});
 
 		//When keyboard key released:
@@ -50,6 +54,8 @@ export default class InputHandlerKB{
 			if (this.b_printKey) {
 				console.log(`Key ${e.key} released`);
 			}
+
+			this.b_anyKeyPressed = false;
 		});
 	}
 
@@ -179,6 +185,10 @@ export default class InputHandlerKB{
 		return this.a_hold[this.char_kb_fly];
 	}
 
+	fn_press(){
+		return this.b_anyKeyPressed;
+	}
+
 	//Functions for c-stick tilt:
 	fn_get_rightX(){
 		return 0;
@@ -195,6 +205,14 @@ export default class InputHandlerKB{
 	//This needs to be here, but not need anything in it:
 	fn_update(){
 		return;
+	}
+
+	//Set true if kb is in a_inputs. False if not.
+	fn_setConnected(_newVal){
+		this.b_connected = _newVal;
+	}
+	fn_getConnected(){
+		return this.b_connected;
 	}
 
 	//a_press needs to be cleared for 'tap' inputs to work:

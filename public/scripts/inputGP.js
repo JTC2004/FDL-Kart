@@ -92,6 +92,8 @@ export default class InputHandlerGP{
 				location.reload();
 			}
 		});
+
+		//console.log(`Gamepad ${this.gamepad.index} update.`);
 	}
 
 	

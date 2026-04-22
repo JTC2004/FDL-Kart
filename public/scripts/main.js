@@ -147,13 +147,15 @@ try{
             }
             //console.log(`a_gamepads = [${str_gamePads}]`);
         
-            //Handling changes in player count:
+            //Handling changes in controller count:
             if(a_gamepads.length != int_numGamepads){
                 int_numGamepads = a_gamepads.length;
 
                 //If there is a new controller, add it to the array of inputs at the front:
                 if(a_gamepads.length > 0){
-                    if(a_gamepads.length < 2 && b_multiplayer == false){
+                    if(!b_multiplayer && a_gamepads.length < 2){
+                        input_kb.fn_setConnected(false);
+                        a_inputs.splice(0);
                         a_inputs.unshift(new InputHandlerGP(a_gamepads[0]));
                     }
                     else{
@@ -165,13 +167,18 @@ try{
                     a_inputs = [input_kb];
                 }
             }
+            //Adding keyboard input in multiplayer:
+            if(b_multiplayer && input_kb.fn_press() && !input_kb.fn_getConnected()){
+                a_inputs.push(input_kb);
+                input_kb.fn_setConnected(true);
+            }
 
-            /*var str_inputs = ``;    //Debug only
+            var str_inputs = ``;    //Debug only
             for(const input of a_inputs){
                 str_inputs += `${input.fn_getType()}, `;
             }
-            console.log(`a_inputs = [${str_inputs}]`);*/
-            console.log(`b_multiplayer = ${b_multiplayer}`);
+            console.log(`a_inputs = [${str_inputs}]`);
+            //console.log(`b_multiplayer = ${b_multiplayer}`);
             
         
         //Fixed update (60 hz):
