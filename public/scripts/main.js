@@ -139,9 +139,13 @@ try{
 
             //Only add non-null controllers to array of controllers:
             a_gamepads = [];
+            //var str_gamePads = ``;    //Debug only
             for (const gamePad of rawGamepads) {
                 if (gamePad) a_gamepads.push(gamePad);
+                
+                //str_gamePads += `${gamePad.index}, `;
             }
+            //console.log(`a_gamepads = [${str_gamePads}]`);
         
             //Handling changes in player count:
             if(a_gamepads.length != int_numGamepads){
@@ -149,7 +153,12 @@ try{
 
                 //If there is a new controller, add it to the array of inputs at the front:
                 if(a_gamepads.length > 0){
-                    a_inputs.unshift(new InputHandlerGP(a_gamepads[0]));
+                    if(a_gamepads.length < 2 && b_multiplayer == false){
+                        a_inputs.unshift(new InputHandlerGP(a_gamepads[0]));
+                    }
+                    else{
+                        a_inputs.push(new InputHandlerGP(a_gamepads[a_gamepads.length - 1]));
+                    }
                     a_gameCameras.push(new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 ));
                 }
                 else{
@@ -157,11 +166,12 @@ try{
                 }
             }
 
-            var str_inputs = ``;
+            /*var str_inputs = ``;    //Debug only
             for(const input of a_inputs){
                 str_inputs += `${input.fn_getType()}, `;
             }
-            console.log(`a_inputs = [${str_inputs}]`);
+            console.log(`a_inputs = [${str_inputs}]`);*/
+            console.log(`b_multiplayer = ${b_multiplayer}`);
             
         
         //Fixed update (60 hz):

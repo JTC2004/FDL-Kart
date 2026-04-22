@@ -71,9 +71,9 @@ export default class Option{
         else if(_text == "Single Play"){
             this.str_goTo = "Single Play/Game Mode";
             this.str_info = "Unlock characters & fill out your license.";
+            fn_changeSettings("Multiplayer false");
         }
             else if(_text == "Time Trials"){
-                fn_changeSettings("Multiplayer false");
                 this.str_goTo = "2";
                 this.str_info = "Race against the clock for the best time!";
             }
