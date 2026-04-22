@@ -156,6 +156,12 @@ try{
                     a_inputs = [input_kb];
                 }
             }
+
+            var str_inputs = ``;
+            for(const input of a_inputs){
+                str_inputs += `${input.fn_getType()}, `;
+            }
+            //console.log(`a_inputs = [${str_inputs}]`);
             
             /*var str_inputString = `a_inputs = [${a_inputs[0].fn_getType()}`;
             for(let i = 1; i < a_inputs.length; i++){

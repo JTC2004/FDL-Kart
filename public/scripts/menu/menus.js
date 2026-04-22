@@ -241,7 +241,7 @@ export function fn_updateMenus(){
 		}
 	}
 
-	console.log(`str_currentMenu = ${str_currentMenu}`);
+	//console.log(`str_currentMenu = ${str_currentMenu}`);
 	
 
 	//Player input:
