@@ -156,7 +156,7 @@ async function fn_initializeGame(){
 			document.getElementById(`p_spd0`).style.top = "37%";
 			document.getElementById(`p_spd0`).style.fontSize = "2.2vw";
 			document.getElementById(`p_finish0`).style.left = "-25%";
-			document.getElementById(`p_finish0`).style.top = "25%";
+			document.getElementById(`p_finish0`).style.top = "-1%";
 
 			document.getElementById(`p_laps1`).style.left = "84.5%";
 			document.getElementById(`p_laps1`).style.top = "31%";
@@ -165,7 +165,7 @@ async function fn_initializeGame(){
 			document.getElementById(`p_spd1`).style.top = "37%";
 			document.getElementById(`p_spd1`).style.fontSize = "2.2vw";
 			document.getElementById(`p_finish1`).style.left = "25%";
-			document.getElementById(`p_finish1`).style.top = "25%";
+			document.getElementById(`p_finish1`).style.top = "-1%";
 
 			document.getElementById(`p_laps2`).style.left = "2.5%";
 			document.getElementById(`p_laps2`).style.top = "81%";
@@ -174,7 +174,7 @@ async function fn_initializeGame(){
 			document.getElementById(`p_spd2`).style.top = "87%";
 			document.getElementById(`p_spd2`).style.fontSize = "2.2vw";
 			document.getElementById(`p_finish2`).style.left = "-25%";
-			document.getElementById(`p_finish2`).style.top = "-25%";
+			document.getElementById(`p_finish2`).style.top = "52%";
 
 			document.getElementById(`p_laps3`).style.left = "2.5%";
 			document.getElementById(`p_laps3`).style.top = "81%";
@@ -182,8 +182,8 @@ async function fn_initializeGame(){
 			document.getElementById(`p_spd3`).style.left = "2.5%";
 			document.getElementById(`p_spd3`).style.top = "87%";
 			document.getElementById(`p_spd3`).style.fontSize = "2.2vw";
-			document.getElementById(`p_finish3`).style.left = "-25%";
-			document.getElementById(`p_finish3`).style.top = "25%";
+			document.getElementById(`p_finish3`).style.left = "25%";
+			document.getElementById(`p_finish3`).style.top = "52%";
 		}
 	}
 	
