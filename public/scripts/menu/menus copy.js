@@ -185,21 +185,21 @@ export function fn_updateMenus(){
 		}
 		else if(str_currentMenu == "2P Character Select"){
 			str_parentMenu = "Main";
-			//a_options.push([
-			//	new Option(str_currentMenu, [-.25, .25, 0], [3.2, 1.6], "Connect Controller", "horizontal medium"),
-			//]);
 			a_options.push([
-				new Option(str_currentMenu, [fn_inRow(2, 0, 4), 1.25, 0], [.5, .5], "chara_Maple", "large"),
-				new Option(str_currentMenu, [fn_inRow(2, 1, 4), 1.25, 0], [.5, .5], "chara_Enoki", "large"),
-				new Option(str_currentMenu, [fn_inRow(2, 2, 4), 1.25, 0], [.5, .5], "chara_Aaron", "large"),
-				new Option(str_currentMenu, [fn_inRow(2, 3, 4), 1.25, 0], [.5, .5], "chara_Rufus", "large")
+				new Option(str_currentMenu, [-.25, .25, 0], [3.2, 1.6], "Connect Controller", "horizontal medium"),
+			]);
+			/*a_options.push([
+				new Option(str_currentMenu, [fn_inRow(2, 0, 4), 1.5, 0], [.5, .5], "chara_Maple", "large"),
+				new Option(str_currentMenu, [fn_inRow(2, 1, 4), 1.5, 0], [.5, .5], "chara_Enoki", "large"),
+				new Option(str_currentMenu, [fn_inRow(2, 2, 4), 1.5, 0], [.5, .5], "chara_Aaron", "large"),
+				new Option(str_currentMenu, [fn_inRow(2, 3, 4), 1.5, 0], [.5, .5], "chara_Rufus", "large")
 			]);
 			a_options.push([
-				new Option(str_currentMenu, [fn_inRow(2, 0, 4), -.75, 0], [.5, .5], "chara_(unlockable)", "large"),
-				new Option(str_currentMenu, [fn_inRow(2, 1, 4), -.75, 0], [.5, .5], "chara_(unlockable)", "large"),
-				new Option(str_currentMenu, [fn_inRow(2, 2, 4), -.75, 0], [.5, .5], "chara_(unlockable)", "large"),
-				new Option(str_currentMenu, [fn_inRow(2, 3, 4), -.75, 0], [.5, .5], "chara_(unlockable)", "large")
-			]);
+				new Option(str_currentMenu, [fn_inRow(2, 0, 4), -1, 0], [.5, .5], "chara_(unlockable)", "large"),
+				new Option(str_currentMenu, [fn_inRow(2, 1, 4), -1, 0], [.5, .5], "chara_(unlockable)", "large"),
+				new Option(str_currentMenu, [fn_inRow(2, 2, 4), -1, 0], [.5, .5], "chara_(unlockable)", "large"),
+				new Option(str_currentMenu, [fn_inRow(2, 3, 4), -1, 0], [.5, .5], "chara_(unlockable)", "large")
+			]);*/
 
 		}
 		else if(str_currentMenu == "Settings"){
