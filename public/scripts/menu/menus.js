@@ -15,13 +15,12 @@
 		import { fn_getMenuCamera } from "../main.js";
 		import { fn_getInputs } from "../main.js";
 
-		import Kart from "../game/objects/kart.js";
-		import Character from "../game/objects/character.js";
-
-
 
 	//Objects:
 		import Option from "./option.js";
+		import Kart from "../game/objects/kart.js";
+		import Character from "../game/objects/character.js";
+		import ConnectController from '../game/objects/connectController.js';
 	
 
 //Variables:
@@ -48,6 +47,7 @@
 	let int_charaIndex = 0;
 	let b_charIndexIncremented = false;
 	var int_frames = 0;
+	var a_connectControllers = [];
 
 	//console.log("str_currentMenu = " + str_currentMenu);
 
@@ -104,6 +104,7 @@ export function fn_updateMenus(){
 		int_charaIndex = 0;
 		b_charIndexIncremented = false;
 		a_characters = [];
+		a_connectControllers = [];
 		
 		if(Number.isInteger(Number(str_currentMenu))){
 			//console.log("CHANGE MODE");
@@ -186,8 +187,15 @@ export function fn_updateMenus(){
 		else if(str_currentMenu == "2P Character Select"){
 			str_parentMenu = "Main";
 			a_options.push([
-				new Option(str_currentMenu, [-.25, .25, 0], [3.2, 1.6], "Connect Controller", "horizontal medium"),
+				new Option(str_currentMenu, [-.25, .1, 0], [3, 2.4], "Connect Controllers", "horizontal medium"),
 			]);
+			a_connectControllers = [
+				new ConnectController([-2.4, 1.2, 1], 0),
+				new ConnectController([1.85, 1.2, 1], 1),
+				new ConnectController([-2.4, -1.85, 1], 2),
+				new ConnectController([1.85, -1.85, 1], 3)
+			];
+
 			/*a_options.push([
 				new Option(str_currentMenu, [fn_inRow(2, 0, 4), 1.25, 0], [.5, .5], "chara_Maple", "large"),
 				new Option(str_currentMenu, [fn_inRow(2, 1, 4), 1.25, 0], [.5, .5], "chara_Enoki", "large"),
@@ -255,6 +263,12 @@ export function fn_updateMenus(){
 	}
 
 	//console.log(`str_currentMenu = ${str_currentMenu}`);
+	//Controller icons:
+	if(a_connectControllers.length > 0){
+		for(let i = 0; i < a_connectControllers.length; i++){
+			a_connectControllers[i].fn_update();
+		}
+	}
 	
 
 	//Player input:

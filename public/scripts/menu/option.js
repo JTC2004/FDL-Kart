@@ -85,7 +85,7 @@ export default class Option{
             this.str_goTo = "4";
             this.str_info = "Play with multiple people at once!";
         }
-            else if(_text == "Connect Controller"){
+            else if(_text == "Connect Controllers"){
                 fn_changeSettings("Multiplayer true");
                 this.str_goTo = "start";
                 this.str_info = "";
