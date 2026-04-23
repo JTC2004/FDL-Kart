@@ -210,19 +210,44 @@ try{
                 window.b_debug = false;             //Also disable debug prints in multiplayer.
                 var int_i = 0;
                 renderer.setScissorTest(true);      //MAKE THIS HAPPEN ONLY 1 FRAME.
+                const w = window.innerWidth;
+                const h = window.innerHeight;
                 
-                for (const gameCamera of a_gameCameras){
-                    const w = window.innerWidth;
-                    const h = window.innerHeight;
-
-                    renderer.setViewport(w / 2 * int_i, 0, w / 2, h);
-                    renderer.setScissor(w / 2 * int_i, 0, w / 2, h);
-                    gameCamera.aspect = (w / 2) / h;
-                    gameCamera.updateProjectionMatrix();
+                if(a_inputs.length > 2){
+                    const halfW = w / 2;
+                    const halfH = h / 2;
                     
-                    renderer.render( scene, gameCamera );
+                    for (const gameCamera of a_gameCameras){
+                        //Determine grid cell:
+                        const col = int_i % 2;               // 0 left, 1 right
+                        const row = Math.floor(int_i / 2);   // 0 top, 1 bottom
 
-                    int_i ++;
+                        //Convert row to screen coords (Three.js origin is bottom-left):
+                        const x = col * halfW;
+                        const y = (1 - row) * halfH;
+
+                        renderer.setViewport(x, y, halfW, halfH);
+                        renderer.setScissor(x, y, halfW, halfH);
+                        gameCamera.aspect = halfW / halfH;
+                        gameCamera.updateProjectionMatrix();
+                        
+                        renderer.render( scene, gameCamera );
+
+                        int_i ++;
+                    }
+                }
+                else{
+                    for (const gameCamera of a_gameCameras){
+
+                        renderer.setViewport(w / 2 * int_i, 0, w / 2, h);
+                        renderer.setScissor(w / 2 * int_i, 0, w / 2, h);
+                        gameCamera.aspect = (w / 2) / h;
+                        gameCamera.updateProjectionMatrix();
+                        
+                        renderer.render( scene, gameCamera );
+
+                        int_i ++;
+                    }
                 }
             }
             else{

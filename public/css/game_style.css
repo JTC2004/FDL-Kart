@@ -2,7 +2,7 @@ html, body{
 	overflow: hidden;
 }
 
-#info, #p_time, #p_name, #p_fps, #p_coords, #p_spd0, #p_spd1, #p_laps0, #p_laps1, #p_check, #p_finish0, #p_finish1, #p_Resolution, #p_SharpPixels {
+#info, #p_time, #p_name, #p_fps, #p_coords, #p_spd0, #p_spd1, #p_spd2, #p_spd3, #p_laps0, #p_laps1, #p_laps2, #p_laps3, #p_check, #p_finish0, #p_finish1, #p_finish2, #p_finish3, #p_Resolution, #p_SharpPixels {
 	position: absolute;
 	z-index: 100;
 	display:block;
@@ -71,6 +71,36 @@ html, body{
 #img_item1-1 {
 	position: absolute;
 	right: 3.1%;
+	top: 7.5%;
+	width: 5vw;
+	height: 5vw;
+
+	overflow: hidden;
+	display: none;
+}
+
+#img_itemSlot2-0, #img_itemSlot2-1, #img_itemSlot2-2 {
+	position: absolute;
+	left: 2%;
+	top: 4%;
+	width: 15vw;	
+	height: 11vw;
+
+	display: none;
+}
+#img_item2-0 {
+	position: absolute;
+	left: 3%;
+	top: 9%;
+	width: 7vw;
+	height: 6vw;
+
+	overflow: hidden;
+	display: none;
+}
+#img_item2-1 {
+	position: absolute;
+	left: 10.9%;
 	top: 7.5%;
 	width: 5vw;
 	height: 5vw;

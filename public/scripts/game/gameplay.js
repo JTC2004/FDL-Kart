@@ -114,6 +114,11 @@ async function fn_initializeGame(){
 		document.getElementById(`img_itemSlot${i}-1`).style.display = "block";
 		document.getElementById(`img_itemSlot${i}-2`).style.display = "block";
 
+		//Changing HUD placement for 4-player split-screen:
+		if(a_inputs.length > 2){
+			
+		}
+
 		//If there is only 1 camera, break.
 		if(b_multiplayer){
 			//Multiplayer-only stuff here.
