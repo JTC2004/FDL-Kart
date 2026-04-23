@@ -7,7 +7,10 @@ export default class Character extends Obj{
 	constructor(a_xyz, _worldScale, _localScale, _str_name, _num, _b_driving){
 		super(a_xyz, _worldScale, false, true, _localScale * 1.4);	
 		
-		this.int_altColor = _num + 1;
+		this.int_altColor = 1;
+		if(_num > 1){
+			this.int_altColor = 2;
+		}
 		this.str_name = _str_name;
 		this.f_driverBaseOffset = -0.2;		//The default distance from the steering wheel in the driving position.
 		this.f_gunnerBaseOffset = 0.45;		//The default distance from the steering wheel in the driving position.

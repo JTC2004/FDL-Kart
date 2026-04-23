@@ -255,8 +255,10 @@ export function fn_updateMenus(){
 				window.a_characters[0] = [a_characters[0].fn_getCharacter(), a_characters[1].fn_getCharacter()];
 			}
 			else{
-				window.a_characters[0] = ['Enoki', 'Rufus'];
-				window.a_characters[1] = ['Enoki', 'Rufus'];
+				window.a_characters[0] = ['Enoki', 'Maple'];
+				window.a_characters[1] = ['Aaron', 'Rufus'];
+				window.a_characters[2] = ['Maple', 'Aaron'];
+				window.a_characters[3] = ['Rufus', 'Enoki'];
 			}
 
 			document.getElementById("info").innerHTML = "";
@@ -297,6 +299,10 @@ export function fn_updateMenus(){
 		for(let i = 0; i < a_options.length; i++){
 			for(let e = 0; e < a_options[i].length; e++){
 				if(typeof(a_options[i][e]) != "string" && a_options[i][e].fn_isSelected() && a_options[i][e].fn_confirm() != ""){
+					if(a_connectControllers.length > 0 && a_inputs.length < 2){	//Multiplayer can't start if only 1 player is connected.
+						continue;
+					}
+					
 					str_currentMenu = a_options[i][e].fn_confirm();
 					//console.log("str_currentMenu = " + str_currentMenu);
 				} 
