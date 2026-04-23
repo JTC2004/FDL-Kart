@@ -77,6 +77,7 @@ function fn_initializeMenus(){
 		//Debug mode:
 		if(window.b_debug){
 			str_currentMenu == "start";	//Game Mode for debug.
+			int_charaIndex = 1;
 		}
 }
 
@@ -186,6 +187,7 @@ export function fn_updateMenus(){
 		}
 		else if(str_currentMenu == "2P Character Select"){
 			str_parentMenu = "Main";
+			int_charaIndex = 1;
 			a_options.push([
 				new Option(str_currentMenu, [-.25, .1, 0], [3, 2.4], "Connect Controllers", "horizontal medium"),
 			]);
