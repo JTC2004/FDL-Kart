@@ -54,8 +54,11 @@ var int_sharpPixelIndex = 0;
 
 //Debug overrides:
 if(window.b_debug){
-    //b_multiplayer = true;
+    b_multiplayer = true;
     window.a_characters[0] = ['Maple', 'Enoki'];
+
+    //a_inputs.push(input_kb);
+    //a_inputs.push(input_kb);
 }
 
 

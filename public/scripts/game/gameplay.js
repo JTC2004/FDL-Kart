@@ -114,11 +114,6 @@ async function fn_initializeGame(){
 		document.getElementById(`img_itemSlot${i}-1`).style.display = "block";
 		document.getElementById(`img_itemSlot${i}-2`).style.display = "block";
 
-		//Changing HUD placement for 4-player split-screen:
-		if(a_inputs.length > 2){
-			
-		}
-
 		//If there is only 1 camera, break.
 		if(b_multiplayer){
 			//Multiplayer-only stuff here.
@@ -134,8 +129,64 @@ async function fn_initializeGame(){
 	//Adjusting UI based on multiplayer:
 	if(b_multiplayer){
 		document.getElementById("p_time").style.left = "40%";
-	}
+		
+		//2 player:
+		if(a_inputs.length < 3){
+			
 
+			document.getElementById(`p_laps0`).style.left = "2.5%";
+			document.getElementById(`p_laps0`).style.top = "72%";
+			document.getElementById(`p_spd0`).style.left = "2.5%";
+			document.getElementById(`p_finish0`).style.left = "-25%";
+
+			document.getElementById(`p_laps1`).style.left = "84.5%";
+			document.getElementById(`p_laps1`).style.top = "72%";
+			document.getElementById(`p_spd1`).style.left = "84.5%";
+			document.getElementById(`p_finish1`).style.left = "25%";
+		}
+		//3 Players or more:
+		else{
+			document.getElementById("p_time").style.left = "40%";
+			document.getElementById("p_time").style.top = "41%";
+			
+			document.getElementById(`p_laps0`).style.left = "2.5%";
+			document.getElementById(`p_laps0`).style.top = "31%";
+			document.getElementById(`p_laps0`).style.fontSize = "2.2vw";
+			document.getElementById(`p_spd0`).style.left = "2.5%";
+			document.getElementById(`p_spd0`).style.top = "37%";
+			document.getElementById(`p_spd0`).style.fontSize = "2.2vw";
+			document.getElementById(`p_finish0`).style.left = "-25%";
+			document.getElementById(`p_finish0`).style.top = "25%";
+
+			document.getElementById(`p_laps1`).style.left = "84.5%";
+			document.getElementById(`p_laps1`).style.top = "31%";
+			document.getElementById(`p_laps1`).style.fontSize = "2.2vw";
+			document.getElementById(`p_spd1`).style.left = "84.5%";
+			document.getElementById(`p_spd1`).style.top = "37%";
+			document.getElementById(`p_spd1`).style.fontSize = "2.2vw";
+			document.getElementById(`p_finish1`).style.left = "25%";
+			document.getElementById(`p_finish1`).style.top = "25%";
+
+			document.getElementById(`p_laps2`).style.left = "2.5%";
+			document.getElementById(`p_laps2`).style.top = "81%";
+			document.getElementById(`p_laps2`).style.fontSize = "2.2vw";
+			document.getElementById(`p_spd2`).style.left = "2.5%";
+			document.getElementById(`p_spd2`).style.top = "87%";
+			document.getElementById(`p_spd2`).style.fontSize = "2.2vw";
+			document.getElementById(`p_finish2`).style.left = "-25%";
+			document.getElementById(`p_finish2`).style.top = "-25%";
+
+			document.getElementById(`p_laps3`).style.left = "2.5%";
+			document.getElementById(`p_laps3`).style.top = "81%";
+			document.getElementById(`p_laps3`).style.fontSize = "2.2vw";
+			document.getElementById(`p_spd3`).style.left = "2.5%";
+			document.getElementById(`p_spd3`).style.top = "87%";
+			document.getElementById(`p_spd3`).style.fontSize = "2.2vw";
+			document.getElementById(`p_finish3`).style.left = "-25%";
+			document.getElementById(`p_finish3`).style.top = "25%";
+		}
+	}
+	
 	b_isInitialized = true;
 }
 

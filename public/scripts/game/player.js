@@ -197,20 +197,6 @@ export default class Player{
 		
 			this.str_speedometerTextColor = "white";
 			this.str_speedometerBorderColor = "black";
-
-			//Adjust HUD positions in split-screen:
-			if(b_multiplayer){
-				document.getElementById(`p_laps0`).style.left = "2.5%";
-				document.getElementById(`p_laps0`).style.top = "72%";
-				document.getElementById(`p_laps1`).style.left = "84.5%";
-				document.getElementById(`p_laps1`).style.top = "72%";
-
-				document.getElementById(`p_spd0`).style.left = "2.5%";
-				document.getElementById(`p_spd1`).style.left = "84.5%";
-
-				document.getElementById(`p_finish0`).style.left = "-25%";
-				document.getElementById(`p_finish1`).style.left = "25%";
-			}
 	}
 	
 	//Function for player input and movement:
