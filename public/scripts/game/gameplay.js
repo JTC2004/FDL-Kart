@@ -176,10 +176,10 @@ async function fn_initializeGame(){
 			document.getElementById(`p_finish2`).style.left = "-25%";
 			document.getElementById(`p_finish2`).style.top = "52%";
 
-			document.getElementById(`p_laps3`).style.left = "2.5%";
+			document.getElementById(`p_laps3`).style.left = "84.5%";
 			document.getElementById(`p_laps3`).style.top = "81%";
 			document.getElementById(`p_laps3`).style.fontSize = "2.2vw";
-			document.getElementById(`p_spd3`).style.left = "2.5%";
+			document.getElementById(`p_spd3`).style.left = "84.5%";
 			document.getElementById(`p_spd3`).style.top = "87%";
 			document.getElementById(`p_spd3`).style.fontSize = "2.2vw";
 			document.getElementById(`p_finish3`).style.left = "25%";
