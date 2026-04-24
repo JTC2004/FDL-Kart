@@ -18,15 +18,16 @@ Features added since last version:
 
 To do next version (goals):
 	- BUGFIXES:
+		- Fix bug where player can't exit out of connect controllers menu.
+		- Make sure when a controller is unplugged or disconnected, it is removed from the list of controllers in multiplayer too.
 		- Fix bug where player 3 can't move if the keyboard is not connected.
 		- Fix controller input in Brave browser.
-		- Make only up to 4 inputs max able to be connected at once.
-		- Make sure when a controller is unplugged or disconnected, it is removed from the list of controllers in multiplayer too.
-		- Fix bug where player can't exit out of connect controllers menu.
 		- Make it so the player can't select no characters.
 		- Fix bug where swapping enough times in a row changes which character has which item.
-	- Allow players to disconnect / drop out in Controllers menu with B.
-	- 
+	- Controllers:
+		- Make only up to 4 inputs max able to be connected at once.
+		- Allow players to disconnect / drop out in Controllers menu with B.
+		- Make it so controllers can only connect/disconnect in the menus.
 	- RESPAWNING
 		- Add out-of-bounds detection zones to FDL Circuit.
 		- Make players respawn at their most recent checkpoint if they fall out of bounds.
@@ -44,6 +45,7 @@ To do next version (goals):
 		- ADD A TITLE SCREEN.
 			- This will be new way how P1 controller is determined (first controller to press a key/button on title screen becomes player 1).
 		- Make item box UI less large in 3+ players.
+		- After race is done, allow option to rematch or return to main menu.
 
 To do next version (stretch-goals):
 	- Player placements:
@@ -64,6 +66,7 @@ To do next version (stretch-goals):
 	- Add at least some character abilities.
 	- Add at least 1 new item.
 		- Make player unable to have 2 of the same item.
+	- Music & SFX
 	
 
 
@@ -87,7 +90,6 @@ For future development...:
 		- Polish instances of fn_updateLastKey().
 		- Make renderer.setScissorTest(true) only happen once.
 	- Universal Settings Menu.
-	- Music & SFX.
 
 
 COMMAND: npx vite
