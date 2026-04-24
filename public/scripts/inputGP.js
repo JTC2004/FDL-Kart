@@ -11,6 +11,7 @@ export default class InputHandlerGP{
 		this.a_prevButtons = [];		//Array of buttons held down in a previous frame.
 		this.a_press = [];				//Each index corresponds with a button, and returns true only if that button is pressed.
 		this.a_hold = [];				//Each index corresponds with a button, and returns true only if that button is held.
+		this.a_release = [];
 
 		this.f_deadZone = 0.15;
 		this.b_inDeadZone = null;		//Used to determine taps vs holds of the joystick.
@@ -86,6 +87,8 @@ export default class InputHandlerGP{
 			//Updating arrays used for determing press vs hold:
 			this.a_press[i] = isPressed && !wasPressed;
 			this.a_hold[i] = isPressed;
+			this.a_release[i] = !isPressed && wasPressed;
+
 			this.a_prevButtons[i] = isPressed;
 
 			//Refresh page if select button pressed:
@@ -161,6 +164,10 @@ export default class InputHandlerGP{
 	fn_hold_drift(_modifier){	
 		if(_modifier) return false;
 		return this.a_hold[this.int_gp_drift] || this.a_hold[1];
+	}
+	fn_release_drift(_modifier){
+		if(_modifier) return false;
+		return this.a_release[this.int_gp_drift] || this.a_release[1];
 	}
 	
 	//Function for item input:

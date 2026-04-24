@@ -35,7 +35,6 @@ var a_inputs = [input_kb];
 var a_gamepads = navigator.getGamepads();   //SEPARATE FROM ARRAY OF INPUTS.
 var int_numGamepads = 0;                    //Used to tell if a new gamepad is connected.
 let b_prevPressed = false;
-let b_prevPopped = false;
 //let renderer;
 
 var b_fullScreen = false;
@@ -163,8 +162,7 @@ try{
 
                         //Handling changes in controller count if a gamepad button is pressed and it isn't in the array of inputs:
                         //if(a_gamepads.length != int_numGamepads){
-                        //console.log(`${fn_anyButton(gamePad)}, ${!fn_isGpInInputs(gamePad)}, ${!b_prevPopped}`);
-                        if(fn_anyButton(gamePad) && !fn_isGpInInputs(gamePad) && !b_prevPopped){
+                        if(fn_anyButton(gamePad) && !fn_isGpInInputs(gamePad)){
                             int_numGamepads = a_gamepads.length;
 
                             //If there is a new controller, add it to the array of inputs at the front:
@@ -183,7 +181,6 @@ try{
                             //    a_inputs = [input_kb];
                             //}
                         }
-                        //b_prevPopped = false;
                         str_gamePads += `${gamePad.index}, `;
                     }
                     //console.log(`a_gamepads = [${str_gamePads}]`);
@@ -318,22 +315,22 @@ function fn_isGpInInputs(_gamepad){
 function fn_anyButton(_gamepad){
 		if (!_gamepad) return false;
 
-        let b_held = false;
+        //Commented out code for only detecting presses instead of holding.
+        //let b_held = false;
 		
 		for (const button of _gamepad.buttons) {
 			if (button.pressed) {
-                b_held = true;    
-                break;
+                return true;
+                //b_held = true;    
+                //break;
 			}
 		}
 
-        if(!b_held){
-            b_prevPopped = false;
-        }
+        //const b_pressed = b_held && !b_prevPressed;
+        //b_prevPressed = b_held;
+		//return b_pressed;
 
-        const b_pressed = b_held && !b_prevPressed;
-        b_prevPressed = b_held;
-		return b_pressed;
+        return false;
 	}
 
 //Used for rebuilding the renderer:
@@ -453,15 +450,13 @@ export function fn_clearScene() {
 //Remove both an input and it's corresponding gamepad:
 export function fn_popInput(_int_index){
     if(_int_index != 0){
-        if(a_inputs[_int_index].fn_getType() != "KB"){
-            //int_numGamepads -= 1;
-        
-        //    a_gamepads.pop(a_inputs[_int_index].fn_getIndex());
-        console.log(`POPPED GP ${a_inputs[_int_index].fn_getIndex()}`);
+        if(a_inputs[_int_index].fn_getType() == "KB"){
+            input_kb.fn_setConnected(false);
+        }
+        else{
+            //console.log(`POPPED GP ${a_inputs[_int_index].fn_getIndex()}`);
         }
         
-        //b_prevPressed = true;
-        b_prevPopped = true;
         a_inputs.pop(_int_index);
     }
 }

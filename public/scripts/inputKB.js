@@ -10,6 +10,7 @@ export default class InputHandlerKB{
 		this.a_prevKeys = [];			//Array of keys held down in a previous frame.
 		this.a_press = [];				//Each index corresponds with a key, and returns true only if that key is pressed.
 		this.a_hold = [];				//Each index corresponds with a key, and returns true only if that key is held.
+		this.a_release = [];
 		this.b_connected = true;
 		this.b_anyKeyPressed = false;
 		
@@ -40,6 +41,7 @@ export default class InputHandlerKB{
 			this.a_press[e.key] = !wasPressed;		//If current key was already held last frame, it's not a press.
 			this.a_hold[e.key] = true;				//Add current key to list of keys held down.
 			this.a_prevKeys[e.key] = true;			//Add current key to list of keys held last frame.
+			this.a_release[e.key] = false;			
 
 			this.b_anyKeyPressed = true;
 		});
@@ -48,6 +50,8 @@ export default class InputHandlerKB{
 		window.addEventListener('keyup', (e) => {
 			this.a_press[e.key] = false;
 			this.a_hold[e.key] = false;				//Remove current key from list of keys held down.
+			this.a_release[e.key] = true;
+
 			this.a_prevKeys[e.key] = false;			//Remove current key from list of keys held last frame.
 
 			//Debug print:
@@ -124,6 +128,14 @@ export default class InputHandlerKB{
 		if(_modifier) return false;
 		return this.a_hold[this.char_kb_drift];
 	}
+	fn_release_drift(_modifier){
+		if(_modifier) return false;
+		const b_result = this.a_release[this.char_kb_drift];
+
+		this.a_release[this.char_kb_drift] = false;
+		return b_result;
+	}
+
 	
 	//Function for item input:
 	fn_press_item(_modifier){	
