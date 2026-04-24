@@ -32,7 +32,7 @@ var b_gameplay = false;
 var b_multiplayer = false;
 var input_kb = new InputHandlerKB();
 var a_inputs = [input_kb];
-var a_gamepads = navigator.getGamepads();   //SEPARATE FROM ARRAY OF INPUTS.
+var a_gamepads = navigator.getGamepads();   //SEPARATE FROM ARRAY OF INPUTS. Useful for only adding non-null gamepads.
 var int_numGamepads = 0;                    //Used to tell if a new gamepad is connected.
 let b_prevPressed = false;
 //let renderer;
@@ -153,15 +153,15 @@ try{
                 //Handle changes in input count every frame:
                     //Get a snapshot of what controllers are connected (empty player slots are null in Chromium):
                     const rawGamepads = navigator.getGamepads();
+                    
 
                     //Only add non-null controllers to array of controllers:
                     a_gamepads = [];
-                    var str_gamePads = ``;    //Debug only
+                    //var str_gamePads = ``;    //Debug only
                     for (const gamePad of rawGamepads) {
                         if (gamePad) a_gamepads.push(gamePad);
-
-                        //Handling changes in controller count if a gamepad button is pressed and it isn't in the array of inputs:
-                        //if(a_gamepads.length != int_numGamepads){
+                        
+                        //Add a controller if a gamepad button is pressed and it isn't in the array of inputs:
                         if(fn_anyButton(gamePad) && !fn_isGpInInputs(gamePad)){
                             int_numGamepads = a_gamepads.length;
 
@@ -181,7 +181,12 @@ try{
                             //    a_inputs = [input_kb];
                             //}
                         }
-                        str_gamePads += `${gamePad.index}, `;
+                        //str_gamePads += `${gamePad.index}, `;
+                    }
+
+                    //If a controller is unplugged or disconnected, remove it from a_inputs:
+                    if(fn_isGpDisconnected(rawGamepads)){
+                        int_numGamepads = a_gamepads.length;
                     }
                     //console.log(`a_gamepads = [${str_gamePads}]`);
                     
@@ -190,13 +195,13 @@ try{
                         a_inputs.push(input_kb);
                         input_kb.fn_setConnected(true);
                     }
-
-                    var str_inputs = ``;    //Debug only
+                    
+                    //Debug only:
+                    var str_inputs = ``;    
                     for(const input of a_inputs){
                         str_inputs += `${input.fn_getType()}, `;
                     }
-                    console.log(`a_inputs = [${str_inputs}]`);
-                    //console.log(`b_multiplayer = ${b_multiplayer}`);
+                    console.log(`a_inputs = [${str_inputs}]     int_numGamepads = ${int_numGamepads}`);
             }
 
             //Advance input state ONCE PER FIXED UPDATE:
@@ -299,10 +304,24 @@ function fn_checkFullscreen(menuCamera, frustumHeight){
     }
 }
 
-function fn_isGpInInputs(_gamepad){
+//If a controller has been disconnected, remove it:
+function fn_isGpDisconnected(_gamepads){
+    for(let i = a_inputs.length - 1; i >= 0; i--){  //Backwards iteration is safer for a splice.
+        if(a_inputs[i].fn_getType() != "KB" && !_gamepads[a_inputs[i].fn_getIndex()]){
+            //console.log("Removing disconnected controller");
+            a_inputs.splice(i,1);   
+            return true;
+        }
+    }
+    return false;
+}
+
+//Figure out if a gamepad is in the list of inputs:
+function fn_isGpInInputs(_gamepad){ 
+
     //console.log(`a_inputs.length = ${a_inputs.length}`);
-    for(const input of a_inputs){
-        if(input.fn_getType().includes(_gamepad.index)){
+    for(const i in a_inputs){   
+        if(a_inputs[i].fn_getType().includes(_gamepad.index)){
             return true;
             console.log(`GP${_gamepad.index} IS IN A_INPUTS`);
             break;

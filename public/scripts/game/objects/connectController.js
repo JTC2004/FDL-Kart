@@ -48,8 +48,7 @@ export default class ConnectController extends Obj{
 
 			//If this controller presses B or RT, disconnect it:
 			if(a_inputs[this.int_index].fn_release_drift()){
-				//a_inputs.pop(this.int_index);
-				console.log(`POPPING INPUT ${this.int_index}`);
+				//console.log(`POPPING INPUT ${this.int_index}`);
 				fn_popInput(this.int_index);
 			}
 		}

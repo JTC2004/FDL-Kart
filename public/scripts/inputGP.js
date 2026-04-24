@@ -271,6 +271,13 @@ export default class InputHandlerGP{
 		return 'GP' + this.gamepad.index;
 	}
 
+	//Return the gamepad object:
+	fn_getGP(){
+		console.log(`fn_getGP for controller ${this.gamepad.index} returns ${this.gamepad}`);
+		
+		return this.gamepad;
+	}
+
 	fn_getIndex(){
 		return this.gamepad.index;
 	}
