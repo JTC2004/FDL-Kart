@@ -135,7 +135,6 @@ export default class InputHandlerKB{
 		this.a_release[this.char_kb_drift] = false;
 		return b_result;
 	}
-
 	
 	//Function for item input:
 	fn_press_item(_modifier){	

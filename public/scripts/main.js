@@ -195,7 +195,7 @@ try{
                     for(const input of a_inputs){
                         str_inputs += `${input.fn_getType()}, `;
                     }
-                    //console.log(`a_inputs = [${str_inputs}]`);
+                    console.log(`a_inputs = [${str_inputs}]`);
                     //console.log(`b_multiplayer = ${b_multiplayer}`);
             }
 
@@ -318,13 +318,21 @@ function fn_anyButton(_gamepad){
         //Commented out code for only detecting presses instead of holding.
         //let b_held = false;
 		
+        //Any button press:
 		for (const button of _gamepad.buttons) {
 			if (button.pressed) {
                 return true;
-                //b_held = true;    
+                //b_held = true;
                 //break;
 			}
 		}
+
+        //Any analog stick moved past a deadzone:
+        for (const axis of _gamepad.axes) {
+            if (Math.abs(axis) > 0.2) {
+                return true;
+            }
+        }
 
         //const b_pressed = b_held && !b_prevPressed;
         //b_prevPressed = b_held;
@@ -457,7 +465,7 @@ export function fn_popInput(_int_index){
             //console.log(`POPPED GP ${a_inputs[_int_index].fn_getIndex()}`);
         }
         
-        a_inputs.pop(_int_index);
+        a_inputs.splice(_int_index, 1);
     }
 }
 

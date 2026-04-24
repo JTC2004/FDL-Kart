@@ -169,6 +169,19 @@ export default class InputHandlerGP{
 		if(_modifier) return false;
 		return this.a_release[this.int_gp_drift] || this.a_release[1];
 	}
+	//Function for only B input:
+	fn_press_B(_modifier){	
+		if(_modifier) return false;
+		return this.a_press[1];
+	}
+	fn_hold_B(_modifier){	
+		if(_modifier) return false;
+		return this.a_hold[1];
+	}
+	fn_release_B(_modifier){
+		if(_modifier) return false;
+		return this.a_release[1];
+	}
 	
 	//Function for item input:
 	fn_press_item(_modifier){	
