@@ -222,6 +222,19 @@ export default class InputHandlerGP{
 		return this.a_hold[this.int_gp_fly];
 	}
 
+	//If any button pressed:
+	fn_press(){
+		for (const button of this.gamepad.buttons) {
+			if (button.pressed) {
+				return true;
+			}
+		}
+		if(this.fn_hold_left() || this.fn_hold_right() || this.fn_hold_forward() || this.fn_hold_back()){
+			return true;
+		}
+		return false;
+	}
+
 	//Functions for c-stick tilt:
 	fn_get_rightX(){
 		return this.f_rightX;

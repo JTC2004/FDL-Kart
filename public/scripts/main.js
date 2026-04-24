@@ -176,11 +176,11 @@ try{
                 input_kb.fn_setConnected(true);
             }
 
-            var str_inputs = ``;    //Debug only
+            /*var str_inputs = ``;    //Debug only
             for(const input of a_inputs){
                 str_inputs += `${input.fn_getType()}, `;
             }
-            console.log(`a_inputs = [${str_inputs}]`);
+            console.log(`a_inputs = [${str_inputs}]`);*/
             //console.log(`b_multiplayer = ${b_multiplayer}`);
             
         

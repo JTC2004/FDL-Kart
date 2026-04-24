@@ -12,43 +12,63 @@ Features added since last version:
 		- Added visual indication for controller being connected.
 		- Multiplayer can't start if only 1 input is connected.
 	- Added split-screen for up to 4 players!
-	- UI adjusted for 4 players.
-	- Fixed FINISH text being misaligned in 3+ players.
+		- UI adjusted for 4 players.
+		- Fixed FINISH text being misaligned in 3+ players.
+	- Make controller pulse when a button is pressed in Controllers Menu.
 
-To do this version:
-	- Make it so the player can't select no characters.
-	- Fix bug where player can't exit out of connect controllers menu.
-	- Fix bug where player 3 can't move if keyboard not connected.
-	- Add character select for multiple players.
-	
-	- Add textures to FDL Circuit.
-
-	 -Fix a bug where swapping enough times in a row changes which character has which item.
-	
-	- Add at least some character abilities.
-	
-	- Make what item you get depend on distance into the course.
-	- Player placements.
-	- Add at least 1 new item.
-	- Add a 4th turning sprite. Have regular turning sprites 0 - 2, and drifting only use 2 - 4.
-	- Make player 1 able to change input from KB to GP willingly.
-	
-
-To do next (major):
-	- Polish & improvements:
-		- RESPAWNING!!
-		- FOV increase during speed boosts.
-		- Driver character sprite changes based on perspective.
+To do next version (goals):
+	- BUGFIXES:
+		- Fix bug where player 3 can't move if the keyboard is not connected.
+		- Fix controller input in Brave browser.
+		- Make only up to 4 inputs max able to be connected at once.
+		- Make sure when a controller is unplugged or disconnected, it is removed from the list of controllers in multiplayer too.
+		- Fix bug where player can't exit out of connect controllers menu.
+		- Make it so the player can't select no characters.
+		- Fix bug where swapping enough times in a row changes which character has which item.
+	- Allow players to disconnect / drop out in Controllers menu with B.
+	- 
+	- RESPAWNING
+		- Add out-of-bounds detection zones to FDL Circuit.
+		- Make players respawn at their most recent checkpoint if they fall out of bounds.
+	- Model improvements:
+		- Make the water in the race course unable to be driven on.
+		- Add the missing shortcut and smooth out the bridge wals in the model for FDL Circuit.
+	- Top player feedback suggestions:
+		- Make the player’s FOV increase during a speed boost.
+		- While in off-road, make the player’s speed decrease to half speed, instead of instantly cutting the speed in half.
+	- UI polish:
+		- Remove the index.html webpage (it is a holdover from when this was a web dev project), and rename game.html to index.html.
+		- Remove unused modes from the menus.
 		- Add a preview image and tab icon to the site!
-		- Make player unable to have 2 of the same item.
-		- Update the How to Play section.
+		- Update images in the How to Play section.
+		- ADD A TITLE SCREEN.
+			- This will be new way how P1 controller is determined (first controller to press a key/button on title screen becomes player 1).
+		- Make item box UI less large in 3+ players.
+
+To do next version (stretch-goals):
+	- Player placements:
+			- Make what item you get depend on distance into the course.	
+	- Mising animations / sprite improvements:
+		- Make sprites in multiplayer use 128px versions instead of 256px.
+		- Add a 4th turning sprite. Have regular turning sprites 0 - 2, and drifting only use 2 - 4.
+		- Victory animation.
+		- Driver character sprite changes based on perspective.	
+	- Misc. polish:
 		- Make camera slightly less close to the player in 2-player split-screen.
-		- Controllers menu.
-			- Make it so players can easily swap between keyboard & gamepad.
-		- Title screen (first controller to press a key/button becomes player 1).
 		- Make split-screen friendly with different resolutions.
-		
-		
+		- Make image able to detect if controller is Xbox 360, Xbox One, or other.
+		- Make left half of keyboard (arrows & numpad) a separate, detectable input.
+
+	- Add character select for multiplayer.
+	- Add textures to FDL Circuit.
+	- Add at least some character abilities.
+	- Add at least 1 new item.
+		- Make player unable to have 2 of the same item.
+	
+
+
+For future development...:
+	- Polish & improvements:
 		- Mini-turbo sprites.
 		- Make settings changes happen inside option.js with getters & setters from main.js, instead of it happening in main.js (?).
 		- Universal lineart wiggle operaiton.

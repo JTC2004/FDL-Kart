@@ -185,6 +185,7 @@ export default class InputHandlerKB{
 		return this.a_hold[this.char_kb_fly];
 	}
 
+	//If any key pressed:
 	fn_press(){
 		return this.b_anyKeyPressed;
 	}

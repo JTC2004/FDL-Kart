@@ -293,6 +293,21 @@ export default class Obj{
 			}
 			if(this.cube){		this.mesh.rotation.copy(v_xyz)		}
 		}
+
+		fn_setScale(v_xyz){
+			if(this.model){		
+				this.model.scale.x = v_xyz.x;
+				this.model.scale.y = v_xyz.y;
+				this.model.scale.z = v_xyz.z;	
+			}
+			if(this.cube){		this.mesh.scale.copy(v_xyz)}
+			if(this.sprite){	this.sprite.scale.copy(v_xyz)}
+		}
+
+		fn_getSpriteScale(){
+			return this.sprite.scale;
+		}
+
 		fn_setSpriteTile(_x, _y){
 			//x negative to pos is left to right.
 			//y negative to pos is up to down.	this.int_spriteMapsIndex
