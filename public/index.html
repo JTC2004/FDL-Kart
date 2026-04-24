@@ -15,19 +15,21 @@ Features added since last version:
 		- UI adjusted for 4 players.
 		- Fixed FINISH text being misaligned in 3+ players.
 	- Make controller pulse when a button is pressed in Controllers Menu.
+	
+	- Made only up to 4 inputs max able to be connected at once.
+	- Made it so controllers can only connect/disconnect in the menus.
+	- Fixed bug where player can't exit out of connect controllers menu.
 
 To do next version (goals):
 	- BUGFIXES:
-		- Fix bug where player can't exit out of connect controllers menu.
 		- Make sure when a controller is unplugged or disconnected, it is removed from the list of controllers in multiplayer too.
 		- Fix bug where player 3 can't move if the keyboard is not connected.
 		- Fix controller input in Brave browser.
 		- Make it so the player can't select no characters.
 		- Fix bug where swapping enough times in a row changes which character has which item.
 	- Controllers:
-		- Make only up to 4 inputs max able to be connected at once.
 		- Allow players to disconnect / drop out in Controllers menu with B.
-		- Make it so controllers can only connect/disconnect in the menus.
+		
 	- RESPAWNING
 		- Add out-of-bounds detection zones to FDL Circuit.
 		- Make players respawn at their most recent checkpoint if they fall out of bounds.
@@ -45,8 +47,10 @@ To do next version (goals):
 		- Update images in the How to Play section.
 		- ADD A TITLE SCREEN.
 			- This will be new way how P1 controller is determined (first controller to press a key/button on title screen becomes player 1).
+			- Remove current method of 1P gamepad input.
 		- Make item box UI less large in 3+ players.
 		- After race is done, allow option to rematch or return to main menu.
+		- Remove ability for controllers to refresh the page.
 
 To do next version (stretch-goals):
 	- Player placements:
@@ -57,6 +61,7 @@ To do next version (stretch-goals):
 		- Victory animation.
 		- Driver character sprite changes based on perspective.	
 	- Misc. polish:
+		- Make gameplay wait for all object models/sprites to load.
 		- Make camera slightly less close to the player in 2-player split-screen.
 		- Make split-screen friendly with different resolutions.
 		- Make image able to detect if controller is Xbox 360, Xbox One, or other.

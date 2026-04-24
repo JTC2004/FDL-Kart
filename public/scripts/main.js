@@ -34,6 +34,8 @@ var input_kb = new InputHandlerKB();
 var a_inputs = [input_kb];
 var a_gamepads = navigator.getGamepads();   //SEPARATE FROM ARRAY OF INPUTS.
 var int_numGamepads = 0;                    //Used to tell if a new gamepad is connected.
+let b_prevPressed = false;
+let b_prevPopped = false;
 //let renderer;
 
 var b_fullScreen = false;
@@ -136,54 +138,6 @@ try{
     gameLoop.addCallback((dt) => {
         //console.log(`Game mode ${window.int_gameMode}`);
         
-        //Handle input stuff every frame:
-            //Get a snapshot of what controllers are connected (empty player slots are null in Chromium):
-            const rawGamepads = navigator.getGamepads();
-
-            //Only add non-null controllers to array of controllers:
-            a_gamepads = [];
-            //var str_gamePads = ``;    //Debug only
-            for (const gamePad of rawGamepads) {
-                if (gamePad) a_gamepads.push(gamePad);
-                
-                //str_gamePads += `${gamePad.index}, `;
-            }
-            //console.log(`a_gamepads = [${str_gamePads}]`);
-        
-            //Handling changes in controller count:
-            if(a_gamepads.length != int_numGamepads){
-                int_numGamepads = a_gamepads.length;
-
-                //If there is a new controller, add it to the array of inputs at the front:
-                if(a_gamepads.length > 0){
-                    if(!b_multiplayer && a_gamepads.length < 2){
-                        input_kb.fn_setConnected(false);
-                        a_inputs.splice(0);
-                        a_inputs.unshift(new InputHandlerGP(a_gamepads[0]));
-                    }
-                    else{
-                        a_inputs.push(new InputHandlerGP(a_gamepads[a_gamepads.length - 1]));
-                    }
-                    a_gameCameras.push(new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 ));
-                }
-                else{
-                    a_inputs = [input_kb];
-                }
-            }
-            //Adding keyboard input in multiplayer:
-            if(b_multiplayer && input_kb.fn_press() && !input_kb.fn_getConnected()){
-                a_inputs.push(input_kb);
-                input_kb.fn_setConnected(true);
-            }
-
-            /*var str_inputs = ``;    //Debug only
-            for(const input of a_inputs){
-                str_inputs += `${input.fn_getType()}, `;
-            }
-            console.log(`a_inputs = [${str_inputs}]`);*/
-            //console.log(`b_multiplayer = ${b_multiplayer}`);
-            
-        
         //Fixed update (60 hz):
         if(dt > 0){
             //Get input for gamepad(s):
@@ -196,6 +150,56 @@ try{
             }
             else{
                 b_gameplay = fn_updateMenus();
+
+                //Handle changes in input count every frame:
+                    //Get a snapshot of what controllers are connected (empty player slots are null in Chromium):
+                    const rawGamepads = navigator.getGamepads();
+
+                    //Only add non-null controllers to array of controllers:
+                    a_gamepads = [];
+                    var str_gamePads = ``;    //Debug only
+                    for (const gamePad of rawGamepads) {
+                        if (gamePad) a_gamepads.push(gamePad);
+
+                        //Handling changes in controller count if a gamepad button is pressed and it isn't in the array of inputs:
+                        //if(a_gamepads.length != int_numGamepads){
+                        //console.log(`${fn_anyButton(gamePad)}, ${!fn_isGpInInputs(gamePad)}, ${!b_prevPopped}`);
+                        if(fn_anyButton(gamePad) && !fn_isGpInInputs(gamePad) && !b_prevPopped){
+                            int_numGamepads = a_gamepads.length;
+
+                            //If there is a new controller, add it to the array of inputs at the front:
+                            if(a_gamepads.length > 0 && a_inputs.length < 4){
+                                if(!b_multiplayer && a_gamepads.length < 2){
+                                    input_kb.fn_setConnected(false);
+                                    a_inputs.splice(0);
+                                    a_inputs.unshift(new InputHandlerGP(a_gamepads[0]));
+                                }
+                                else{
+                                    a_inputs.push(new InputHandlerGP(a_gamepads[a_gamepads.length - 1]));
+                                }
+                                a_gameCameras.push(new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 ));
+                            }
+                            //else{
+                            //    a_inputs = [input_kb];
+                            //}
+                        }
+                        //b_prevPopped = false;
+                        str_gamePads += `${gamePad.index}, `;
+                    }
+                    //console.log(`a_gamepads = [${str_gamePads}]`);
+                    
+                    //Adding keyboard input in multiplayer:
+                    if(b_multiplayer && input_kb.fn_press() && !input_kb.fn_getConnected() && a_inputs.length < 4){
+                        a_inputs.push(input_kb);
+                        input_kb.fn_setConnected(true);
+                    }
+
+                    var str_inputs = ``;    //Debug only
+                    for(const input of a_inputs){
+                        str_inputs += `${input.fn_getType()}, `;
+                    }
+                    //console.log(`a_inputs = [${str_inputs}]`);
+                    //console.log(`b_multiplayer = ${b_multiplayer}`);
             }
 
             //Advance input state ONCE PER FIXED UPDATE:
@@ -297,6 +301,40 @@ function fn_checkFullscreen(menuCamera, frustumHeight){
 		}
     }
 }
+
+function fn_isGpInInputs(_gamepad){
+    //console.log(`a_inputs.length = ${a_inputs.length}`);
+    for(const input of a_inputs){
+        if(input.fn_getType().includes(_gamepad.index)){
+            return true;
+            console.log(`GP${_gamepad.index} IS IN A_INPUTS`);
+            break;
+        }
+    }
+    return false;
+}
+
+//If any button on a controller is pressed:
+function fn_anyButton(_gamepad){
+		if (!_gamepad) return false;
+
+        let b_held = false;
+		
+		for (const button of _gamepad.buttons) {
+			if (button.pressed) {
+                b_held = true;    
+                break;
+			}
+		}
+
+        if(!b_held){
+            b_prevPopped = false;
+        }
+
+        const b_pressed = b_held && !b_prevPressed;
+        b_prevPressed = b_held;
+		return b_pressed;
+	}
 
 //Used for rebuilding the renderer:
 /*function fn_initializeRenderer(){
@@ -409,6 +447,22 @@ export function fn_clearScene() {
                 object.material.dispose();
             }
         }
+    }
+}
+
+//Remove both an input and it's corresponding gamepad:
+export function fn_popInput(_int_index){
+    if(_int_index != 0){
+        if(a_inputs[_int_index].fn_getType() != "KB"){
+            //int_numGamepads -= 1;
+        
+        //    a_gamepads.pop(a_inputs[_int_index].fn_getIndex());
+        console.log(`POPPED GP ${a_inputs[_int_index].fn_getIndex()}`);
+        }
+        
+        //b_prevPressed = true;
+        b_prevPopped = true;
+        a_inputs.pop(_int_index);
     }
 }
 

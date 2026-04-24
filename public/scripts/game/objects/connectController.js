@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import Obj from "../object.js";
 import { fn_getInputs } from "../../main.js";
+import { fn_popInput } from "../../main.js";
 let a_inputs;
 
 export default class ConnectController extends Obj{
@@ -23,9 +24,11 @@ export default class ConnectController extends Obj{
 	}
 
 	fn_update(){
+		//If this input isn't in the list of inputs, don't display the sprite:
 		if(a_inputs.length <= this.int_index){
 			this.sprite.visible = false;
 		}
+		//Else, display the sprite depending on if the input is a keyboard or controller: 
 		else{
 			this.sprite.visible = true;
 
@@ -36,12 +39,21 @@ export default class ConnectController extends Obj{
 				this.fn_changeSpriteSheet(1);
 			}
 
+			//If any button is pressed in the input, make the sprite puff up...
 			if(a_inputs[this.int_index].fn_press()){
 				this.fn_setScale(new THREE.Vector3(this.f_baseScaleX * 1.2, this.f_baseScaleY * 1.2, 0));
 				this.f_scaleIncrement = 0;
 			}
+
+			//If this controller presses B or RT, disconnect it:
+			if(a_inputs[this.int_index].fn_press_drift()){
+				//a_inputs.pop(this.int_index);
+				console.log(`TRYING TO POP INPUT ${this.int_index}`);
+				//fn_popInput(this.int_index);
+			}
 		}
 
+		//...and then shrink back to it's base size:
 		if(this.fn_getSpriteScale().x > this.f_baseScaleX){
 			this.f_scaleIncrement += 0.05;
 			this.fn_setScale(new THREE.Vector3(this.f_baseScaleX * (1.2 - this.f_scaleIncrement), this.f_baseScaleY * (1.2 - this.f_scaleIncrement), 0));

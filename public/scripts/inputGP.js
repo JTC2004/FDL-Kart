@@ -1,8 +1,9 @@
 export default class InputHandlerGP{
 	
 	constructor(gamepad){
-		console.log("gamepad ID = " + gamepad.id);
-		
+		//("gamepad ID = " + gamepad.id);
+
+
 		this.gamepad = gamepad;					//Should be an object pointer.
 		//this.int_index = gamepad.index;
 		this.b_printButton = false;
@@ -88,7 +89,7 @@ export default class InputHandlerGP{
 			this.a_prevButtons[i] = isPressed;
 
 			//Refresh page if select button pressed:
-			if(this.a_press[8]){
+			if(this.a_press[8] /*&& window.b_debug*/){
 				location.reload();
 			}
 		});
@@ -224,6 +225,8 @@ export default class InputHandlerGP{
 
 	//If any button pressed:
 	fn_press(){
+		if (!this.gamepad) return false;
+		
 		for (const button of this.gamepad.buttons) {
 			if (button.pressed) {
 				return true;
@@ -245,7 +248,11 @@ export default class InputHandlerGP{
 
 	//Return if this is a keyboard or gamepad:
 	fn_getType(){
-		return `GP${this.gamepad.index}`;
+		return 'GP' + this.gamepad.index;
+	}
+
+	fn_getIndex(){
+		return this.gamepad.index;
 	}
 
 	//Make sure array of inputs updates to kep track of it a :

@@ -311,7 +311,7 @@ export function fn_updateMenus(){
 	}
 	//Going back to previous menu:
 	if(input.fn_press_drift()){
-		if(int_charaIndex > 0){
+		if(int_charaIndex > 0 && str_currentMenu == "1P Character Select"){
 			a_characters[int_charaIndex].fn_setCharacter('');
 			int_charaIndex = 0;
 			b_charIndexIncremented = true;
