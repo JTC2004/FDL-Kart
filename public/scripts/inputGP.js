@@ -39,6 +39,9 @@ export default class InputHandlerGP{
 
 	//Update the gamepad:
 	fn_update(){
+		//Need to update this gamepad object every frame:
+		this.gamepad = navigator.getGamepads()[this.gamepad.index];
+		
 		//Error handling:
 		if(!this.gamepad){
 			console.log("Error, no controller here.");
