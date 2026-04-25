@@ -38,10 +38,10 @@ let b_prevPressed = false;
 //let renderer;
 
 var b_fullScreen = false;
-window.b_debug = false;
+window.b_debug = true;
 window.b_birdEye = false;
 window.a_characters = [['', ''], ['', ''], ['', ''], ['', '']]; 
-var str_map = "FDL Circuit";
+var str_map = "MC1";
 window.int_gameMode = 2;      //0 is Practice, 
 //                              1 is Grand Prix, 
 //                              2 is Time Trials, 

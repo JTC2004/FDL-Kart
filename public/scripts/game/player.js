@@ -200,7 +200,7 @@ export default class Player{
 	}
 	
 	//Function for player input and movement:
-	fn_play(){		
+	fn_play(worldOctree){		
 		const input = a_inputs[int_playerNum.get(this)];
 		const camera = a_cameras[int_playerNum.get(this)];
 
@@ -588,6 +588,10 @@ export default class Player{
 
 				//console.log(`Charge jumping = ${this.b_chargeJumping}`);
 			
+			//Actually move the player (if speed is high enough, increment in smaller steps at a time to avoid clipping):
+			if(this.f_speed > .7){
+				
+			}
 			//Update player's position:
 				this.player.position.x -= Math.sin(this.player.rotation.y) * this.f_speed * this.f_pushedBack;
 				this.player.position.z -= Math.cos(this.player.rotation.y) * this.f_speed * this.f_pushedBack;
@@ -595,19 +599,22 @@ export default class Player{
 			//Update world collider:
 				this.worldCollider.start.set(this.player.position.x, this.player.position.y, this.player.position.z);
 				this.worldCollider.end.set(this.worldCollider.start.x, this.worldCollider.start.y + this.f_radius * .35, this.worldCollider.start.z);
-			
-			if(this.f_pushedBack >= 1.0){
-				this.f_pushedBack = 1.0;
-			}
-			else{
-				this.f_pushedBack += 0.07;
-			}
-			
-			//this.playerCollider.start.x -= Math.sin(this.player.rotation.y) * this.f_acceleration;
-			//this.playerCollider.start.z -= Math.cos(this.player.rotation.y) * this.f_acceleration;
-			
-			this.b_onGround = false;
-			this.b_firstLanded = false;
+
+				if(this.f_pushedBack >= 1.0){
+					this.f_pushedBack = 1.0;
+				}
+				else{
+					this.f_pushedBack += 0.07;
+				}
+				
+				//this.playerCollider.start.x -= Math.sin(this.player.rotation.y) * this.f_acceleration;
+				//this.playerCollider.start.z -= Math.cos(this.player.rotation.y) * this.f_acceleration;
+				
+				this.b_onGround = false;
+				this.b_firstLanded = false;
+
+			//Collision check:
+				this.fn_collision(worldOctree);
 
 			this.boundingSphere.center.copy(this.player.position);
 		}
@@ -659,6 +666,7 @@ export default class Player{
 	
 	//Checks for collisions with course and environment:
 	fn_collision(worldOctree){
+		if(!worldOctree) return;
 		this.result = worldOctree.capsuleIntersect( this.worldCollider );
 
 		if ( this.result ) {
