@@ -5,6 +5,7 @@ Compatibile browsers:
 	- Firefox
 	- Chrome
 	- Brave
+	- Edge
 
 Note:
 	- For offroad.blend, offset height by 0.141, then round down!
@@ -26,10 +27,12 @@ Features added since last version:
 	- Allow players to disconnect / drop out in Controllers menu with B.
 	- Make sure when a controller is unplugged or disconnected, it is removed from the list of controllers in multiplayer too (NOT PERFECT).
 	- Fixed UI for player 4.
-
 	- Made gamepad reference in inputGP.js update every frame:
 		- Fixed the game randomly eating controller inputs.
 		- Fixed controller input in Brave browser.
+
+	- Remove the index.html webpage (it is a holdover from when this was a web dev project), and rename game.html to index.html.
+			- EMAIL DR. ZHENG ABOUT THIS
 
 To do next version (goals):
 	- BUGFIXES:
@@ -47,8 +50,6 @@ To do next version (goals):
 		- Make the player’s FOV increase during a speed boost.
 		- While in off-road, make the player’s speed decrease to half speed, instead of instantly cutting the speed in half.
 	- UI polish:
-		- Remove the index.html webpage (it is a holdover from when this was a web dev project), and rename game.html to index.html.
-			- EMAIL DR. ZHENG ABOUT THIS FIRST
 		- Remove unused modes from the menus.
 		- Add a preview image and tab icon to the site!
 		- Update images in the How to Play section.
@@ -105,58 +106,94 @@ For future development...:
 		- Make renderer.setScissorTest(true) only happen once.
 	- Universal Settings Menu.
 
+this is index.html -->
 
-COMMAND: npx vite
-or, 	 npx serve
-
-This is index.html -->
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<link rel="stylesheet" type="text/css" href="css/index_style.css">
+		<link rel="stylesheet" type="text/css" href="./css/game_style.css">
 		
 		<meta charset="utf-8">
-		<title>FDL Kart - Save Select</title>
+		<title>FDL Kart</title>
+		<style>
+			body { margin: 0; }
+		</style>
 		
-		
+		<script type="importmap">
+		{
+			"imports": {
+			"three": "https://cdn.jsdelivr.net/npm/three@v0.173.0/build/three.module.js",
+			"three/addons/": "https://cdn.jsdelivr.net/npm/three@v0.173.0/examples/jsm/"
+			}
+		}
+		</script>
+		<!--<script src="https://unpkg.com/three@0.173.0/examples/jsm/loaders/GLTFLoader.js"></script>-->
 	</head>
 	<body>
-		<?php include 'scripts/connectToDatabase.php'; ?>
 		
-		<script>audioElement.play();</script>
+		<script type="module" src="scripts/main.js"></script>
+
+		<!--<div id="info">Use Space to accelerate, WASD to steer, & J to drift/brake.<br /> Press f to toggle free cam.</div>-->
+		<div id="info"></div>
 		
-		<p class="txt_subHead1">Welcome to</p>
-		<h1>Fleur-De-Lis Kart!!</h1>
-		<p class="txt_desc">A free kart game for your browser created by PARR-E, based on the Fleur De Lis series by Cinemint.</p>
+		<!-- Debug prints: -->
+		<p id="p_fps"></p>
+		<p id="p_coords"></p>
+		<p id="p_check"></p>
+		<p id="p_name"></p>
+
+		<!-- UI Elements for each player: -->
+		<p id="p_time"></p>
 		
-		<p class="txt_subHead2">Log in to your profile:</p>
+			<!-- Player 1: -->
+			<img id="img_item0-0" src="">
+			<img id="img_item0-1" src="">
+			<img id="img_itemSlot0-0" src="assets/sprites/gameplay/hud/ItemSlot_Active.png" alt="Player 1's item box">
+			<img id="img_itemSlot0-1" src="assets/sprites/gameplay/hud/ItemSlot_Driver.png">
+			<img id="img_itemSlot0-2" src="assets/sprites/gameplay/hud/ItemSlot_SwapIcon.png">
+			<div id="div_placement0"></div>
+			<p id="p_laps0"></p>
+			<p id="p_spd0"></p>
+			<p id="p_finish0"></p>
+
+			<!-- Player 2: -->
+			<img id="img_item1-0" src="">
+			<img id="img_item1-1" src="">
+			<img id="img_itemSlot1-0" src="assets/sprites/gameplay/hud/ItemSlot_Active.png" alt="Player 2's item box">
+			<img id="img_itemSlot1-1" src="assets/sprites/gameplay/hud/ItemSlot_Driver.png">
+			<img id="img_itemSlot1-2" src="assets/sprites/gameplay/hud/ItemSlot_SwapIcon.png">
+			<div id="div_placement1"></div>
+			<p id="p_laps1"></p>
+			<p id="p_spd1"></p>
+			<p id="p_finish1"></p>
+
+			<!-- Player 3: -->
+			<img id="img_item2-0" src="">
+			<img id="img_item2-1" src="">
+			<img id="img_itemSlot2-0" src="assets/sprites/gameplay/hud/ItemSlot_Active.png" alt="Player 3's item box">
+			<img id="img_itemSlot2-1" src="assets/sprites/gameplay/hud/ItemSlot_Driver.png">
+			<img id="img_itemSlot2-2" src="assets/sprites/gameplay/hud/ItemSlot_SwapIcon.png">
+			<div id="div_placement2"></div>
+			<p id="p_laps2"></p>
+			<p id="p_spd2"></p>
+			<p id="p_finish2"></p>
+
+			<!-- Player 4: -->
+			<img id="img_item3-0" src="">
+			<img id="img_item3-1" src="">
+			<img id="img_itemSlot3-0" src="assets/sprites/gameplay/hud/ItemSlot_Active.png" alt="Player 4's item box">
+			<img id="img_itemSlot3-1" src="assets/sprites/gameplay/hud/ItemSlot_Driver.png">
+			<img id="img_itemSlot3-2" src="assets/sprites/gameplay/hud/ItemSlot_SwapIcon.png">
+			<div id="div_placement3"></div>
+			<p id="p_laps3"></p>
+			<p id="p_spd3"></p>
+			<p id="p_finish3"></p>
+
+		<!-- Settings UI elements: -->
+		<p id="p_Resolution"></p>
+		<p id="p_SharpPixels"></p>
 		
-		<form id="form_login" action="login.php" method="post">
-			<fieldset>
-				<br/>
-				<label for"username" class="label_username">Username: </label>
-				<input type="text" name="username" class="input_username" value="" size=19 maxlength=10/>
-				<br/><br/>
-				<label for"password" class="label_password">Password: </label>
-				<input type="password" name="password" class="input_password">
-				<div class="loginContainer">
-					<input type="submit" class="btn_login" id="submit" value="Login">
-				</div>
-				
-			</fieldset>
-		</form>
-		
-		<p class="txt_subHead3">Or...</p>
-		<script>
-		  function redirectToGame() {
-			window.location.href = "game.html";
-		  }
-		</script>
-		
-		<a href='newProfile.html' class="btn_newSave"> New Save </a>
-		<a href='game.html' class="btn_noSave"> No Save </a>
-		
-		
+		<!--<a href='index.html' class="btn_back"> Back to Home </a>-->
 		
 	</body>
 </html>
