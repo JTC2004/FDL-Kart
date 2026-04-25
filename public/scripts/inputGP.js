@@ -39,30 +39,18 @@ export default class InputHandlerGP{
 
 	//Update the gamepad:
 	fn_update(){
-		//Need to update this gamepad object every frame:
-		this.gamepad = navigator.getGamepads()[this.gamepad.index];
+		//Need to update this gamepad object every frame so the game works in Chromium and doesn't eat inputs:
+		this.rawGamepad = navigator.getGamepads()[this.gamepad.index];
 		
 		//Error handling:
-		if(!this.gamepad){
+		if(!this.rawGamepad){
 			console.log("Error, no controller here.");
 			return;
 		}
-		
-		//Tell the difference for whether a button is held or pressed:
-		this.gamepad.buttons.forEach((btn, i) => {
-			const wasPressed = this.a_prevButtons[i] || false;
-			const isPressed  = btn.pressed;
+		this.gamepad = this.rawGamepad;	//Make sure inputs don't get eaten in Firefox either.
+										//Unlike Chromium, getGamepads() returns a live object in Firefox.
 
-			//Debug prints:
-			if(this.b_printButton){
-				if (isPressed && !wasPressed) {
-					console.log(`Button ${i} pressed`);
-				}
-
-				if (!isPressed && wasPressed) {
-					console.log(`Button ${i} released`);
-				}
-			}
+		//Joystick code doesn't need to be in the buttons loop:
 			this.b_inDeadZone = true;
 			this.f_leftX = 0.0;
 			this.f_leftY = 0.0;
@@ -85,20 +73,36 @@ export default class InputHandlerGP{
 				this.f_rightY = this.gamepad.axes[3];
 			}
 
-			//console.log("f_leftX = " + this.f_leftX + "\t f_leftY = " + this.f_leftY)
+			//console.log("f_leftX = " + this.f_leftX + "\t f_leftY = " + this.f_leftY);
+		
+		//Tell the difference for whether a button is held or pressed:
+			this.gamepad.buttons.forEach((btn, i) => {
+				const wasPressed = this.a_prevButtons[i] || false;
+				const isPressed  = btn.pressed;
 
-			//Updating arrays used for determing press vs hold:
-			this.a_press[i] = isPressed && !wasPressed;
-			this.a_hold[i] = isPressed;
-			this.a_release[i] = !isPressed && wasPressed;
+				//Debug prints:
+				if(this.b_printButton){
+					if (isPressed && !wasPressed) {
+						console.log(`Button ${i} pressed`);
+					}
 
-			this.a_prevButtons[i] = isPressed;
+					if (!isPressed && wasPressed) {
+						console.log(`Button ${i} released`);
+					}
+				}
 
-			//Refresh page if select button pressed:
-			if(this.a_press[8] /*&& window.b_debug*/){
-				location.reload();
-			}
-		});
+				//Updating arrays used for determing press vs hold:
+				this.a_press[i] = isPressed && !wasPressed;
+				this.a_hold[i] = isPressed;
+				this.a_release[i] = !isPressed && wasPressed;
+
+				this.a_prevButtons[i] = isPressed;
+
+				//Refresh page if select button pressed:
+				if(this.a_press[8] /*&& window.b_debug*/){
+					location.reload();
+				}
+			});
 
 		//console.log(`Gamepad ${this.gamepad.index} update.`);
 	}
