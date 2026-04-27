@@ -123,7 +123,7 @@ export default class Option{
             else if(_text == "Controls (gamepad)" || _text == "Controls (keyboard)"){
                 scene.remove( this.spr_highlight );
                 this.b_static = true;
-                this.spr_text.material.color.setRGB(1.5, 1.5, 1.5);
+                //this.spr_text.material.color.setRGB(1.2, 1.2, 1.2);
             }
         else{
             this.b_enabled = false;
