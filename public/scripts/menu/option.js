@@ -65,7 +65,9 @@ export default class Option{
 
         //Properties unique to each button:
         if(_text.includes("chara_")){
-            this.str_goTo = "start";
+            if(_text != "chara_(unlockable)"){
+                this.str_goTo = "start";
+            }
             this.str_info = _text.substring(6);
         }
         else if(_text == "Single Play"){
