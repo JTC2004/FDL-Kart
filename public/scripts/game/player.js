@@ -200,7 +200,7 @@ export default class Player{
 	}
 	
 	//Function for player input and movement:
-	fn_play(worldOctree){		
+	fn_play(worldOctree, offroadOctree){		
 		const input = a_inputs[int_playerNum.get(this)];
 		const camera = a_cameras[int_playerNum.get(this)];
 
@@ -430,7 +430,7 @@ export default class Player{
 							-this.f_maxTurning,
 							Math.min(this.f_turning, this.f_maxTurning)
 						);
-					console.log(`this.b_onGround = ${this.b_onGround}`);
+					//console.log(`this.b_onGround = ${this.b_onGround}`);
 					
 					//Loss of speed when turning (doesn't occur during a speed boost):		(NEED TO MAKE THIS ACCOUNT FOR CC)
 					if(!this.b_drifting && this.b_onGround && this.f_speedBoostTimer == 0.0 && !this.b_hitWall){
@@ -583,14 +583,17 @@ export default class Player{
 				if(this.f_gravity > 0.0){
 					this.b_chargeJumping = false;
 				}
+				this.worldCollider.start.y -= this.f_gravity;		//Keep this outside of the substep loop because of offroad checks.
 
 				//console.log(`Charge jumping = ${this.b_chargeJumping}`);
 			
 			//Actually move the player (if speed is high enough, increment in smaller steps at a time to avoid clipping):
 			this.int_substeps = 1;
-			if(this.f_speed > .7){
+			if(this.f_speed > 1.5){
+				this.int_substeps = 3;
+			}
+			else if(this.f_speed > .7){
 				this.int_substeps = 2;
-				//console.log('SUBSTEPS GREATER THAN 1');
 			}
 			for (let i = 1; i <= this.int_substeps; i++) {
 				
@@ -599,7 +602,7 @@ export default class Player{
 					this.player.position.z -= Math.cos(this.player.rotation.y) * this.f_speed * this.f_pushedBack * (1 / this.int_substeps);
 					this.player.rotation.y += this.f_turning * (1 / this.int_substeps);	//turning
 					this.player.position.y -= this.f_gravity * (1 / this.int_substeps);
-					this.worldCollider.start.y -= this.f_gravity * (1 / this.int_substeps);
+					
 				//Update world collider:
 					this.worldCollider.start.set(this.player.position.x, this.player.position.y, this.player.position.z);
 					this.worldCollider.end.set(this.worldCollider.start.x, this.worldCollider.start.y + this.f_radius * .35, this.worldCollider.start.z);
@@ -617,7 +620,8 @@ export default class Player{
 					this.b_onGround = false;
 					this.b_firstLanded = false;
 
-				//Collision check:
+				//Collision checks:
+					this.fn_offroad(offroadOctree, true);
 					this.fn_collision(worldOctree);
 
 			}
@@ -660,10 +664,11 @@ export default class Player{
 	
 	//Checks for contact with off-road:
 	fn_offroad(offroadOctree, _enabled){
+		if(!offroadOctree) return;
 		this.result = offroadOctree.capsuleIntersect( this.worldCollider );
 		
 		if ( this.result.depth > 1e-10 && this.b_offroadEnable && _enabled) {
-			this.b_inOffroad = true;
+			this.b_inOffroad = true;	
 		}
 		else{
 			this.b_inOffroad = false;

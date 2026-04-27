@@ -15,10 +15,11 @@ Changes since last version:
 		- Now, if the player's velocity is above 0.7, the game divides the player position update into multiple substeps, so the player doesn't hit a wall at too high a speed.
 		- Fixed a bug with steering introduced by substeps.
 		- Adjusted how wall bumps work while a speed boost is active.
+	- Fixed issue where debug mode wasn't skipping the menus.
+	- Commented out some console.log statements.
 
 To do next version (goals):
 	- BUGFIXES:
-		- Try to fix collision.
 		- Fix bug where player 3 can't move if the keyboard is not connected.
 		- Make it so the player can't select no characters.
 		- Fix bug where swapping enough times in a row changes which character has which item.

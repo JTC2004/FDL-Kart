@@ -163,9 +163,9 @@ export default class Character extends Obj{
 					}
 					this.fn_setSpriteTile(0, 0);
 
-					if(this.b_driving){
-						console.log(`${this.str_name} is driving`);
-					}	
+					//if(this.b_driving){
+					//	console.log(`${this.str_name} is driving`);
+					//}	
 				}
 			}
 

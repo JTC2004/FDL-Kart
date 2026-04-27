@@ -92,7 +92,7 @@ export default class ItemSlots{
 			else{
 				this.a_rollTimer[i] = 0.0;
 				this.a_items[i] = Math.floor(Math.random() * 3) + 1;
-				console.log(`Got item ${this.a_items[0]}!`);
+				//console.log(`Got item ${this.a_items[0]}!`);
 			}
 		}
 		//Got item:

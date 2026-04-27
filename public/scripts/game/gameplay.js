@@ -236,7 +236,7 @@ export function fn_updateGame(f_fps){
 				}
 				
 				
-				player.fn_play(worldOctree);
+				player.fn_play(worldOctree, offroadOctree);
 				if(window.b_debug){
 					coordsButton.innerHTML = ("XYZ = (" + 
 						player.fn_getPos().x.toFixed(2) + ", " + 
@@ -252,11 +252,6 @@ export function fn_updateGame(f_fps){
 					}
 
 					a_objectsDSOC[i].fn_meshCollisionCheck(player); 
-				}
-
-				//Other map checks:
-				if(map.fn_hasOffroad()){
-					player.fn_offroad(offroadOctree, false);
 				}
 			
 				map.fn_animate();

@@ -44,8 +44,8 @@
 	var b_slideIn = true;
 	let kart;
 	let a_characters;
-	let int_charaIndex = 0;
-	let b_charIndexIncremented = false;
+	var int_charaIndex = 0;
+	var b_charIndexIncremented = false;
 	var int_frames = 0;
 	var a_connectControllers = [];
 
@@ -76,7 +76,7 @@ function fn_initializeMenus(){
 
 		//Debug mode:
 		if(window.b_debug){
-			str_currentMenu == "start";	//Game Mode for debug.
+			str_currentMenu = "start";	//Game Mode for debug.
 			int_charaIndex = 1;
 		}
 }
@@ -251,7 +251,7 @@ export function fn_updateMenus(){
 			camera.rotation.y = -1.0;
 			b_slideIn = true;
 
-			if(a_characters.length > 0){
+			if(a_characters && a_characters.length > 0){
 				window.a_characters[0] = [a_characters[0].fn_getCharacter(), a_characters[1].fn_getCharacter()];
 			}
 			else{
