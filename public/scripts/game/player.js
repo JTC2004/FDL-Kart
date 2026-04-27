@@ -430,7 +430,7 @@ export default class Player{
 							-this.f_maxTurning,
 							Math.min(this.f_turning, this.f_maxTurning)
 						);
-					
+					console.log(`this.b_onGround = ${this.b_onGround}`);
 					
 					//Loss of speed when turning (doesn't occur during a speed boost):		(NEED TO MAKE THIS ACCOUNT FOR CC)
 					if(!this.b_drifting && this.b_onGround && this.f_speedBoostTimer == 0.0 && !this.b_hitWall){
@@ -583,8 +583,6 @@ export default class Player{
 				if(this.f_gravity > 0.0){
 					this.b_chargeJumping = false;
 				}
-				this.player.position.y -= this.f_gravity;
-				this.worldCollider.start.y -= this.f_gravity;
 
 				//console.log(`Charge jumping = ${this.b_chargeJumping}`);
 			
@@ -592,14 +590,16 @@ export default class Player{
 			this.int_substeps = 1;
 			if(this.f_speed > .7){
 				this.int_substeps = 2;
-				console.log('SUBSTEPS GREATER THAN 1');
+				//console.log('SUBSTEPS GREATER THAN 1');
 			}
-			for (let i = 0; i < this.int_substeps; i++) {
+			for (let i = 1; i <= this.int_substeps; i++) {
 				
 				//Update player's position:
 					this.player.position.x -= Math.sin(this.player.rotation.y) * this.f_speed * this.f_pushedBack * (1 / this.int_substeps);
 					this.player.position.z -= Math.cos(this.player.rotation.y) * this.f_speed * this.f_pushedBack * (1 / this.int_substeps);
-					this.player.rotation.y += this.f_turning;
+					this.player.rotation.y += this.f_turning * (1 / this.int_substeps);	//turning
+					this.player.position.y -= this.f_gravity * (1 / this.int_substeps);
+					this.worldCollider.start.y -= this.f_gravity * (1 / this.int_substeps);
 				//Update world collider:
 					this.worldCollider.start.set(this.player.position.x, this.player.position.y, this.player.position.z);
 					this.worldCollider.end.set(this.worldCollider.start.x, this.worldCollider.start.y + this.f_radius * .35, this.worldCollider.start.z);
@@ -721,25 +721,24 @@ export default class Player{
 		const camera = a_cameras[int_playerNum.get(this)];
 		
 		//Code to run when wall is hit:
-			if(this.b_hitWall){			
-				//Only reduce speed from a collision when not in a speed boost:
-				if(this.f_speedBoostTimer == 0.0){
-					this.f_pushedBack = -this.f_speed;
+			if(this.b_hitWall){
+				this.f_pushedBack = -this.f_speed;
 
-					if(this.b_hitPlayer){
-						this.f_pushedBack += - 0.8;
-					}
-					
-					//console.log(`f_pushedBack = ${this.f_pushedBack}`);
-
-					this.f_speed = this.f_speed / 2;
-
-					if(this.f_speed < 0){
-						this.f_speed = 0;
-					}
+				if(this.b_hitPlayer){
+					this.f_pushedBack += - 0.8;
 				}
 
-				
+				//Reduce less speed from a collision when in a speed boost:
+				if(this.f_speedBoostTimer == 0.0){
+					this.f_speed = this.f_speed / 2;	
+				}
+				else{
+					this.f_speed -= 0.2;
+				}
+
+				if(this.f_speed < 0){
+					this.f_speed = 0;
+				}
 				
 				//console.log("Wall collision detected!");
 				this.b_hitWall = false;

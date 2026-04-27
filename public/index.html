@@ -11,7 +11,10 @@ Note:
 	- For offroad.blend, offset height by 0.141, then round down!
 
 Changes since last version:
-	- 
+	- Fixed collision clipping.
+		- Now, if the player's velocity is above 0.7, the game divides the player position update into multiple substeps, so the player doesn't hit a wall at too high a speed.
+		- Fixed a bug with steering introduced by substeps.
+		- Adjusted how wall bumps work while a speed boost is active.
 
 To do next version (goals):
 	- BUGFIXES:
