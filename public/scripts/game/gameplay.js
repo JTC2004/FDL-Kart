@@ -146,8 +146,11 @@ async function fn_initializeGame(){
 		}
 		//3 Players or more:
 		else{
-			document.getElementById("p_time").style.left = "40%";
-			document.getElementById("p_time").style.top = "41%";
+			document.getElementById("p_time").style.position = "fixed";
+			document.getElementById("p_time").style.left = "50%";
+			document.getElementById("p_time").style.top = "50%";
+			document.getElementById("p_time").style.transform = "translate(-50%, -50%)";
+			document.getElementById("p_time").style.margin = "0";
 			
 			document.getElementById(`p_laps0`).style.left = "2.5%";
 			document.getElementById(`p_laps0`).style.top = "31%";
