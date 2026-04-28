@@ -352,7 +352,7 @@ export default class Map{
 	}
 
 	fn_addObjectsDSOC(a_objects, a_objectsDSOC){
-		//If mode isn't time trials, add item boxes.
+		//If mode isn't Time_Trials, add item boxes.
 		//if(window.int_gameMode != 2){
 			if(str_map == "MC1"){
 				a_objects.push(new ItemPotRow([-53, 7.1, -61], f_mapScale, 6, .85, 2, 1, a_objectsDSOC));

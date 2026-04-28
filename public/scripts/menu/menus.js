@@ -117,6 +117,8 @@ export function fn_updateMenus(){
 			else{
 				str_currentMenu = "1P Character Select";
 			}
+
+			document.getElementById(`p_Time_Trials`).innerHTML = "";
 		}
 
 		if(str_currentMenu == "Main"){
@@ -143,7 +145,7 @@ export function fn_updateMenus(){
 				'dum'
 			]);
 			a_options.push([
-				new Option(str_currentMenu, [-3.75, 1.25, 0], [2.2, .42], "Time Trials", "horizontal large"),
+				new Option(str_currentMenu, [-3.75, 1.25, 0], [2.2, .42], "Time_Trials", "horizontal large"),
 				'dum'
 			]);
 			a_options.push([

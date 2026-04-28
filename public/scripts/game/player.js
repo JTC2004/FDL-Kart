@@ -151,7 +151,7 @@ export default class Player{
 				f_stat_miniTurbo.set(this, 3);
 				f_stat_traction.set(this, 3);
 			//Speed & acceleration:
-				int_CC.set(this, 150);	
+				int_CC.set(this, window.int_CC);	
 						f_baseMaxSpeed.set(this, .0043 * int_CC.get(this) + 0.105 + f_stat_speed.get(this) * .01);	//The player's max speed.	
 				this.f_maxSpeed = f_baseMaxSpeed.get(this);										//The current max speed.
 				this.f_speed = 0.0;																//The current amount the player moves forwards per frame.

@@ -75,9 +75,13 @@ export default class Option{
             this.str_info = "Unlock characters & fill out your license.";
             fn_changeSettings("Multiplayer false");
         }
-            else if(_text == "Time Trials"){
+            else if(_text == "Time_Trials"){
                 this.str_goTo = "2";
                 this.str_info = "Race against the clock for the best time!";
+
+                this.b_arrows = true;
+                this.a_options = ["Slow", "Normal", "FAST"];
+                this.int_optionIndex = fn_getSetting(_text);
             }
             else if(_text == "Practice"){
                 this.str_goTo = "0";

@@ -45,7 +45,7 @@ var str_map = "FDL Circuit";
 window.int_CC = 150;
 window.int_gameMode = 2;      //0 is Practice, 
 //                              1 is Grand Prix, 
-//                              2 is Time Trials, 
+//                              2 is Time_Trials, 
 //                              3 is Adventure,
 //                              4 is Versus,
 
@@ -53,6 +53,7 @@ window.int_gameMode = 2;      //0 is Practice,
 var b_trueAntiAlias = false;
 var int_resolutionIndex = 4;
 var int_sharpPixelIndex = 0;
+var int_CCIndex = 1;
 
 //Debug overrides:
 if(window.b_debug){
@@ -380,6 +381,9 @@ export function fn_getSetting(str_text){
         else if(str_text == "SharpPixels"){
             return int_sharpPixelIndex;
         }
+        else if(str_text == "Time_Trials"){
+            return int_CCIndex;
+        }
 }
 
 //This function is called in option.js to change a value here.
@@ -441,6 +445,20 @@ export function fn_changeSettings(str_text, int_index, str_option){
             canvas.style.imageRendering = "pixelated";
             p_info.innerHTML = "More pixelated image.";
         }
+    }
+    else if(str_text == "Time_Trials"){
+        int_CCIndex = int_index;
+
+        if(int_CCIndex == 0){
+            window.int_CC = 110;
+        }
+        else if(int_CCIndex == 2){
+            window.int_CC = 270;
+        }
+        else{
+            window.int_CC = 150;
+        }
+
     }
     else if(str_text == "Multiplayer true"){
         b_multiplayer = true;

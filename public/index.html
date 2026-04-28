@@ -11,28 +11,11 @@ Note:
 	- For offroad.blend, offset height by 0.141, then round down!
 
 Changes since last version:
-	- RESPAWNING
-		- Make players respawn at their most recent checkpoint if they fall out of bounds.
-		- Add out-of-bounds detection zones to FDL Circuit.
-	- Model improvements:
-		- Make the water in the race course unable to be driven on.
-		- Add the missing shortcut and smooth out the bridge wals in the model for FDL Circuit.
-		- Add the starting grid.
-		- Made brudge wider.
-		- Fix gap next to bridge.
-	- Offroad improvements:
-		- Make offroad collision work better with stepped collison checks.
-		- While in off-road, make the player’s speed gradually decrease to half speed, instead of instantly cutting the speed in half.
-		- Make offroad collision checks only happen every other frame.
-		- Fixed an issue where offroad was substracting speed when speed was 0.
-	- New Tech:
-		- Jumps & charge-jumps grant more height when player is at max speed or greater. (unintentional, but keeping it)
-		- In off-road, if you quickly jump right after after an MT, you can get the full boost from the MT.
+	- Multiple speed options (110cc, 150cc, & 250cc) in single-player.
 
 
 To do this version (goals):
 	- Top player feedback suggestions:
-		- Multiple speed options (110cc, 150cc, & 250cc)
 		- Make the player’s FOV increase during a speed boost.
 	- UI polish:
 		- Remove unused modes from the menus.
@@ -187,6 +170,7 @@ this is index.html -->
 		<!-- Settings UI elements: -->
 		<p id="p_Resolution"></p>
 		<p id="p_SharpPixels"></p>
+		<p id="p_Time_Trials"></p>
 		
 		<!--<a href='index.html' class="btn_back"> Back to Home </a>-->
 		
