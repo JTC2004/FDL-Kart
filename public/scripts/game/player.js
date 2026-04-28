@@ -384,15 +384,16 @@ export default class Player{
 				}
 				//When in offRoad:
 				if(this.b_inOffroad){
-					this.f_speed -= this.f_acceleration * 6;
-					
 					if(this.f_speed < f_baseMaxSpeed.get(this) / 2){
-						this.f_speed = f_baseMaxSpeed.get(this) / 2;
+						this.f_maxSpeed = f_baseMaxSpeed.get(this) / 2;
+					}
+					else{
+						this.f_speed -= this.f_acceleration * 6;
 					}
 				}
-				//else{
-				//	this.f_maxSpeed = f_baseMaxSpeed.get(this);
-				//}
+				else{
+					this.f_maxSpeed = f_baseMaxSpeed.get(this);
+				}
 
 				//Update HUD for speed:
 					var str_spd = (Math.abs(Math.trunc(this.f_speed * 100))).toString();
