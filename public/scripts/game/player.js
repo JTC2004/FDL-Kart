@@ -631,7 +631,7 @@ export default class Player{
 			this.boundingSphere.center.copy(this.player.position);
 
 			//Out of bounds check:
-			if((this.player.position.y < 0 || this.player.position.z < -210 || this.player.position.z > 145 || this.b_OOB) && !this.b_idle){
+			if((this.b_OOB || this.player.position.y < 0 || this.player.position.z < -210 || this.player.position.z > 145) && !this.b_idle){
 				this.f_respawnTimer = 2.0;
 			}
 
@@ -652,6 +652,7 @@ export default class Player{
 					this.player.position.y = this.a_respawnPos[1];
 					this.player.position.z = this.a_respawnPos[2];
 					this.player.rotation.y = this.f_respawnDirec;
+					this.b_OOB = false;
 
 					this.f_speed = 0.0;
 					this.f_gravity = f_baseGravity.get(this);
@@ -811,7 +812,7 @@ export default class Player{
 			// /this.model_kart.fn_setY(this.player.position.y + 0.02 * this.f_scale);
 				
 		//Update camera's position:
-		if(!window.b_birdEye){
+		if(!window.b_birdEye || this.b_flying){
 			this.f_posY = this.player.position.y + 2;
 			this.f_lookY = this.player.position.y + 1.15;
 			if(this.b_jumping){
@@ -875,6 +876,10 @@ export default class Player{
 		else{
 			return false;
 		}
+	}
+
+	fn_setOOB(_b_newVal){
+		this.b_OOB = _b_newVal;
 	}
 
 	fn_setHitWall(_b_newHitWall, _b_newHitPlayer){

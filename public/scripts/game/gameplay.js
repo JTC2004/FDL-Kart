@@ -251,6 +251,7 @@ export function fn_updateGame(f_fps){
 						continue;
 					}
 
+					//console.log(`Checking collision with obj ${a_objectsDSOC.fn_getType()}`);
 					a_objectsDSOC[i].fn_meshCollisionCheck(player); 
 				}
 			

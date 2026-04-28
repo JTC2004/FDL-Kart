@@ -12,6 +12,7 @@ import { Octree } from 'three/addons/math/Octree.js';
 	import Pipe from "./objects/pipe.js";
 	import ItemBox from "./objects/itemBox.js";
 	import ItemPotRow from "./objects/itemPotRow.js";
+	import OOB from "./objects/OOB.js";
 	//Essentials:
 		let scene;
 		let renderer;
@@ -233,7 +234,6 @@ export default class Map{
 				a_checkpoints.push(new Checkpoint([80, 16, -190], f_mapScale, [.2, 16, 90], 0, false, 26));
 				a_checkpoints.push(new Checkpoint([90, 16, -190], f_mapScale, [.2, 16, 90], 0, false, 27));
 				a_checkpoints.push(new Checkpoint([100, 16, -190], f_mapScale, [.2, 16, 60], 0, false, 28));
-				//a_checkpoints.push(new Checkpoint([110, 18, -190], f_mapScale, [.2, 16, 60], 0, false, 29));
 
 				//Top of East hill:
 				a_checkpoints.push(new Checkpoint([110, 18, -90], f_mapScale, [.2, 16, 80], -1.5708, false, 37));
@@ -247,10 +247,10 @@ export default class Map{
 				a_checkpoints.push(new Checkpoint([120, 18, -170], f_mapScale, [.2, 16, 40], -1.5708, false, 29));
 
 				//Top of bridge:
-				a_checkpoints.push(new Checkpoint([110, 22, -60], f_mapScale, [.2, 16, 60], 3.14, false, 38));
-				a_checkpoints.push(new Checkpoint([100, 22, -60], f_mapScale, [.2, 16, 60], 3.14, false, 39));
-				a_checkpoints.push(new Checkpoint([90, 22, -55], f_mapScale, [.2, 16, 70], 3.14, false, 40));
-				a_checkpoints.push(new Checkpoint([80, 22, -60], f_mapScale, [.2, 16, 60], 3.14, false, 41));
+				a_checkpoints.push(new Checkpoint([110, 22, -65], f_mapScale, [.2, 16, 50], 3.14, false, 38));
+				a_checkpoints.push(new Checkpoint([100, 22, -65], f_mapScale, [.2, 16, 50], 3.14, false, 39));
+				a_checkpoints.push(new Checkpoint([90, 22, -65], f_mapScale, [.2, 16, 50], 3.14, false, 40));
+				a_checkpoints.push(new Checkpoint([80, 22, -65], f_mapScale, [.2, 16, 50], 3.14, false, 41));
 				a_checkpoints.push(new Checkpoint([70, 22, -65], f_mapScale, [.2, 16, 50], 3.14, false, 42));
 				a_checkpoints.push(new Checkpoint([60, 22, -65], f_mapScale, [.2, 16, 50], 0, true, 43));
 				a_checkpoints[43].fn_setNextKey(69);
@@ -362,6 +362,8 @@ export default class Map{
 				a_objects.push(new ItemPotRow([37, 3.9, -70], f_mapScale, 6, 2, 0, 1, a_objectsDSOC));
 				a_objects.push(new ItemPotRow([16, 5.1, -126], f_mapScale, 2, 3, 2, 1, a_objectsDSOC));
 				a_objects.push(new ItemPotRow([-142, 15.3, 6], f_mapScale, 5, 3, 0, 1, a_objectsDSOC));
+				a_objectsDSOC.push(new OOB([65, 15, -42], 1, [20, 2, 20]));
+				a_objectsDSOC.push(new OOB([105, 15, -30], 1, [85, 2, 5]));
 			}
 		//}
 	}
