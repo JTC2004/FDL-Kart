@@ -588,15 +588,19 @@ export default class Player{
 					this.b_chargeJumping = false;
 				}
 				//this.worldCollider.start.y -= this.f_gravity;		//Keep this outside of the substep loop because of offroad checks.
+				//if(this.f_gravity <= .7){
+				//	this.player.position.y -= this.f_gravity;
+				//}
 			
 				//console.log(`f_gravity = ${this.f_gravity}`);
 
 			//Actually move the player (if speed is high enough, increment in smaller steps at a time to avoid clipping):
+			this.b_inOffroad = false;		//This needs to be here.
 			this.int_substeps = 1;
 			if(this.f_speed > 1.5){
 				this.int_substeps = 3;
 			}
-			else if(this.f_speed > .7 || this.f_gravity > 1){
+			else if(this.f_speed > .7 || this.f_gravity > .7){
 				this.int_substeps = 2;
 			}
 			for (let i = 1; i <= this.int_substeps; i++) {
@@ -604,7 +608,12 @@ export default class Player{
 				//Update player's position:
 					this.player.position.x -= Math.sin(this.player.rotation.y) * this.f_speed * this.f_pushedBack * (1 / this.int_substeps);
 					this.player.position.z -= Math.cos(this.player.rotation.y) * this.f_speed * this.f_pushedBack * (1 / this.int_substeps);
-					this.player.position.y -= this.f_gravity * (1 / this.int_substeps);
+					if(this.f_gravity > .7){
+						this.player.position.y -= this.f_gravity * (1 / this.int_substeps);
+					}
+					else{
+						this.player.position.y -= this.f_gravity;
+					}
 					this.player.rotation.y += this.f_turning * (1 / this.int_substeps);	//turning
 					
 				//Update world collider:
@@ -696,10 +705,8 @@ export default class Player{
 		this.result = offroadOctree.capsuleIntersect( this.worldCollider );
 		
 		if ( this.result.depth > 0 && this.b_offroadEnable && _enabled) {
-			this.b_inOffroad = true;	
-		}
-		else{
-			this.b_inOffroad = false;
+			this.b_inOffroad = true;
+			console.log(`IN OFFROAD`);	
 		}
 	}
 	
