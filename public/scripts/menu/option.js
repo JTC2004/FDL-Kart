@@ -99,11 +99,15 @@ export default class Option{
             this.str_goTo = "4";
             this.str_info = "Play with multiple people at once!";
         }
-            else if(_text == "Connect Controllers"){
+            else if(_text == "Connect_Controllers"){
                 fn_changeSettings("Multiplayer true");
                 this.str_goTo = "start";
                 this.str_info = "";
                 scene.remove( this.spr_highlight );
+
+                this.b_arrows = true;
+                this.a_options = ["Slow", "Normal", "FAST"];
+                this.int_optionIndex = fn_getSetting(_text);
                 //this.b_static = true;
                 //this.spr_text.material.color.setRGB(.9, .9, .9);
             }
@@ -150,11 +154,19 @@ export default class Option{
             this.spr_arrowR = this.fn_newSprite('arrow_R');
             this.spr_arrowR.scale.set(1, 1, 1);  //3rd param is ignored for sprites, but still required.
             this.spr_arrowR.position.set(this.f_x + this.f_width * .4, this.f_y, this.f_z + .1);
-            scene.add( this.spr_arrowR );
+            
 
             this.spr_arrowL = this.fn_newSprite('arrow_L');
             this.spr_arrowL.scale.set(1, 1, 1);  //3rd param is ignored for sprites, but still required.
             this.spr_arrowL.position.set(this.f_x + this.f_width * .15, this.f_y, this.f_z + .1);
+            
+            //Alternative locations
+            if(this.str_text == "Connect_Controllers"){
+                this.spr_arrowR.position.set(this.f_x + this.f_width * .15, this.f_y + this.f_width * .3, this.f_z + .1);
+                this.spr_arrowL.position.set(this.f_x - this.f_width * .15, this.f_y + this.f_width * .3, this.f_z + .1);
+            }
+            
+            scene.add( this.spr_arrowR );
             scene.add( this.spr_arrowL );
         }
     }
@@ -294,6 +306,12 @@ export default class Option{
         const label = document.getElementById(_str_labelName);
         worldPos.x = worldPos.x + 2.4;
         worldPos.y = worldPos.y + 0.45;
+
+        //Alternate positioning:
+        if(this.str_text == "Connect_Controllers"){
+            worldPos.x = worldPos.x - 2.4;
+            worldPos.y = worldPos.y + 3.2;
+        }
 
         const vector = worldPos.clone();
 

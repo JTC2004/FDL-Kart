@@ -148,7 +148,7 @@ export function fn_updateMenus(){
 				new Option(str_currentMenu, [-3.75, .25, 0], [2.5, .5], "No_Items", "horizontal large")
 			]);
 			a_options.push([
-				new Option(str_currentMenu, [-5.7, -2.00, 0], [1.35, .5], "Practice", "horizontal medium")
+				new Option(str_currentMenu, [-5.8, -2.00, 0], [1.3, .45], "Practice", "horizontal medium")
 			]);
 		}
 		else if(str_currentMenu == "1P Character Select"){
@@ -185,7 +185,7 @@ export function fn_updateMenus(){
 			str_parentMenu = "Main";
 			int_charaIndex = 1;
 			a_options.push([
-				new Option(str_currentMenu, [-.25, .1, 0], [3, 2.4], "Connect Controllers", "horizontal medium"),
+				new Option(str_currentMenu, [-.25, .1, 0], [3, 2.4], "Connect_Controllers", "horizontal medium"),
 			]);
 			a_connectControllers = [
 				new ConnectController([-2.4, 1.2, 1], 0),
@@ -239,6 +239,8 @@ export function fn_updateMenus(){
 		else{
 			//Remove all elements from the scene:
 			fn_clearScene();
+
+			document.getElementById(`p_Connect_Controllers`).innerHTML = "";
 			
 			//Reset variables:
 			a_options = [];

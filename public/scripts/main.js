@@ -382,7 +382,7 @@ export function fn_getSetting(str_text){
         else if(str_text == "SharpPixels"){
             return int_sharpPixelIndex;
         }
-        else if(str_text == "No_Items" || str_text == "Items_On"){
+        else if(str_text == "No_Items" || str_text == "Items_On" || str_text == "Connect_Controllers"){
             return int_CCIndex;
         }
 }
@@ -447,7 +447,7 @@ export function fn_changeSettings(str_text, int_index, str_option){
             p_info.innerHTML = "More pixelated image.";
         }
     }
-    else if(str_text == "No_Items" || str_text == "Items_On"){
+    else if(str_text == "No_Items" || str_text == "Items_On" || str_text == "Connect_Controllers"){
         int_CCIndex = int_index;
 
         if(int_CCIndex == 0){
