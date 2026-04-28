@@ -252,7 +252,7 @@ export default class Map{
 				a_checkpoints.push(new Checkpoint([90, 22, -65], f_mapScale, [.2, 16, 50], 3.14, false, 40));
 				a_checkpoints.push(new Checkpoint([80, 22, -65], f_mapScale, [.2, 16, 50], 3.14, false, 41));
 				a_checkpoints.push(new Checkpoint([70, 22, -65], f_mapScale, [.2, 16, 50], 3.14, false, 42));
-				a_checkpoints.push(new Checkpoint([60, 22, -65], f_mapScale, [.2, 16, 50], 0, true, 43));
+				a_checkpoints.push(new Checkpoint([60, 22, -65], f_mapScale, [.2, 16, 50], 3.14, true, 43));
 				a_checkpoints[43].fn_setNextKey(69);
 				a_checkpoints.push(new Checkpoint([50, 22, -68], f_mapScale, [.2, 16, 40], 3.14, false, 44));
 				a_checkpoints.push(new Checkpoint([40, 22, -68], f_mapScale, [.2, 16, 35], 3.14, false, 45));
@@ -362,8 +362,9 @@ export default class Map{
 				a_objects.push(new ItemPotRow([37, 3.9, -70], f_mapScale, 6, 2, 0, 1, a_objectsDSOC));
 				a_objects.push(new ItemPotRow([16, 5.1, -126], f_mapScale, 2, 3, 2, 1, a_objectsDSOC));
 				a_objects.push(new ItemPotRow([-142, 15.3, 6], f_mapScale, 5, 3, 0, 1, a_objectsDSOC));
-				a_objectsDSOC.push(new OOB([65, 15, -42], 1, [20, 2, 20]));
-				a_objectsDSOC.push(new OOB([105, 15, -30], 1, [85, 2, 5]));
+				a_objectsDSOC.push(new OOB([66, 20, -37], 1, [25, 10, 8]));
+				a_objectsDSOC.push(new OOB([50, 20, -46], 1, [5, 10, 15]));
+				a_objectsDSOC.push(new OOB([110, 20, -30], 1, [70, 10, 5]));
 			}
 		//}
 	}

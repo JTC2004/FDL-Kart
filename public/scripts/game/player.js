@@ -14,6 +14,7 @@ import Character from "./objects/character.js";
 	import { fn_isMultiplayer } from "../main.js";
 	import { fn_getInputs } from "../main.js";
 	import ItemSlots from './itemSlots.js';
+import OOB from './objects/OOB.js';
 
 //Declaring constants:
 	//Essentials:
@@ -631,7 +632,7 @@ export default class Player{
 			this.boundingSphere.center.copy(this.player.position);
 
 			//Out of bounds check:
-			if((this.b_OOB || this.player.position.y < 0 || this.player.position.z < -210 || this.player.position.z > 145) && !this.b_idle){
+			if((this.b_OOB || this.player.position.y < 0 || this.player.position.z < -230 || this.player.position.z > 145) && !this.b_idle){
 				this.f_respawnTimer = 2.0;
 			}
 
@@ -888,10 +889,11 @@ export default class Player{
 	}
 	
 	fn_checkpointUpdate(_checkpoint){
+		if(this.b_OOB) return;
+		
 		//Update respawn variables:
 		this.a_respawnPos = _checkpoint.fn_getPos();	
 		this.f_respawnDirec = _checkpoint.fn_getRotation()[1] - 1.5708;
-
 
 		if(this.int_lapProgress + 30 >= _checkpoint.fn_getID() && this.b_inOrder){	//Doesn't count checkpoints that are too far ahead.
 			this.int_lapProgress = _checkpoint.fn_getID();
