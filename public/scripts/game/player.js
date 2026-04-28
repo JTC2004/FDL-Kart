@@ -178,7 +178,10 @@ export default class Player{
 				this.str_MT = "";																//Equals "MT#" when a mini-turbo is charged (# being the level of MT).
 				this.f_speedBoost = 0.0;														//Additional speed from a boost or mini-turbo.
 				this.f_speedBoostTimer = 0.0;													//How long a speed boost lasts.
-			
+				this.f_FOV = a_cameras[int_playerNum.get(this)].fov;
+				this.f_baseFOV = a_cameras[int_playerNum.get(this)].fov;
+
+
 		//For checking laps:
 			this.b_finished = false;														//True if the player has completed all the laps.
 			this.b_inOrder = true;															//True if the player is passing the key checkpoints in order.
@@ -572,10 +575,22 @@ export default class Player{
 			//Speed boosts & mini-turbos:
 				if(this.f_speedBoostTimer > 0.0){
 					this.f_speedBoostTimer -= 1.0/60.0;
+
+					//Also adjust camera FOV:
+					if(this.f_speedBoost >= .2 && a_cameras[int_playerNum.get(this)].fov < this.f_FOV){
+						a_cameras[int_playerNum.get(this)].fov += 2;
+						a_cameras[int_playerNum.get(this)].updateProjectionMatrix();
+					}
+
 					//Make it so acceleration doesn't depend on stats during a speed boost.
 				}
 				else if(this.f_speedBoost > 0.0){
 					this.f_speedBoost -= 0.01 / f_stat_weight.get(this);	//The larger weight, the longer a speed boost is maintained.
+				
+					if(a_cameras[int_playerNum.get(this)].fov > this.f_baseFOV){
+						a_cameras[int_playerNum.get(this)].fov -= 0.5;
+						a_cameras[int_playerNum.get(this)].updateProjectionMatrix();
+					}
 				}
 				else{
 					this.f_speedBoost = 0.0;
@@ -994,7 +1009,8 @@ export default class Player{
 		if(_str_power.slice(0, -1) == "MT"){
 			this.f_speedBoost += .07;
 			this.f_speedBoost += Number(_str_power.at(-1)) * 0.01;
-			
+			this.f_FOV = this.f_baseFOV;
+
 			if(_str_power == "MT1"){
 				this.f_speedBoostTimer = .15;
 			}
@@ -1014,6 +1030,7 @@ export default class Player{
 		else if(_str_power == "T"){
 			this.f_speedBoost += .2;
 			this.b_offroadEnable = false;
+			this.f_FOV = this.f_baseFOV + 10;
 			
 			if(!_f_duration){
 				this.f_speedBoostTimer = 1.3;
