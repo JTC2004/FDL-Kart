@@ -6,7 +6,7 @@ body {
   background-color: #003e5b;
 }
 
-#info, #p_time, #p_name, #p_fps, #p_coords, #p_spd0, #p_spd1, #p_spd2, #p_spd3, #p_laps0, #p_laps1, #p_laps2, #p_laps3, #p_check, #p_finish0, #p_finish1, #p_finish2, #p_finish3, #p_Resolution, #p_Time_Trials, #p_SharpPixels {
+#info, #p_time, #p_name, #p_fps, #p_coords, #p_spd0, #p_spd1, #p_spd2, #p_spd3, #p_laps0, #p_laps1, #p_laps2, #p_laps3, #p_check, #p_finish0, #p_finish1, #p_finish2, #p_finish3, #p_Resolution, #p_No_Items, #p_Items_On, #p_SharpPixels {
 	position: absolute;
 	z-index: 100;
 	display:block;
@@ -218,7 +218,7 @@ body {
 		 .4vw  .4vw 0 black;
 }
 
-#p_Resolution, #p_SharpPixels, #p_Time_Trials {
+#p_Resolution, #p_SharpPixels, #p_No_Items, #p_Items_On {
 	position: absolute;
 	font-size: 2.5vw;
 	

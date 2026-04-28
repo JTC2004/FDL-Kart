@@ -118,7 +118,8 @@ export function fn_updateMenus(){
 				str_currentMenu = "1P Character Select";
 			}
 
-			document.getElementById(`p_Time_Trials`).innerHTML = "";
+			document.getElementById(`p_No_Items`).innerHTML = "";
+			document.getElementById(`p_Items_On`).innerHTML = "";
 		}
 
 		if(str_currentMenu == "Main"){
@@ -141,11 +142,11 @@ export function fn_updateMenus(){
 		else if(str_currentMenu == "Single Play/Game Mode"){
 			str_parentMenu = "Main";
 			a_options.push([
-				new Option(str_currentMenu, [-3.75, 3, 0], [2.2, .42], "Grand Prix", "horizontal large"),
+				new Option(str_currentMenu, [-3.75, 3, 0], [2.2, .42], "Items_On", "horizontal large"),
 				'dum'
 			]);
 			a_options.push([
-				new Option(str_currentMenu, [-3.75, 1.25, 0], [2.2, .42], "Time_Trials", "horizontal large"),
+				new Option(str_currentMenu, [-3.75, 1.25, 0], [2.2, .42], "No_Items", "horizontal large"),
 				'dum'
 			]);
 			a_options.push([

@@ -102,7 +102,7 @@ async function fn_initializeGame(){
 			1, 
 			a_checkpoints.length, 
 			map.fn_getNumKeys(), 
-			map.fn_getNumLaps()
+			window.int_laps
 		));
 
 		//console.log(`window.a_characters[0] = ${window.a_characters[0]}`);
@@ -216,7 +216,7 @@ export function fn_updateGame(f_fps){
 			b_updateHUD = true;
 
 			//Update time if the player hasn't finished the race yet:
-			if(!b_playerDone){
+			if(!b_playerDone && window.int_gameMode > 0){
 				f_secs += 1 / 60;
 				//console.log("f_secs = " + f_secs);
 				var timeElement = document.getElementById("p_time");

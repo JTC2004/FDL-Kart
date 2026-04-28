@@ -75,9 +75,17 @@ export default class Option{
             this.str_info = "Unlock characters & fill out your license.";
             fn_changeSettings("Multiplayer false");
         }
-            else if(_text == "Time_Trials"){
+            else if(_text == "Items_On"){
+                this.str_goTo = "1";
+                this.str_info = "Race against the clock for the best time! (random items on the track)";
+
+                this.b_arrows = true;
+                this.a_options = ["Slow", "Normal", "FAST"];
+                this.int_optionIndex = fn_getSetting(_text);
+            }
+            else if(_text == "No_Items"){
                 this.str_goTo = "2";
-                this.str_info = "Race against the clock for the best time!";
+                this.str_info = "Race against the clock for the best time! (no items on the track)";
 
                 this.b_arrows = true;
                 this.a_options = ["Slow", "Normal", "FAST"];

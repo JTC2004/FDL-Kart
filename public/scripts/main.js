@@ -43,9 +43,10 @@ window.b_birdEye = false;
 window.a_characters = [['', ''], ['', ''], ['', ''], ['', '']]; 
 var str_map = "FDL Circuit";
 window.int_CC = 150;
+window.int_laps = 4;
 window.int_gameMode = 2;      //0 is Practice, 
 //                              1 is Grand Prix, 
-//                              2 is Time_Trials, 
+//                              2 is No_Items, 
 //                              3 is Adventure,
 //                              4 is Versus,
 
@@ -381,7 +382,7 @@ export function fn_getSetting(str_text){
         else if(str_text == "SharpPixels"){
             return int_sharpPixelIndex;
         }
-        else if(str_text == "Time_Trials"){
+        else if(str_text == "No_Items" || str_text == "Items_On"){
             return int_CCIndex;
         }
 }
@@ -446,17 +447,20 @@ export function fn_changeSettings(str_text, int_index, str_option){
             p_info.innerHTML = "More pixelated image.";
         }
     }
-    else if(str_text == "Time_Trials"){
+    else if(str_text == "No_Items" || str_text == "Items_On"){
         int_CCIndex = int_index;
 
         if(int_CCIndex == 0){
-            window.int_CC = 110;
+            window.int_CC = 102;
+            window.int_laps = 3;
         }
         else if(int_CCIndex == 2){
             window.int_CC = 270;
+            window.int_laps = 5;
         }
         else{
             window.int_CC = 150;
+            window.int_laps = 4;
         }
 
     }
