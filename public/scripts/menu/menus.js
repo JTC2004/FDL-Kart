@@ -142,20 +142,13 @@ export function fn_updateMenus(){
 		else if(str_currentMenu == "Single Play/Game Mode"){
 			str_parentMenu = "Main";
 			a_options.push([
-				new Option(str_currentMenu, [-3.75, 3, 0], [2.2, .42], "Items_On", "horizontal large"),
-				'dum'
+				new Option(str_currentMenu, [-3.75, 2.5, 0], [2.5, .5], "Items_On", "horizontal large")
 			]);
 			a_options.push([
-				new Option(str_currentMenu, [-3.75, 1.25, 0], [2.2, .42], "No_Items", "horizontal large"),
-				'dum'
+				new Option(str_currentMenu, [-3.75, .25, 0], [2.5, .5], "No_Items", "horizontal large")
 			]);
 			a_options.push([
-				new Option(str_currentMenu, [-3.75, -.5, 0], [2.2, .42], "Missions", "horizontal large"),
-				'dum'
-			]);
-			a_options.push([
-				new Option(str_currentMenu, [-5.7, -2.05, 0], [1.05, .3], "Practice", "horizontal medium"),
-				new Option(str_currentMenu, [-1.8, -2.05, 0], [1.05, .3], "Free Play", "horizontal medium"),
+				new Option(str_currentMenu, [-5.7, -2.00, 0], [1.35, .5], "Practice", "horizontal medium")
 			]);
 		}
 		else if(str_currentMenu == "1P Character Select"){
