@@ -39,7 +39,7 @@ let b_prevPressed = false;
 
 var b_fullScreen = false;
 window.b_debug = true;
-window.b_birdEye = false;
+window.b_birdEye = true;
 window.a_characters = [['', ''], ['', ''], ['', ''], ['', '']]; 
 var str_map = "FDL Circuit";
 window.int_gameMode = 2;      //0 is Practice, 

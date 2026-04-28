@@ -631,7 +631,7 @@ export default class Player{
 			this.boundingSphere.center.copy(this.player.position);
 
 			//Out of bounds check:
-			if(this.player.position.y < 0 && !this.b_idle){
+			if((this.player.position.y < 0 || this.player.position.z < -210 || this.player.position.z > 145 || this.b_OOB) && !this.b_idle){
 				this.f_respawnTimer = 2.0;
 			}
 
@@ -811,7 +811,7 @@ export default class Player{
 			// /this.model_kart.fn_setY(this.player.position.y + 0.02 * this.f_scale);
 				
 		//Update camera's position:
-		if(!window.b_birdEye || this.b_flying){
+		if(!window.b_birdEye){
 			this.f_posY = this.player.position.y + 2;
 			this.f_lookY = this.player.position.y + 1.15;
 			if(this.b_jumping){
