@@ -230,7 +230,7 @@ export default class Player{
 			}
 			else{
 				this.b_flying = true;
-				infoParagraph.innerHTML = "Use Space to ascend, WASD to move, & J to descend.<br /> Press f to toggle free cam.";
+				infoParagraph.innerHTML = "Use A to ascend, B to descend. Use LT or X to rotate.<br /> Free cam mode.";
 				this.f_speed = 0.0;
 				camera.rotation.set(0,0,0);
 				//camera.position.set( -54, 120, 114 );

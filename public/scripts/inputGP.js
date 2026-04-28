@@ -99,7 +99,7 @@ export default class InputHandlerGP{
 				this.a_prevButtons[i] = isPressed;
 
 				//Refresh page if select button pressed:
-				if(this.a_press[8] /*&& window.b_debug*/){
+				if(this.a_press[8] && window.b_debug){
 					location.reload();
 				}
 			});
@@ -243,11 +243,11 @@ export default class InputHandlerGP{
 	//Function for flying input:
 	fn_press_fly(_modifier){	
 		if(_modifier) return false;
-		return this.a_press[this.int_gp_fly];
+		return this.a_press[this.int_gp_fly] || this.a_press[10];
 	}
 	fn_hold_fly(_modifier){	
 		if(_modifier) return false;
-		return this.a_hold[this.int_gp_fly];
+		return this.a_hold[this.int_gp_fly] || this.a_press[10];
 	}
 
 	//If any button pressed:
