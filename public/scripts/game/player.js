@@ -695,7 +695,7 @@ export default class Player{
 		if(!offroadOctree) return;
 		this.result = offroadOctree.capsuleIntersect( this.worldCollider );
 		
-		if ( this.result.depth > 1e-10 && this.b_offroadEnable && _enabled) {
+		if ( this.result.depth > 0 && this.b_offroadEnable && _enabled) {
 			this.b_inOffroad = true;	
 		}
 		else{
