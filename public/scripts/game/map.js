@@ -362,10 +362,10 @@ export default class Map{
 				a_objects.push(new ItemPotRow([37, 3.9, -70], f_mapScale, 6, 2, 0, 1, a_objectsDSOC));
 				a_objects.push(new ItemPotRow([16, 5.1, -126], f_mapScale, 2, 3, 2, 1, a_objectsDSOC));
 				a_objects.push(new ItemPotRow([-142, 15.3, 6], f_mapScale, 5, 3, 0, 1, a_objectsDSOC));
-				a_objectsDSOC.push(new OOB([44, 20, -46], 1, [5, 10, 15]));
-				a_objectsDSOC.push(new OOB([66, 20, -36], 1, [25, 10, 5]));
+				a_objectsDSOC.push(new OOB([45, 20, -46], 1, [5, 10, 15]));
 				a_objectsDSOC.push(new OOB([54, 20, -42], 1, [15, 10, 5]));
-				a_objectsDSOC.push(new OOB([110, 20, -30], 1, [70, 10, 5]));
+				a_objectsDSOC.push(new OOB([66, 20, -34], 1, [30, 10, 10]));
+				a_objectsDSOC.push(new OOB([110, 20, -25], 1, [70, 10, 5]));
 			}
 		//}
 	}
