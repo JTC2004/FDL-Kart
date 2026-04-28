@@ -9,7 +9,7 @@ export default class OOB extends Obj{
 			//this.fn_addBox([0,0,0], _a_scale, 0xff0000, true);
 			this.fn_addBoxTransp([0,0,0], _a_scale, 0xff0000, 0.5, false);
 
-			console.log(`b_DSOC = ${this.b_DSOC}`);
+			//console.log(`b_DSOC = ${this.b_DSOC}`);
 	}
 	
 	//Overidden functions:
