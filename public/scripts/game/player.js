@@ -585,12 +585,14 @@ export default class Player{
 				}
 				//this.worldCollider.start.y -= this.f_gravity;		//Keep this outside of the substep loop because of offroad checks.
 			
+				//console.log(`f_gravity = ${this.f_gravity}`);
+
 			//Actually move the player (if speed is high enough, increment in smaller steps at a time to avoid clipping):
 			this.int_substeps = 1;
 			if(this.f_speed > 1.5){
 				this.int_substeps = 3;
 			}
-			else if(this.f_speed > .7){
+			else if(this.f_speed > .7 || this.f_gravity > 1){
 				this.int_substeps = 2;
 			}
 			for (let i = 1; i <= this.int_substeps; i++) {
@@ -598,8 +600,8 @@ export default class Player{
 				//Update player's position:
 					this.player.position.x -= Math.sin(this.player.rotation.y) * this.f_speed * this.f_pushedBack * (1 / this.int_substeps);
 					this.player.position.z -= Math.cos(this.player.rotation.y) * this.f_speed * this.f_pushedBack * (1 / this.int_substeps);
-					this.player.rotation.y += this.f_turning * (1 / this.int_substeps);	//turning
 					this.player.position.y -= this.f_gravity * (1 / this.int_substeps);
+					this.player.rotation.y += this.f_turning * (1 / this.int_substeps);	//turning
 					
 				//Update world collider:
 					this.worldCollider.start.set(this.player.position.x, this.player.position.y, this.player.position.z);
@@ -626,10 +628,11 @@ export default class Player{
 			this.boundingSphere.center.copy(this.player.position);
 
 			//Out of bounds check:
-			if(this.player.position.y < 0){
+			if(this.player.position.y < 0 && !this.b_idle){
 				this.f_respawnTimer = 2.0;
 			}
 
+			//console.log(`f_respawnTimer = ${this.f_respawnTimer}`);
 			//Respawning:
 			if(this.f_respawnTimer > 0.0){		
 				this.f_respawnTimer -= 1/60;
@@ -638,8 +641,16 @@ export default class Player{
 				if(this.f_respawnTimer <= 0.0){
 					this.f_respawnTimer = 0.0;
 					this.b_idle = false;
+				}
+				else if(this.f_respawnTimer < 1.0){
+					//Update player position:
+					this.v_newPos = new THREE.Vector3(30, 7, 75);
+					this.player.position.x = this.v_newPos.x;
+					this.player.position.y = this.v_newPos.y;
+					this.player.position.z = this.v_newPos.z;
 
-					this.player.position.y += 20;
+					this.f_speed = 0.0;
+					this.f_gravity = f_baseGravity.get(this);
 				}
 			}
 		}
@@ -648,11 +659,6 @@ export default class Player{
 	
 	fn_animate(){
 		
-	}
-	
-	fn_onGround(_depth){
-		//this.f_gravity = .2;
-		//this.player.position.y +=  _depth;
 	}
 	
 	fn_hitWall(_depth){
@@ -812,11 +818,15 @@ export default class Player{
 			
 			//Rear view:
 			if(input.fn_hold_rear(this.b_idle) && !this.b_flying){
-				camera.position.set(this.player.position.x - 4.5 * Math.sin(this.player.rotation.y), this.f_posY, this.player.position.z - 4.5 * Math.cos(this.player.rotation.y));
+				if(this.f_respawnTimer < 1.0){
+					camera.position.set(this.player.position.x - 4.5 * Math.sin(this.player.rotation.y), this.f_posY, this.player.position.z - 4.5 * Math.cos(this.player.rotation.y));
+				}
 				camera.lookAt( this.player.position.x, this.f_lookY, this.player.position.z );
 			}
 			else{
-				camera.position.set(this.player.position.x + 5.75 * Math.sin(this.player.rotation.y), this.f_posY, this.player.position.z + 5.75 * Math.cos(this.player.rotation.y));
+				if(this.f_respawnTimer < 1.0){
+					camera.position.set(this.player.position.x + 5.75 * Math.sin(this.player.rotation.y), this.f_posY, this.player.position.z + 5.75 * Math.cos(this.player.rotation.y));
+				}
 				camera.lookAt( this.player.position.x, this.f_lookY, this.player.position.z );
 			}
 		}
