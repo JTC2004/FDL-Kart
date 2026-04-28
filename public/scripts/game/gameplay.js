@@ -236,7 +236,7 @@ export function fn_updateGame(f_fps){
 				}
 				
 				
-				player.fn_play(worldOctree, offroadOctree);
+				player.fn_play(worldOctree, offroadOctree, int_frames);
 				if(window.b_debug){
 					coordsButton.innerHTML = ("XYZ = (" + 
 						player.fn_getPos().x.toFixed(2) + ", " + 

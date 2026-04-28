@@ -207,7 +207,7 @@ export default class Player{
 	}
 	
 	//Function for player input and movement:
-	fn_play(worldOctree, offroadOctree){		
+	fn_play(worldOctree, offroadOctree, _int_frames){		
 		const input = a_inputs[int_playerNum.get(this)];
 		const camera = a_cameras[int_playerNum.get(this)];
 
@@ -384,11 +384,15 @@ export default class Player{
 				}
 				//When in offRoad:
 				if(this.b_inOffroad){
-					this.f_maxSpeed = f_baseMaxSpeed.get(this) / 2;
+					this.f_speed -= this.f_acceleration * 6;
+					
+					if(this.f_speed < f_baseMaxSpeed.get(this) / 2){
+						this.f_speed = f_baseMaxSpeed.get(this) / 2;
+					}
 				}
-				else{
-					this.f_maxSpeed = f_baseMaxSpeed.get(this);
-				}
+				//else{
+				//	this.f_maxSpeed = f_baseMaxSpeed.get(this);
+				//}
 
 				//Update HUD for speed:
 					var str_spd = (Math.abs(Math.trunc(this.f_speed * 100))).toString();
@@ -634,7 +638,7 @@ export default class Player{
 					this.b_firstLanded = false;
 
 				//Collision checks:
-					this.fn_offroad(offroadOctree, true);
+					this.fn_offroad(offroadOctree, _int_frames, true);
 					this.fn_collision(worldOctree);
 
 			}
@@ -700,11 +704,12 @@ export default class Player{
 	}
 	
 	//Checks for contact with off-road:
-	fn_offroad(offroadOctree, _enabled){
+	fn_offroad(offroadOctree, _int_frames, _enabled){
 		if(!offroadOctree) return;
+		if(_int_frames % 2 != 0 ) return;	//Only check every other frame.
 		this.result = offroadOctree.capsuleIntersect( this.worldCollider );
 		
-		if ( this.result.depth > 0 && this.b_offroadEnable && _enabled) {
+		if (this.b_offroadEnable && this.result.depth > 0 && _enabled) {
 			this.b_inOffroad = true;
 			console.log(`IN OFFROAD`);	
 		}
