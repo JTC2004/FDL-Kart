@@ -134,7 +134,9 @@ export default class Player{
 				this.b_inOffroad = false;														//True when collider is in offroad.
 				this.b_offroadEnable = true;													//True when player can be slowed by offroad.
 				this.b_reverse = false;															//True when the player is braking or reversing.
-			
+			//Respawning:
+				this.f_respawnTimer = 0.0;
+				
 		//Movement variables:
 			//Stats:
 				f_stat_speed.set(this, 3);														//@ 150cc, stat 3 is ~78kmh.
@@ -259,7 +261,18 @@ export default class Player{
 					this.player.position.y -= .4;
 				}
 		}
-		else{			
+		//Respawning:
+		else if(this.f_respawnTimer > 0.0){		
+			this.f_respawnTimer -= 1/60;
+
+			if(this.f_respawnTimer <= 0.0){
+				this.f_respawnTimer = 0.0;
+
+				this.player.position.y += 20;
+			}
+		}
+		else 
+		{			
 			this.b_standstill = false;
 			
 			//Drifting:
@@ -583,9 +596,7 @@ export default class Player{
 				if(this.f_gravity > 0.0){
 					this.b_chargeJumping = false;
 				}
-				this.worldCollider.start.y -= this.f_gravity;		//Keep this outside of the substep loop because of offroad checks.
-
-				//console.log(`Charge jumping = ${this.b_chargeJumping}`);
+				//this.worldCollider.start.y -= this.f_gravity;		//Keep this outside of the substep loop because of offroad checks.
 			
 			//Actually move the player (if speed is high enough, increment in smaller steps at a time to avoid clipping):
 			this.int_substeps = 1;
@@ -625,9 +636,14 @@ export default class Player{
 					this.fn_collision(worldOctree);
 
 			}
-
 			this.boundingSphere.center.copy(this.player.position);
+
+			//Out of bounds check:
+			if(this.player.position.y < 0){
+				this.f_respawnTimer = 2.0;
+			}
 		}
+		
 	}
 	
 	fn_animate(){
@@ -883,7 +899,8 @@ export default class Player{
 					this.int_expectedKey = 0;
 					//this.int_keysPassed = 0;
 					this.int_lastKey = -1;
-					this.int_expectedKey = 0;				}
+					this.int_expectedKey = 0;			
+				}
 				
 				//console.log("Out of order. Next key is " + this.int_expectedKey);
 				this.b_inOrder = false;
