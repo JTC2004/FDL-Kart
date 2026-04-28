@@ -229,10 +229,10 @@ export default class Option{
             if(this.str_info == ""){
                 let randomInt = Math.floor(Math.random() * (100 - 0 + 1)) + 0;
                 if(randomInt == 87){
-                    info.innerHTML = "It's me.";
+                    info.innerHTML = "(It's me.)";
                 }
                 else{
-                    info.innerHTML = "Coming soon."
+                    info.innerHTML = "(For future development...)"
                 }
             }
         }

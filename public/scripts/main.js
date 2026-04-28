@@ -51,6 +51,7 @@ window.int_gameMode = 2;      //0 is Practice,
 //                              4 is Versus,
 
 //Settings variables:   
+var a_resolution = [window.innerWidth, window.innerHeight];
 var b_trueAntiAlias = false;
 var int_resolutionIndex = 4;
 var int_sharpPixelIndex = 0;
@@ -127,8 +128,9 @@ if(window.b_debug){
             int_resolutionIndex = 4;
     
             //Update renderer:
+            a_resolution = [window.innerWidth, window.innerHeight];
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));	//Order matters. Set ratio, then size.
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setSize(a_resolution[0], a_resolution[1]);
     
         }, false);
 
@@ -222,8 +224,8 @@ try{
                 window.b_debug = false;             //Also disable debug prints in multiplayer.
                 var int_i = 0;
                 renderer.setScissorTest(true);      //MAKE THIS HAPPEN ONLY 1 FRAME.
-                const w = window.innerWidth;
-                const h = window.innerHeight;
+                const w = a_resolution[0];
+                const h = a_resolution[1];
                 
                 if(a_inputs.length > 2){
                     const halfW = w / 2;
@@ -396,13 +398,17 @@ export function fn_changeSettings(str_text, int_index, str_option){
         int_resolutionIndex = int_index;
         
         if (int_index == 4){
+            a_resolution = [window.innerWidth, window.innerHeight];
+
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setSize(a_resolution[0], a_resolution[1]);
             p_info.innerHTML = "Resolution set to the size of your browser window (" + window.innerWidth + " x " + window.innerHeight +").";
         }
         else{
+            a_resolution = [str_option.slice(0, -1) / 9 * 16, str_option.slice(0, -1)];
+
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            renderer.setSize(str_option.slice(0, -1) / 9 * 16, str_option.slice(0, -1), false);
+            renderer.setSize(a_resolution[0], a_resolution[1], false);
             var str_WxH = "(" + Math.ceil(str_option.slice(0, -1) / 9 * 16) + " x " + str_option.slice(0, -1) + ")";
 
             //renderer.setPixelRatio(1);
