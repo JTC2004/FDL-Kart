@@ -136,7 +136,10 @@ export default class Player{
 				this.b_reverse = false;															//True when the player is braking or reversing.
 			//Respawning:
 				this.f_respawnTimer = 0.0;
+				this.b_OOB = false;																//True if player touches out-of-bounds detection.
 				this.b_idle = false;															//True if the player isn't in control. 
+				this.a_respawnPos = [_x, _y + 4, _z];											//Where the player respawns.
+				this.f_respawnDirec = 0.0;														//The direction the player faces when respawning.
 
 		//Movement variables:
 			//Stats:
@@ -645,9 +648,10 @@ export default class Player{
 				else if(this.f_respawnTimer < 1.0){
 					//Update player position:
 					this.v_newPos = new THREE.Vector3(30, 7, 75);
-					this.player.position.x = this.v_newPos.x;
-					this.player.position.y = this.v_newPos.y;
-					this.player.position.z = this.v_newPos.z;
+					this.player.position.x = this.a_respawnPos[0];
+					this.player.position.y = this.a_respawnPos[1];
+					this.player.position.z = this.a_respawnPos[2];
+					this.player.rotation.y = this.f_respawnDirec;
 
 					this.f_speed = 0.0;
 					this.f_gravity = f_baseGravity.get(this);
@@ -879,7 +883,11 @@ export default class Player{
 	}
 	
 	fn_checkpointUpdate(_checkpoint){
-		
+		//Update respawn variables:
+		this.a_respawnPos = _checkpoint.fn_getPos();	
+		this.f_respawnDirec = _checkpoint.fn_getRotation()[1] - 1.5708;
+
+
 		if(this.int_lapProgress + 30 >= _checkpoint.fn_getID() && this.b_inOrder){	//Doesn't count checkpoints that are too far ahead.
 			this.int_lapProgress = _checkpoint.fn_getID();
 			this.int_totalProgress = _checkpoint.fn_getID() + int_numChecks.get(this) * (this.int_lap - 1);

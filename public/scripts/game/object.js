@@ -225,6 +225,10 @@ export default class Obj{
 		fn_getPos(){
 			return [this.f_x, this.f_y, this.f_z];
 		}
+
+		fn_getRotation(){
+			return [this.mesh.rotation.x, this.mesh.rotation.y, this.mesh.rotation.z];
+		}
 		
 		fn_getSolid(){
 			return this.b_solid;

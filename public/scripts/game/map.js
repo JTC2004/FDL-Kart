@@ -196,21 +196,21 @@ export default class Map{
 			
 			//Adding Checkpoints:
 				//Goal:
-				a_checkpoints.push(new Checkpoint([45, 8, 50], 1, [.2, 16, 90], 1.5708, true, 0));
+				a_checkpoints.push(new Checkpoint([30, 8, 50], 1, [.2, 16, 60], 1.5708, true, 0));
 				a_checkpoints[0].fn_setGoal();
 				a_checkpoints[0].fn_setNextKey(43);	//Number here is endex of next key checkpoint
 
 				//First stretch:
-				a_checkpoints.push(new Checkpoint([45, 8, 40], f_mapScale, [.2, 16, 90], 1.5708, false, 1));
-				a_checkpoints.push(new Checkpoint([45, 8, 30], f_mapScale, [.2, 16, 90], 1.5708, false, 2));
-				a_checkpoints.push(new Checkpoint([45, 8, 20], f_mapScale, [.2, 16, 90], 1.5708, false, 3));
-				a_checkpoints.push(new Checkpoint([45, 8, 10], f_mapScale, [.2, 16, 90], 1.5708, false, 4));
-				a_checkpoints.push(new Checkpoint([45, 8, 0], f_mapScale, [.2, 16, 90], 1.5708, false, 5));
-				a_checkpoints.push(new Checkpoint([45, 8, -10], f_mapScale, [.2, 16, 90], 1.5708, false, 6));
-				a_checkpoints.push(new Checkpoint([45, 8, -20], f_mapScale, [.2, 16, 90], 1.5708, false, 7));
-				a_checkpoints.push(new Checkpoint([45, 6, -30], f_mapScale, [.2, 16, 90], 1.5708, false, 8));
-				a_checkpoints.push(new Checkpoint([45, 6, -40], f_mapScale, [.2, 16, 90], 1.5708, false, 9));
-				a_checkpoints.push(new Checkpoint([45, 6, -50], f_mapScale, [.2, 16, 90], 1.5708, false, 10));
+				a_checkpoints.push(new Checkpoint([30, 8, 40], f_mapScale, [.2, 16, 60], 1.5708, false, 1));
+				a_checkpoints.push(new Checkpoint([30, 8, 30], f_mapScale, [.2, 16, 60], 1.5708, false, 2));
+				a_checkpoints.push(new Checkpoint([30, 8, 20], f_mapScale, [.2, 16, 60], 1.5708, false, 3));
+				a_checkpoints.push(new Checkpoint([30, 8, 10], f_mapScale, [.2, 16, 60], 1.5708, false, 4));
+				a_checkpoints.push(new Checkpoint([30, 8, 0], f_mapScale, [.2, 16, 60], 1.5708, false, 5));
+				a_checkpoints.push(new Checkpoint([30, 8, -10], f_mapScale, [.2, 16, 60], 1.5708, false, 6));
+				a_checkpoints.push(new Checkpoint([30, 8, -20], f_mapScale, [.2, 16, 60], 1.5708, false, 7));
+				a_checkpoints.push(new Checkpoint([30, 6, -30], f_mapScale, [.2, 16, 60], 1.5708, false, 8));
+				a_checkpoints.push(new Checkpoint([30, 6, -40], f_mapScale, [.2, 16, 60], 1.5708, false, 9));
+				a_checkpoints.push(new Checkpoint([30, 6, -50], f_mapScale, [.2, 16, 60], 1.5708, false, 10));
 
 				//Under bridge:
 				a_checkpoints.push(new Checkpoint([30, 5, -60], f_mapScale, [.2, 16, 70], 1.5708, false, 11));
@@ -233,91 +233,92 @@ export default class Map{
 				a_checkpoints.push(new Checkpoint([80, 16, -190], f_mapScale, [.2, 16, 90], 0, false, 26));
 				a_checkpoints.push(new Checkpoint([90, 16, -190], f_mapScale, [.2, 16, 90], 0, false, 27));
 				a_checkpoints.push(new Checkpoint([100, 16, -190], f_mapScale, [.2, 16, 60], 0, false, 28));
-				a_checkpoints.push(new Checkpoint([110, 18, -190], f_mapScale, [.2, 16, 60], 0, false, 29));
+				//a_checkpoints.push(new Checkpoint([110, 18, -190], f_mapScale, [.2, 16, 60], 0, false, 29));
 
 				//Top of East hill:
-				a_checkpoints.push(new Checkpoint([110, 18, -90], f_mapScale, [.2, 16, 80], 1.5708, false, 37));
-				a_checkpoints.push(new Checkpoint([110, 18, -100], f_mapScale, [.2, 16, 80], 1.5708, false, 36));
-				a_checkpoints.push(new Checkpoint([110, 18, -110], f_mapScale, [.2, 16, 80], 1.5708, false, 35));
-				a_checkpoints.push(new Checkpoint([110, 18, -120], f_mapScale, [.2, 16, 80], 1.5708, false, 34));
-				a_checkpoints.push(new Checkpoint([110, 18, -130], f_mapScale, [.2, 16, 80], 1.5708, false, 33));
-				a_checkpoints.push(new Checkpoint([110, 18, -140], f_mapScale, [.2, 16, 80], 1.5708, false, 32));
-				a_checkpoints.push(new Checkpoint([120, 18, -150], f_mapScale, [.2, 16, 60], 1.5708, false, 31));
-				a_checkpoints.push(new Checkpoint([120, 18, -160], f_mapScale, [.2, 16, 60], 1.5708, false, 30));
+				a_checkpoints.push(new Checkpoint([110, 18, -90], f_mapScale, [.2, 16, 80], -1.5708, false, 37));
+				a_checkpoints.push(new Checkpoint([110, 18, -100], f_mapScale, [.2, 16, 80], -1.5708, false, 36));
+				a_checkpoints.push(new Checkpoint([110, 18, -110], f_mapScale, [.2, 16, 80], -1.5708, false, 35));
+				a_checkpoints.push(new Checkpoint([110, 18, -120], f_mapScale, [.2, 16, 80], -1.5708, false, 34));
+				a_checkpoints.push(new Checkpoint([110, 18, -130], f_mapScale, [.2, 16, 80], -1.5708, false, 33));
+				a_checkpoints.push(new Checkpoint([110, 18, -140], f_mapScale, [.2, 16, 80], -1.5708, false, 32));
+				a_checkpoints.push(new Checkpoint([120, 18, -150], f_mapScale, [.2, 16, 60], -1.5708, false, 31));
+				a_checkpoints.push(new Checkpoint([120, 18, -160], f_mapScale, [.2, 16, 60], -1.5708, false, 30));
+				a_checkpoints.push(new Checkpoint([120, 18, -170], f_mapScale, [.2, 16, 40], -1.5708, false, 29));
 
 				//Top of bridge:
-				a_checkpoints.push(new Checkpoint([110, 22, -60], f_mapScale, [.2, 16, 60], 0, false, 38));
-				a_checkpoints.push(new Checkpoint([100, 22, -60], f_mapScale, [.2, 16, 60], 0, false, 39));
-				a_checkpoints.push(new Checkpoint([90, 22, -55], f_mapScale, [.2, 16, 70], 0, false, 40));
-				a_checkpoints.push(new Checkpoint([80, 22, -60], f_mapScale, [.2, 16, 60], 0, false, 41));
-				a_checkpoints.push(new Checkpoint([70, 22, -65], f_mapScale, [.2, 16, 50], 0, false, 42));
+				a_checkpoints.push(new Checkpoint([110, 22, -60], f_mapScale, [.2, 16, 60], 3.14, false, 38));
+				a_checkpoints.push(new Checkpoint([100, 22, -60], f_mapScale, [.2, 16, 60], 3.14, false, 39));
+				a_checkpoints.push(new Checkpoint([90, 22, -55], f_mapScale, [.2, 16, 70], 3.14, false, 40));
+				a_checkpoints.push(new Checkpoint([80, 22, -60], f_mapScale, [.2, 16, 60], 3.14, false, 41));
+				a_checkpoints.push(new Checkpoint([70, 22, -65], f_mapScale, [.2, 16, 50], 3.14, false, 42));
 				a_checkpoints.push(new Checkpoint([60, 22, -65], f_mapScale, [.2, 16, 50], 0, true, 43));
-				a_checkpoints[43].fn_setNextKey(64);
-				a_checkpoints.push(new Checkpoint([50, 22, -68], f_mapScale, [.2, 16, 40], 0, false, 44));
-				a_checkpoints.push(new Checkpoint([40, 22, -68], f_mapScale, [.2, 16, 35], 0, false, 45));
-				a_checkpoints.push(new Checkpoint([30, 22, -68], f_mapScale, [.2, 16, 35], 0, false, 46));
-				a_checkpoints.push(new Checkpoint([20, 22, -68], f_mapScale, [.2, 16, 35], 0, false, 47));
-				a_checkpoints.push(new Checkpoint([10, 22, -68], f_mapScale, [.2, 16, 35], 0, false, 48));
-				a_checkpoints.push(new Checkpoint([0, 22, -68], f_mapScale, [.2, 16, 35], 0, false, 49));
-				a_checkpoints.push(new Checkpoint([-10, 22, -68], f_mapScale, [.2, 16, 35], 0, false, 50));
-				a_checkpoints.push(new Checkpoint([-20, 22, -68], f_mapScale, [.2, 16, 35], 0, false, 51));
-				a_checkpoints.push(new Checkpoint([-30, 22, -68], f_mapScale, [.2, 16, 35], 0, false, 52));
-				a_checkpoints.push(new Checkpoint([-40, 22, -68], f_mapScale, [.2, 16, 35], 0, false, 53));
-				a_checkpoints.push(new Checkpoint([-50, 22, -68], f_mapScale, [.2, 16, 35], 0, false, 54));
-				a_checkpoints.push(new Checkpoint([-60, 22, -68], f_mapScale, [.2, 16, 35], 0, false, 55));
-				a_checkpoints.push(new Checkpoint([-70, 22, -68], f_mapScale, [.2, 16, 35], 0, false, 56));
-				a_checkpoints.push(new Checkpoint([-80, 22, -68], f_mapScale, [.2, 16, 35], 0, false, 57));
-				a_checkpoints.push(new Checkpoint([-90, 22, -68], f_mapScale, [.2, 16, 35], 0, false, 58));
-				a_checkpoints.push(new Checkpoint([-100, 22, -68], f_mapScale, [.2, 16, 35], 0, false, 59));
-				a_checkpoints.push(new Checkpoint([-110, 22, -68], f_mapScale, [.2, 16, 35], 0, false, 60));
-				a_checkpoints.push(new Checkpoint([-120, 22, -68], f_mapScale, [.2, 16, 35], 0, false, 61));
-				a_checkpoints.push(new Checkpoint([-130, 22, -68], f_mapScale, [.2, 16, 35], 0, false, 62));
-				a_checkpoints.push(new Checkpoint([-140, 22, -68], f_mapScale, [.2, 16, 35], 0, false, 63));
+				a_checkpoints[43].fn_setNextKey(69);
+				a_checkpoints.push(new Checkpoint([50, 22, -68], f_mapScale, [.2, 16, 40], 3.14, false, 44));
+				a_checkpoints.push(new Checkpoint([40, 22, -68], f_mapScale, [.2, 16, 35], 3.14, false, 45));
+				a_checkpoints.push(new Checkpoint([30, 22, -68], f_mapScale, [.2, 16, 35], 3.14, false, 46));
+				a_checkpoints.push(new Checkpoint([20, 22, -68], f_mapScale, [.2, 16, 35], 3.14, false, 47));
+				a_checkpoints.push(new Checkpoint([10, 22, -68], f_mapScale, [.2, 16, 35], 3.14, false, 48));
+				a_checkpoints.push(new Checkpoint([0, 22, -68], f_mapScale, [.2, 16, 35], 3.14, false, 49));
+				a_checkpoints.push(new Checkpoint([-10, 22, -68], f_mapScale, [.2, 16, 35], 3.14, false, 50));
+				a_checkpoints.push(new Checkpoint([-20, 22, -68], f_mapScale, [.2, 16, 35], 3.14, false, 51));
+				a_checkpoints.push(new Checkpoint([-30, 22, -68], f_mapScale, [.2, 16, 35], 3.14, false, 52));
+				a_checkpoints.push(new Checkpoint([-40, 22, -68], f_mapScale, [.2, 16, 35], 3.14, false, 53));
+				a_checkpoints.push(new Checkpoint([-50, 22, -68], f_mapScale, [.2, 16, 35], 3.14, false, 54));
+				a_checkpoints.push(new Checkpoint([-60, 22, -68], f_mapScale, [.2, 16, 35], 3.14, false, 55));
+				a_checkpoints.push(new Checkpoint([-70, 22, -68], f_mapScale, [.2, 16, 35], 3.14, false, 56));
+				a_checkpoints.push(new Checkpoint([-80, 22, -68], f_mapScale, [.2, 16, 35], 3.14, false, 57));
+				a_checkpoints.push(new Checkpoint([-90, 22, -68], f_mapScale, [.2, 16, 35], 3.14, false, 58));
+				a_checkpoints.push(new Checkpoint([-100, 22, -68], f_mapScale, [.2, 16, 35], 3.14, false, 59));
+				a_checkpoints.push(new Checkpoint([-110, 22, -68], f_mapScale, [.2, 16, 35], 3.14, false, 60));
+				a_checkpoints.push(new Checkpoint([-120, 22, -68], f_mapScale, [.2, 16, 35], 3.14, false, 61));
+				a_checkpoints.push(new Checkpoint([-130, 22, -68], f_mapScale, [.2, 16, 35], 3.14, false, 62));
+				a_checkpoints.push(new Checkpoint([-140, 22, -68], f_mapScale, [.2, 16, 35], 3.14, false, 63));
 
 				//Top of west hill:
-				a_checkpoints.push(new Checkpoint([-140, 14, -49], f_mapScale, [.2, 32, 100], 1.5708, true, 64));
-				a_checkpoints[64].fn_setNextKey(88);
-				a_checkpoints.push(new Checkpoint([-140, 14, -40], f_mapScale, [.2, 32, 100], 1.5708, false, 65));
-				a_checkpoints.push(new Checkpoint([-140, 14, -30], f_mapScale, [.2, 32, 100], 1.5708, false, 66));
-				a_checkpoints.push(new Checkpoint([-140, 14, -20], f_mapScale, [.2, 32, 100], 1.5708, false, 67));
-				a_checkpoints.push(new Checkpoint([-140, 14, -10], f_mapScale, [.2, 32, 100], 1.5708, false, 68));
-				a_checkpoints.push(new Checkpoint([-140, 14, 0], f_mapScale, [.2, 32, 100], 1.5708, false, 69));
-				a_checkpoints.push(new Checkpoint([-140, 14, 10], f_mapScale, [.2, 32, 100], 1.5708, false, 70));
-				a_checkpoints.push(new Checkpoint([-140, 14, 20], f_mapScale, [.2, 32, 100], 1.5708, false, 71));
-				a_checkpoints.push(new Checkpoint([-140, 14, 30], f_mapScale, [.2, 32, 100], 1.5708, false, 72));
-				a_checkpoints.push(new Checkpoint([-140, 14, 40], f_mapScale, [.2, 32, 100], 1.5708, false, 73));
-				a_checkpoints.push(new Checkpoint([-140, 14, 50], f_mapScale, [.2, 32, 100], 1.5708, false, 74));
-				a_checkpoints.push(new Checkpoint([-140, 14, 60], f_mapScale, [.2, 32, 100], 1.5708, false, 75));
-				a_checkpoints.push(new Checkpoint([-140, 14, 70], f_mapScale, [.2, 32, 100], 1.5708, false, 76));
+				a_checkpoints.push(new Checkpoint([-150, 18, -49], f_mapScale, [.2, 48, 120], -1.5708, false, 64));
+				a_checkpoints.push(new Checkpoint([-150, 18, -40], f_mapScale, [.2, 48, 120], -1.5708, false, 65));
+				a_checkpoints.push(new Checkpoint([-150, 18, -30], f_mapScale, [.2, 48, 120], -1.5708, false, 66));
+				a_checkpoints.push(new Checkpoint([-150, 18, -20], f_mapScale, [.2, 48, 120], -1.5708, false, 67));
+				a_checkpoints.push(new Checkpoint([-150, 18, -10], f_mapScale, [.2, 48, 120], -1.5708, false, 68));
+				a_checkpoints.push(new Checkpoint([-150, 18, 0], f_mapScale, [.2, 48, 120], -1.5708, true, 69));
+				a_checkpoints[69].fn_setNextKey(88);
+				a_checkpoints.push(new Checkpoint([-150, 18, 10], f_mapScale, [.2, 48, 120], -1.5708, false, 70));
+				a_checkpoints.push(new Checkpoint([-150, 18, 20], f_mapScale, [.2, 48, 120], -1.5708, false, 71));
+				a_checkpoints.push(new Checkpoint([-150, 18, 30], f_mapScale, [.2, 48, 120], -1.5708, false, 72));
+				a_checkpoints.push(new Checkpoint([-150, 18, 40], f_mapScale, [.2, 48, 120], -1.5708, false, 73));
+				a_checkpoints.push(new Checkpoint([-150, 18, 50], f_mapScale, [.2, 48, 120], -1.5708, false, 74));
+				a_checkpoints.push(new Checkpoint([-150, 18, 60], f_mapScale, [.2, 48, 120], -1.5708, false, 75));
+				a_checkpoints.push(new Checkpoint([-150, 18, 70], f_mapScale, [.2, 48, 120], -1.5708, false, 76));
 
 				//Wood bridge:
-				a_checkpoints.push(new Checkpoint([-150, 14, 100], f_mapScale, [.2, 32, 60], 0, false, 77));
-				a_checkpoints.push(new Checkpoint([-140, 14, 100], f_mapScale, [.2, 32, 60], 0, false, 78));
-				a_checkpoints.push(new Checkpoint([-130, 14, 100], f_mapScale, [.2, 32, 60], 0, false, 79));
-				a_checkpoints.push(new Checkpoint([-120, 14, 100], f_mapScale, [.2, 32, 60], 0, false, 80));
-				a_checkpoints.push(new Checkpoint([-110, 14, 100], f_mapScale, [.2, 32, 60], 0, false, 81));
-				a_checkpoints.push(new Checkpoint([-100, 14, 100], f_mapScale, [.2, 32, 60], 0, false, 82));
-				a_checkpoints.push(new Checkpoint([-90, 14, 105], f_mapScale, [.2, 32, 70], 0, false, 83));
-				a_checkpoints.push(new Checkpoint([-80, 8, 100], f_mapScale, [.2, 16, 90], 0, false, 84));
-				a_checkpoints.push(new Checkpoint([-70, 8, 100], f_mapScale, [.2, 16, 90], 0, false, 85));
-				a_checkpoints.push(new Checkpoint([-60, 8, 100], f_mapScale, [.2, 16, 90], 0, false, 86));
-				a_checkpoints.push(new Checkpoint([-50, 8, 100], f_mapScale, [.2, 16, 90], 0, false, 87));
-				a_checkpoints.push(new Checkpoint([-40, 8, 100], f_mapScale, [.2, 16, 90], 0, true, 88));
+				a_checkpoints.push(new Checkpoint([-150, 18, 100], f_mapScale, [.2, 32, 120], 0, false, 77));
+				a_checkpoints.push(new Checkpoint([-140, 18, 100], f_mapScale, [.2, 32, 120], 0, false, 78));
+				a_checkpoints.push(new Checkpoint([-130, 18, 100], f_mapScale, [.2, 32, 120], 0, false, 79));
+				a_checkpoints.push(new Checkpoint([-120, 18, 105], f_mapScale, [.2, 32, 120], 0, false, 80));
+				a_checkpoints.push(new Checkpoint([-110, 18, 110], f_mapScale, [.2, 32, 120], 0, false, 81));
+				a_checkpoints.push(new Checkpoint([-95, 18, 120], f_mapScale, [.2, 32, 120], 0, false, 82));
+				a_checkpoints.push(new Checkpoint([-95, 16, 120], f_mapScale, [.2, 32, 120], 0, false, 83));
+				a_checkpoints.push(new Checkpoint([-80, 8, 125], f_mapScale, [.2, 16, 120], 0, false, 84));
+				a_checkpoints.push(new Checkpoint([-70, 8, 125], f_mapScale, [.2, 16, 120], 0, false, 85));
+				a_checkpoints.push(new Checkpoint([-60, 8, 125], f_mapScale, [.2, 16, 120], 0, false, 86));
+				a_checkpoints.push(new Checkpoint([-50, 8, 125], f_mapScale, [.2, 16, 120], 0, false, 87));
+				a_checkpoints.push(new Checkpoint([-40, 8, 125], f_mapScale, [.2, 16, 120], 0, true, 88));
 				a_checkpoints[88].fn_setNextKey(0);
-				a_checkpoints.push(new Checkpoint([-30, 8, 100], f_mapScale, [.2, 16, 90], 0, false, 89));
-				a_checkpoints.push(new Checkpoint([-20, 8, 100], f_mapScale, [.2, 16, 90], 0, false, 90));
-				a_checkpoints.push(new Checkpoint([-10, 8, 100], f_mapScale, [.2, 16, 90], 0, false, 91));
+				a_checkpoints.push(new Checkpoint([-30, 8, 125], f_mapScale, [.2, 16, 120], 0, false, 89));
+				a_checkpoints.push(new Checkpoint([-20, 8, 125], f_mapScale, [.2, 16, 120], 0, false, 90));
+				a_checkpoints.push(new Checkpoint([-10, 8, 125], f_mapScale, [.2, 16, 120], 0, false, 91));
 				a_checkpoints.push(new Checkpoint([0, 8, 100], f_mapScale, [.2, 16, 80], 0, false, 92));
 				a_checkpoints.push(new Checkpoint([10, 8, 120], f_mapScale, [.2, 16, 40], 0, false, 93));
 				a_checkpoints.push(new Checkpoint([20, 8, 120], f_mapScale, [.2, 16, 40], 0, false, 94));
 				
 
 				//Ending stretch:
-				a_checkpoints.push(new Checkpoint([45, 8, 100], f_mapScale, [.2, 16, 90], 1.5708, false, 95));
-				a_checkpoints.push(new Checkpoint([45, 8, 90], f_mapScale, [.2, 16, 90], 1.5708, false, 96));
-				a_checkpoints.push(new Checkpoint([45, 8, 80], f_mapScale, [.2, 16, 90], 1.5708, false, 97));
-				a_checkpoints.push(new Checkpoint([45, 8, 70], f_mapScale, [.2, 16, 90], 1.5708, false, 98));
-				a_checkpoints.push(new Checkpoint([45, 8, 60], f_mapScale, [.2, 16, 90], 1.5708, false, 99));
+				a_checkpoints.push(new Checkpoint([30, 8, 100], f_mapScale, [.2, 16, 60], 1.5708, false, 95));
+				a_checkpoints.push(new Checkpoint([30, 8, 90], f_mapScale, [.2, 16, 60], 1.5708, false, 96));
+				a_checkpoints.push(new Checkpoint([30, 8, 80], f_mapScale, [.2, 16, 60], 1.5708, false, 97));
+				a_checkpoints.push(new Checkpoint([30, 8, 70], f_mapScale, [.2, 16, 60], 1.5708, false, 98));
+				a_checkpoints.push(new Checkpoint([30, 8, 60], f_mapScale, [.2, 16, 60], 1.5708, false, 99));
 
 				
 				
