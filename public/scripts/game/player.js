@@ -136,7 +136,8 @@ export default class Player{
 				this.b_reverse = false;															//True when the player is braking or reversing.
 			//Respawning:
 				this.f_respawnTimer = 0.0;
-				
+				this.b_idle = false;															//True if the player isn't in control. 
+
 		//Movement variables:
 			//Stats:
 				f_stat_speed.set(this, 3);														//@ 150cc, stat 3 is ~78kmh.
@@ -175,7 +176,7 @@ export default class Player{
 				this.f_speedBoostTimer = 0.0;													//How long a speed boost lasts.
 			
 		//For checking laps:
-			this.b_done = false;														//True if the player has completed all the laps.
+			this.b_finished = false;														//True if the player has completed all the laps.
 			this.b_inOrder = true;															//True if the player is passing the key checkpoints in order.
 			int_numLaps.set(this, _int_numLaps);													//Total # of laps.
 			this.int_lap = 1;																//This player's current lap.
@@ -206,7 +207,7 @@ export default class Player{
 		const input = a_inputs[int_playerNum.get(this)];
 		const camera = a_cameras[int_playerNum.get(this)];
 
-		if(input.fn_press_fly(this.b_done) && window.b_debug){
+		if(input.fn_press_fly(this.b_idle) && window.b_debug){
 			var infoParagraph = document.getElementById("info");
 			if(this.b_flying){
 				//infoParagraph.innerHTML = "Use Space to accelerate, WASD to steer, & J to drift/brake.<br /> Press f to toggle free cam.";
@@ -225,58 +226,47 @@ export default class Player{
 		
 		if(this.b_flying){
 			//Horizontal movement:
-				if(input.fn_hold_forward(this.b_done)){
+				if(input.fn_hold_forward(this.b_idle)){
 					//camera.position.z -= 1;
 					this.player.position.z -= Math.cos(this.player.rotation.y) * this.f_flySpd;
 					this.player.position.x -= Math.sin(this.player.rotation.y) * this.f_flySpd;
 				}
-				if(input.fn_hold_back(this.b_done)){
+				if(input.fn_hold_back(this.b_idle)){
 					//camera.position.z += 1;
 					this.player.position.z += Math.cos(this.player.rotation.y) * this.f_flySpd;
 					this.player.position.x += Math.sin(this.player.rotation.y) * this.f_flySpd;
 				}
-				if(input.fn_hold_left(this.b_done)){		//Slide camera left.
+				if(input.fn_hold_left(this.b_idle)){		//Slide camera left.
 					//camera.rotation.y += .02;
 					this.player.position.z += Math.sin(this.player.rotation.y) * this.f_flySpd;
 					this.player.position.x -= Math.cos(this.player.rotation.y) * this.f_flySpd;
 				}
-				if(input.fn_hold_right(this.b_done)){		//Slide camera right.
+				if(input.fn_hold_right(this.b_idle)){		//Slide camera right.
 					//camera.rotation.y -= .02;
 					this.player.position.z -= Math.sin(this.player.rotation.y) * this.f_flySpd;
 					this.player.position.x += Math.cos(this.player.rotation.y) * this.f_flySpd;
 				}
 			//Rotation:	
-				if(input.fn_hold_item(this.b_done)){
+				if(input.fn_hold_item(this.b_idle)){
 					this.player.rotation.y += f_baseMaxTurning.get(this) + .005;
 				}
-				if(input.fn_hold_rear(this.b_done)){
+				if(input.fn_hold_rear(this.b_idle)){
 					this.player.rotation.y -= f_baseMaxTurning.get(this) + .005;
 				}
 			
 			//Vertical movement:
-				if(input.fn_hold_accelerate(this.b_done)){
+				if(input.fn_hold_accelerate(this.b_idle)){
 					this.player.position.y += .4;
 				}
-				if(input.fn_hold_drift(this.b_done)){
+				if(input.fn_hold_drift(this.b_idle)){
 					this.player.position.y -= .4;
 				}
 		}
-		//Respawning:
-		else if(this.f_respawnTimer > 0.0){		
-			this.f_respawnTimer -= 1/60;
-
-			if(this.f_respawnTimer <= 0.0){
-				this.f_respawnTimer = 0.0;
-
-				this.player.position.y += 20;
-			}
-		}
-		else 
-		{			
+		else{			
 			this.b_standstill = false;
 			
 			//Drifting:
-				if(input.fn_hold_drift(this.b_done) && input.fn_hold_accelerate(this.b_done)){
+				if(input.fn_hold_drift(this.b_idle) && input.fn_hold_accelerate(this.b_idle)){
 					if(this.f_speed <= 0.05	){
 						this.b_standstill = true;
 						
@@ -300,11 +290,11 @@ export default class Player{
 					}
 				}
 				//Cases where a drift ends:
-				else if(!input.fn_hold_drift(this.b_done)){
+				else if(!input.fn_hold_drift(this.b_idle)){
 					this.b_drifting = false;
 				}
 				//Min speed for brake-drifting:
-				if(!input.fn_hold_accelerate(this.b_done) && this.f_speed < this.f_minBrakeDriftSpd){
+				if(!input.fn_hold_accelerate(this.b_idle) && this.f_speed < this.f_minBrakeDriftSpd){
 					this.b_drifting = false;
 					this.b_chargingJump = false;
 				}
@@ -316,7 +306,7 @@ export default class Player{
 						this.f_jumpStartY = 0.0;
 					}
 					//Start of a jump:
-					if(input.fn_hold_accelerate(this.b_done) && input.fn_press_drift(this.b_done) && this.b_onGround && this.f_speed > 0.05){
+					if(input.fn_hold_accelerate(this.b_idle) && input.fn_press_drift(this.b_idle) && this.b_onGround && this.f_speed > 0.05){
 						this.f_gravity = this.f_jumpHeight;
 						this.b_jumping = true;
 						this.f_jumpStartY = this.player.position.y;
@@ -326,7 +316,7 @@ export default class Player{
 				if(this.b_chargingJump){
 					this.f_jumpCharge += 0.025;
 				}
-				if(!input.fn_hold_drift(this.b_done) && this.f_jumpCharge > 1.0){
+				if(!input.fn_hold_drift(this.b_idle) && this.f_jumpCharge > 1.0){
 					if(this.b_onGround){
 						this.f_gravity = this.f_chargeJumpHeight;
 					}
@@ -337,7 +327,7 @@ export default class Player{
 					this.b_chargeJumping = true;
 				}
 				//Cases where a charge-jump ends:
-				else if(!input.fn_hold_drift(this.b_done)){
+				else if(!input.fn_hold_drift(this.b_idle)){
 					this.b_chargingJump = false;
 					this.f_jumpCharge = 0.0; 
 				}
@@ -346,11 +336,11 @@ export default class Player{
 			
 			//Accelerating:
 				if(this.b_onGround || this.f_gravity < 0){
-					if(input.fn_hold_accelerate(this.b_done) && !this.b_standstill){
+					if(input.fn_hold_accelerate(this.b_idle) && !this.b_standstill){
 						this.f_speed += this.f_acceleration;
 						this.b_reverse = false;
 					}
-					else if(!input.fn_hold_accelerate(this.b_done) && input.fn_hold_drift(this.b_done)){	//Brake/reverse
+					else if(!input.fn_hold_accelerate(this.b_idle) && input.fn_hold_drift(this.b_idle)){	//Brake/reverse
 						this.f_speed -= 0.015;
 						this.b_reverse = true;
 					}
@@ -375,17 +365,17 @@ export default class Player{
 					this.f_speed = this.f_maxSpeed + this.f_speedBoost;
 				}
 				//Hit min speed while not in reverse:
-				if(this.f_speed < 0 && !input.fn_hold_drift(this.b_done))
+				if(this.f_speed < 0 && !input.fn_hold_drift(this.b_idle))
 				{
 					this.f_speed = 0;
 				}
 				//Standstill:
-				if(this.f_speed < 0 && input.fn_hold_drift(this.b_done) && input.fn_hold_accelerate(this.b_done))
+				if(this.f_speed < 0 && input.fn_hold_drift(this.b_idle) && input.fn_hold_accelerate(this.b_idle))
 				{
 					this.f_speed = 0;
 					this.f_driftingDirec = 0;
 				}//Reverse:
-				else if(this.f_speed < -0.2 && input.fn_hold_drift(this.b_done)){
+				else if(this.f_speed < -0.2 && input.fn_hold_drift(this.b_idle)){
 					this.f_speed = -0.2;
 				}
 				//When in offRoad:
@@ -395,9 +385,6 @@ export default class Player{
 				else{
 					this.f_maxSpeed = f_baseMaxSpeed.get(this);
 				}
-				//if(this.b_finished && this.f_speed < 0){
-				//	this.f_speed = 0;
-				//}
 
 				//Update HUD for speed:
 					var str_spd = (Math.abs(Math.trunc(this.f_speed * 100))).toString();
@@ -417,12 +404,12 @@ export default class Player{
 
 			//console.log("f_speed = " + this.f_speed);
 			//Steering:	
-				if((input.fn_hold_left(this.b_done) || input.fn_hold_right(this.b_done)) && (this.f_speed !== 0 || this.b_standstill)){
+				if((input.fn_hold_left(this.b_idle) || input.fn_hold_right(this.b_idle)) && (this.f_speed !== 0 || this.b_standstill)){
 					//console.log(`f_turningDirec = ${this.f_turningDirec}`);
-					if(input.fn_hold_left(this.b_done)){
+					if(input.fn_hold_left(this.b_idle)){
 						this.f_turningDirec = 1;
 					}
-					if(input.fn_hold_right(this.b_done)){
+					if(input.fn_hold_right(this.b_idle)){
 						this.f_turningDirec = -1;
 					}
 					
@@ -540,7 +527,7 @@ export default class Player{
 				}
 				else{
 					//Apply mini-turbo:
-					if(this.str_MT && input.fn_hold_accelerate(this.b_done)){
+					if(this.str_MT && input.fn_hold_accelerate(this.b_idle)){
 						this.fn_addSpeedBoost(this.str_MT);
 						this.str_MT = "";
 					}
@@ -641,6 +628,19 @@ export default class Player{
 			//Out of bounds check:
 			if(this.player.position.y < 0){
 				this.f_respawnTimer = 2.0;
+			}
+
+			//Respawning:
+			if(this.f_respawnTimer > 0.0){		
+				this.f_respawnTimer -= 1/60;
+				this.b_idle = true;
+
+				if(this.f_respawnTimer <= 0.0){
+					this.f_respawnTimer = 0.0;
+					this.b_idle = false;
+
+					this.player.position.y += 20;
+				}
 			}
 		}
 		
@@ -770,11 +770,11 @@ export default class Player{
 		//Update item slots:
 		this.itemSlots.fn_update(_int_frames);
 
-		if(input.fn_press_swap(this.b_done)){
+		if(input.fn_press_swap(this.b_idle)){
 			this.itemSlots.fn_swap();
 		}
 
-		if(input.fn_press_item(this.b_done)){
+		if(input.fn_press_item(this.b_idle)){
 			this.itemSlots.fn_use(this);
 		}
 		
@@ -787,7 +787,7 @@ export default class Player{
 		
 		//Update the sprite/model positions:
 		for(const obj_character of this.a_characters){
-			obj_character.fn_update(this.player.position, this.player.rotation.y, this.f_driftingDirec, input, this.b_done, _int_frames);
+			obj_character.fn_update(this.player.position, this.player.rotation.y, this.f_driftingDirec, input, this.b_idle, _int_frames);
 		}
 			
 			this.obj_kart.fn_setPos(new THREE.Vector3(
@@ -797,7 +797,7 @@ export default class Player{
 			));
 			//console.log(`player.rotation.y = ${this.player.rotation.y}`);
 			//this.obj_kart.fn_setBaseRotation();
-			this.obj_kart.fn_update(input, this.player.rotation.y, this.b_done, this.f_driftingDirec, _int_frames);
+			this.obj_kart.fn_update(input, this.player.rotation.y, this.b_idle, this.f_driftingDirec, _int_frames);
 			// /this.model_kart.fn_setY(this.player.position.y + 0.02 * this.f_scale);
 				
 		//Update camera's position:
@@ -811,7 +811,7 @@ export default class Player{
 			//console.log(`f_lookY = ${this.f_lookY}`);
 			
 			//Rear view:
-			if(input.fn_hold_rear(this.b_done) && !this.b_flying){
+			if(input.fn_hold_rear(this.b_idle) && !this.b_flying){
 				camera.position.set(this.player.position.x - 4.5 * Math.sin(this.player.rotation.y), this.f_posY, this.player.position.z - 4.5 * Math.cos(this.player.rotation.y));
 				camera.lookAt( this.player.position.x, this.f_lookY, this.player.position.z );
 			}
@@ -916,7 +916,8 @@ export default class Player{
 					this.p_hudLaps.innerHTML = "LAP " + this.int_lap + " / " + int_numLaps.get(this);
 				}
 				else{
-					this.b_done = true;
+					this.b_finished = true;
+					this.b_idle = true;
 					this.p_hudFinish.innerHTML = "FINISH";
 				}
 			}   
@@ -927,7 +928,7 @@ export default class Player{
 	}
 
 	fn_isFinished(){
-		return this.b_done;
+		return this.b_finished;
 	}
 
 	//Resets all variables related to drifting. Call this when a drift ends:

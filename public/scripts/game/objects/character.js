@@ -42,7 +42,7 @@ export default class Character extends Obj{
 	}	
 	
 	//Overriden functions:
-		fn_update(_playerPos, _playerRotation, _int_driftDirec, input, _b_done, _int_frames){
+		fn_update(_playerPos, _playerRotation, _int_driftDirec, input, _b_idle, _int_frames){
 			//this.spriteMap.offset.x += 0.1;
 
 			//Update character position:
@@ -54,10 +54,10 @@ export default class Character extends Obj{
 				if(!this.b_driving){
 					
 					//Leaning with turns:
-						if((this.f_tilt < 0 && !input.fn_hold_right(_b_done)) || input.fn_hold_left(_b_done)){
+						if((this.f_tilt < 0 && !input.fn_hold_right(_b_idle)) || input.fn_hold_left(_b_idle)){
 							this.f_tilt += this.f_tiltIncrement;
 						}
-						if((this.f_tilt > 0 && !input.fn_hold_left(_b_done)) || input.fn_hold_right(_b_done)){
+						if((this.f_tilt > 0 && !input.fn_hold_left(_b_idle)) || input.fn_hold_right(_b_idle)){
 							this.f_tilt -= this.f_tiltIncrement;
 						}
 						//Margin when character tilt is close enough to 0, set it to 0:
@@ -101,7 +101,7 @@ export default class Character extends Obj{
 				}
 
 				//Swapping:
-				if(input.fn_press_swap()){
+				if(input.fn_press_swap(_b_idle)){
 					this.f_swapTimer = 0.2;	
 					this.fn_flipSprite(1);	
 				}

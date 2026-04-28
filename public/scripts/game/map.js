@@ -66,24 +66,25 @@ export default class Map{
 			if(str_map == "testcourse1"){
 				f_mapScale = 2.5;
 				v_mapPos = new THREE.Vector3(36,8,-3);
-				b_hasGeo = true;	b_hasOffroad = false;	b_hasSkybox = false;
+				b_hasGeo = true;	b_hasOffroad = false;	b_hasNonSolid = false;	b_hasSkybox = false;
 			}
 			else if(str_map == "MC1"){
 				f_mapScale = 1.2;
 				v_mapPos = new THREE.Vector3(40, 9, 25);
-				b_hasGeo = true;	b_hasOffroad = true;	b_hasSkybox = true;
+				b_hasGeo = true;	b_hasOffroad = true;	b_hasNonSolid = false;	b_hasSkybox = true;
 			}
 			else if(str_map == "FDL Circuit"){
 				f_mapScale = 1.0;
 				v_mapPos = new THREE.Vector3(29, 4, 60);
 				f_mapRot = 3.14;
-				b_hasGeo = true;	b_hasOffroad = true;	b_hasSkybox = false;
+				b_hasGeo = true;	b_hasOffroad = true;	b_hasNonSolid = true;	b_hasSkybox = false;
 			}
 	}	
 
 	async addModels(worldOctree, offroadOctree) {
 		if(b_hasGeo) await this.fn_loadModel(geoModel, 'geo', true, worldOctree);
 		if(b_hasOffroad) await this.fn_loadModel(offroadModel, 'offroad', false, offroadOctree);
+		if(b_hasNonSolid) await this.fn_loadModel(nonSolidModel, 'notSolid', true, offroadOctree);
 		if(b_hasSkybox) await this.fn_loadModel(skyboxModel, 'skybox', true);
 	}
 
