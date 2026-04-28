@@ -21,7 +21,16 @@ export default class ItemSlots{
 		this.img_item0 = document.getElementById(`img_item${this.int_playerNum}-0`);
 		this.img_item1 = document.getElementById(`img_item${this.int_playerNum}-1`);
 
-		this.a_items = [3, 0];			//Index 0 is always the active item slot.
+		this.a_items = [0, 0];			//Index 0 is always the active item slot.
+
+		//Specific item layouts for different modes:
+		if(window.int_gameMode == 1){
+			this.a_items = [3, 0];
+		}
+		if(window.int_gameMode == 2){
+			this.a_items = [2, 2];
+		}
+
 		this.a_rollTimer = [0.0, 0.0];
 		this.f_rollTime = 2.00;
 		this.f_swapTimer = 0.0;
