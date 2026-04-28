@@ -178,8 +178,15 @@ export default class Player{
 				this.str_MT = "";																//Equals "MT#" when a mini-turbo is charged (# being the level of MT).
 				this.f_speedBoost = 0.0;														//Additional speed from a boost or mini-turbo.
 				this.f_speedBoostTimer = 0.0;													//How long a speed boost lasts.
-				this.f_FOV = a_cameras[int_playerNum.get(this)].fov;
-				this.f_baseFOV = a_cameras[int_playerNum.get(this)].fov;
+				this.cameraRef = a_cameras[int_playerNum.get(this)];
+				this.f_FOV = this.cameraRef.fov;
+				this.f_baseFOV = this.cameraRef.fov;
+
+				if(a_inputs.length == 2){
+					this.f_baseFOV = this.f_baseFOV + 10;
+					this.cameraRef.fov = this.f_baseFOV;
+					this.cameraRef.updateProjectionMatrix();
+				}
 
 
 		//For checking laps:
@@ -212,7 +219,7 @@ export default class Player{
 	//Function for player input and movement:
 	fn_play(worldOctree, offroadOctree, _int_frames){		
 		const input = a_inputs[int_playerNum.get(this)];
-		const camera = a_cameras[int_playerNum.get(this)];
+		const camera = this.cameraRef;
 
 		if(input.fn_press_fly(this.b_idle) && (window.b_debug || window.int_gameMode == 0)){
 			var infoParagraph = document.getElementById("info");
@@ -577,9 +584,9 @@ export default class Player{
 					this.f_speedBoostTimer -= 1.0/60.0;
 
 					//Also adjust camera FOV:
-					if(this.f_speedBoost >= .2 && a_cameras[int_playerNum.get(this)].fov < this.f_FOV){
-						a_cameras[int_playerNum.get(this)].fov += 2;
-						a_cameras[int_playerNum.get(this)].updateProjectionMatrix();
+					if(this.f_speedBoost >= .2 && this.cameraRef.fov < this.f_FOV){
+						this.cameraRef.fov += 2;
+						this.cameraRef.updateProjectionMatrix();
 					}
 
 					//Make it so acceleration doesn't depend on stats during a speed boost.
@@ -587,9 +594,9 @@ export default class Player{
 				else if(this.f_speedBoost > 0.0){
 					this.f_speedBoost -= 0.01 / f_stat_weight.get(this);	//The larger weight, the longer a speed boost is maintained.
 				
-					if(a_cameras[int_playerNum.get(this)].fov > this.f_baseFOV){
-						a_cameras[int_playerNum.get(this)].fov -= 0.5;
-						a_cameras[int_playerNum.get(this)].updateProjectionMatrix();
+					if(this.cameraRef.fov > this.f_baseFOV){
+						this.cameraRef.fov -= 0.5;
+						this.cameraRef.updateProjectionMatrix();
 					}
 				}
 				else{
@@ -779,7 +786,7 @@ export default class Player{
 	
 	fn_update(_int_frames){
 		const input = a_inputs[int_playerNum.get(this)];
-		const camera = a_cameras[int_playerNum.get(this)];
+		const camera = this.cameraRef;
 		
 		//Code to run when wall is hit:
 			if(this.b_hitWall){
@@ -1030,7 +1037,7 @@ export default class Player{
 		else if(_str_power == "T"){
 			this.f_speedBoost += .2;
 			this.b_offroadEnable = false;
-			this.f_FOV = this.f_baseFOV + 10;
+			this.f_FOV = this.f_baseFOV + 15;
 			
 			if(!_f_duration){
 				this.f_speedBoostTimer = 1.3;
