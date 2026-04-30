@@ -72,7 +72,7 @@ export default class Option{
         }
         else if(_text == "Single Play"){
             this.str_goTo = "Single Play/Game Mode";
-            this.str_info = "Unlock characters & fill out your license.";
+            this.str_info = "Race against the clock for the best time!";
             fn_changeSettings("Multiplayer false");
         }
             else if(_text == "Items_On"){
@@ -97,7 +97,7 @@ export default class Option{
             }
         else if(_text == "Split-Screen"){
             this.str_goTo = "4";
-            this.str_info = "Play with multiple people at once!";
+            this.str_info = "Race against up to 4 people at once!";
         }
             else if(_text == "Connect_Controllers"){
                 fn_changeSettings("Multiplayer true");
