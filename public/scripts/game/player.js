@@ -215,6 +215,10 @@ export default class Player{
 		
 			this.str_speedometerTextColor = "white";
 			this.str_speedometerBorderColor = "black";
+			this.str_lastTextColor = "";
+
+			this.str_spd = '';
+			this.str_lastSpd = '';
 	}
 	
 	//Function for player input and movement:
@@ -408,21 +412,24 @@ export default class Player{
 					this.f_maxSpeed = f_baseMaxSpeed.get(this);
 				}
 
-				//Update HUD for speed:
-					var str_spd = (Math.abs(Math.trunc(this.f_speed * 100))).toString();
-					
+				//Update HUD for speed (using if statements so DOM isn't updated when is doesn't need to):
+				this.str_spd = (Math.abs(Math.trunc(this.f_speed * 100))).toString();
+				if(this.str_spd != this.str_lastSpd){
 					if(Math.abs(this.f_speed * 100) < 10){
-						str_spd = "0" + str_spd;
+						this.str_spd = "0" + this.str_spd;
 					}
 					
-					this.p_hudSpd.innerHTML = str_spd + " kmh";
-					
+					this.p_hudSpd.innerHTML = this.str_spd + " kmh";
+					this.str_lastSpd = this.str_spd;
+				}
+				if(this.str_speedometerTextColor !== this.str_lastTextColor) {
 					//Adjust HUD color based on MT charge:
 					this.p_hudSpd.style.color = this.str_speedometerTextColor;
 					this.p_hudSpd.style.textShadow = `-.18vw -.18vw 0 ${this.str_speedometerBorderColor},
 													.18vw -.18vw 0 ${this.str_speedometerBorderColor},
 													-.18vw  .18vw 0 ${this.str_speedometerBorderColor},
 													.18vw  .18vw 0 ${this.str_speedometerBorderColor}`
+				}
 
 			//console.log("f_speed = " + this.f_speed);
 			//Steering:	
