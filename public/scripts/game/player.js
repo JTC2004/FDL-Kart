@@ -182,6 +182,7 @@ export default class Player{
 				this.f_FOV = this.cameraRef.fov;
 				this.f_baseFOV = this.cameraRef.fov;
 
+				//Adjusting FOV for 2-player vertical split-screen:
 				if(a_inputs.length == 2){
 					this.f_baseFOV = this.f_baseFOV + 10;
 					this.cameraRef.fov = this.f_baseFOV;
@@ -219,7 +220,9 @@ export default class Player{
 	//Function for player input and movement:
 	fn_play(worldOctree, offroadOctree, _int_frames){		
 		const input = a_inputs[int_playerNum.get(this)];
-		const camera = this.cameraRef;
+		const f_cosY = Math.cos(this.player.rotation.y);
+		const f_sinY = Math.sin(this.player.rotation.y);
+		const camera = this.cameraRef;		
 
 		if(input.fn_press_fly(this.b_idle) && (window.b_debug || window.int_gameMode == 0)){
 			var infoParagraph = document.getElementById("info");
@@ -242,23 +245,23 @@ export default class Player{
 			//Horizontal movement:
 				if(input.fn_hold_forward(this.b_idle)){
 					//camera.position.z -= 1;
-					this.player.position.z -= Math.cos(this.player.rotation.y) * this.f_flySpd;
-					this.player.position.x -= Math.sin(this.player.rotation.y) * this.f_flySpd;
+					this.player.position.z -= f_cosY * this.f_flySpd;
+					this.player.position.x -= f_sinY * this.f_flySpd;
 				}
 				if(input.fn_hold_back(this.b_idle)){
 					//camera.position.z += 1;
-					this.player.position.z += Math.cos(this.player.rotation.y) * this.f_flySpd;
-					this.player.position.x += Math.sin(this.player.rotation.y) * this.f_flySpd;
+					this.player.position.z += f_cosY * this.f_flySpd;
+					this.player.position.x += f_sinY * this.f_flySpd;
 				}
 				if(input.fn_hold_left(this.b_idle)){		//Slide camera left.
 					//camera.rotation.y += .02;
-					this.player.position.z += Math.sin(this.player.rotation.y) * this.f_flySpd;
-					this.player.position.x -= Math.cos(this.player.rotation.y) * this.f_flySpd;
+					this.player.position.z += f_sinY * this.f_flySpd;
+					this.player.position.x -= f_cosY * this.f_flySpd;
 				}
 				if(input.fn_hold_right(this.b_idle)){		//Slide camera right.
 					//camera.rotation.y -= .02;
-					this.player.position.z -= Math.sin(this.player.rotation.y) * this.f_flySpd;
-					this.player.position.x += Math.cos(this.player.rotation.y) * this.f_flySpd;
+					this.player.position.z -= f_sinY * this.f_flySpd;
+					this.player.position.x += f_cosY * this.f_flySpd;
 				}
 			//Rotation:	
 				if(input.fn_hold_item(this.b_idle)){
@@ -496,8 +499,8 @@ export default class Player{
 					this.f_maxTurning = f_baseMaxTurning.get(this) * 1.1; 
 					
 					//Slide-ing:
-					this.player.position.z -= Math.sin(this.player.rotation.y) * this.f_driftSlide * this.f_driftingDirec;
-					this.player.position.x += Math.cos(this.player.rotation.y) * this.f_driftSlide * this.f_driftingDirec;
+					this.player.position.z -= f_sinY * this.f_driftSlide * this.f_driftingDirec;
+					this.player.position.x += f_cosY * this.f_driftSlide * this.f_driftingDirec;
 					
 					//When steering into drift, have player slide less & charge MT faster:
 					if(this.f_turningDirec == this.f_driftingDirec){	//Holding into drift.
@@ -633,8 +636,8 @@ export default class Player{
 			for (let i = 1; i <= this.int_substeps; i++) {
 				
 				//Update player's position:
-					this.player.position.x -= Math.sin(this.player.rotation.y) * this.f_speed * this.f_pushedBack * (1 / this.int_substeps);
-					this.player.position.z -= Math.cos(this.player.rotation.y) * this.f_speed * this.f_pushedBack * (1 / this.int_substeps);
+					this.player.position.x -= f_sinY * this.f_speed * this.f_pushedBack * (1 / this.int_substeps);
+					this.player.position.z -= f_cosY * this.f_speed * this.f_pushedBack * (1 / this.int_substeps);
 					if(this.f_gravity > .7){
 						this.player.position.y -= this.f_gravity * (1 / this.int_substeps);
 					}
@@ -654,8 +657,8 @@ export default class Player{
 						this.f_pushedBack += 0.07;
 					}
 					
-					//this.playerCollider.start.x -= Math.sin(this.player.rotation.y) * this.f_acceleration;
-					//this.playerCollider.start.z -= Math.cos(this.player.rotation.y) * this.f_acceleration;
+					//this.playerCollider.start.x -= f_sinY * this.f_acceleration;
+					//this.playerCollider.start.z -= f_cosY * this.f_acceleration;
 					
 					this.b_onGround = false;
 					this.b_firstLanded = false;
@@ -786,6 +789,8 @@ export default class Player{
 	
 	fn_update(_int_frames){
 		const input = a_inputs[int_playerNum.get(this)];
+		const f_cosY = Math.cos(this.player.rotation.y);
+		const f_sinY = Math.sin(this.player.rotation.y);
 		const camera = this.cameraRef;
 		
 		//Code to run when wall is hit:
@@ -860,13 +865,13 @@ export default class Player{
 			//Rear view:
 			if(input.fn_hold_rear(this.b_idle) && !this.b_flying){
 				if(this.f_respawnTimer < 1.0){
-					camera.position.set(this.player.position.x - 4.5 * Math.sin(this.player.rotation.y), this.f_posY, this.player.position.z - 4.5 * Math.cos(this.player.rotation.y));
+					camera.position.set(this.player.position.x - 4.5 * f_sinY, this.f_posY, this.player.position.z - 4.5 * f_cosY);
 				}
 				camera.lookAt( this.player.position.x, this.f_lookY, this.player.position.z );
 			}
 			else{
 				if(this.f_respawnTimer < 1.0){
-					camera.position.set(this.player.position.x + 5.75 * Math.sin(this.player.rotation.y), this.f_posY, this.player.position.z + 5.75 * Math.cos(this.player.rotation.y));
+					camera.position.set(this.player.position.x + 5.75 * f_sinY, this.f_posY, this.player.position.z + 5.75 * f_cosY);
 				}
 				camera.lookAt( this.player.position.x, this.f_lookY, this.player.position.z );
 			}
