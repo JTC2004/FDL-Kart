@@ -689,7 +689,6 @@ export default class Player{
 				}
 				else if(this.f_respawnTimer < 1.0){
 					//Update player position:
-					this.v_newPos = new THREE.Vector3(30, 7, 75);
 					this.player.position.x = this.a_respawnPos[0];
 					this.player.position.y = this.a_respawnPos[1];
 					this.player.position.z = this.a_respawnPos[2];
@@ -706,7 +705,6 @@ export default class Player{
 	
 	fn_hitWall(_depth){
 		this.player.position.x -= _depth;
-		
 	}
 	
 	fn_setPosition(_x, _y, _z){
