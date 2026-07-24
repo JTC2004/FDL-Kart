@@ -634,18 +634,19 @@ export default class Player{
 			else if(this.f_speed > .7 || this.f_gravity > .7){
 				this.int_substeps = 2;
 			}
+			const f_divSubsteps = 1 / this.int_substeps;		//Equals 1 if 1 substep, equals 1/2 if 2 substeps, equals 1/3 if 3 substeps, etc.
 			for (let i = 1; i <= this.int_substeps; i++) {
 				
 				//Update player's position:
-					this.player.position.x -= f_sinY * this.f_speed * this.f_pushedBack * (1 / this.int_substeps);
-					this.player.position.z -= f_cosY * this.f_speed * this.f_pushedBack * (1 / this.int_substeps);
+					this.player.position.x -= f_sinY * this.f_speed * this.f_pushedBack * (f_divSubsteps);
+					this.player.position.z -= f_cosY * this.f_speed * this.f_pushedBack * (f_divSubsteps);
 					if(this.f_gravity > .7){
-						this.player.position.y -= this.f_gravity * (1 / this.int_substeps);
+						this.player.position.y -= this.f_gravity * (f_divSubsteps);
 					}
 					else{
 						this.player.position.y -= this.f_gravity;
 					}
-					this.player.rotation.y += this.f_turning * (1 / this.int_substeps);	//turning
+					this.player.rotation.y += this.f_turning * (f_divSubsteps);	//turning
 					
 				//Update world collider:
 					this.worldCollider.start.set(this.player.position.x, this.player.position.y, this.player.position.z);

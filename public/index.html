@@ -11,12 +11,19 @@ Note:
 	- For offroad.blend, offset height by 0.141, then round down!
 
 Changes since last version:
-	- Removed redundant sin/cos calculations in player.js
-	- Reduced player geometry redundancies in player.js.
+	- Player.js:
+		- 3) Removed redundant sin/cos calculations.
+		- 4) p_spd is now only updated when it needs to be.
+		- 5) Changed this.player from sphere to Object3D.
+		- 6) Removed redundant divisions of int_substeps.
 
 
 For future development...:	
 	- Optimization & cleanup:
+		- Player.js:
+			- 1) WeakMap-per-instance pattern.
+			- 2) Redundant input-function calls within the same frame.
+			- 3)
 		- Make sure all objects use THREE.Object3D for their transformations instead of a box or sphere that the player doesn't even see.
 
 	- Bugfixes:
