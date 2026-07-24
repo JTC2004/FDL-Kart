@@ -704,17 +704,8 @@ export default class Player{
 		
 	}
 	
-	fn_animate(){
-		
-	}
-	
 	fn_hitWall(_depth){
 		this.player.position.x -= _depth;
-		
-	}
-	
-	fn_getPosition(){
-		return new THREE.Vector3(this.player.position.x, this.player.position.y, this.player.position.z);
 		
 	}
 	

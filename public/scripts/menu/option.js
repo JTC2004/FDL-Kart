@@ -255,7 +255,7 @@ export default class Option{
         return this.str_goTo;
     }
 
-    fn_getPosition(){
+    fn_getPos(){
         return this.spr_border.position;
     }
 
