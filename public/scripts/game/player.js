@@ -67,18 +67,12 @@ export default class Player{
 			int_playerNum.set(this, _num);
 			this.itemSlots = new ItemSlots(int_playerNum.get(this));						//The item slots for this player.
 
-			
-			this.playerGeometry = new THREE.SphereGeometry( this.f_radius, 8, 8);				
-			this.playerMaterial = new THREE.MeshPhongMaterial( { color: 0xff0000 } );
-			this.player = new THREE.Mesh( this.playerGeometry, this.playerMaterial );		//Player collision with objects. Represents the player's XYZ (possible change XYZ to be separate like objects).
+			this.player = new THREE.Object3D();												//The player's position & translation.
+																							//DOESN'T NEED TO BE A SPHERE FOR OBJECT COLLISIONS!!
 			scene.add( this.player );
 			this.player.position.set(_x, _y, _z);
-			this.player.visible = false;
 
-			this.playerGeometry.computeBoundingSphere();
-
-			this.boundingSphere = this.playerGeometry.boundingSphere.clone();					//Used for collisions with non-octree objects:
-			this.boundingSphere.center.copy(this.player.position);
+			this.boundingSphere = new THREE.Sphere(this.player.position.clone(), this.f_radius);	//Used for collisions with non-octree objects:
 
 		//Collision capsule:
 			this.worldCollider = new Capsule( new THREE.Vector3( _x, _y, _z ), new THREE.Vector3( _x, _y + this.f_radius, _z ), this.f_radius );	//Collider with the map.
@@ -92,10 +86,10 @@ export default class Player{
 			//Visualize where collision capsule top and bottom are:
 				this.visGeometry = new THREE.SphereGeometry( .1, 6, 6);	
 				this.startVis = new THREE.Mesh( this.visGeometry, new THREE.MeshPhongMaterial( { color: 0x00ff00 } ));
-				this.endVis = new THREE.Mesh( this.visGeometry, this.playerMaterial );
+				this.endVis = new THREE.Mesh( this.visGeometry, new THREE.MeshPhongMaterial( { color: 0xff0000 }  ));
 				scene.add(this.startVis);
 				scene.add(this.endVis);
-		}
+		} 
 		
 		//Code for player sprites & model(s):
 			this.a_characters = [
@@ -910,11 +904,8 @@ export default class Player{
 		if(this.boundingSphere){
 			return this.boundingSphere;
 		}
-		else{
-			return false;
-		}
 		
-		//return this.player.geometry;
+		return false;
 	}
 
 	fn_getCapsuleMesh(){
