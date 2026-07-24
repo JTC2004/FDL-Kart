@@ -11,28 +11,32 @@ Note:
 	- For offroad.blend, offset height by 0.141, then round down!
 
 Changes since last version:
-	- Updated text descriptions for modes in the main menu.
-	- Updated text sprite for 2P mode to have accurate max player count.
+	- Removed redundant sin/cos calculations in player.js
+	- Reduced player geometry redundancies in player.js.
 
 
 For future development...:	
-	- Bugfix:
-		- Removing a controller in the Connect Controllers menu doesn't remove that player's camera.
+	- Optimization & cleanup:
+		- Make sure all objects use THREE.Object3D for their transformations instead of a box or sphere that the player doesn't even see.
 
-	- UI polish:
-		- ADD A TITLE SCREEN.
+	- Bugfixes:
+		- Removing a controller in the Connect Controllers menu doesn't remove that player's camera.
+		- Players getting stuck inside each other.
+		- Fix bug where swapping enough times in a row changes which character has which item.
+
+	- UI:
+		- Find a library for UI instead of doing it all from scratch.
+		- Add a title screen.
 			- This will be new way how P1 controller is determined (first controller to press a key/button on title screen becomes player 1).
 			- Remove current method of 1P gamepad input.
 		- REPLACE MKDS icons!
 		- Add a starting countdown when a race starts.
-	- Bugfixes:
-		- Fix bug where swapping enough times in a row changes which character has which item.
-		- Fix controller input in Firefox (idk how rn).
-
-	- Starting countdown
-	- After race is done, allow option to rematch or return to main menu.
-	- Player placements:
-			- Make what item you get depend on distance into the course.	
+		
+	- Gameplay: 
+		- Starting countdown
+		- After race is done, allow option to rematch or return to main menu.
+		- Player placements:
+		- Make what item you get depend on distance into the course.	
 	- Mising animations / sprite improvements:
 		- Make sprites in multiplayer use 128px versions instead of 256px.
 		- Add a 4th turning sprite. Have regular turning sprites 0 - 2, and drifting only use 2 - 4.
