@@ -18,13 +18,13 @@ import OOB from './objects/OOB.js';
 
 //Declaring constants:
 	//Essentials:
-		let scene;
-		let renderer;
-		let loader;
-		let a_cameras;
-		let a_inputs;
+		let SCENE;
+		let RENDERER;
+		let LOADER;
+		let a_CAMERAS;
+		let a_INPUTS;
 
-		let b_multiplayer;
+		let b_MULTIPLAYER;
 
 	const b_showCapsule = false;
 
@@ -32,23 +32,23 @@ export default class Player{
 
 	constructor(_num, [_x, _y, _z], [_ch1, _ch2], _scale, _numChecks, _numKeys, _int_numLaps){
 		//Essentials:
-			scene = fn_getScene();
-			renderer = fn_getRenderer();
-			loader = fn_getLoader();
-			a_cameras = fn_getCameras();
-			a_inputs = fn_getInputs();
+			SCENE = fn_getScene();
+			RENDERER = fn_getRenderer();
+			LOADER = fn_getLoader();
+			a_CAMERAS = fn_getCameras();
+			a_INPUTS = fn_getInputs();
 		
-			b_multiplayer = fn_isMultiplayer();
+			b_MULTIPLAYER = fn_isMultiplayer();
 		//Scale:
 			this.f_radius = _scale * .7;													//Radius of the player's collisions.
 			this.f_scale = _scale;															//The scale of the player.
 		//Add the player to the scene:
-			this.int_PLAYERNUM = _num;
-			this.itemSlots = new ItemSlots(this.int_PLAYERNUM);						//The item slots for this player.
+			this.int_PLAYER_NUM = _num;
+			this.itemSlots = new ItemSlots(this.int_PLAYER_NUM);						//The item slots for this player.
 
 			this.player = new THREE.Object3D();												//The player's position & translation.
 																							//DOESN'T NEED TO BE A SPHERE FOR OBJECT COLLISIONS!!
-			scene.add( this.player );
+			SCENE.add( this.player );
 			this.player.position.set(_x, _y, _z);
 
 			this.boundingSphere = new THREE.Sphere(this.player.position.clone(), this.f_radius);	//Used for collisions with non-octree objects:
@@ -61,13 +61,13 @@ export default class Player{
 				this.capsuleGeom = new THREE.CapsuleGeometry(this.f_radius, this.f_radius * .35, 8, 16);
 				this.capsuleMat = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
 				this.capsuleMesh = new THREE.Mesh(this.capsuleGeom, this.capsuleMat);			//Mesh to visualize the collision capsule.
-				scene.add(this.capsuleMesh);
+				SCENE.add(this.capsuleMesh);
 			//Visualize where collision capsule top and bottom are:
 				this.visGeometry = new THREE.SphereGeometry( .1, 6, 6);	
 				this.startVis = new THREE.Mesh( this.visGeometry, new THREE.MeshPhongMaterial( { color: 0x00ff00 } ));
 				this.endVis = new THREE.Mesh( this.visGeometry, new THREE.MeshPhongMaterial( { color: 0xff0000 }  ));
-				scene.add(this.startVis);
-				scene.add(this.endVis);
+				SCENE.add(this.startVis);
+				SCENE.add(this.endVis);
 		} 
 		
 		//Code for player sprites & model(s):
@@ -83,9 +83,9 @@ export default class Player{
 				this.b_flying = false;															//When true, player is in free-cam mode.
 				this.f_flySpd = .75;														//Speed the camera moves while flying.
 			//Jummping & falling:
-				this.f_GRAVITYRATE = 0.02;
-				this.f_BASEGRAVITY = .14;
-				this.f_gravity = this.f_BASEGRAVITY;										//Rate the player moves down per frame.
+				this.f_GRAVITY_RATE = 0.02;
+				this.f_BASE_GRAVITY = .14;
+				this.f_gravity = this.f_BASE_GRAVITY;										//Rate the player moves down per frame.
 				this.f_jumpHeight = -0.125;
 				this.b_jumping = false;															//Equals true while jumping.
 				this.f_jumpStartY = 0.0;														//Used to offset camera when player jumps.
@@ -125,22 +125,22 @@ export default class Player{
 				this.f_STAT_TRACTION = 3;
 			//Speed & acceleration:
 				this.int_CC = window.int_CC;	
-						this.f_BASEMAXSPEED = .0043 * this.int_CC + 0.105 + this.f_STAT_SPEED * .01;	//The player's max speed.	
-				this.f_maxSpeed = this.f_BASEMAXSPEED;										//The current max speed.
+						this.f_BASE_MAX_SPEED = .0043 * this.int_CC + 0.105 + this.f_STAT_SPEED * .01;	//The player's max speed.	
+				this.f_maxSpeed = this.f_BASE_MAX_SPEED;										//The current max speed.
 				this.f_speed = 0.0;																//The current amount the player moves forwards per frame.
 				this.f_pushedBack = 1.0;													//Equals negative when player is rebounding from a wall or player collision.
-				this.f_BASEACCELETATION = this.f_STAT_ACCELERATION * 0.0017;
-				this.f_acceleration = this.f_BASEACCELETATION;								//The amount of speed the player gains while accelerating.
+				this.f_BASE_ACCELETATION = this.f_STAT_ACCELERATION * 0.0017;
+				this.f_acceleration = this.f_BASE_ACCELETATION;								//The amount of speed the player gains while accelerating.
 			//Steering:
 				this.f_steeringSpeedOffset = 0.001;
 				this.b_steeringBounceBack = false;
-				this.f_BASEMAXTURNING = this.f_STAT_HANDLING * 0.007;											//Max turning speed.
-				this.f_maxTurning = this.f_BASEMAXTURNING;
+				this.f_BASE_MAX_TURNING = this.f_STAT_HANDLING * 0.007;											//Max turning speed.
+				this.f_maxTurning = this.f_BASE_MAX_TURNING;
 				this.f_turning = 0.0;															//The amount the player rotates per frame.
 				this.f_turningDirec = 0;
 			//Drifting:
 				this.f_driftingDirec = 0;
-				this.f_MAXDRIFTSLIDE = 0.55;												//Modifier for how much player slides when starting a drift (multiplied by f_speed).
+				this.f_MAX_DRIFT_SLIDE = 0.55;												//Modifier for how much player slides when starting a drift (multiplied by f_speed).
 				this.f_maxDriftSlideHit = false;												//Used to add an ease-in to drift sliding.
 				this.f_driftSlideDecrement = 0.004;												//How quickly the slide goes away during a drift.
 				this.f_driftSlideMin = 0.01;													//Minimum slide during a drift (varies depending on directoin).
@@ -151,12 +151,12 @@ export default class Player{
 				this.str_MT = "";																//Equals "MT#" when a mini-turbo is charged (# being the level of MT).
 				this.f_speedBoost = 0.0;														//Additional speed from a boost or mini-turbo.
 				this.f_speedBoostTimer = 0.0;													//How long a speed boost lasts.
-				this.cameraRef = a_cameras[this.int_PLAYERNUM];
+				this.cameraRef = a_CAMERAS[this.int_PLAYER_NUM];
 				this.f_FOV = this.cameraRef.fov;
 				this.f_baseFOV = this.cameraRef.fov;
 
 				//Adjusting FOV for 2-player vertical split-screen:
-				if(a_inputs.length == 2){
+				if(a_INPUTS.length == 2){
 					this.f_baseFOV = this.f_baseFOV + 10;
 					this.cameraRef.fov = this.f_baseFOV;
 					this.cameraRef.updateProjectionMatrix();
@@ -166,25 +166,25 @@ export default class Player{
 		//For checking laps:
 			this.b_finished = false;														//True if the player has completed all the laps.
 			this.b_inOrder = true;															//True if the player is passing the key checkpoints in order.
-			this.int_NUMLAPS = _int_numLaps;													//Total # of laps.
+			this.int_NUM_LAPS = _int_numLaps;													//Total # of laps.
 			this.int_lap = 1;																//This player's current lap.
 			this.int_lapProgress = 0;													//Number of checkpoints passed in the current lap.
 			this.int_totalProgress = 0;													//Total number of checkpoints passed in the race.
-			this.int_NUMCHECKS = _numChecks;														//Total # of checkpoints.
+			this.int_NUM_CHECKS = _numChecks;														//Total # of checkpoints.
 			
-			this.int_NUMKEYS = _numKeys;														//Total # of key checkpoints.
+			this.int_NUM_KEYS = _numKeys;														//Total # of key checkpoints.
 			this.int_keysPassed = 0;														//Number of key checkpoints passed.
 			this.int_expectedKey = 0;														//Index of the next expected key checkpoint.
 			this.int_lastKey = -1;															//Index of the last key checkpoint passed.
 			
 
 		//HUD variables:
-			this.p_hudLaps = document.getElementById(`p_laps${this.int_PLAYERNUM}`);
+			this.p_hudLaps = document.getElementById(`p_laps${this.int_PLAYER_NUM}`);
 			if(window.int_gameMode > 0){
-				this.p_hudLaps.innerHTML = "LAP " + this.int_lap + " / " + this.int_NUMLAPS;
+				this.p_hudLaps.innerHTML = "LAP " + this.int_lap + " / " + this.int_NUM_LAPS;
 			}
-			this.p_hudSpd = document.getElementById(`p_spd${this.int_PLAYERNUM}`);
-			this.p_hudFinish = document.getElementById(`p_finish${this.int_PLAYERNUM}`);
+			this.p_hudSpd = document.getElementById(`p_spd${this.int_PLAYER_NUM}`);
+			this.p_hudFinish = document.getElementById(`p_finish${this.int_PLAYER_NUM}`);
 		
 			this.str_speedometerTextColor = "white";
 			this.str_speedometerBorderColor = "black";
@@ -196,7 +196,7 @@ export default class Player{
 	
 	//Function for player input and movement:
 	fn_play(worldOctree, offroadOctree, _int_frames){		
-		const input = a_inputs[this.int_PLAYERNUM];
+		const input = a_INPUTS[this.int_PLAYER_NUM];
 		const f_cosY = Math.cos(this.player.rotation.y);
 		const f_sinY = Math.sin(this.player.rotation.y);
 		const camera = this.cameraRef;
@@ -253,10 +253,10 @@ export default class Player{
 				}
 			//Rotation:	
 				if(b_holdItem){
-					this.player.rotation.y += this.f_BASEMAXTURNING + .005;
+					this.player.rotation.y += this.f_BASE_MAX_TURNING + .005;
 				}
 				if(b_holdRear){
-					this.player.rotation.y -= this.f_BASEMAXTURNING + .005;
+					this.player.rotation.y -= this.f_BASE_MAX_TURNING + .005;
 				}
 			
 			//Vertical movement:
@@ -385,15 +385,15 @@ export default class Player{
 				}
 				//When in offRoad:
 				if(this.b_inOffroad){
-					if(this.f_speed < this.f_BASEMAXSPEED / 2){
-						this.f_maxSpeed = this.f_BASEMAXSPEED / 2;
+					if(this.f_speed < this.f_BASE_MAX_SPEED / 2){
+						this.f_maxSpeed = this.f_BASE_MAX_SPEED / 2;
 					}
 					else{
 						this.f_speed -= this.f_acceleration * 6;
 					}
 				}
 				else{
-					this.f_maxSpeed = this.f_BASEMAXSPEED;
+					this.f_maxSpeed = this.f_BASE_MAX_SPEED;
 				}
 
 				//Update HUD for speed (using if statements so DOM isn't updated when is doesn't need to):
@@ -447,7 +447,7 @@ export default class Player{
 					
 					//Loss of speed when turning (doesn't occur during a speed boost):		(NEED TO MAKE THIS ACCOUNT FOR CC)
 					if(!this.b_drifting && this.b_onGround && this.f_speedBoostTimer == 0.0 && !this.b_hitWall){
-						if(this.b_steeringBounceBack && this.f_acceleration + this.f_steeringSpeedOffset < this.f_BASEACCELETATION){
+						if(this.b_steeringBounceBack && this.f_acceleration + this.f_steeringSpeedOffset < this.f_BASE_ACCELETATION){
 							this.f_acceleration += this.f_steeringSpeedOffset;
 							this.f_steeringSpeedOffset *= 1.00075;						//% of the value that decays.
 						}
@@ -461,7 +461,7 @@ export default class Player{
 						}
 					}
 					else{	//Account for when user starts drifting while turning:
-						this.f_acceleration = this.f_BASEACCELETATION;
+						this.f_acceleration = this.f_BASE_ACCELETATION;
 					}
 				}
 				else{	//When not steering:
@@ -478,7 +478,7 @@ export default class Player{
 					}
 					this.b_steeringBounceBack = false;
 					this.f_steeringSpeedOffset = this.f_speed * 0.01;
-					this.f_acceleration = this.f_BASEACCELETATION;
+					this.f_acceleration = this.f_BASE_ACCELETATION;
 				}
 			
 			//console.log(`b_drifting = ${this.b_drifting},\tb_standstill = ${this.b_standstill}`);
@@ -487,7 +487,7 @@ export default class Player{
 			//Steering while drifting:
 				if(this.b_drifting){		
 					//If drifitng, can turn tighter.
-					this.f_maxTurning = this.f_BASEMAXTURNING * 1.1; 
+					this.f_maxTurning = this.f_BASE_MAX_TURNING * 1.1; 
 					
 					//Slide-ing:
 					this.player.position.z -= f_sinY * this.f_driftSlide * this.f_driftingDirec;
@@ -510,8 +510,8 @@ export default class Player{
 					//If max drift slide hasn't been hit yet, ease into the max drift slide.
 					if(!this.f_maxDriftSlideHit){
 						this.f_driftSlide += 0.05;
-						if(this.f_driftSlide > this.f_MAXDRIFTSLIDE * this.f_speed){
-							this.f_driftSlide = this.f_MAXDRIFTSLIDE * this.f_speed;
+						if(this.f_driftSlide > this.f_MAX_DRIFT_SLIDE * this.f_speed){
+							this.f_driftSlide = this.f_MAX_DRIFT_SLIDE * this.f_speed;
 							this.f_maxDriftSlideHit = true;
 							//console.log("SIDE MAX HIT");
 						}
@@ -528,7 +528,7 @@ export default class Player{
 					//console.log(`f_driftSlide = ${this.f_driftSlide}`);
 				}
 				else if(this.b_standstill){
-					this.f_maxTurning = this.f_BASEMAXTURNING * 1.2; 
+					this.f_maxTurning = this.f_BASE_MAX_TURNING * 1.2; 
 					
 					//Standstill mini-turbos:
 					if(this.f_turningDirec != 0){
@@ -600,7 +600,7 @@ export default class Player{
 				}
 			
 			//Gravity:
-				this.f_gravity += this.f_GRAVITYRATE;
+				this.f_gravity += this.f_GRAVITY_RATE;
 				//console.log("f_gravity = " + this.f_gravity);
 				if(this.f_gravity > 1.05){
 					this.f_gravity = 1.05;
@@ -686,7 +686,7 @@ export default class Player{
 					this.b_OOB = false;
 
 					this.f_speed = 0.0;
-					this.f_gravity = this.f_BASEGRAVITY;
+					this.f_gravity = this.f_BASE_GRAVITY;
 				}
 			}
 		}
@@ -736,7 +736,7 @@ export default class Player{
 				this.player.position.set(this.worldCollider.start.x, this.worldCollider.start.y, this.worldCollider.start.z);
 				
 				
-				this.f_gravity = this.f_BASEGRAVITY;
+				this.f_gravity = this.f_BASE_GRAVITY;
 				this.b_onGround = true;
 			}
 			
@@ -769,7 +769,7 @@ export default class Player{
 	
 	
 	fn_update(_int_frames){
-		const input = a_inputs[this.int_PLAYERNUM];
+		const input = a_INPUTS[this.int_PLAYER_NUM];
 		const f_cosY = Math.cos(this.player.rotation.y);
 		const f_sinY = Math.sin(this.player.rotation.y);
 		const camera = this.cameraRef;
@@ -873,7 +873,7 @@ export default class Player{
 	}
 
 	fn_getPlayerIndex(){
-		return this.int_PLAYERNUM;
+		return this.int_PLAYER_NUM;
 	}
 
 	fn_getPos(){
@@ -915,7 +915,7 @@ export default class Player{
 
 		if(this.int_lapProgress + 30 >= _checkpoint.fn_getID() && this.b_inOrder){	//Doesn't count checkpoints that are too far ahead.
 			this.int_lapProgress = _checkpoint.fn_getID();
-			this.int_totalProgress = _checkpoint.fn_getID() + this.int_NUMCHECKS * (this.int_lap - 1);
+			this.int_totalProgress = _checkpoint.fn_getID() + this.int_NUM_CHECKS * (this.int_lap - 1);
 		}
 
 		if(window.b_debug){
@@ -951,12 +951,12 @@ export default class Player{
 			//console.log("Last key: " + this.int_lastKey);
 			
 			//For incremementing laps:
-			if(_checkpoint.fn_getGoal() && this.int_keysPassed >= this.int_NUMKEYS && window.int_gameMode > 0){
+			if(_checkpoint.fn_getGoal() && this.int_keysPassed >= this.int_NUM_KEYS && window.int_gameMode > 0){
 				this.int_keysPassed = 1;
 				this.int_lap += 1;
 				
-				if(this.int_lap <= this.int_NUMLAPS && window.int_gameMode > 0){
-					this.p_hudLaps.innerHTML = "LAP " + this.int_lap + " / " + this.int_NUMLAPS;
+				if(this.int_lap <= this.int_NUM_LAPS && window.int_gameMode > 0){
+					this.p_hudLaps.innerHTML = "LAP " + this.int_lap + " / " + this.int_NUM_LAPS;
 				}
 				else{
 					this.b_finished = true;
@@ -978,7 +978,7 @@ export default class Player{
 	fn_stopDrifting(){
 		this.b_drifting = false;
 		
-		this.f_maxTurning = this.f_BASEMAXTURNING;
+		this.f_maxTurning = this.f_BASE_MAX_TURNING;
 		this.f_driftSlide = this.f_driftSlideMin;
 		this.f_maxDriftSlideHit = false;
 		this.f_driftingDirec = 0;
