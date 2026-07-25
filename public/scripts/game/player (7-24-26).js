@@ -26,7 +26,28 @@ import OOB from './objects/OOB.js';
 
 		let b_multiplayer;
 
+	const int_playerNum = new WeakMap();
 	const b_showCapsule = false;
+
+	const f_baseGravity = new WeakMap();
+	const f_gravityRate = new WeakMap();
+	const int_CC = new WeakMap();
+
+	const f_stat_speed = new WeakMap();
+	const f_stat_acceleration = new WeakMap();
+	const f_stat_handling = new WeakMap();
+	const f_stat_weight = new WeakMap();
+	const f_stat_miniTurbo = new WeakMap();
+	const f_stat_traction = new WeakMap();
+
+	const f_baseMaxSpeed = new WeakMap();
+	const f_baseMaxTurning = new WeakMap();
+	const f_baseAcceletation = new WeakMap();
+
+	const int_numLaps = new WeakMap();
+	const int_numChecks = new WeakMap();
+	const int_numKeys = new WeakMap();
+	const f_maxDriftSlide = new WeakMap();
 
 export default class Player{
 
@@ -43,8 +64,8 @@ export default class Player{
 			this.f_radius = _scale * .7;													//Radius of the player's collisions.
 			this.f_scale = _scale;															//The scale of the player.
 		//Add the player to the scene:
-			this.int_PLAYERNUM = _num;
-			this.itemSlots = new ItemSlots(this.int_PLAYERNUM);						//The item slots for this player.
+			int_playerNum.set(this, _num);
+			this.itemSlots = new ItemSlots(int_playerNum.get(this));						//The item slots for this player.
 
 			this.player = new THREE.Object3D();												//The player's position & translation.
 																							//DOESN'T NEED TO BE A SPHERE FOR OBJECT COLLISIONS!!
@@ -83,9 +104,9 @@ export default class Player{
 				this.b_flying = false;															//When true, player is in free-cam mode.
 				this.f_flySpd = .75;														//Speed the camera moves while flying.
 			//Jummping & falling:
-				this.f_GRAVITYRATE = 0.02;
-				this.f_BASEGRAVITY = .14;
-				this.f_gravity = this.f_BASEGRAVITY;										//Rate the player moves down per frame.
+				f_gravityRate.set(this, 0.02);
+				f_baseGravity.set(this, .14);
+				this.f_gravity = f_baseGravity.get(this);										//Rate the player moves down per frame.
 				this.f_jumpHeight = -0.125;
 				this.b_jumping = false;															//Equals true while jumping.
 				this.f_jumpStartY = 0.0;														//Used to offset camera when player jumps.
@@ -117,30 +138,30 @@ export default class Player{
 
 		//Movement variables:
 			//Stats:
-				this.f_STAT_SPEED = 3;														//@ 150cc, stat 3 is ~78kmh.
-				this.f_STAT_ACCELERATION = 3;
-				this.f_STAT_HANDLING = 3;
-				this.f_STAT_WEIGHT = 3;
-				this.f_STAT_MINITURBO = 3;
-				this.f_STAT_TRACTION = 3;
+				f_stat_speed.set(this, 3);														//@ 150cc, stat 3 is ~78kmh.
+				f_stat_acceleration.set(this, 3);
+				f_stat_handling.set(this, 3);
+				f_stat_weight.set(this, 3);
+				f_stat_miniTurbo.set(this, 3);
+				f_stat_traction.set(this, 3);
 			//Speed & acceleration:
-				this.int_CC = window.int_CC;	
-						this.f_BASEMAXSPEED = .0043 * this.int_CC + 0.105 + this.f_STAT_SPEED * .01;	//The player's max speed.	
-				this.f_maxSpeed = this.f_BASEMAXSPEED;										//The current max speed.
+				int_CC.set(this, window.int_CC);	
+						f_baseMaxSpeed.set(this, .0043 * int_CC.get(this) + 0.105 + f_stat_speed.get(this) * .01);	//The player's max speed.	
+				this.f_maxSpeed = f_baseMaxSpeed.get(this);										//The current max speed.
 				this.f_speed = 0.0;																//The current amount the player moves forwards per frame.
 				this.f_pushedBack = 1.0;													//Equals negative when player is rebounding from a wall or player collision.
-				this.f_BASEACCELETATION = this.f_STAT_ACCELERATION * 0.0017;
-				this.f_acceleration = this.f_BASEACCELETATION;								//The amount of speed the player gains while accelerating.
+				f_baseAcceletation.set(this, f_stat_acceleration.get(this) * 0.0017);
+				this.f_acceleration = f_baseAcceletation.get(this);								//The amount of speed the player gains while accelerating.
 			//Steering:
 				this.f_steeringSpeedOffset = 0.001;
 				this.b_steeringBounceBack = false;
-				this.f_BASEMAXTURNING = this.f_STAT_HANDLING * 0.007;											//Max turning speed.
-				this.f_maxTurning = this.f_BASEMAXTURNING;
+				f_baseMaxTurning.set(this, f_stat_handling.get(this) * 0.007);											//Max turning speed.
+				this.f_maxTurning = f_baseMaxTurning.get(this);
 				this.f_turning = 0.0;															//The amount the player rotates per frame.
 				this.f_turningDirec = 0;
 			//Drifting:
 				this.f_driftingDirec = 0;
-				this.f_MAXDRIFTSLIDE = 0.55;												//Modifier for how much player slides when starting a drift (multiplied by f_speed).
+				f_maxDriftSlide.set(this, 0.55);												//Modifier for how much player slides when starting a drift (multiplied by f_speed).
 				this.f_maxDriftSlideHit = false;												//Used to add an ease-in to drift sliding.
 				this.f_driftSlideDecrement = 0.004;												//How quickly the slide goes away during a drift.
 				this.f_driftSlideMin = 0.01;													//Minimum slide during a drift (varies depending on directoin).
@@ -151,7 +172,7 @@ export default class Player{
 				this.str_MT = "";																//Equals "MT#" when a mini-turbo is charged (# being the level of MT).
 				this.f_speedBoost = 0.0;														//Additional speed from a boost or mini-turbo.
 				this.f_speedBoostTimer = 0.0;													//How long a speed boost lasts.
-				this.cameraRef = a_cameras[this.int_PLAYERNUM];
+				this.cameraRef = a_cameras[int_playerNum.get(this)];
 				this.f_FOV = this.cameraRef.fov;
 				this.f_baseFOV = this.cameraRef.fov;
 
@@ -166,25 +187,25 @@ export default class Player{
 		//For checking laps:
 			this.b_finished = false;														//True if the player has completed all the laps.
 			this.b_inOrder = true;															//True if the player is passing the key checkpoints in order.
-			this.int_NUMLAPS = _int_numLaps;													//Total # of laps.
+			int_numLaps.set(this, _int_numLaps);													//Total # of laps.
 			this.int_lap = 1;																//This player's current lap.
 			this.int_lapProgress = 0;													//Number of checkpoints passed in the current lap.
 			this.int_totalProgress = 0;													//Total number of checkpoints passed in the race.
-			this.int_NUMCHECKS = _numChecks;														//Total # of checkpoints.
+			int_numChecks.set(this, _numChecks);														//Total # of checkpoints.
 			
-			this.int_NUMKEYS = _numKeys;														//Total # of key checkpoints.
+			int_numKeys.set(this, _numKeys);														//Total # of key checkpoints.
 			this.int_keysPassed = 0;														//Number of key checkpoints passed.
 			this.int_expectedKey = 0;														//Index of the next expected key checkpoint.
 			this.int_lastKey = -1;															//Index of the last key checkpoint passed.
 			
 
 		//HUD variables:
-			this.p_hudLaps = document.getElementById(`p_laps${this.int_PLAYERNUM}`);
+			this.p_hudLaps = document.getElementById(`p_laps${int_playerNum.get(this)}`);
 			if(window.int_gameMode > 0){
-				this.p_hudLaps.innerHTML = "LAP " + this.int_lap + " / " + this.int_NUMLAPS;
+				this.p_hudLaps.innerHTML = "LAP " + this.int_lap + " / " + int_numLaps.get(this);
 			}
-			this.p_hudSpd = document.getElementById(`p_spd${this.int_PLAYERNUM}`);
-			this.p_hudFinish = document.getElementById(`p_finish${this.int_PLAYERNUM}`);
+			this.p_hudSpd = document.getElementById(`p_spd${int_playerNum.get(this)}`);
+			this.p_hudFinish = document.getElementById(`p_finish${int_playerNum.get(this)}`);
 		
 			this.str_speedometerTextColor = "white";
 			this.str_speedometerBorderColor = "black";
@@ -196,21 +217,10 @@ export default class Player{
 	
 	//Function for player input and movement:
 	fn_play(worldOctree, offroadOctree, _int_frames){		
-		const input = a_inputs[this.int_PLAYERNUM];
+		const input = a_inputs[int_playerNum.get(this)];
 		const f_cosY = Math.cos(this.player.rotation.y);
 		const f_sinY = Math.sin(this.player.rotation.y);
-		const camera = this.cameraRef;
-
-		//Cache input reads once per frame instead of calling these repeatedly below:
-		const b_holdForward = input.fn_hold_forward(this.b_idle);
-		const b_holdBack = input.fn_hold_back(this.b_idle);
-		const b_holdLeft = input.fn_hold_left(this.b_idle);
-		const b_holdRight = input.fn_hold_right(this.b_idle);
-		const b_holdItem = input.fn_hold_item(this.b_idle);
-		const b_holdRear = input.fn_hold_rear(this.b_idle);
-		const b_holdAccelerate = input.fn_hold_accelerate(this.b_idle);
-		const b_holdDrift = input.fn_hold_drift(this.b_idle);
-		const b_pressDrift = input.fn_press_drift(this.b_idle);
+		const camera = this.cameraRef;		
 
 		if(input.fn_press_fly(this.b_idle) && (window.b_debug || window.int_gameMode == 0)){
 			var infoParagraph = document.getElementById("info");
@@ -231,39 +241,39 @@ export default class Player{
 		
 		if(this.b_flying){
 			//Horizontal movement:
-				if(b_holdForward){
+				if(input.fn_hold_forward(this.b_idle)){
 					//camera.position.z -= 1;
 					this.player.position.z -= f_cosY * this.f_flySpd;
 					this.player.position.x -= f_sinY * this.f_flySpd;
 				}
-				if(b_holdBack){
+				if(input.fn_hold_back(this.b_idle)){
 					//camera.position.z += 1;
 					this.player.position.z += f_cosY * this.f_flySpd;
 					this.player.position.x += f_sinY * this.f_flySpd;
 				}
-				if(b_holdLeft){		//Slide camera left.
+				if(input.fn_hold_left(this.b_idle)){		//Slide camera left.
 					//camera.rotation.y += .02;
 					this.player.position.z += f_sinY * this.f_flySpd;
 					this.player.position.x -= f_cosY * this.f_flySpd;
 				}
-				if(b_holdRight){		//Slide camera right.
+				if(input.fn_hold_right(this.b_idle)){		//Slide camera right.
 					//camera.rotation.y -= .02;
 					this.player.position.z -= f_sinY * this.f_flySpd;
 					this.player.position.x += f_cosY * this.f_flySpd;
 				}
 			//Rotation:	
-				if(b_holdItem){
-					this.player.rotation.y += this.f_BASEMAXTURNING + .005;
+				if(input.fn_hold_item(this.b_idle)){
+					this.player.rotation.y += f_baseMaxTurning.get(this) + .005;
 				}
-				if(b_holdRear){
-					this.player.rotation.y -= this.f_BASEMAXTURNING + .005;
+				if(input.fn_hold_rear(this.b_idle)){
+					this.player.rotation.y -= f_baseMaxTurning.get(this) + .005;
 				}
 			
 			//Vertical movement:
-				if(b_holdAccelerate){
+				if(input.fn_hold_accelerate(this.b_idle)){
 					this.player.position.y += .4;
 				}
-				if(b_holdDrift){
+				if(input.fn_hold_drift(this.b_idle)){
 					this.player.position.y -= .4;
 				}
 		}
@@ -271,7 +281,7 @@ export default class Player{
 			this.b_standstill = false;
 			
 			//Drifting:
-				if(b_holdDrift && b_holdAccelerate){
+				if(input.fn_hold_drift(this.b_idle) && input.fn_hold_accelerate(this.b_idle)){
 					if(this.f_speed <= 0.05	){
 						this.b_standstill = true;
 						
@@ -295,11 +305,11 @@ export default class Player{
 					}
 				}
 				//Cases where a drift ends:
-				else if(!b_holdDrift){
+				else if(!input.fn_hold_drift(this.b_idle)){
 					this.b_drifting = false;
 				}
 				//Min speed for brake-drifting:
-				if(!b_holdAccelerate && this.f_speed < this.f_minBrakeDriftSpd){
+				if(!input.fn_hold_accelerate(this.b_idle) && this.f_speed < this.f_minBrakeDriftSpd){
 					this.b_drifting = false;
 					this.b_chargingJump = false;
 				}
@@ -311,7 +321,7 @@ export default class Player{
 						this.f_jumpStartY = 0.0;
 					}
 					//Start of a jump:
-					if(b_holdAccelerate && b_pressDrift && this.b_onGround && this.f_speed > 0.05){
+					if(input.fn_hold_accelerate(this.b_idle) && input.fn_press_drift(this.b_idle) && this.b_onGround && this.f_speed > 0.05){
 						this.f_gravity = this.f_jumpHeight;
 						this.b_jumping = true;
 						this.f_jumpStartY = this.player.position.y;
@@ -321,7 +331,7 @@ export default class Player{
 				if(this.b_chargingJump){
 					this.f_jumpCharge += 0.025;
 				}
-				if(!b_holdDrift && this.f_jumpCharge > 1.0){
+				if(!input.fn_hold_drift(this.b_idle) && this.f_jumpCharge > 1.0){
 					if(this.b_onGround){
 						this.f_gravity = this.f_chargeJumpHeight;
 					}
@@ -332,7 +342,7 @@ export default class Player{
 					this.b_chargeJumping = true;
 				}
 				//Cases where a charge-jump ends:
-				else if(!b_holdDrift){
+				else if(!input.fn_hold_drift(this.b_idle)){
 					this.b_chargingJump = false;
 					this.f_jumpCharge = 0.0; 
 				}
@@ -341,11 +351,11 @@ export default class Player{
 			
 			//Accelerating:
 				if(this.b_onGround || this.f_gravity < 0){
-					if(b_holdAccelerate && !this.b_standstill){
+					if(input.fn_hold_accelerate(this.b_idle) && !this.b_standstill){
 						this.f_speed += this.f_acceleration;
 						this.b_reverse = false;
 					}
-					else if(!b_holdAccelerate && b_holdDrift){	//Brake/reverse
+					else if(!input.fn_hold_accelerate(this.b_idle) && input.fn_hold_drift(this.b_idle)){	//Brake/reverse
 						this.f_speed -= 0.015;
 						this.b_reverse = true;
 					}
@@ -370,30 +380,30 @@ export default class Player{
 					this.f_speed = this.f_maxSpeed + this.f_speedBoost;
 				}
 				//Hit min speed while not in reverse:
-				if(this.f_speed < 0 && !b_holdDrift)
+				if(this.f_speed < 0 && !input.fn_hold_drift(this.b_idle))
 				{
 					this.f_speed = 0;
 				}
 				//Standstill:
-				if(this.f_speed < 0 && b_holdDrift && b_holdAccelerate)
+				if(this.f_speed < 0 && input.fn_hold_drift(this.b_idle) && input.fn_hold_accelerate(this.b_idle))
 				{
 					this.f_speed = 0;
 					this.f_driftingDirec = 0;
 				}//Reverse:
-				else if(this.f_speed < -0.2 && b_holdDrift){
+				else if(this.f_speed < -0.2 && input.fn_hold_drift(this.b_idle)){
 					this.f_speed = -0.2;
 				}
 				//When in offRoad:
 				if(this.b_inOffroad){
-					if(this.f_speed < this.f_BASEMAXSPEED / 2){
-						this.f_maxSpeed = this.f_BASEMAXSPEED / 2;
+					if(this.f_speed < f_baseMaxSpeed.get(this) / 2){
+						this.f_maxSpeed = f_baseMaxSpeed.get(this) / 2;
 					}
 					else{
 						this.f_speed -= this.f_acceleration * 6;
 					}
 				}
 				else{
-					this.f_maxSpeed = this.f_BASEMAXSPEED;
+					this.f_maxSpeed = f_baseMaxSpeed.get(this);
 				}
 
 				//Update HUD for speed (using if statements so DOM isn't updated when is doesn't need to):
@@ -417,12 +427,12 @@ export default class Player{
 
 			//console.log("f_speed = " + this.f_speed);
 			//Steering:	
-				if((b_holdLeft || b_holdRight) && (this.f_speed !== 0 || this.b_standstill)){
+				if((input.fn_hold_left(this.b_idle) || input.fn_hold_right(this.b_idle)) && (this.f_speed !== 0 || this.b_standstill)){
 					//console.log(`f_turningDirec = ${this.f_turningDirec}`);
-					if(b_holdLeft){
+					if(input.fn_hold_left(this.b_idle)){
 						this.f_turningDirec = 1;
 					}
-					if(b_holdRight){
+					if(input.fn_hold_right(this.b_idle)){
 						this.f_turningDirec = -1;
 					}
 					
@@ -447,7 +457,7 @@ export default class Player{
 					
 					//Loss of speed when turning (doesn't occur during a speed boost):		(NEED TO MAKE THIS ACCOUNT FOR CC)
 					if(!this.b_drifting && this.b_onGround && this.f_speedBoostTimer == 0.0 && !this.b_hitWall){
-						if(this.b_steeringBounceBack && this.f_acceleration + this.f_steeringSpeedOffset < this.f_BASEACCELETATION){
+						if(this.b_steeringBounceBack && this.f_acceleration + this.f_steeringSpeedOffset < f_baseAcceletation.get(this)){
 							this.f_acceleration += this.f_steeringSpeedOffset;
 							this.f_steeringSpeedOffset *= 1.00075;						//% of the value that decays.
 						}
@@ -461,7 +471,7 @@ export default class Player{
 						}
 					}
 					else{	//Account for when user starts drifting while turning:
-						this.f_acceleration = this.f_BASEACCELETATION;
+						this.f_acceleration = f_baseAcceletation.get(this);
 					}
 				}
 				else{	//When not steering:
@@ -478,7 +488,7 @@ export default class Player{
 					}
 					this.b_steeringBounceBack = false;
 					this.f_steeringSpeedOffset = this.f_speed * 0.01;
-					this.f_acceleration = this.f_BASEACCELETATION;
+					this.f_acceleration = f_baseAcceletation.get(this);
 				}
 			
 			//console.log(`b_drifting = ${this.b_drifting},\tb_standstill = ${this.b_standstill}`);
@@ -487,7 +497,7 @@ export default class Player{
 			//Steering while drifting:
 				if(this.b_drifting){		
 					//If drifitng, can turn tighter.
-					this.f_maxTurning = this.f_BASEMAXTURNING * 1.1; 
+					this.f_maxTurning = f_baseMaxTurning.get(this) * 1.1; 
 					
 					//Slide-ing:
 					this.player.position.z -= f_sinY * this.f_driftSlide * this.f_driftingDirec;
@@ -510,8 +520,8 @@ export default class Player{
 					//If max drift slide hasn't been hit yet, ease into the max drift slide.
 					if(!this.f_maxDriftSlideHit){
 						this.f_driftSlide += 0.05;
-						if(this.f_driftSlide > this.f_MAXDRIFTSLIDE * this.f_speed){
-							this.f_driftSlide = this.f_MAXDRIFTSLIDE * this.f_speed;
+						if(this.f_driftSlide > f_maxDriftSlide.get(this) * this.f_speed){
+							this.f_driftSlide = f_maxDriftSlide.get(this) * this.f_speed;
 							this.f_maxDriftSlideHit = true;
 							//console.log("SIDE MAX HIT");
 						}
@@ -528,7 +538,7 @@ export default class Player{
 					//console.log(`f_driftSlide = ${this.f_driftSlide}`);
 				}
 				else if(this.b_standstill){
-					this.f_maxTurning = this.f_BASEMAXTURNING * 1.2; 
+					this.f_maxTurning = f_baseMaxTurning.get(this) * 1.2; 
 					
 					//Standstill mini-turbos:
 					if(this.f_turningDirec != 0){
@@ -540,7 +550,7 @@ export default class Player{
 				}
 				else{
 					//Apply mini-turbo:
-					if(this.str_MT && b_holdAccelerate){
+					if(this.str_MT && input.fn_hold_accelerate(this.b_idle)){
 						this.fn_addSpeedBoost(this.str_MT);
 						this.str_MT = "";
 					}
@@ -586,7 +596,7 @@ export default class Player{
 					//Make it so acceleration doesn't depend on stats during a speed boost.
 				}
 				else if(this.f_speedBoost > 0.0){
-					this.f_speedBoost -= 0.01 / this.f_STAT_WEIGHT;	//The larger weight, the longer a speed boost is maintained.
+					this.f_speedBoost -= 0.01 / f_stat_weight.get(this);	//The larger weight, the longer a speed boost is maintained.
 				
 					if(this.cameraRef.fov > this.f_baseFOV){
 						this.cameraRef.fov -= 0.5;
@@ -600,7 +610,7 @@ export default class Player{
 				}
 			
 			//Gravity:
-				this.f_gravity += this.f_GRAVITYRATE;
+				this.f_gravity += f_gravityRate.get(this);
 				//console.log("f_gravity = " + this.f_gravity);
 				if(this.f_gravity > 1.05){
 					this.f_gravity = 1.05;
@@ -686,7 +696,7 @@ export default class Player{
 					this.b_OOB = false;
 
 					this.f_speed = 0.0;
-					this.f_gravity = this.f_BASEGRAVITY;
+					this.f_gravity = f_baseGravity.get(this);
 				}
 			}
 		}
@@ -736,7 +746,7 @@ export default class Player{
 				this.player.position.set(this.worldCollider.start.x, this.worldCollider.start.y, this.worldCollider.start.z);
 				
 				
-				this.f_gravity = this.f_BASEGRAVITY;
+				this.f_gravity = f_baseGravity.get(this);
 				this.b_onGround = true;
 			}
 			
@@ -750,7 +760,7 @@ export default class Player{
 	//Use this for checking for non-octree collisions:
 		fn_meshCollisionCheck(otherPlayer){
 			if(this.boundingSphere.intersectsSphere(otherPlayer.fn_getHitbox())){
-				//console.log(`Player #${this.int_PLAYERNUM} collided with player #${this.fn_getPlayerIndex()}`);
+				//console.log(`Player #${int_playerNum.get(this)} collided with player #${this.fn_getPlayerIndex()}`);
 				this.fn_DSOC(otherPlayer);
 				return true;
 			}
@@ -769,7 +779,7 @@ export default class Player{
 	
 	
 	fn_update(_int_frames){
-		const input = a_inputs[this.int_PLAYERNUM];
+		const input = a_inputs[int_playerNum.get(this)];
 		const f_cosY = Math.cos(this.player.rotation.y);
 		const f_sinY = Math.sin(this.player.rotation.y);
 		const camera = this.cameraRef;
@@ -873,7 +883,7 @@ export default class Player{
 	}
 
 	fn_getPlayerIndex(){
-		return this.int_PLAYERNUM;
+		return int_playerNum.get(this);
 	}
 
 	fn_getPos(){
@@ -915,7 +925,7 @@ export default class Player{
 
 		if(this.int_lapProgress + 30 >= _checkpoint.fn_getID() && this.b_inOrder){	//Doesn't count checkpoints that are too far ahead.
 			this.int_lapProgress = _checkpoint.fn_getID();
-			this.int_totalProgress = _checkpoint.fn_getID() + this.int_NUMCHECKS * (this.int_lap - 1);
+			this.int_totalProgress = _checkpoint.fn_getID() + int_numChecks.get(this) * (this.int_lap - 1);
 		}
 
 		if(window.b_debug){
@@ -951,12 +961,12 @@ export default class Player{
 			//console.log("Last key: " + this.int_lastKey);
 			
 			//For incremementing laps:
-			if(_checkpoint.fn_getGoal() && this.int_keysPassed >= this.int_NUMKEYS && window.int_gameMode > 0){
+			if(_checkpoint.fn_getGoal() && this.int_keysPassed >= int_numKeys.get(this) && window.int_gameMode > 0){
 				this.int_keysPassed = 1;
 				this.int_lap += 1;
 				
-				if(this.int_lap <= this.int_NUMLAPS && window.int_gameMode > 0){
-					this.p_hudLaps.innerHTML = "LAP " + this.int_lap + " / " + this.int_NUMLAPS;
+				if(this.int_lap <= int_numLaps.get(this) && window.int_gameMode > 0){
+					this.p_hudLaps.innerHTML = "LAP " + this.int_lap + " / " + int_numLaps.get(this);
 				}
 				else{
 					this.b_finished = true;
@@ -978,7 +988,7 @@ export default class Player{
 	fn_stopDrifting(){
 		this.b_drifting = false;
 		
-		this.f_maxTurning = this.f_BASEMAXTURNING;
+		this.f_maxTurning = f_baseMaxTurning.get(this);
 		this.f_driftSlide = this.f_driftSlideMin;
 		this.f_maxDriftSlideHit = false;
 		this.f_driftingDirec = 0;
@@ -1015,7 +1025,7 @@ export default class Player{
 			}
 
 			//Change speed boost duration based on mini-turbo stat:
-			this.f_speedBoostTimer += this.f_STAT_MINITURBO / 15;
+			this.f_speedBoostTimer += f_stat_miniTurbo.get(this) / 15;
 		}
 		else if(_str_power == "T"){
 			this.f_speedBoost += .2;
