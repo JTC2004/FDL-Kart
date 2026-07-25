@@ -143,7 +143,7 @@ try{
         //console.log(`Game mode ${window.int_gameMode}`);
 
         //Showing render status:
-        console.log(renderer.info.memory);
+        //console.log(renderer.info.memory);
         
         //Fixed update (60 hz):
         if(dt > 0){
