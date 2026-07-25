@@ -1,7 +1,5 @@
 import * as THREE from 'three';
 import { Capsule } from 'three/addons/math/Capsule.js';
-import { Octree } from 'three/addons/math/Octree.js';
-import { OctreeHelper } from 'three/addons/helpers/OctreeHelper.js';
 
 import Kart from "./objects/kart.js";
 import Character from "./objects/character.js";
@@ -718,7 +716,7 @@ export default class Player{
 		
 		if (this.b_offroadEnable && this.result.depth > 0 && _enabled) {
 			this.b_inOffroad = true;
-			console.log(`IN OFFROAD`);	
+			//console.log(`IN OFFROAD`);	
 		}
 	}
 	

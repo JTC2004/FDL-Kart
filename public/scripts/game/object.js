@@ -17,9 +17,13 @@ export default class Obj{
 			scene = fn_getScene();
 			loader = fn_getLoader();
 		
-		this.f_x = a_xyz[0] * _worldScale;
-		this.f_y = a_xyz[1] * _worldScale;
-		this.f_z = a_xyz[2] * _worldScale;
+		this.object = new THREE.Object3D();									//Tracks the 3D space of this object.
+		this.object.position.set(
+			a_xyz[0] * _worldScale, 
+			a_xyz[1] * _worldScale, 
+			a_xyz[2] * _worldScale
+		);
+
 		this.f_scale = _localScale;
 
 		//Potentially make mesh, model, sprite, etc an array.
@@ -40,7 +44,11 @@ export default class Obj{
 		this.material = new THREE.MeshPhongMaterial( { color: _color } );
 		this.mesh = new THREE.Mesh( this.geometry, this.material );
 		scene.add( this.mesh );
-		this.mesh.position.set(this.f_x + a_offset[0], this.f_y + a_offset[1], this.f_z + a_offset[2]);
+		this.mesh.position.set(
+			this.object.position.x + a_offset[0], 
+			this.object.position.y + a_offset[1], 
+			this.object.position.z + a_offset[2]
+		);
 		if(!_visible){
 			this.mesh.visible = false;
 		}
@@ -56,7 +64,11 @@ export default class Obj{
 		this.material = new THREE.MeshPhongMaterial( { color: _color, transparent: true, opacity: _opacity } );
 		this.mesh = new THREE.Mesh( this.geometry, this.material );
 		scene.add( this.mesh );
-		this.mesh.position.set(this.f_x + a_offset[0], this.f_y + a_offset[1], this.f_z + a_offset[2]);
+		this.mesh.position.set(
+			this.object.position.x + a_offset[0], 
+			this.object.position.y + a_offset[1], 
+			this.object.position.z + a_offset[2]
+		);
 		if(!_visible){
 			this.mesh.visible = false;
 		}
@@ -73,7 +85,11 @@ export default class Obj{
 			( gltf ) => {
 				
 				this.model = gltf.scene;
-				this.model.position.set(this.f_x + a_offset[0], this.f_y + a_offset[1], this.f_z + a_offset[2]);
+				this.model.position.set(
+					this.object.position.x + a_offset[0], 
+					this.object.position.y + a_offset[1], 
+					this.object.position.z + a_offset[2]
+				);
 				this.model.scale.set(this.f_scale * a_multip[0], this.f_scale * a_multip[1], this.f_scale * a_multip[2]);
 				this.model.visible = true;
 				
@@ -86,7 +102,7 @@ export default class Obj{
 				
 				if (onLoad) onLoad(this.model);		//Set rotation AFTER model is loaded.
 
-				//console.log(`ADDED MODEL ${_modelName} at (${this.f_x},${this.f_y},${this.f_z})!`);
+				//console.log(`ADDED MODEL ${_modelName} at (${this.object.position.x},${this.object.position.y},${this.object.position.z})!`);
 			}, 
 			undefined, function ( error ) {
 				console.error( error );
@@ -112,9 +128,9 @@ export default class Obj{
 			this.f_scale * a_multip[2] 
 		);
 		this.sprite.position.set(
-			this.f_x + a_offset[0], 
-			this.f_y + a_offset[1], 
-			this.f_z + a_offset[2]
+			this.object.position.x + a_offset[0], 
+			this.object.position.y + a_offset[1], 
+			this.object.position.z + a_offset[2]
 		);
 		scene.add( this.sprite );
 	}
@@ -138,7 +154,11 @@ export default class Obj{
 		this.sprite = new THREE.Sprite( this.spriteMaterial );
 		
 		this.sprite.scale.set(this.f_scale * a_multip[0], this.f_scale * a_multip[1], this.f_scale * a_multip[2] );
-		this.sprite.position.set(this.f_x + a_offset[0], this.f_y + a_offset[1], this.f_z + a_offset[2]);
+		this.sprite.position.set(
+			this.object.position.x + a_offset[0], 
+			this.object.position.y + a_offset[1], 
+			this.object.position.z + a_offset[2]
+		);
 		scene.add( this.sprite );
 	}
 
@@ -190,7 +210,11 @@ export default class Obj{
 		this.sprite = new THREE.Sprite( this.spriteMaterial );
 		
 		this.sprite.scale.set(this.f_scale * a_multip[0], this.f_scale * a_multip[1], this.f_scale * a_multip[2] );
-		this.sprite.position.set(this.f_x + a_offset[0], this.f_y + a_offset[1], this.f_z + a_offset[2]);
+		this.sprite.position.set(
+			this.object.position.x + a_offset[0], 
+			this.object.position.y + a_offset[1], 
+			this.object.position.z + a_offset[2]
+		);
 		scene.add( this.sprite );
 	}
 	
@@ -200,7 +224,11 @@ export default class Obj{
 		this.colliderMat = new THREE.MeshBasicMaterial( {color: 0xffff00} ); 
 		this.colliderMesh = new THREE.Mesh( this.colliderGeom, this.colliderMat );
 		scene.add( this.colliderMesh );
-		this.colliderMesh.position.set(this.f_x + a_offset[0], this.f_y + a_offset[1], this.f_z + a_offset[2]);
+		this.colliderMesh.position.set(
+			this.object.position.x + a_offset[0], 
+			this.object.position.y + a_offset[1], 
+			this.object.position.z + a_offset[2]
+		);
 		this.colliderMesh.visible = false;
 	}
 	
@@ -212,7 +240,11 @@ export default class Obj{
 		this.shadowGeometry = new THREE.CircleGeometry(this.f_scale * f_multip, 32); 
 		this.shadow = new THREE.Mesh( this.shadowGeometry, this.shadowMaterial ); 
 		scene.add( this.shadow );
-		this.shadow.position.set(this.f_x,this.f_y - f_offset * this.f_scale, this.f_z);
+		this.shadow.position.set(
+			this.object.position.x,
+			this.object.position.y - f_offset * this.f_scale, 
+			this.object.position.z
+		);
 		this.shadow.rotation.x = -1.5708;
 	}
 	
@@ -223,7 +255,7 @@ export default class Obj{
 		}
 
 		fn_getPos(){
-			return [this.f_x, this.f_y, this.f_z];
+			return this.object.position;
 		}
 
 		fn_getRotation(){
@@ -246,9 +278,9 @@ export default class Obj{
 		}
 	//Setters:
 		fn_setPos(v_xyz){
-			this.f_x = v_xyz.x;
-			this.f_y = v_xyz.y;
-			this.f_z = v_xyz.z;
+			this.object.position.x = v_xyz.x;
+			this.object.position.y = v_xyz.y;
+			this.object.position.z = v_xyz.z;
 			//console.log(`SETTING POS TO (${v_xyz.x}, ${v_xyz.y}, ${v_xyz.z})`);
 
 			if(this.model){		this.model.position.copy(v_xyz);	}
@@ -257,35 +289,35 @@ export default class Obj{
 		}
 
 		fn_setY(_f_Y){
-			this.f_y = _f_Y;
+			this.object.position.y = _f_Y;
 
-			if(this.model){		this.model.position.copy(new THREE.Vector3(this.f_x, _f_Y, this.f_z));	}
-			if(this.sprite){	this.sprite.position.copy(new THREE.Vector3(this.f_x, _f_Y, this.f_z));	}
-			if(this.cube){		this.mesh.position.copy(new THREE.Vector3(this.f_x, _f_Y, this.f_z))		}
+			if(this.model){		this.model.position.copy(new THREE.Vector3(this.object.position.x, _f_Y, this.object.position.z));	}
+			if(this.sprite){	this.sprite.position.copy(new THREE.Vector3(this.object.position.x, _f_Y, this.object.position.z));	}
+			if(this.cube){		this.mesh.position.copy(new THREE.Vector3(this.object.position.x, _f_Y, this.object.position.z))		}
 		}
 
 		fn_addX(_f_x){
-			this.f_x = this.f_x + _f_x;
+			this.object.position.x += + _f_x;
 
-			if(this.model){		this.model.position.x = this.f_x;	}
-			if(this.sprite){	this.sprite.position.x = this.f_x;	}
-			if(this.cube){		this.mesh.position.x = this.f_x;		}
+			if(this.model){		this.model.position.x = this.object.position.x;	}
+			if(this.sprite){	this.sprite.position.x = this.object.position.x;	}
+			if(this.cube){		this.mesh.position.x = this.object.position.x;		}
 		}
 
 		fn_addY(_f_y){
-			this.f_y = this.f_y + _f_y;
+			this.object.position.y += _f_y;
 
-			if(this.model){		this.model.position.y = this.f_y;	}
-			if(this.sprite){	this.sprite.position.y = this.f_y;	}
-			if(this.cube){		this.mesh.position.y = this.f_y;		}
+			if(this.model){		this.model.position.y = this.object.position.y;	}
+			if(this.sprite){	this.sprite.position.y = this.object.position.y;	}
+			if(this.cube){		this.mesh.position.y = this.object.position.y;		}
 		}
 
 		fn_addZ(_f_z){
-			this.f_z = this.f_z + _f_z;
+			this.object.position.z += _f_z;
 
-			if(this.model){		this.model.position.z = this.f_z;	}
-			if(this.sprite){	this.sprite.position.z = this.f_z;	}
-			if(this.cube){		this.mesh.position.z = this.f_z;		}
+			if(this.model){		this.model.position.z = this.object.position.z;	}
+			if(this.sprite){	this.sprite.position.z = this.object.position.z;	}
+			if(this.cube){		this.mesh.position.z = this.object.position.z;		}
 		}
 
 		fn_setRotation(v_xyz){

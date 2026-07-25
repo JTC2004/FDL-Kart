@@ -728,7 +728,7 @@ export default class Player{
 		
 		if (this.b_offroadEnable && this.result.depth > 0 && _enabled) {
 			this.b_inOffroad = true;
-			console.log(`IN OFFROAD`);	
+			//console.log(`IN OFFROAD`);	
 		}
 	}
 	

@@ -44,7 +44,7 @@ export default class InputHandlerGP{
 		
 		//Error handling:
 		if(!this.rawGamepad){
-			console.log("Error, no controller here.");
+			//console.log("Error, no controller here.");
 			return;
 		}
 		this.gamepad = this.rawGamepad;	//Make sure inputs don't get eaten in Firefox either.
@@ -83,11 +83,11 @@ export default class InputHandlerGP{
 				//Debug prints:
 				if(this.b_printButton){
 					if (isPressed && !wasPressed) {
-						console.log(`Button ${i} pressed`);
+						//console.log(`Button ${i} pressed`);
 					}
 
 					if (!isPressed && wasPressed) {
-						console.log(`Button ${i} released`);
+						//console.log(`Button ${i} released`);
 					}
 				}
 
@@ -280,7 +280,7 @@ export default class InputHandlerGP{
 
 	//Return the gamepad object:
 	fn_getGP(){
-		console.log(`fn_getGP for controller ${this.gamepad.index} returns ${this.gamepad}`);
+		//console.log(`fn_getGP for controller ${this.gamepad.index} returns ${this.gamepad}`);
 		
 		return this.gamepad;
 	}

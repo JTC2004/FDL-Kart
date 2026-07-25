@@ -2,7 +2,7 @@
 export default class InputHandlerKB{
 	
 	constructor(){
-		console.log("Keyboard initialized");
+		//console.log("Keyboard initialized");
 		
 		this.b_printKey = false;
 
@@ -34,7 +34,7 @@ export default class InputHandlerKB{
 
 			//Debug print:
 			if (this.b_printKey && !wasPressed) {
-				console.log(`Key ${e.key} pressed`);
+				//console.log(`Key ${e.key} pressed`);
 			}
 
 			//Updating arrays used for determing press vs hold:
@@ -56,7 +56,7 @@ export default class InputHandlerKB{
 
 			//Debug print:
 			if (this.b_printKey) {
-				console.log(`Key ${e.key} released`);
+				//console.log(`Key ${e.key} released`);
 			}
 
 			this.b_anyKeyPressed = false;

@@ -141,6 +141,9 @@ try{
     fn_checkFullscreen(menuCamera, frustumHeight);
     gameLoop.addCallback((dt) => {
         //console.log(`Game mode ${window.int_gameMode}`);
+
+        //Showing render status:
+        console.log(renderer.info.memory);
         
         //Fixed update (60 hz):
         if(dt > 0){
@@ -206,7 +209,7 @@ try{
                     for(const input of a_inputs){
                         str_inputs += `${input.fn_getType()}, `;
                     }
-                    console.log(`a_inputs = [${str_inputs}]     int_numGamepads = ${int_numGamepads}`);
+                    //console.log(`a_inputs = [${str_inputs}]     int_numGamepads = ${int_numGamepads}`);
             }
 
             //Advance input state ONCE PER FIXED UPDATE:
@@ -328,7 +331,7 @@ function fn_isGpInInputs(_gamepad){
     for(const i in a_inputs){   
         if(a_inputs[i].fn_getType().includes(_gamepad.index)){
             return true;
-            console.log(`GP${_gamepad.index} IS IN A_INPUTS`);
+            c//onsole.log(`GP${_gamepad.index} IS IN A_INPUTS`);
             break;
         }
     }
@@ -480,7 +483,6 @@ export function fn_changeSettings(str_text, int_index, str_option){
 
 //General-purpose clear scene function by ChatGPT:
 export function fn_clearScene() {
-    console.log("CLEARED SCENE");
 
     while (scene.children.length > 0) {
         const object = scene.children[0];
@@ -501,6 +503,8 @@ export function fn_clearScene() {
             }
         }
     }
+
+    console.log("CLEARED SCENE");
 }
 
 //Remove both an input and it's corresponding gamepad:
