@@ -7,16 +7,15 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 	import { fn_getScene } from "../main.js";
 	import { fn_getLoader } from "../main.js";
 	//Essentials:
-		let SCENE;
-		let LOADER;
-		const TEXTURE_LOADER = new THREE.TextureLoader();
+		let scene;
+		let loader;
 
 export default class Obj{
 
 	constructor(a_xyz, _worldScale, _DSOC, _solid, _localScale){
 		//Essentials:
-			SCENE = fn_getScene();
-			LOADER = fn_getLoader();
+			scene = fn_getScene();
+			loader = fn_getLoader();
 		
 		this.object = new THREE.Object3D();									//Tracks the 3D space of this object.
 		this.object.position.set(
@@ -34,6 +33,7 @@ export default class Obj{
 		this.b_solid = _solid;
 
 		//Animation variables:
+		//Animation variables:
 		this.a_currentTile = [0, 0];
 		this.int_numTilesTall = 0;
 	}
@@ -43,7 +43,7 @@ export default class Obj{
 		this.geometry = new THREE.BoxGeometry( this.f_scale * a_multip[0], this.f_scale * a_multip[1], this.f_scale * a_multip[2] );
 		this.material = new THREE.MeshPhongMaterial( { color: _color } );
 		this.mesh = new THREE.Mesh( this.geometry, this.material );
-		SCENE.add( this.mesh );
+		scene.add( this.mesh );
 		this.mesh.position.set(
 			this.object.position.x + a_offset[0], 
 			this.object.position.y + a_offset[1], 
@@ -63,7 +63,7 @@ export default class Obj{
 		this.geometry = new THREE.BoxGeometry( this.f_scale * a_multip[0], this.f_scale * a_multip[1], this.f_scale * a_multip[2] );
 		this.material = new THREE.MeshPhongMaterial( { color: _color, transparent: true, opacity: _opacity } );
 		this.mesh = new THREE.Mesh( this.geometry, this.material );
-		SCENE.add( this.mesh );
+		scene.add( this.mesh );
 		this.mesh.position.set(
 			this.object.position.x + a_offset[0], 
 			this.object.position.y + a_offset[1], 
@@ -80,27 +80,27 @@ export default class Obj{
 	
 	//Adds a mesh from a GLTF model:
 	fn_addModel(a_offset, a_multip, _modelName, onLoad){
-		this.model = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ visible: false }));
-		LOADER.load( 'assets/models/objects/'+ _modelName +'.glb',		//I should make a method for this. 
+		this.mesh = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ visible: false }));
+		loader.load( 'assets/models/objects/'+ _modelName +'.glb',		//I should make a method for this. 
 			( gltf ) => {
 				
-				this.model = gltf.scene;
-				this.model.position.set(
+				this.mesh = gltf.scene;
+				this.mesh.position.set(
 					this.object.position.x + a_offset[0], 
 					this.object.position.y + a_offset[1], 
 					this.object.position.z + a_offset[2]
 				);
-				this.model.scale.set(this.f_scale * a_multip[0], this.f_scale * a_multip[1], this.f_scale * a_multip[2]);
-				this.model.visible = true;
+				this.mesh.scale.set(this.f_scale * a_multip[0], this.f_scale * a_multip[1], this.f_scale * a_multip[2]);
+				this.mesh.visible = true;
 				
-				this.model.updateMatrixWorld(true);
-				SCENE.add( this.model );
+				this.mesh.updateMatrixWorld(true);
+				scene.add( this.mesh );
 				
 				//Create bounding box:
-				this.boundingBox = new THREE.Box3().setFromObject(this.model);
+				this.boundingBox = new THREE.Box3().setFromObject(this.mesh);
 				this.boundingBox.visible = false;
 				
-				if (onLoad) onLoad(this.model);		//Set rotation AFTER model is loaded.
+				if (onLoad) onLoad(this.mesh);		//Set rotation AFTER model is loaded.
 
 				//console.log(`ADDED MODEL ${_modelName} at (${this.object.position.x},${this.object.position.y},${this.object.position.z})!`);
 			}, 
@@ -112,7 +112,7 @@ export default class Obj{
 	
 	//Adds a single sprite to the object:
 	fn_addSprite(a_offset, a_multip, str_spriteName){
-		this.spriteMap = TEXTURE_LOADER.load( 'assets/sprites/gameplay/'+ str_spriteName +'.png' );
+		this.spriteMap = new THREE.TextureLoader().load( 'assets/sprites/gameplay/'+ str_spriteName +'.png' );
 		this.spriteMap.colorSpace = THREE.SRGBColorSpace;
 		this.spriteMaterial = new THREE.SpriteMaterial({ 
 			map: this.spriteMap,
@@ -132,14 +132,14 @@ export default class Obj{
 			this.object.position.y + a_offset[1], 
 			this.object.position.z + a_offset[2]
 		);
-		SCENE.add( this.sprite );
+		scene.add( this.sprite );
 	}
 
 	//Adds sprite sheet to the object:
 	fn_addSpriteSheet(a_offset, a_multip, str_spriteName, _int_numTilesTall){
 		this.int_numTilesTall = _int_numTilesTall;
 		
-		this.spriteMap = TEXTURE_LOADER.load( 'assets/sprites/gameplay/'+ str_spriteName +'.png' );
+		this.spriteMap = new THREE.TextureLoader().load( 'assets/sprites/gameplay/'+ str_spriteName +'.png' );
 		this.spriteMap.repeat.set(1/this.int_numTilesTall, 1/this.int_numTilesTall);
 		this.spriteMap.offset.x = 0;
 		this.spriteMap.offset.y = 1 - 1/this.int_numTilesTall;
@@ -159,14 +159,14 @@ export default class Obj{
 			this.object.position.y + a_offset[1], 
 			this.object.position.z + a_offset[2]
 		);
-		SCENE.add( this.sprite );
+		scene.add( this.sprite );
 	}
 
 	//Adds sprite sheet w/ 'wiggle' frames to the object:
 	fn_addSpriteSheets(a_offset, a_multip, str_spriteName, _int_numTilesTall){
 		//Clean up the sprites if this function hasn't been called for the first time:
 		if (this.sprite) {
-			SCENE.remove(this.sprite);              // remove from scene
+			scene.remove(this.sprite);              // remove from scene
 			this.sprite.material.dispose();         // dispose material
 
 			if (this.sprite.material.map) {
@@ -186,12 +186,12 @@ export default class Obj{
 		this.int_numTilesTall = _int_numTilesTall;
 		
 		this.a_spriteMaps = [
-			TEXTURE_LOADER.load('assets/sprites/gameplay/'+ str_spriteName +'0.png'),
-			TEXTURE_LOADER.load('assets/sprites/gameplay/'+ str_spriteName +'1.png'),
-			TEXTURE_LOADER.load('assets/sprites/gameplay/'+ str_spriteName +'2.png')
+			new THREE.TextureLoader().load('assets/sprites/gameplay/'+ str_spriteName +'0.png'),
+			new THREE.TextureLoader().load('assets/sprites/gameplay/'+ str_spriteName +'1.png'),
+			new THREE.TextureLoader().load('assets/sprites/gameplay/'+ str_spriteName +'2.png')
 		];
 
-		//this.spriteMap = TEXTURE_LOADER.load('assets/sprites/gameplay/'+ str_spriteName +'.png');
+		//this.spriteMap = new THREE.TextureLoader().load('assets/sprites/gameplay/'+ str_spriteName +'.png');
 		
 		this.int_spriteMapsIndex = 1;
 		for(const spriteMap of this.a_spriteMaps){
@@ -215,7 +215,7 @@ export default class Obj{
 			this.object.position.y + a_offset[1], 
 			this.object.position.z + a_offset[2]
 		);
-		SCENE.add( this.sprite );
+		scene.add( this.sprite );
 	}
 	
 	//Add bounding cylinder to the object:
@@ -223,7 +223,7 @@ export default class Obj{
 		this.colliderGeom = new THREE.CylinderGeometry( this.f_scale * a_multip[0], this.f_scale * a_multip[1], this.f_scale * a_multip[2], 16); 
 		this.colliderMat = new THREE.MeshBasicMaterial( {color: 0xffff00} ); 
 		this.colliderMesh = new THREE.Mesh( this.colliderGeom, this.colliderMat );
-		SCENE.add( this.colliderMesh );
+		scene.add( this.colliderMesh );
 		this.colliderMesh.position.set(
 			this.object.position.x + a_offset[0], 
 			this.object.position.y + a_offset[1], 
@@ -239,7 +239,7 @@ export default class Obj{
 		
 		this.shadowGeometry = new THREE.CircleGeometry(this.f_scale * f_multip, 32); 
 		this.shadow = new THREE.Mesh( this.shadowGeometry, this.shadowMaterial ); 
-		SCENE.add( this.shadow );
+		scene.add( this.shadow );
 		this.shadow.position.set(
 			this.object.position.x,
 			this.object.position.y - f_offset * this.f_scale, 
@@ -259,7 +259,7 @@ export default class Obj{
 		}
 
 		fn_getRotation(){
-			return [this.mesh.rotation.x, this.mesh.rotation.y, this.mesh.rotation.z];
+			return this.mesh.rotation;
 		}
 		
 		fn_getSolid(){
@@ -278,65 +278,36 @@ export default class Obj{
 		}
 	//Setters:
 		fn_setPos(v_xyz){
-			this.object.position.x = v_xyz.x;
-			this.object.position.y = v_xyz.y;
-			this.object.position.z = v_xyz.z;
+			this.object.position.copy(v_xyz);
 			//console.log(`SETTING POS TO (${v_xyz.x}, ${v_xyz.y}, ${v_xyz.z})`);
 
-			if(this.model){		this.model.position.copy(v_xyz);	}
+			if(this.mesh){		this.mesh.position.copy(v_xyz);	}
 			if(this.sprite){	this.sprite.position.copy(v_xyz);	}
-			if(this.mesh){		this.mesh.position.copy(v_xyz)		}
 		}
 
-		fn_setY(_f_Y){
-			this.object.position.y = _f_Y;
-
-			if(this.model){		this.model.position.copy(new THREE.Vector3(this.object.position.x, _f_Y, this.object.position.z));	}
-			if(this.sprite){	this.sprite.position.copy(new THREE.Vector3(this.object.position.x, _f_Y, this.object.position.z));	}
-			if(this.mesh){		this.mesh.position.copy(new THREE.Vector3(this.object.position.x, _f_Y, this.object.position.z))		}
-		}
-
-		fn_addX(_f_x){
+		fn_addPos(_f_x = 0, _f_y = 0, _f_z = 0,){
 			this.object.position.x += + _f_x;
+			this.object.position.y += + _f_y;
+			this.object.position.z += + _f_z;
 
-			if(this.model){		this.model.position.x = this.object.position.x;	}
-			if(this.sprite){	this.sprite.position.x = this.object.position.x;	}
-			if(this.mesh){		this.mesh.position.x = this.object.position.x;		}
-		}
-
-		fn_addY(_f_y){
-			this.object.position.y += _f_y;
-
-			if(this.model){		this.model.position.y = this.object.position.y;	}
-			if(this.sprite){	this.sprite.position.y = this.object.position.y;	}
-			if(this.mesh){		this.mesh.position.y = this.object.position.y;		}
-		}
-
-		fn_addZ(_f_z){
-			this.object.position.z += _f_z;
-
-			if(this.model){		this.model.position.z = this.object.position.z;	}
-			if(this.sprite){	this.sprite.position.z = this.object.position.z;	}
-			if(this.mesh){		this.mesh.position.z = this.object.position.z;		}
+			if(this.mesh){		this.mesh.position.copy(this.object.position);		}
+			if(this.sprite){	this.sprite.position.copy(this.object.position);	}
 		}
 
 		fn_setRotation(v_xyz){
-			//console.log(`New rotation: ${v_xyz.x}, ${v_xyz.y}, ${v_xyz.z}`);
-			if(this.model){		
-				this.model.rotation.x = v_xyz.x;
-				this.model.rotation.y = v_xyz.y;
-				this.model.rotation.z = v_xyz.z;	
+			if(this.mesh){		
+				//Rotation can't use the .copy() method because it's a Euler Vector3 (for some reason)
+				this.mesh.rotation.x = v_xyz.x;
+				this.mesh.rotation.y = v_xyz.y;
+				this.mesh.rotation.z = v_xyz.z;	
+				//console.log(`New rotation: ${v_xyz.x}, ${v_xyz.y}, ${v_xyz.z}`)
 			}
-			if(this.mesh){		this.mesh.rotation.copy(v_xyz)		}
 		}
 
 		fn_setScale(v_xyz){
-			if(this.model){		
-				this.model.scale.x = v_xyz.x;
-				this.model.scale.y = v_xyz.y;
-				this.model.scale.z = v_xyz.z;	
+			if(this.mesh){		
+				this.mesh.scale.copy(v_xyz);	
 			}
-			if(this.mesh){		this.mesh.scale.copy(v_xyz)}
 			if(this.sprite){	this.sprite.scale.copy(v_xyz)}
 		}
 

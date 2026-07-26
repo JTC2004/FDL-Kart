@@ -65,7 +65,11 @@ export default class ItemPot extends Obj{
 				);
 				
 				//Make box slightly bob up and down (ChatGPT helped):
-				this.fn_addY(this.f_amplitude * Math.sin(performance.now() * 0.0003 * Math.PI * 2.0));
+				this.fn_addPos(
+					0,
+					this.f_amplitude * Math.sin(performance.now() * 0.0003 * Math.PI * 2.0),
+					0,
+				);
 			}
 			//Else, count down respawn time:
 			else if(this.f_respawnTimer > 0){

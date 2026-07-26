@@ -33,7 +33,7 @@ export default class ItemBox extends Obj{
 			if(this.f_respawnTimer == 0.0){
 				console.log(`Item box collided with player ${player.fn_getPlayerIndex()}!`);
 				this.f_respawnTimer = this.f_respawnTime;
-				this.model.visible = false;
+				this.mesh.visible = false;
 				this.sprite.visible = false;
 			}
 		}
@@ -43,12 +43,16 @@ export default class ItemBox extends Obj{
 			if(this.f_respawnTimer == 0.0){
 				//Mesh rotation:
 				if(_frames % 1 == 0){
-					this.model.rotation.x += -0.011;
-					this.model.rotation.y += 0.022;
+					this.mesh.rotation.x += -0.011;
+					this.mesh.rotation.y += 0.022;
 				}
 				
 				//Make box slightly bob up and down (ChatGPT helped):
-				this.fn_addY(this.f_amplitude * Math.sin(performance.now() * 0.0003 * Math.PI * 2.0));
+				this.fn_addPos(
+					0,
+					this.f_amplitude * Math.sin(performance.now() * 0.0003 * Math.PI * 2.0),
+					0
+				);
 			}
 			//Else, count down respawn time:
 			else if(this.f_respawnTimer > 0){
@@ -56,7 +60,7 @@ export default class ItemBox extends Obj{
 			}
 			else{
 				this.f_respawnTimer = 0.0;
-				this.model.visible = true;
+				this.mesh.visible = true;
 				this.sprite.visible = true;
 			}
 			

@@ -6,10 +6,7 @@ export default class OOB extends Obj{
 	constructor(a_xyz, _scale, _a_scale){
 		//Adds the cube to the scene:
 			super(a_xyz, _scale, true, true, 1);
-			//this.fn_addBox([0,0,0], _a_scale, 0xff0000, true);
 			this.fn_addBoxTransp([0,0,0], _a_scale, 0xff0000, 0.5, false);
-
-			//console.log(`b_DSOC = ${this.b_DSOC}`);
 	}
 	
 	//Overidden functions:

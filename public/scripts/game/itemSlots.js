@@ -1,8 +1,5 @@
 //This is the parent class for all objects in a scene.
 
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-
 //Essentials:
 	import { fn_getScene } from "../main.js";
 	import { fn_getLoader } from "../main.js";

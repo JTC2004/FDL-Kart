@@ -2,8 +2,6 @@
 import * as THREE from 'three';
 import WebGL from 'three/addons/capabilities/WebGL.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-//import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-//import { FilmPass } from 'three/addons/postprocessing/FilmPass.js';
 
 import gameLoop from "./GameLoop.js";
 import InputHandlerKB from "./inputKB.js";
@@ -14,7 +12,6 @@ import {fn_updateMenus} from './menu/menus.js';
 //Print a message if browser doesn't support WebGL2:
 	if ( WebGL.isWebGL2Available() ) {
 		// Initiate function or other initializations here
-		//animate();
 	}
 	else {
 		const warning = WebGL.getWebGL2ErrorMessage();
@@ -100,16 +97,6 @@ if(window.b_debug){
 	renderer.setSize( window.innerWidth, window.innerHeight);
 	document.body.appendChild( renderer.domElement );
 
-    //Add a grain effect:
-    /*const composer = new EffectComposer(renderer);
-        const filmPass = new FilmPass(
-        0.5,  // noise intensity
-        0.0,  // scanlines intensity
-        0,    // scanlines count
-        false // grayscale
-    );*/
-    //composer.addPass(filmPass);
-
 //Event listeners:
     //Renderer resize handler:
         window.addEventListener('resize', () => {
@@ -185,11 +172,7 @@ try{
                                 }
                                 a_gameCameras.push(new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 ));
                             }
-                            //else{
-                            //    a_inputs = [input_kb];
-                            //}
                         }
-                        //str_gamePads += `${gamePad.index}, `;
                     }
 
                     //If a controller is unplugged or disconnected, remove it from a_inputs:

@@ -12,7 +12,6 @@ import Character from "./objects/character.js";
 	import { fn_isMultiplayer } from "../main.js";
 	import { fn_getInputs } from "../main.js";
 	import ItemSlots from './itemSlots.js';
-import OOB from './objects/OOB.js';
 
 //Declaring constants:
 	//Essentials:
@@ -827,7 +826,6 @@ export default class Player{
 			//console.log(`player.rotation.y = ${this.player.rotation.y}`);
 			//this.obj_kart.fn_setBaseRotation();
 			this.obj_kart.fn_update(input, this.player.rotation.y, this.b_idle, this.f_driftingDirec, _int_frames);
-			// /this.model_kart.fn_setY(this.player.position.y + 0.02 * this.f_scale);
 				
 		//Update camera's position:
 		if(!window.b_birdEye || this.b_flying){
@@ -839,9 +837,9 @@ export default class Player{
 			}
 			//console.log(`f_lookY = ${this.f_lookY}`);
 			
-			console.log(this.player);
-			console.log(this.player?.position);
-			console.log(this.player?.position?.x);
+			//console.log(this.player);
+			//console.log(this.player?.position);
+			//console.log(this.player?.position?.x);
 
 			//Rear view:
 			if(input.fn_hold_rear(this.b_idle) && !this.b_flying){
@@ -911,7 +909,7 @@ export default class Player{
 		
 		//Update respawn variables:
 		this.v_respawnPos = _checkpoint.fn_getPos();	
-		this.f_respawnDirec = _checkpoint.fn_getRotation()[1] - 1.5708;
+		this.f_respawnDirec = _checkpoint.fn_getRotation().y - 1.5708;
 
 		if(this.int_lapProgress + 30 >= _checkpoint.fn_getID() && this.b_inOrder){	//Doesn't count checkpoints that are too far ahead.
 			this.int_lapProgress = _checkpoint.fn_getID();
@@ -940,7 +938,6 @@ export default class Player{
 				}
 				else{							//If passed a checkpoint before first going to the goal:
 					this.int_expectedKey = 0;
-					//this.int_keysPassed = 0;
 					this.int_lastKey = -1;
 					this.int_expectedKey = 0;			
 				}

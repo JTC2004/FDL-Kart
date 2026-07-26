@@ -88,11 +88,6 @@ export default class Character extends Obj{
 							this.fn_setSpriteTile(0, 0);
 							this.fn_flipSprite(1);
 						}
-
-						/*this.int_wiggleIndex += 1;
-						if(this.int_wiggleIndex > 2){
-							this.int_wiggleIndex = 0;
-						}*/
 					}
 				}
 				//Driving character animation:
