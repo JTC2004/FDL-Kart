@@ -18,9 +18,6 @@ export default class ItemBox extends Obj{
 			this.f_amplitude = 0.004;
 			this.f_respawnTime = 1.00;
 			this.f_respawnTimer = 0.0;
-			//if(this.boundingBox){
-			//	console.log("Item pot created w/ bounding box!");
-			//}
 		
 	}
 	
@@ -31,7 +28,6 @@ export default class ItemBox extends Obj{
 
 		fn_DSOC(player){
 			if(this.f_respawnTimer == 0.0){
-				console.log(`Item box collided with player ${player.fn_getPlayerIndex()}!`);
 				this.f_respawnTimer = this.f_respawnTime;
 				this.mesh.visible = false;
 				this.sprite.visible = false;

@@ -15,7 +15,6 @@ export default class OOB extends Obj{
 		}
 
 		fn_DSOC(player){
-			//console.log(`PLAYER IN OOB`);
 			player.fn_setOOB(true);
 			return this.b_DSOC;
 		}

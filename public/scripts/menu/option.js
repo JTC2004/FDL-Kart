@@ -119,7 +119,6 @@ export default class Option{
                 this.b_arrows = true;
                 this.a_options = ["192p", "250p", "480p", "720p", "Default", "1080p", "1440p", "2160p"];
                 this.int_optionIndex = fn_getSetting(_text);
-                //console.log("int_optionIndex for " + _text + " is " + this.int_optionIndex);
                 
 
                 //Readjust resolution size when window resized:
@@ -174,9 +173,9 @@ export default class Option{
     fn_update(input, rotation){
         //When option has arrows:
 
-        //console.log(rotation > -1.25);
+        //Rotation is under -1.25
         if(this.b_arrows && rotation > -1.00){
-            //console.log(this.str_text + " has arrows.");
+            //Has arrows.
             this.fn_updateLabelPosition("p_" + this.str_text, new THREE.Vector3(this.f_x, this.f_y, this.f_z));
 
             const p_optionElement = document.getElementById("p_" + this.str_text);
@@ -276,8 +275,6 @@ export default class Option{
             this.fn_removeSprite(this.spr_arrowL, scene);
             this.fn_removeSprite(this.spr_arrowR, scene);
         }
-
-        //console.log("removed");
     }
 
     fn_newSprite(_str_name){

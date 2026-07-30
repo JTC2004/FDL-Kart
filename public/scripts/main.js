@@ -127,8 +127,6 @@ if(window.b_debug){
 try{
     fn_checkFullscreen(menuCamera, frustumHeight);
     gameLoop.addCallback((dt) => {
-        //console.log(`Game mode ${window.int_gameMode}`);
-
         //Showing render status:
         //console.log(renderer.info.memory);
         
@@ -274,12 +272,10 @@ function fn_checkFullscreen(menuCamera, frustumHeight){
 		//If window is in fullscreen, zoom the camera in by changing frustumHeight):
 		if (menuCamera.aspect > 1.7 && menuCamera.aspect < 1.8){	
 			frustumHeight = 10.5;
-			//console.log("FULLSCREEN");
 			b_fullScreen = true;
 		}
 		else{
 			frustumHeight = 9;
-			//console.log("Not fullscreen");
 			b_fullScreen = false;
 		}
 		//info.innerHTML = "b_fullScreen = " + b_fullScreen;
@@ -310,11 +306,9 @@ function fn_isGpDisconnected(_gamepads){
 //Figure out if a gamepad is in the list of inputs:
 function fn_isGpInInputs(_gamepad){ 
 
-    //console.log(`a_inputs.length = ${a_inputs.length}`);
     for(const i in a_inputs){   
         if(a_inputs[i].fn_getType().includes(_gamepad.index)){
             return true;
-            c//onsole.log(`GP${_gamepad.index} IS IN A_INPUTS`);
             break;
         }
     }
@@ -495,9 +489,6 @@ export function fn_popInput(_int_index){
     if(_int_index != 0){
         if(a_inputs[_int_index].fn_getType() == "KB"){
             input_kb.fn_setConnected(false);
-        }
-        else{
-            //console.log(`POPPED GP ${a_inputs[_int_index].fn_getIndex()}`);
         }
         
         a_inputs.splice(_int_index, 1);

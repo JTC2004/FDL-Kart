@@ -101,7 +101,6 @@ async function fn_initializeGame(){
 			window.int_laps
 		));
 
-		//console.log(`window.a_characters[0] = ${window.a_characters[0]}`);
 		//REMEMBER TO PUSH OTHER NON-STATIC COLLIDABLE OBJECTS AFTER PLAYERS!!
 		a_objectsDSOC.push(a_players[i]);
 
@@ -192,7 +191,6 @@ async function fn_initializeGame(){
 
 //The game loop:
 export function fn_updateGame(f_fps){
-	//console.log("Game is running");
 	
 	//Start initialization ONCE:
 	if(!promise_init){
@@ -217,7 +215,6 @@ export function fn_updateGame(f_fps){
 			//Update time if the player hasn't finished the race yet:
 			if(!b_playerDone && window.int_gameMode > 0){
 				f_secs += 1 / 60;
-				//console.log("f_secs = " + f_secs);
 				var timeElement = document.getElementById("p_time");
 				timeElement.innerHTML = "TIME " + fn_formatTime(f_secs);
 			}
@@ -250,7 +247,6 @@ export function fn_updateGame(f_fps){
 						continue;
 					}
 
-					//console.log(`Checking collision with obj ${a_objectsDSOC.fn_getType()}`);
 					a_objectsDSOC[i].fn_meshCollisionCheck(player); 
 				}
 			

@@ -12,8 +12,7 @@ export default class ItemPotRow extends Obj{
 			
             for(let i = 0; i < _num; i++){
                 this.a_boxes.push(new ItemPot([a_xyz[0] - i * _proximity, a_xyz[1], a_xyz[2] + i * _rotation * _proximity], _worldScale, _localScale, a_objectsDSOC));
-                a_objectsDSOC.push(this.a_boxes[i]);
-                //console.log("this.a_boxes[i] = " + this.a_boxes[i]);    
+                a_objectsDSOC.push(this.a_boxes[i]); 
             }
 			
 		

@@ -288,7 +288,6 @@ export default class Player{
 
 					if(this.f_driftingDirec == 0){
 						this.f_driftingDirec = this.f_turningDirec
-						//console.log(`f_driftingDirec = ${this.f_driftingDirec},\tf_turningDirec = ${this.f_turningDirec}`);
 					}
 				}
 				//Cases where a drift ends:
@@ -333,7 +332,6 @@ export default class Player{
 					this.b_chargingJump = false;
 					this.f_jumpCharge = 0.0; 
 				}
-				//console.log(`Jumping ${this.b_jumping}, \tJumpOffset ${this.f_jumpOffset}`);
 				
 			
 			//Accelerating:
@@ -356,10 +354,7 @@ export default class Player{
 				else if(!this.b_onGround){		
 					//Lose speed when in the air (not jumping):
 					this.f_speed -= 0.0012;
-					
-					//console.log("MIDAIR SPEED LOSS");
 				}
-				//console.log(`f_jumpStartY = ${this.f_jumpStartY}`);
 			//Limits on speed:
 				//Hit max speed:
 				if(this.f_speed > this.f_maxSpeed + this.f_speedBoost)
@@ -412,10 +407,8 @@ export default class Player{
 													.18vw  .18vw 0 ${this.str_speedometerBorderColor}`
 				}
 
-			//console.log("f_speed = " + this.f_speed);
 			//Steering:	
 				if((b_holdLeft || b_holdRight) && (this.f_speed !== 0 || this.b_standstill)){
-					//console.log(`f_turningDirec = ${this.f_turningDirec}`);
 					if(b_holdLeft){
 						this.f_turningDirec = 1;
 					}
@@ -424,7 +417,6 @@ export default class Player{
 					}
 					
 					this.f_turning += 0.0013 * this.f_turningDirec;
-					//console.log(`f_turning = ${this.f_turning}`);
 					//Limit how far player can turn:
 						//Player can turn full range when not drifitng, but only this.f_driftingDirec to 0 while drifting.
 						if( !this.b_standstill){
@@ -440,7 +432,6 @@ export default class Player{
 							-this.f_maxTurning,
 							Math.min(this.f_turning, this.f_maxTurning)
 						);
-					//console.log(`this.b_onGround = ${this.b_onGround}`);
 					
 					//Loss of speed when turning (doesn't occur during a speed boost):		(NEED TO MAKE THIS ACCOUNT FOR CC)
 					if(!this.b_drifting && this.b_onGround && this.f_speedBoostTimer == 0.0 && !this.b_hitWall){
@@ -454,7 +445,6 @@ export default class Player{
 						}
 						if(this.f_steeringSpeedOffset < 0.00005){
 							this.b_steeringBounceBack = true;
-							//console.log("SHOULD BE ZERO");
 						}
 					}
 					else{	//Account for when user starts drifting while turning:
@@ -462,7 +452,6 @@ export default class Player{
 					}
 				}
 				else{	//When not steering:
-					//console.log("f_turningDirec = " + this.f_turningDirec);
 					this.f_turningDirec = 0;
 					if(this.f_turning < 0.001 && this.f_turning > -0.001){	//If steering speed is close to 0, make it 0.
 						this.f_turning = 0;
@@ -477,10 +466,7 @@ export default class Player{
 					this.f_steeringSpeedOffset = this.f_speed * 0.01;
 					this.f_acceleration = this.f_BASE_ACCELETATION;
 				}
-			
-			//console.log(`b_drifting = ${this.b_drifting},\tb_standstill = ${this.b_standstill}`);
-			//console.log(`f_MTcharge = ${this.f_MTcharge},\str_MT = ${this.str_MT}`);
-			
+						
 			//Steering while drifting:
 				if(this.b_drifting){		
 					//If drifitng, can turn tighter.
@@ -510,7 +496,7 @@ export default class Player{
 						if(this.f_driftSlide > this.f_MAX_DRIFT_SLIDE * this.f_speed){
 							this.f_driftSlide = this.f_MAX_DRIFT_SLIDE * this.f_speed;
 							this.f_maxDriftSlideHit = true;
-							//console.log("SIDE MAX HIT");
+							//SIDE MAX HIT here
 						}
 					}
 					//Else, trend drift slide towards minimum drift slide:
@@ -522,7 +508,6 @@ export default class Player{
 							this.f_driftSlide += this.f_driftSlideDecrement;
 						}
 					}
-					//console.log(`f_driftSlide = ${this.f_driftSlide}`);
 				}
 				else if(this.b_standstill){
 					this.f_maxTurning = this.f_BASE_MAX_TURNING * 1.2; 
@@ -598,19 +583,12 @@ export default class Player{
 			
 			//Gravity:
 				this.f_gravity += this.f_GRAVITY_RATE;
-				//console.log("f_gravity = " + this.f_gravity);
 				if(this.f_gravity > 1.05){
 					this.f_gravity = 1.05;
 				}
 				if(this.f_gravity > 0.0){
 					this.b_chargeJumping = false;
 				}
-				//this.worldCollider.start.y -= this.f_gravity;		//Keep this outside of the substep loop because of offroad checks.
-				//if(this.f_gravity <= .7){
-				//	this.player.position.y -= this.f_gravity;
-				//}
-			
-				//console.log(`f_gravity = ${this.f_gravity}`);
 
 			//Actually move the player (if speed is high enough, increment in smaller steps at a time to avoid clipping):
 			this.b_inOffroad = false;		//This needs to be here.
@@ -664,7 +642,6 @@ export default class Player{
 				this.f_respawnTimer = 2.0;
 			}
 
-			//console.log(`f_respawnTimer = ${this.f_respawnTimer}`);
 			//Respawning:
 			if(this.f_respawnTimer > 0.0){		
 				this.f_respawnTimer -= 1/60;
@@ -713,7 +690,6 @@ export default class Player{
 		
 		if (this.b_offroadEnable && this.result.depth > 0 && _enabled) {
 			this.b_inOffroad = true;
-			//console.log(`IN OFFROAD`);	
 		}
 	}
 	
@@ -750,7 +726,6 @@ export default class Player{
 				return true;
 			}
 			else{
-				//console.log("No object collision");
 				return false;
 			}
 			//return false;
@@ -823,8 +798,6 @@ export default class Player{
 				this.player.position.y - .64 * this.f_scale, 
 				this.player.position.z
 			));
-			//console.log(`player.rotation.y = ${this.player.rotation.y}`);
-			//this.obj_kart.fn_setBaseRotation();
 			this.obj_kart.fn_update(input, this.player.rotation.y, this.b_idle, this.f_driftingDirec, _int_frames);
 				
 		//Update camera's position:
@@ -835,12 +808,7 @@ export default class Player{
 				this.f_posY = this.f_jumpStartY + 2;
 				this.f_lookY = this.f_jumpStartY + 1.15;
 			}
-			//console.log(`f_lookY = ${this.f_lookY}`);
 			
-			//console.log(this.player);
-			//console.log(this.player?.position);
-			//console.log(this.player?.position?.x);
-
 			//Rear view:
 			if(input.fn_hold_rear(this.b_idle) && !this.b_flying){
 				if(this.f_respawnTimer < 1.0){

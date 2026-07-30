@@ -19,9 +19,6 @@ export default class ItemPot extends Obj{
 			this.int_wiggleIncrement = 1;
 
 			this.f_glow = 1.0;
-			//if(this.boundingBox){
-			//	console.log("Item pot created w/ bounding box!");
-			//}
 		
 	}
 	

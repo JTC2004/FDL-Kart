@@ -33,7 +33,6 @@ export default class Obj{
 		this.b_solid = _solid;
 
 		//Animation variables:
-		//Animation variables:
 		this.a_currentTile = [0, 0];
 		this.int_numTilesTall = 0;
 	}
@@ -279,7 +278,6 @@ export default class Obj{
 	//Setters:
 		fn_setPos(v_xyz){
 			this.object.position.copy(v_xyz);
-			//console.log(`SETTING POS TO (${v_xyz.x}, ${v_xyz.y}, ${v_xyz.z})`);
 
 			if(this.mesh){		this.mesh.position.copy(v_xyz);	}
 			if(this.sprite){	this.sprite.position.copy(v_xyz);	}
@@ -300,7 +298,6 @@ export default class Obj{
 				this.mesh.rotation.x = v_xyz.x;
 				this.mesh.rotation.y = v_xyz.y;
 				this.mesh.rotation.z = v_xyz.z;	
-				//console.log(`New rotation: ${v_xyz.x}, ${v_xyz.y}, ${v_xyz.z}`)
 			}
 		}
 
@@ -360,16 +357,12 @@ export default class Obj{
 		//Use this for checking for non-octree collisions:
 		fn_meshCollisionCheck(player){			
 			if(this.boundingBox.intersectsSphere(player.fn_getHitbox())){
-				//console.log("Object collision");
 				this.fn_DSOC(player);
-				//console.log(`Object ${this.fn_getType()} collided with player`);
 				return true;
 			}
 			else{
-				//console.log("No object collision");
 				return false;
 			}
-			//return false;
 		}
 
 		//Do something on collision (override this with child):

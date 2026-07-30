@@ -49,8 +49,6 @@
 	var int_frames = 0;
 	var a_connectControllers = [];
 
-	//console.log("str_currentMenu = " + str_currentMenu);
-
 
 //Initializing the scene:
 function fn_initializeMenus(){
@@ -108,7 +106,6 @@ export function fn_updateMenus(){
 		a_connectControllers = [];
 		
 		if(Number.isInteger(Number(str_currentMenu))){
-			//console.log("CHANGE MODE");
 			window.int_gameMode = Number(str_currentMenu);
 
 			if(window.int_gameMode > 3){
@@ -179,7 +176,6 @@ export function fn_updateMenus(){
 			a_characters[0].fn_setSpriteTile(5, 0);
 			a_characters[1].fn_setSpriteTile(4, 1);
 			int_charaIndex = 0;
-			//console.log(`${kart.fn_getType()}`);
 		}
 		else if(str_currentMenu == "2P Character Select"){
 			str_parentMenu = "Main";
@@ -264,7 +260,6 @@ export function fn_updateMenus(){
 		}
 	}
 
-	//console.log(`str_currentMenu = ${str_currentMenu}`);
 	//Controller icons:
 	if(a_connectControllers.length > 0){
 		for(let i = 0; i < a_connectControllers.length; i++){
@@ -302,7 +297,6 @@ export function fn_updateMenus(){
 					}
 					
 					str_currentMenu = a_options[i][e].fn_confirm();
-					//console.log("str_currentMenu = " + str_currentMenu);
 				} 
 			}
 		}
@@ -325,7 +319,6 @@ export function fn_updateMenus(){
 	
 	//If player moves the highlighted option:
 	if(a_selected[0] !== a_prevSelected[0] || a_selected[1] !== a_prevSelected[1]){
-		//console.log("a_selected = " + a_selected + "\t a_prevSelected = " + a_prevSelected);
 		//De-selecting:
 		if(a_prevSelected[1] > -1 && a_prevSelected[0] > -1)
 		{
@@ -334,7 +327,6 @@ export function fn_updateMenus(){
 				if(input.fn_press_left()){
 					a_selected[0] -= 1;
 					fn_overflowCheck(a_selected);
-					//console.log("PUSH LEFT");
 				}
 				a_options[a_prevSelected[1]][a_prevSelected[0] - 1].fn_deSelect();
 			}
@@ -347,7 +339,6 @@ export function fn_updateMenus(){
 		if(typeof(a_options[a_selected[1]][a_selected[0]]) == "string"){
 			if(input.fn_press_right()){
 				a_selected[0] += 1;
-				//console.log("PUSH RIGHT");
 				fn_overflowCheck(a_selected);
 				a_options[a_selected[1]][a_selected[0]].fn_select();
 			}
@@ -368,7 +359,6 @@ export function fn_updateMenus(){
 	for(let i = 0; i < a_options.length; i++){
 		for(let obj_option of a_options[i]){
 			if(typeof(obj_option) != "string"){
-				//console.log("Option has arrows.");		//Debug print.
 
 				obj_option.fn_update(input, camera.rotation.y);
 			}
@@ -427,19 +417,15 @@ function fn_inRow(_spacing, _spriteNum, _spriteCount){
 //Make sure the selected option isn't out of bounds:
 function fn_overflowCheck(_a){
 	if(_a[1] >= a_options.length){
-		//console.log("lower bound hit");
 		_a[1] = 0;
 	}
 	if(_a[1] < 0){
-		//console.log("upper bound hit");
 		_a[1] = a_options.length - 1;
 	}
 	if(_a[0] >= a_options[_a[1]].length){
-		//console.log("right bound hit");
 		_a[0] = 0;
 	}
 	if(_a[0] < 0){
-		//console.log("left bound hit");
 		_a[0] = a_options[_a[1]].length - 1;
 	}	
 }

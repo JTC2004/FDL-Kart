@@ -79,7 +79,6 @@ export default class Character extends Obj{
 						
 						//Tilting:
 						if(this.f_tilt != 0){
-							//console.log(`lean = ${this.f_tilt}`);
 							
 							this.fn_setSpriteTile(Math.round(Math.abs(this.f_tilt + _int_driftDirec)), 0);
 							this.fn_flipSprite(Math.sign(this.f_tilt));
@@ -157,10 +156,6 @@ export default class Character extends Obj{
 						this.f_forwardOffset = this.f_driverBaseOffset;
 					}
 					this.fn_setSpriteTile(0, 0);
-
-					//if(this.b_driving){
-					//	console.log(`${this.str_name} is driving`);
-					//}	
 				}
 			}
 
