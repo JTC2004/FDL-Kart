@@ -129,6 +129,9 @@ try{
     gameLoop.addCallback((dt) => {
         //Showing render status:
         //console.log(renderer.info.memory);
+
+        //Showing memory status (Chromium only. Crashes in Firefox):
+        //console.log(`Using: ${(performance.memory.usedJSHeapSize / 1048576).toFixed(1)} MB | Total: ${(performance.memory.totalJSHeapSize / 1048576).toFixed(1)} MB`);
         
         //Fixed update (60 hz):
         if(dt > 0){
@@ -458,30 +461,68 @@ export function fn_changeSettings(str_text, int_index, str_option){
     }
 }
 
-//General-purpose clear scene function by ChatGPT:
+
+//Dispose textures function by ChatGPT:
+function disposeMaterial(material) {
+
+    // Dispose all textures referenced by this material
+    for (const key in material) {
+
+        const value = material[key];
+
+        if (value && value.isTexture) {
+            value.dispose();
+        }
+
+    }
+
+    material.dispose();
+}
+
+//All-inclusive clear scene function by ChatGPT:
 export function fn_clearScene() {
 
     while (scene.children.length > 0) {
+
         const object = scene.children[0];
+
+        object.traverse(child => {
+
+            // Geometry
+            if (child.geometry) {
+                child.geometry.dispose();
+            }
+
+            // Materials
+            if (child.material) {
+
+                if (Array.isArray(child.material)) {
+
+                    child.material.forEach(material => {
+                        disposeMaterial(material);
+                    });
+
+                } else {
+
+                    disposeMaterial(child.material);
+
+                }
+
+            }
+
+        });
 
         scene.remove(object);
 
-        // Dispose geometry
-        if (object.geometry) {
-            object.geometry.dispose();
-        }
-
-        // Dispose material(s)
-        if (object.material) {
-            if (Array.isArray(object.material)) {
-                object.material.forEach(material => material.dispose());
-            } else {
-                object.material.dispose();
-            }
-        }
     }
 
-    console.log("CLEARED SCENE");
+    // Force Three.js to process disposals on the next render
+    if(b_gameplay){
+        renderer.render( scene, a_gameCameras[0] );
+    }
+    else{
+        renderer.render( scene, menuCamera );
+    }
 }
 
 //Remove both an input and it's corresponding gamepad:
@@ -532,6 +573,4 @@ export function fn_popInput(_int_index){
         export function fn_getMap(){
             return str_map;
         }
-
-    //Settings variables:
         

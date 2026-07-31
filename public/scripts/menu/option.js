@@ -287,7 +287,6 @@ export default class Option{
             color: 0xffffff,
             depthTest: false,
             depthWrite: false,
-            renderOrder: 0
         });
         return new THREE.Sprite( this.spriteMaterial );
     }

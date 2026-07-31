@@ -27,12 +27,12 @@ Changes since last version:
 		- Removed references to unused this.cube
 		- Removed redundant textureLoader initializations.
 	- Removed unused debug prints that I don't need.
+	- Made sure the game is properly un-loading assets.
 
 
 For future development...:	
 	- Optimization & cleanup:
-		- MAKE SURE THE GAME IS PROPERLY UNLOADING ASSETS!!
-		- Clean up object.js.
+		- Figure out how to reuse loaded textures/materials instead of re-loading them.
 		- Make sure nothing has unused variables or methods.
 		- Make sure all objects use THREE.Object3D for their transformations instead of a box or sphere that the player doesn't even see.
 
