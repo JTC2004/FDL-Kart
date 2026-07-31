@@ -28,6 +28,7 @@ Changes since last version:
 		- Removed redundant textureLoader initializations.
 	- Removed unused debug prints that I don't need.
 	- Made sure the game is properly un-loading assets.
+	- Fixed a bug where popping a controller in the Connect Controllers menu didn't remove that player's camera.
 
 
 For future development...:	
@@ -37,7 +38,6 @@ For future development...:
 		- Make sure all objects use THREE.Object3D for their transformations instead of a box or sphere that the player doesn't even see.
 
 	- Bugfixes:
-		- Removing a controller in the Connect Controllers menu doesn't remove that player's camera.
 		- Players getting stuck inside each other.
 		- Fix bug where swapping enough times in a row changes which character has which item.
 

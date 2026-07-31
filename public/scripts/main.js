@@ -300,6 +300,7 @@ function fn_isGpDisconnected(_gamepads){
         if(a_inputs[i].fn_getType() != "KB" && !_gamepads[a_inputs[i].fn_getIndex()]){
             //console.log("Removing disconnected controller");
             a_inputs.splice(i,1);   
+            a_gameCameras.splice(i,1);
             return true;
         }
     }
@@ -531,8 +532,9 @@ export function fn_popInput(_int_index){
         if(a_inputs[_int_index].fn_getType() == "KB"){
             input_kb.fn_setConnected(false);
         }
-        
+        console.log("Controller dropped out.");
         a_inputs.splice(_int_index, 1);
+        a_gameCameras.splice(_int_index, 1);
     }
 }
 
