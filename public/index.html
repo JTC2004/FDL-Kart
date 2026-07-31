@@ -26,14 +26,14 @@ Changes since last version:
 		- Instead of separate this.mesh and this.model, it's just this.mesh.
 		- Removed references to unused this.cube
 		- Removed redundant textureLoader initializations.
+		- Added cache for sprites/textures so they aren't re-loaded when they don't need to.
 	- Removed unused debug prints that I don't need.
 	- Made sure the game is properly un-loading assets.
 	- Fixed a bug where popping a controller in the Connect Controllers menu didn't remove that player's camera.
-
-
-For future development...:	
+	
+To do:
 	- Optimization & cleanup:
-		- Figure out how to reuse loaded textures/materials instead of re-loading them.
+		- Implement cache for loading models.
 		- Make sure nothing has unused variables or methods.
 		- Make sure all objects use THREE.Object3D for their transformations instead of a box or sphere that the player doesn't even see.
 
@@ -41,6 +41,8 @@ For future development...:
 		- Players getting stuck inside each other.
 		- Fix bug where swapping enough times in a row changes which character has which item.
 
+	
+For future development...	
 	- UI:
 		- Find a library for UI instead of doing it all from scratch.
 		- Add a title screen.

@@ -9,7 +9,9 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 	//Essentials:
 		let SCENE;
 		let LOADER;
+		const modelCache = new Map();
 		const textureLoader = new THREE.TextureLoader();
+		const textureCache = new Map();
 
 export default class Obj{
 
@@ -81,6 +83,7 @@ export default class Obj{
 	//Adds a mesh from a GLTF model:
 	fn_addModel(a_offset, a_multip, _modelName, onLoad){
 		this.mesh = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ visible: false }));
+		//this.fn_getModel( 'assets/models/objects/'+ _modelName +'.glb', a_offset, a_multip, onLoad );
 		LOADER.load( 'assets/models/objects/'+ _modelName +'.glb',		//I should make a method for this. 
 			( gltf ) => {
 				
@@ -112,7 +115,7 @@ export default class Obj{
 	
 	//Adds a single sprite to the object:
 	fn_addSprite(a_offset, a_multip, str_spriteName){
-		this.spriteMap = textureLoader.load( 'assets/sprites/gameplay/'+ str_spriteName +'.png' );
+		this.spriteMap = this.fn_getTexture( 'assets/sprites/gameplay/'+ str_spriteName +'.png' );
 		this.spriteMap.colorSpace = THREE.SRGBColorSpace;
 		this.spriteMaterial = new THREE.SpriteMaterial({ 
 			map: this.spriteMap,
@@ -139,7 +142,7 @@ export default class Obj{
 	fn_addSpriteSheet(a_offset, a_multip, str_spriteName, _int_numTilesTall){
 		this.int_numTilesTall = _int_numTilesTall;
 		
-		this.spriteMap = textureLoader.load( 'assets/sprites/gameplay/'+ str_spriteName +'.png' );
+		this.spriteMap = this.fn_getTexture( 'assets/sprites/gameplay/'+ str_spriteName +'.png' );
 		this.spriteMap.repeat.set(1/this.int_numTilesTall, 1/this.int_numTilesTall);
 		this.spriteMap.offset.x = 0;
 		this.spriteMap.offset.y = 1 - 1/this.int_numTilesTall;
@@ -186,9 +189,9 @@ export default class Obj{
 		this.int_numTilesTall = _int_numTilesTall;
 		
 		this.a_spriteMaps = [
-			textureLoader.load('assets/sprites/gameplay/'+ str_spriteName +'0.png'),
-			textureLoader.load('assets/sprites/gameplay/'+ str_spriteName +'1.png'),
-			textureLoader.load('assets/sprites/gameplay/'+ str_spriteName +'2.png')
+			this.fn_getTexture('assets/sprites/gameplay/'+ str_spriteName +'0.png'),
+			this.fn_getTexture('assets/sprites/gameplay/'+ str_spriteName +'1.png'),
+			this.fn_getTexture('assets/sprites/gameplay/'+ str_spriteName +'2.png')
 		];
 		
 		this.int_spriteMapsIndex = 1;
@@ -246,6 +249,23 @@ export default class Obj{
 		this.shadow.rotation.x = -1.5708;
 	}
 	
+	//Load an image if not in the cache. Otherwise, use the image in the cache:
+	fn_getTexture(_str_path) {
+		if (!textureCache.has(_str_path)) {
+			textureCache.set(_str_path, textureLoader.load(_str_path));
+		}
+
+		return textureCache.get(_str_path);
+	}
+
+	//Load an gtlf model if not in the cache. Otherwise, use the model in the cache:
+	fn_getModel(_str_path) {
+		if (!modelCache.has(_str_path)) {
+			modelCache.set(_str_path, LOADER.load(_str_path));
+		}
+
+		return modelCache.get(_str_path);
+	}
 	
 	//Getters:
 		fn_getType(){
