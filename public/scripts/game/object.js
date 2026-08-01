@@ -83,19 +83,23 @@ export default class Obj{
 	//Adds a mesh from a GLTF model:
 	fn_addModel(a_offset, a_multip, _modelName, onLoad){
 		this.mesh = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ visible: false }));
-		//this.fn_getModel( 'assets/models/objects/'+ _modelName +'.glb', a_offset, a_multip, onLoad );
-		LOADER.load( 'assets/models/objects/'+ _modelName +'.glb',		//I should make a method for this. 
+		this.fn_getModel( 'assets/models/objects/'+ _modelName +'.glb', 
 			( gltf ) => {
-				
-				this.mesh = gltf.scene;
+				this.mesh = gltf;
+
 				this.mesh.position.set(
 					this.object.position.x + a_offset[0], 
 					this.object.position.y + a_offset[1], 
 					this.object.position.z + a_offset[2]
 				);
-				this.mesh.scale.set(this.f_scale * a_multip[0], this.f_scale * a_multip[1], this.f_scale * a_multip[2]);
+
+				this.mesh.scale.set(
+					this.f_scale * a_multip[0], 
+					this.f_scale * a_multip[1], 
+					this.f_scale * a_multip[2]
+				);
+
 				this.mesh.visible = true;
-				
 				this.mesh.updateMatrixWorld(true);
 				SCENE.add( this.mesh );
 				
@@ -106,10 +110,7 @@ export default class Obj{
 				if (onLoad) onLoad(this.mesh);		//Set rotation AFTER model is loaded.
 
 				//console.log(`ADDED MODEL ${_modelName} at (${this.object.position.x},${this.object.position.y},${this.object.position.z})!`);
-			}, 
-			undefined, function ( error ) {
-				console.error( error );
-			} 
+			}
 		);
 	}
 	
@@ -258,13 +259,23 @@ export default class Obj{
 		return textureCache.get(_str_path);
 	}
 
-	//Load an gtlf model if not in the cache. Otherwise, use the model in the cache:
-	fn_getModel(_str_path) {
-		if (!modelCache.has(_str_path)) {
-			modelCache.set(_str_path, LOADER.load(_str_path));
+	//Load an gltf model if not in the cache. Otherwise, use the model in the cache:
+	fn_getModel(_str_path, onLoad) {
+
+		if (modelCache.has(_str_path)) {
+
+			onLoad(modelCache.get(_str_path).clone(true));
+			return;
+
 		}
 
-		return modelCache.get(_str_path);
+		LOADER.load(_str_path, gltf => {
+
+			modelCache.set(_str_path, gltf.scene);
+
+			onLoad(gltf.scene.clone(true));
+
+		});
 	}
 	
 	//Getters:
