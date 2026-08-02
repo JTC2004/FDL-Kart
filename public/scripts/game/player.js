@@ -598,7 +598,7 @@ export default class Player{
 			if(this.f_speed > 1.5){
 				this.int_substeps = 3;
 			}
-			else if(this.f_speed > .7 || this.f_gravity > .7){
+			else if(this.f_speed > .7 || this.f_gravity > .7 || this.v_pushForward.length() > .7){
 				this.int_substeps = 2;
 			}
 			const f_divSubsteps = 1 / this.int_substeps;		//Equals 1 if 1 substep, equals 1/2 if 2 substeps, equals 1/3 if 3 substeps, etc.
@@ -608,12 +608,7 @@ export default class Player{
 					this.player.position.x -= f_sinY * this.f_speed * this.f_pushedBack * (f_divSubsteps);
 					this.player.position.z -= f_cosY * this.f_speed * this.f_pushedBack * (f_divSubsteps);
 
-					if(this.f_gravity > .7){
-						this.player.position.y -= this.f_gravity * (f_divSubsteps);
-					}
-					else{
-						this.player.position.y -= this.f_gravity;
-					}
+					this.player.position.y -= this.f_gravity * (f_divSubsteps);
 					this.player.rotation.y += this.f_turning * (f_divSubsteps);	//turning
 
 					//Apply push to the player from other players:
@@ -748,22 +743,22 @@ export default class Player{
 	//If another player collides with this player, push them back:
 	fn_DSOC(_player){
 		//Removing the overlap,
-		const delta = new THREE.Vector3().subVectors(
+		const f_delta = new THREE.Vector3().subVectors(
 			this.boundingSphere.center,
 			_player.fn_getBoundingSphere().center
 		);
-		const overlap = (this.boundingSphere.radius + _player.fn_getBoundingSphere().radius) - delta.length();
-		delta.normalize();
-		this.player.position.addScaledVector(delta, overlap * 0.5);
-		_player.fn_getPlayer().position.addScaledVector(delta, -overlap * 0.5);
+		const overlap = (this.boundingSphere.radius + _player.fn_getBoundingSphere().radius) - f_delta.length();
+		f_delta.normalize();
+		this.player.position.addScaledVector(f_delta, overlap * 0.5);
+		_player.fn_getPlayer().position.addScaledVector(f_delta, -overlap * 0.5);
 		
 		//Then apply the bounce to the opposing driver,
 		_player.fn_setHitWall(true, true);
 		
 		//And then this driver gets pushed back too in the opposite direction of the pusher:
-		var push = .1 + _player.fn_getSpd();													//Adjust this to adjust how far people get bounced.
-		if(_player.fn_getReverse()) push *= -1;
-		this.v_pushForward.copy(delta).multiplyScalar(push);
+		var f_push = .1 + _player.fn_getSpd();													//Adjust this to adjust how far people get bounced.
+		if(_player.fn_getReverse()) f_push *= -1;
+		this.v_pushForward.copy(f_delta).multiplyScalar(f_push);
 
 		return true;
 	}
