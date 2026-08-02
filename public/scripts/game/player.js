@@ -126,6 +126,8 @@ export default class Player{
 				this.f_maxSpeed = this.f_BASE_MAX_SPEED;										//The current max speed.
 				this.f_speed = 0.0;																//The current amount the player moves forwards per frame.
 				this.f_pushedBack = 1.0;													//Equals negative when player is rebounding from a wall or player collision.
+				this.v_pushForward = new THREE.Vector3(0,0,0);								//How much a player gets pushed by another player by collisions.
+				this.f_pushedDirec = 0.0;													//Direction the player gets pushed.
 				this.f_BASE_ACCELETATION = this.f_STAT_ACCELERATION * 0.0017;
 				this.f_acceleration = this.f_BASE_ACCELETATION;								//The amount of speed the player gains while accelerating.
 			//Steering:
@@ -605,6 +607,7 @@ export default class Player{
 				//Update player's position:
 					this.player.position.x -= f_sinY * this.f_speed * this.f_pushedBack * (f_divSubsteps);
 					this.player.position.z -= f_cosY * this.f_speed * this.f_pushedBack * (f_divSubsteps);
+
 					if(this.f_gravity > .7){
 						this.player.position.y -= this.f_gravity * (f_divSubsteps);
 					}
@@ -612,20 +615,30 @@ export default class Player{
 						this.player.position.y -= this.f_gravity;
 					}
 					this.player.rotation.y += this.f_turning * (f_divSubsteps);	//turning
+
+					//Apply push to the player from other players:
+					this.player.position.addScaledVector(this.v_pushForward, f_divSubsteps);
 					
 				//Update world collider:
 					this.worldCollider.start.set(this.player.position.x, this.player.position.y, this.player.position.z);
 					this.worldCollider.end.set(this.worldCollider.start.x, this.worldCollider.start.y + this.f_radius * .35, this.worldCollider.start.z);
 
+					//Decay push back:
 					if(this.f_pushedBack >= 1.0){
 						this.f_pushedBack = 1.0;
 					}
 					else{
 						this.f_pushedBack += 0.07;
 					}
+					//Decay push forwards:						//v_pushForward.set
+					if(this.v_pushForward.length() > 0.02){		//Note: use LENGTH instead of just x or y to prevent directional bias!
+						this.v_pushForward.multiplyScalar(0.9);
+					}
+					else{
+						this.v_pushForward.x = 0;
+						this.v_pushForward.z = 0;
+					}
 					
-					//this.playerCollider.start.x -= f_sinY * this.f_acceleration;
-					//this.playerCollider.start.z -= f_cosY * this.f_acceleration;
 					
 					this.b_onGround = false;
 					this.b_firstLanded = false;
@@ -635,6 +648,7 @@ export default class Player{
 					this.fn_collision(worldOctree);
 
 			}
+
 			this.boundingSphere.center.copy(this.player.position);
 
 			//Out of bounds check:
@@ -720,7 +734,7 @@ export default class Player{
 
 	//Use this for checking for non-octree collisions:
 		fn_meshCollisionCheck(otherPlayer){
-			if(this.boundingSphere.intersectsSphere(otherPlayer.fn_getHitbox())){
+			if(this.boundingSphere.intersectsSphere(otherPlayer.fn_getBoundingSphere())){
 				//console.log(`Player #${this.int_PLAYERNUM} collided with player #${this.fn_getPlayerIndex()}`);
 				this.fn_DSOC(otherPlayer);
 				return true;
@@ -736,15 +750,21 @@ export default class Player{
 		//Removing the overlap,
 		const delta = new THREE.Vector3().subVectors(
 			this.boundingSphere.center,
-			_player.fn_getHitbox().center
+			_player.fn_getBoundingSphere().center
 		);
-		const overlap = (this.boundingSphere.radius + _player.fn_getHitbox().radius) - delta.length();
+		const overlap = (this.boundingSphere.radius + _player.fn_getBoundingSphere().radius) - delta.length();
 		delta.normalize();
 		this.player.position.addScaledVector(delta, overlap * 0.5);
 		_player.fn_getPlayer().position.addScaledVector(delta, -overlap * 0.5);
 		
-		//And then apply the bounce:
+		//Then apply the bounce to the opposing driver,
 		_player.fn_setHitWall(true, true);
+		
+		//And then this driver gets pushed back too in the opposite direction of the pusher:
+		var push = .1 + _player.fn_getSpd();													//Adjust this to adjust how far people get bounced.
+		if(_player.fn_getReverse()) push *= -1;
+		this.v_pushForward.copy(delta).multiplyScalar(push);
+
 		return true;
 	}
 	
@@ -754,13 +774,16 @@ export default class Player{
 		const f_cosY = Math.cos(this.player.rotation.y);
 		const f_sinY = Math.sin(this.player.rotation.y);
 		const camera = this.cameraRef;
-		
+
 		//Code to run when wall is hit:
 			if(this.b_hitWall){
 				this.f_pushedBack = -this.f_speed;
 
 				if(this.b_hitPlayer){
-					this.f_pushedBack += - 0.4;
+					this.f_pushedBack += - 0.6;
+				}
+				else{
+					this.fn_stopDrifting();
 				}
 
 				//Reduce less speed from a collision when in a speed boost:
@@ -778,7 +801,6 @@ export default class Player{
 				//console.log("Wall collision detected!");
 				this.b_hitWall = false;
 				this.b_hitPlayer = false;
-				this.fn_stopDrifting();
 			}
 
 		//Update item slots:
@@ -856,8 +878,20 @@ export default class Player{
 	fn_getPos(){
 		return this.player.position;
 	}
+
+	fn_getRotation(){
+		return this.player.rotation.y;
+	}
+
+	fn_getSpd(){
+		return this.f_speed;
+	}
+
+	fn_getReverse(){
+		return this.b_reverse;
+	}
 	
-	fn_getHitbox(){
+	fn_getBoundingSphere(){
 		if(this.boundingSphere){
 			return this.boundingSphere;
 		}
