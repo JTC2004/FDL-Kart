@@ -3,7 +3,7 @@
 import * as THREE from 'three';
 import Obj from "../object.js";
 
-export default class Cube extends Obj{
+export default class Checkpoint extends Obj{
 
 	constructor(a_xyz, _worldScale, a_dimensions, _f_rotation, _b_key, _int_ID){
 		//Adds the checkpoint to the scene:

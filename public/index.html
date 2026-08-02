@@ -30,15 +30,13 @@ Changes since last version:
 		- Implement cache for loading models.
 	- Removed unused debug prints that I don't need.
 	- Made sure the game is properly un-loading assets.
-	- Fixed a bug where popping a controller in the Connect Controllers menu didn't remove that player's camera.
+	- Bugfixes:
+		- Fixed a bug where popping a controller in the Connect Controllers menu didn't remove that player's camera.
+		- Fixed a bug where player could get stuck inside each other's bounding sphere.
 	
 To do:
-	- Optimization & cleanup:
-		- Make sure nothing has unused variables or methods.
-		- Make sure all objects use THREE.Object3D for their transformations instead of a box or sphere that the player doesn't even see.
-
+	- Opposing player gets bounced back too from collisions.
 	- Bugfixes:
-		- Players getting stuck inside each other.
 		- Fix bug where swapping enough times in a row changes which character has which item.
 
 	

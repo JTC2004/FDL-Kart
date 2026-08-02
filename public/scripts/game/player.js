@@ -733,6 +733,17 @@ export default class Player{
 
 	//If another player collides with this player, push them back:
 	fn_DSOC(_player){
+		//Removing the overlap,
+		const delta = new THREE.Vector3().subVectors(
+			this.boundingSphere.center,
+			_player.fn_getHitbox().center
+		);
+		const overlap = (this.boundingSphere.radius + _player.fn_getHitbox().radius) - delta.length();
+		delta.normalize();
+		this.player.position.addScaledVector(delta, overlap * 0.5);
+		_player.fn_getPlayer().position.addScaledVector(delta, -overlap * 0.5);
+		
+		//And then apply the bounce:
 		_player.fn_setHitWall(true, true);
 		return true;
 	}
@@ -749,7 +760,7 @@ export default class Player{
 				this.f_pushedBack = -this.f_speed;
 
 				if(this.b_hitPlayer){
-					this.f_pushedBack += - 0.8;
+					this.f_pushedBack += - 0.4;
 				}
 
 				//Reduce less speed from a collision when in a speed boost:
