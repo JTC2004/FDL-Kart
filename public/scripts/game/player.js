@@ -627,7 +627,7 @@ export default class Player{
 					}
 					//Decay push forwards:						//v_pushForward.set
 					if(this.v_pushForward.length() > 0.02){		//Note: use LENGTH instead of just x or y to prevent directional bias!
-						this.v_pushForward.multiplyScalar(0.9);
+						this.v_pushForward.multiplyScalar(0.95);
 					}
 					else{
 						this.v_pushForward.x = 0;
@@ -756,7 +756,8 @@ export default class Player{
 		_player.fn_setHitWall(true, true);
 		
 		//And then this driver gets pushed back too in the opposite direction of the pusher:
-		var f_push = .1 + _player.fn_getSpd();													//Adjust this to adjust how far people get bounced.
+		var f_push = .1 + (_player.fn_getSpd() - this.f_speed);									//Adjust this to adjust how far people get bounced.
+		if(f_push < 0) f_push = 0;
 		if(_player.fn_getReverse()) f_push *= -1;
 		this.v_pushForward.copy(f_delta).multiplyScalar(f_push);
 
