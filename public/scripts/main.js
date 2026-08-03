@@ -130,7 +130,7 @@ try{
         //Showing render status:
         //console.log(renderer.info.memory);
 
-        //Showing memory status (Chromium only. Crashes in Firefox):
+        //Showing memory status (CHROMIUM ONLY. Crashes in Firefox):
         //console.log(`Using: ${(performance.memory.usedJSHeapSize / 1048576).toFixed(1)} MB | Total: ${(performance.memory.totalJSHeapSize / 1048576).toFixed(1)} MB`);
         
         //Fixed update (60 hz):

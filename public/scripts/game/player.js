@@ -11,7 +11,6 @@ import Character from "./objects/character.js";
 	import { fn_getCameras } from "../main.js";
 	import { fn_isMultiplayer } from "../main.js";
 	import { fn_getInputs } from "../main.js";
-	import ItemSlots from './itemSlots.js';
 
 //Declaring constants:
 	//Essentials:
@@ -41,7 +40,6 @@ export default class Player{
 			this.f_scale = _scale;															//The scale of the player.
 		//Add the player to the scene:
 			this.int_PLAYER_NUM = _num;
-			this.itemSlots = new ItemSlots(this.int_PLAYER_NUM);						//The item slots for this player.
 
 			this.player = new THREE.Object3D();												//The player's position & translation.
 																							//DOESN'T NEED TO BE A SPHERE FOR OBJECT COLLISIONS!!
@@ -798,17 +796,6 @@ export default class Player{
 				this.b_hitWall = false;
 				this.b_hitPlayer = false;
 			}
-
-		//Update item slots:
-		this.itemSlots.fn_update(_int_frames);
-
-		if(input.fn_press_swap(this.b_idle)){
-			this.itemSlots.fn_swap();
-		}
-
-		if(input.fn_press_item(this.b_idle)){
-			this.itemSlots.fn_use(this);
-		}
 		
 		if(b_showCapsule){
 			//Update collision capsule visulizers:
@@ -819,7 +806,7 @@ export default class Player{
 		
 		//Update the sprite/model positions:
 		for(const obj_character of this.a_characters){
-			obj_character.fn_update(this.player.position, this.player.rotation.y, this.f_driftingDirec, input, this.b_idle, _int_frames);
+			obj_character.fn_update(this, this.player.position, this.player.rotation.y, this.f_driftingDirec, input, this.b_idle, _int_frames);
 		}
 			
 			this.obj_kart.fn_setPos(new THREE.Vector3(
@@ -994,10 +981,9 @@ export default class Player{
 
 	//Roll the item roulette:
 	fn_getItem(){
-		if(this.itemSlots.fn_canGetItem()){
-			this.itemSlots.fn_roll();
+		if(this.a_characters[0].fn_getItemSlots().fn_canGetItem()){
+			this.a_characters[0].fn_getItemSlots().fn_roll();
 		}
-		
 	}
 
 	//Changes to state:

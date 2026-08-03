@@ -18,6 +18,8 @@ export default class ItemSlots{
 		this.img_item0 = document.getElementById(`img_item${this.int_playerNum}-0`);
 		this.img_item1 = document.getElementById(`img_item${this.int_playerNum}-1`);
 
+		console.log("ITEM SLOTS CREATED FOR PLAYER " + this.int_playerNum);
+
 		this.a_items = [0, 0];			//Index 0 is always the active item slot.
 
 		//Specific item layouts for different modes:
@@ -30,7 +32,6 @@ export default class ItemSlots{
 
 		this.a_rollTimer = [0.0, 0.0];
 		this.f_rollTime = 2.00;
-		this.f_swapTimer = 0.0;
 
 		//Animation variables:
 		this.int_wiggleIndex = 1;
@@ -101,16 +102,6 @@ export default class ItemSlots{
 			}
 		}
 		//Got item:
-		
-
-		//Swap timer:
-		if(this.f_swapTimer > 0.0){
-			this.f_swapTimer -= 1/60;
-			if(this.f_swapTimer <= 0.0){
-				this.f_swapTimer = 0.0;
-			}
-		}
-
 		this.a_prevItems = this.a_items;
 	}
 
@@ -121,11 +112,10 @@ export default class ItemSlots{
 
 	//Swap the items in the 2 slots:
 	fn_swap(){
-		if(this.f_swapTimer == 0){
-			[this.a_items[0], this.a_items[1]] = [this.a_items[1], this.a_items[0]];
-			[this.a_rollTimer[0], this.a_rollTimer[1]] = [this.a_rollTimer[1], this.a_rollTimer[0]];
-			this.f_swapTimer = 0.2;
-		}
+		[this.a_items[0], this.a_items[1]] = [this.a_items[1], this.a_items[0]];
+		[this.a_rollTimer[0], this.a_rollTimer[1]] = [this.a_rollTimer[1], this.a_rollTimer[0]];
+
+		console.log("Swapped items!");
 	}
 
 	//What happens when the current item is used:

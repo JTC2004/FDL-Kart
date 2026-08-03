@@ -1,11 +1,16 @@
 import * as THREE from 'three';
 import Obj from "../object.js";
+import ItemSlots from '../itemSlots.js';
+
+let itemSlots;
 
 export default class Character extends Obj{
 	//Tutorial for adding sprites: https://threejs.org/docs/#api/en/objects/Sprite 	
 
 	constructor(a_xyz, _worldScale, _localScale, _str_name, _num, _b_driving){
 		super(a_xyz, _worldScale, false, true, _localScale * 1.4);	
+
+		itemSlots = new ItemSlots(_num);		//The item slots for this player.
 		
 		this.int_altColor = 1;
 		if(_num > 1){
@@ -42,8 +47,14 @@ export default class Character extends Obj{
 	}	
 	
 	//Overriden functions:
-		fn_update(_playerPos, _playerRotation, _int_driftDirec, input, _b_idle, _int_frames){
-			//this.spriteMap.offset.x += 0.1;
+		fn_update(_player, _playerPos, _playerRotation, _int_driftDirec, input, _b_idle, _int_frames){
+			//Update item slots:
+			itemSlots.fn_update(_int_frames);
+
+			//Able to use items while gunning:
+			if(!this.b_driving && input.fn_press_item(this.b_idle)){
+				itemSlots.fn_use(_player);
+			}
 
 			//Update character position:
 			this.fn_setCharPos(_playerPos, _playerRotation);
@@ -88,17 +99,25 @@ export default class Character extends Obj{
 							this.fn_flipSprite(1);
 						}
 					}
+
+					//Item slot operations (only while character is gunner):
+						//Swapping item slots:
+						if(input.fn_press_swap(_b_idle)){
+							itemSlots.fn_swap();
+						}
+
 				}
 				//Driving character animation:
 				else{
 					
 				}
 
-				//Swapping:
+				//Swapping characters:
 				if(input.fn_press_swap(_b_idle)){
 					this.f_swapTimer = 0.2;	
 					this.fn_flipSprite(1);	
 				}
+
 			}
 			//Else, swapping animation:
 			else{
@@ -222,6 +241,10 @@ export default class Character extends Obj{
 
 		fn_getType(){
 			return "character";
+		}
+
+		fn_getItemSlots(){
+			return itemSlots;
 		}
 
 		
