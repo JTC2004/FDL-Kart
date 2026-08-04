@@ -1,4 +1,4 @@
-<!--Current version:				0.2.0 (Optimization)
+<!--Current version:				0.2.1 (better-ui)
 	Last version uploaded to main:	0.2.0 (Optimization)			8/3/26	~7:44 PM
 
 Compatibile browsers:
@@ -11,45 +11,19 @@ Note:
 	- For offroad.blend, offset height by 0.141, then round down!
 
 Changes since last version:
-	- Player.js:
-		- 1) Removed weakMap-per-instance pattern.
-		- 2) Removed redundant input-function calls within the same frame.
-		- 3) Removed redundant sin/cos calculations.
-		- 4) p_spd is now only updated when it needs to be.
-		- 5) Changed this.player from sphere to Object3D.
-		- 6) Removed redundant divisions of int_substeps.
-		- 7) Removed redundant fn_getPosition() method.
-		- 8) Removed unused v_newPos varaible.
-	- Object.js:
-		- Changed using f_x, f_y, f_z, to Object3D.
-		- Cleaned up getters & setters. 
-		- Instead of separate this.mesh and this.model, it's just this.mesh.
-		- Removed references to unused this.cube
-		- Removed redundant textureLoader initializations.
-		- Added cache for sprites/textures so they aren't re-loaded when they don't need to.
-		- Implement cache for loading models.
-	- Removed unused debug prints that I don't need.
-	- Made sure the game is properly un-loading assets.
-	- Bugfixes:
-		- Fixed a bug where popping a controller in the Connect Controllers menu didn't remove that player's camera.
-		- Fixed a bug where player could get stuck inside each other's bounding sphere.
-		- Fixed bug where you could bump a player out of bounds.
-		- Fixed bug where jump height and gravity was higher than normal at top speed.
-		- Fixed bug where swapping enough times in a row changes which character has which item.
-			- Item slots object is now inside character.js instead of player.js.
-			- Fixed multiplayer item slot bugs introduced by moving the item slots object.
-	- Opposing player gets bounced back too from collisions!	
+	- 
 
 
+To do:
+	- Find a library for UI instead of doing it all from scratch.
+	- Add a title screen.
+		- This will be new way how P1 controller is determined (first controller to press a key/button on title screen becomes player 1).
+		- Remove current method of 1P gamepad input.
+	- REPLACE MKDS icons!
+	- Add a starting countdown when a race starts.
+
+	
 For future development...	
-	- UI:
-		- Find a library for UI instead of doing it all from scratch.
-		- Add a title screen.
-			- This will be new way how P1 controller is determined (first controller to press a key/button on title screen becomes player 1).
-			- Remove current method of 1P gamepad input.
-		- REPLACE MKDS icons!
-		- Add a starting countdown when a race starts.
-		
 	- Gameplay: 
 		- Starting countdown
 		- After race is done, allow option to rematch or return to main menu.
