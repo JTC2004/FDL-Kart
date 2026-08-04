@@ -2,20 +2,19 @@ import * as THREE from 'three';
 import Obj from "../object.js";
 import ItemSlots from '../itemSlots.js';
 
-let itemSlots;
+const a_itemSlots = [];
 
 export default class Character extends Obj{
 	//Tutorial for adding sprites: https://threejs.org/docs/#api/en/objects/Sprite 	
 
 	constructor(a_xyz, _worldScale, _localScale, _str_name, _num, _b_driving){
 		super(a_xyz, _worldScale, false, true, _localScale * 1.4);	
-
-		itemSlots = new ItemSlots(_num);		//The item slots for this player.
 		
 		this.int_altColor = 1;
 		if(_num > 1){
 			this.int_altColor = 2;
 		}
+		this.int_num = _num;
 		this.str_name = _str_name;
 		this.f_driverBaseOffset = -0.2;		//The default distance from the steering wheel in the driving position.
 		this.f_gunnerBaseOffset = 0.45;		//The default distance from the steering wheel in the driving position.
@@ -30,6 +29,7 @@ export default class Character extends Obj{
 		this.b_driving = _b_driving;
 		if(!this.b_driving){
 			this.f_forwardOffset = this.f_gunnerBaseOffset;
+			a_itemSlots.push(new ItemSlots(_num));		//The item slots for this player. 
 		}
 		else{
 			this.f_forwardOffset = this.f_driverBaseOffset;
@@ -49,11 +49,11 @@ export default class Character extends Obj{
 	//Overriden functions:
 		fn_update(_player, _playerPos, _playerRotation, _int_driftDirec, input, _b_idle, _int_frames){
 			//Update item slots:
-			itemSlots.fn_update(_int_frames);
+			a_itemSlots[this.int_num].fn_update(_int_frames);
 
 			//Able to use items while gunning:
 			if(!this.b_driving && input.fn_press_item(this.b_idle)){
-				itemSlots.fn_use(_player);
+				a_itemSlots[this.int_num].fn_use(_player);
 			}
 
 			//Update character position:
@@ -103,7 +103,7 @@ export default class Character extends Obj{
 					//Item slot operations (only while character is gunner):
 						//Swapping item slots:
 						if(input.fn_press_swap(_b_idle)){
-							itemSlots.fn_swap();
+							a_itemSlots[this.int_num].fn_swap();
 						}
 
 				}
@@ -244,7 +244,7 @@ export default class Character extends Obj{
 		}
 
 		fn_getItemSlots(){
-			return itemSlots;
+			return a_itemSlots[this.int_num];
 		}
 
 		

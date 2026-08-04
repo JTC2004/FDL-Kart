@@ -18,8 +18,7 @@ export default class ItemSlots{
 		this.img_item0 = document.getElementById(`img_item${this.int_playerNum}-0`);
 		this.img_item1 = document.getElementById(`img_item${this.int_playerNum}-1`);
 
-		console.log("ITEM SLOTS CREATED FOR PLAYER " + this.int_playerNum);
-
+		
 		this.a_items = [0, 0];			//Index 0 is always the active item slot.
 
 		//Specific item layouts for different modes:
@@ -114,8 +113,6 @@ export default class ItemSlots{
 	fn_swap(){
 		[this.a_items[0], this.a_items[1]] = [this.a_items[1], this.a_items[0]];
 		[this.a_rollTimer[0], this.a_rollTimer[1]] = [this.a_rollTimer[1], this.a_rollTimer[0]];
-
-		console.log("Swapped items!");
 	}
 
 	//What happens when the current item is used:
