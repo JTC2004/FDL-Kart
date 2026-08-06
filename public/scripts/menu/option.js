@@ -181,6 +181,9 @@ export default class Option{
 
     //Make all of this option's elements invisible:
     fn_hide(){
+        if(this.b_dummy) return;
+        console.log(`HIDING option ${this.str_text}!`);
+        
         this.spr_border.visible = false;
         this.spr_text.visible = false;
         this.spr_highlight.visible = false;
@@ -192,8 +195,12 @@ export default class Option{
 
     //Make all of this option's elements visible:
     fn_show(){
+        if(this.b_dummy) return;
         this.spr_border.visible = true;
         this.spr_text.visible = true;
+        if(this.b_selected){
+            this.spr_highlight.visible = true;
+        }
         if(this.b_arrows){
             this.spr_arrowL.visible = true;
             this.spr_arrowR.visible = true;

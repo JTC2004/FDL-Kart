@@ -7,6 +7,8 @@
     //Objects:
         import Menu from "../menu.js";
         import Option from "../option.js";
+    //Menus:
+		import Menu_1_gameMode from "./menu_1_gameMode.js";
 
 export default class Menu_0_main extends Menu{
 
@@ -21,8 +23,7 @@ export default class Menu_0_main extends Menu{
                 pos: [this.fn_inRow(4.25, 0, 4), 1, 0], 
                 scale: [1, 1.24],
                 onConfirm: () => {
-                    //manager.fn_nextMenu(new menu_MenuName());
-                    console.log("Changing menu to 1P MODE SELECT!");
+                    manager.fn_nextMenu(new Menu_1_gameMode(manager));
                     //ANY code you want to trigger when this option is selected, put here!! :D
                 }
             }),
@@ -32,6 +33,9 @@ export default class Menu_0_main extends Menu{
                 type: "large",
                 pos: [this.fn_inRow(4.25, 1, 4), 1, 0], 
                 scale: [1, 1.24],
+                onConfirm: () => {
+                    manager.fn_nextMenu(new Menu_1_gameMode(manager));
+                }
             }),
             new Option({
                 text: "Online Play",

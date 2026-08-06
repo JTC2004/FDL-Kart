@@ -61,8 +61,8 @@ export default class MenuManager{
 		scene.add(directionalLight);*/
 
 		//Set the first menu:
-		//currentMenu = new Menu_0_main(this);
-		currentMenu = new Menu_1_gameMode(this);
+		currentMenu = new Menu_0_main(this);
+		//currentMenu = new Menu_1_gameMode(this);
 		//currentMenu = new Menu(this);
 
 
@@ -77,7 +77,10 @@ export default class MenuManager{
 		//Update the current menu:
 		currentMenu.fn_update(a_INPUTS, int_frames);
 
-
+		//Going to previous menu if player presses B AND they are not at the top menu:
+		if(a_INPUTS[0].fn_press_drift() && a_prevMenus.length > 0){
+			this.fn_prevMenu();
+		}
 
 
 		int_frames ++;
@@ -86,18 +89,19 @@ export default class MenuManager{
 
 	//Call this to go forwards one menu screen.
 	//This method will be called inside of menu objects.
-	fn_nextMenu(menu){						//The menu object here is a general/parent menu object.
-		currentMenu?.fn_onExit();				//Call the function for the current menu's exit transition.
+	fn_nextMenu(menu){						//The menu object here is a general/parent menu object.		
+		currentMenu?.fn_exit();				//Call the function for the current menu's exit transition.
 												//? mark means: if currentMenu exists, call onExit(). Otherwise, do nothing."
-		
 		a_prevMenus.push(currentMenu);
 		currentMenu = menu;
 
-        currentMenu.fn_onEnter();				//Call the function for the current menu's entrance transition.
+        currentMenu.fn_enter();				//Call the function for the current menu's entrance transition.
 	}
 
 	//Call this to go back one menu screen.
 	fn_prevMenu(){
-		
+		currentMenu?.fn_exit();
+		currentMenu = a_prevMenus.pop();
+		currentMenu.fn_enter();
 	}
 }

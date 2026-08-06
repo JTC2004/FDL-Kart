@@ -86,23 +86,23 @@ export default class Menu{
     }
 
     //Call this function for the exit animation:
-    fn_onExit(){
-
+    fn_exit(){
+        console.log("HIDING ALL OPTIONS");
         //Set all options to invisible:
         for(let i = 0; i < this.a_options.length; i++){
             for(let e = 0; e < this.a_options[i].length; e++){
-                this.a_options[i][e].fn_hide(input);
+                this.a_options[i][e].fn_hide();
             } 
         }
     }
 
     //Call this function for the entrance animation:
-    fn_onEnter(){
+    fn_enter(){
 
         //Set all options to visible:
         for(let i = 0; i < this.a_options.length; i++){
             for(let e = 0; e < this.a_options[i].length; e++){
-                this.a_options[i][e].fn_show(input);
+                this.a_options[i][e].fn_show();
             } 
         }
     }
