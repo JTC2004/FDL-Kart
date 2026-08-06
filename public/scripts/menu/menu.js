@@ -41,7 +41,6 @@ export default class Menu{
             console.log("SHOULD HAVE SELECTED FIRST OPTION");
         }
         
-        
         //Player input for navigating options:
             if(input.fn_press_left() || input.fn_press_right() || input.fn_press_forward() || input.fn_press_back()) this.b_moved = true;
             if(this.b_moved){
@@ -64,6 +63,7 @@ export default class Menu{
             //console.log(`Currently at coordinates [${this.dx}, ${this.dy}]`);
 
         //Update each of the options:
+            //this.a_options.forEach(option => option.fn_update());
             
 
         //Any additional updates at the end:
