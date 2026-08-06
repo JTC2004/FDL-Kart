@@ -213,7 +213,7 @@ export default class Option{
         return this.selected;
     }
 
-    fn_select(){
+    fn_select(){        
         this.selected = true;
         if(this.spr_highlight){
             this.spr_highlight.visible = true;

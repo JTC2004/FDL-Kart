@@ -19,6 +19,7 @@
 	//Objects:
 		import Option from "./option.js";
 		import Menu from "./menu.js";
+		import Menu_0_main from "./screens/menu_0_main.js";
 	
 
 //Variables:
@@ -47,6 +48,8 @@ export default class MenuManager{
 		CAMERA = fn_getMenuCamera();
 		a_INPUTS = fn_getInputs();
 
+		CAMERA.rotation.y = 0;
+
 		//Render background:
 		//renderer.setClearColor( 0x40aaf2, 1);
 		RENDERER.setClearColor( 0x006492, 1);
@@ -58,8 +61,8 @@ export default class MenuManager{
 		scene.add(directionalLight);*/
 
 		//Set the first menu:
-		//currentMenu = new menu_0_main(this);
-		currentMenu = new Menu(this);
+		currentMenu = new Menu_0_main(this);
+		//currentMenu = new Menu(this);
 
 
 		//Debug mode:
