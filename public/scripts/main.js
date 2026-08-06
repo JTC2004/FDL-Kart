@@ -7,7 +7,7 @@ import gameLoop from "./GameLoop.js";
 import InputHandlerKB from "./inputKB.js";
 import InputHandlerGP from "./inputGP.js";
 import {fn_updateGame} from './game/gameplay.js';
-import {fn_updateMenus} from './menu/menus.js';
+import MenuManager from './menu/menuManager.js';
 
 //Print a message if browser doesn't support WebGL2:
 	if ( WebGL.isWebGL2Available() ) {
@@ -121,7 +121,8 @@ if(window.b_debug){
     
         }, false);
 
-
+//Important:
+const menuManager = new MenuManager();                  //Manages all things menus in this game.
         
 //THE MASTER GAME LOOP:
 try{
@@ -144,7 +145,7 @@ try{
                 b_gameplay = fn_updateGame(gameLoop.fn_getFPS());
             }
             else{
-                b_gameplay = fn_updateMenus();
+                b_gameplay = menuManager.fn_update();
 
                 //Handle changes in input count every frame:
                     //Get a snapshot of what controllers are connected (empty player slots are null in Chromium):
