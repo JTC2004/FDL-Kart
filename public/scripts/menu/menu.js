@@ -88,6 +88,17 @@ export default class Menu{
 
     }
 
+
+    
+
+    //Make sure yx isn't out of bounds:
+    fn_overflowCheck(){
+        if(this.dy >= this.a_options.length)            this.dy = 0;
+        if(this.dy < 0)                                 this.dy = this.a_options.length - 1;
+        if(this.dx >= this.a_options[this.dy].length)   this.dx = 0; 
+        if(this.dx < 0)                                 this.dx = this.a_options[this.dy].length - 1;
+    }
+
     //Handle selecting an element that is 2 blocks long:
     fn_dummyHandle(_b_deSelect, input){
         if(_b_deSelect){
@@ -108,14 +119,6 @@ export default class Menu{
 			}
 			this.a_options[this.dy][this.dx - 1].fn_select();
         }
-    }
-
-    //Make sure yx isn't out of bounds:
-    fn_overflowCheck(){
-        if(this.dy >= this.a_options.length)            this.dy = 0;
-        if(this.dy < 0)                                 this.dy = this.a_options.length - 1;
-        if(this.dx >= this.a_options[this.dy].length)   this.dx = 0; 
-        if(this.dx < 0)                                 this.dx = this.a_options[this.dy].length - 1;
     }
 
     //Make coordinates in an evenly spaced row that accounts for screen size (ChatGPT helped with this):
