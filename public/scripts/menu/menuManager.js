@@ -19,7 +19,9 @@
 	//Objects:
 		import Option from "./option.js";
 		import Menu from "./menu.js";
+	//Menus:
 		import Menu_0_main from "./screens/menu_0_main.js";
+		import Menu_1_gameMode from "./screens/menu_1_gameMode.js";
 	
 
 //Variables:
@@ -59,7 +61,8 @@ export default class MenuManager{
 		scene.add(directionalLight);*/
 
 		//Set the first menu:
-		currentMenu = new Menu_0_main(this);
+		//currentMenu = new Menu_0_main(this);
+		currentMenu = new Menu_1_gameMode(this);
 		//currentMenu = new Menu(this);
 
 
@@ -87,6 +90,7 @@ export default class MenuManager{
 		currentMenu?.fn_onExit();				//Call the function for the current menu's exit transition.
 												//? mark means: if currentMenu exists, call onExit(). Otherwise, do nothing."
 		
+		a_prevMenus.push(currentMenu);
 		currentMenu = menu;
 
         currentMenu.fn_onEnter();				//Call the function for the current menu's entrance transition.
@@ -94,6 +98,6 @@ export default class MenuManager{
 
 	//Call this to go back one menu screen.
 	fn_prevMenu(){
-
+		
 	}
 }

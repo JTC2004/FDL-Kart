@@ -31,11 +31,13 @@ export default class Option{
         this.b_disabled = config.disabled;
 
         this.b_static = false;
-        this.b_arrows = false;
-        this.a_options = config.arrows;
+        this.b_arrows = config.arrows;
+        this.a_subOptions = config.subOptions;
         this.int_optionIndex = 0;
         this.str_optionTextTop = "0%";
         this.str_optionTextLeft = "0%";
+
+        this.onConfirm = config.onConfirm;
 
         //this.iX = _iX;
         //this.iY = _iY;
@@ -71,14 +73,17 @@ export default class Option{
 
             //Adding arrows:
             if(this.b_arrows){
-                this.spr_arrowR = this.fn_newSprite('arrow_R');
-                this.spr_arrowR.scale.set(1, 1, 1);  //3rd param is ignored for sprites, but still required.
-                this.spr_arrowR.position.set(this.f_x + this.f_width * .4, this.f_y, this.f_z + .1);
-                
-
                 this.spr_arrowL = this.fn_newSprite('arrow_L');
                 this.spr_arrowL.scale.set(1, 1, 1);  //3rd param is ignored for sprites, but still required.
-                this.spr_arrowL.position.set(this.f_x + this.f_width * .15, this.f_y, this.f_z + .1);
+                this.spr_arrowL.position.copy(this.option.position);
+                this.spr_arrowL.position.x += this.f_width * .15;
+                this.spr_arrowL.position.z += .1;
+
+                this.spr_arrowR = this.fn_newSprite('arrow_R');
+                this.spr_arrowR.scale.set(1, 1, 1);  //3rd param is ignored for sprites, but still required.
+                this.spr_arrowR.position.copy(this.option.position);
+                this.spr_arrowR.position.x += this.f_width * .4;
+                this.spr_arrowR.position.z += .1;
                 
                 //Alternative locations
                 if(this.str_text == "Connect_Controllers"){
@@ -95,20 +100,18 @@ export default class Option{
         if(this.b_dummy) return;
 
         //When option has arrows:
-
-        //Rotation is under -1.25
-        /*if(this.b_arrows && rotation > -1.00){
+        if(this.b_arrows){
             //Has arrows.
-            this.fn_updateLabelPosition("p_" + this.str_text, new THREE.Vector3(this.f_x, this.f_y, this.f_z));
+            this.fn_updateLabelPosition("p_" + this.str_text);
 
             const p_optionElement = document.getElementById("p_" + this.str_text);
                 
             p_optionElement.style.top = this.str_optionTextTop;
             p_optionElement.style.left = this.str_optionTextLeft;
         
-            p_optionElement.innerHTML = this.a_options[this.int_optionIndex];
+            p_optionElement.innerHTML = this.a_subOptions[this.int_optionIndex];
 
-            if(this.selected){
+            if(this.b_selected){
                 if(input.fn_press_right()){
                     this.int_optionIndex ++;
                 }
@@ -119,17 +122,17 @@ export default class Option{
                 fn_changeSettings(this.str_text, this.int_optionIndex, p_optionElement.innerHTML);
             }
 
-            if(this.int_optionIndex > this.a_options.length - 1){
+            if(this.int_optionIndex > this.a_subOptions.length - 1){
                 this.int_optionIndex = 0;
             }
             else if(this.int_optionIndex < 0){
-                this.int_optionIndex = this.a_options.length - 1;
+                this.int_optionIndex = this.a_subOptions.length - 1;
             }
 
             if(input.fn_press_drift()){
                 p_optionElement.innerHTML = "";
             }
-        }*/
+        }
     }
 
     fn_isDummy(){
@@ -138,6 +141,12 @@ export default class Option{
 
     fn_isSelected(){
         return this.b_selected;
+    }
+
+    fn_confirm(){
+        if (this.onConfirm) {
+            this.onConfirm();
+        }
     }
 
     fn_select(){        
@@ -170,8 +179,25 @@ export default class Option{
         }
     }
 
-    fn_confirm(){
-        return this.str_goTo;
+    //Make all of this option's elements invisible:
+    fn_hide(){
+        this.spr_border.visible = false;
+        this.spr_text.visible = false;
+        this.spr_highlight.visible = false;
+        if(this.b_arrows){
+            this.spr_arrowL.visible = false;
+            this.spr_arrowR.visible = false;
+        }
+    }
+
+    //Make all of this option's elements visible:
+    fn_show(){
+        this.spr_border.visible = true;
+        this.spr_text.visible = true;
+        if(this.b_arrows){
+            this.spr_arrowL.visible = true;
+            this.spr_arrowR.visible = true;
+        }
     }
 
     fn_getPos(){
@@ -218,18 +244,19 @@ export default class Option{
     }
 
     //Use this to update HTML coordinates to match world coordinates:
-    fn_updateLabelPosition(_str_labelName, worldPos) {
+    fn_updateLabelPosition(_str_labelName) {
         const label = document.getElementById(_str_labelName);
-        worldPos.x = worldPos.x + 2.4;
-        worldPos.y = worldPos.y + 0.45;
+
+        const vector = this.option.position.clone();
+
+        vector.x = vector.x + 2.4;
+        vector.y = vector.y + 0.45;
 
         //Alternate positioning:
         if(this.str_text == "Connect_Controllers"){
             worldPos.x = worldPos.x - 2.4;
             worldPos.y = worldPos.y + 3.2;
         }
-
-        const vector = worldPos.clone();
 
         // Project 3D position to screen space
         vector.project(fn_getMenuCamera());
@@ -258,23 +285,14 @@ export default class Option{
         }
             else if(_text == "Items_On"){
                 this.str_goTo = "1";
-                this.str_info = "Race against the clock for the best time! (random items on the track)";
-
-                this.b_arrows = true;
-                this.a_options = ["Slow", "Normal", "FAST"];
                 this.int_optionIndex = fn_getSetting(_text);
             }
             else if(_text == "No_Items"){
                 this.str_goTo = "2";
-                this.str_info = "Race against the clock for the best time! (no items on the track)";
-
-                this.b_arrows = true;
-                this.a_options = ["Slow", "Normal", "FAST"];
                 this.int_optionIndex = fn_getSetting(_text);
             }
             else if(_text == "Practice"){
                 this.str_goTo = "0";
-                this.str_info = "Freely use save-states and rewind to practice shortcuts.";
             }
         else if(_text == "Split-Screen"){
 

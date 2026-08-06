@@ -19,14 +19,19 @@ export default class Menu_0_main extends Menu{
                 info: "Race against the clock for the best time!",
                 type: "large",
                 pos: [this.fn_inRow(4.25, 0, 4), 1, 0], 
-                scale: [1, 1.24]
+                scale: [1, 1.24],
+                onConfirm: () => {
+                    //manager.fn_nextMenu(new menu_MenuName());
+                    console.log("Changing menu to 1P MODE SELECT!");
+                    //ANY code you want to trigger when this option is selected, put here!! :D
+                }
             }),
             new Option({
                 text: "Split-Screen",
                 info: "Race against up to 4 people at once!",
                 type: "large",
                 pos: [this.fn_inRow(4.25, 1, 4), 1, 0], 
-                scale: [1, 1.24]
+                scale: [1, 1.24],
             }),
             new Option({
                 text: "Online Play",

@@ -60,13 +60,18 @@ export default class Menu{
             }
             //console.log(`Currently at coordinates [${this.dx}, ${this.dy}]`);
 
+        //Player confirming an option:
+            if(input.fn_press_accelerate()){
+                this.a_options[this.dy][this.dx].fn_confirm();
+            }
+
+
         //Update each of the options:
             for(let i = 0; i < this.a_options.length; i++){
                 for(let e = 0; e < this.a_options[i].length; e++){
                     this.a_options[i][e].fn_update(input);
                 } 
-            }    
-            
+            }
 
         //Any additional updates at the end:
             this.fn_extraUpdate();
@@ -83,11 +88,23 @@ export default class Menu{
     //Call this function for the exit animation:
     fn_onExit(){
 
+        //Set all options to invisible:
+        for(let i = 0; i < this.a_options.length; i++){
+            for(let e = 0; e < this.a_options[i].length; e++){
+                this.a_options[i][e].fn_hide(input);
+            } 
+        }
     }
 
     //Call this function for the entrance animation:
     fn_onEnter(){
 
+        //Set all options to visible:
+        for(let i = 0; i < this.a_options.length; i++){
+            for(let e = 0; e < this.a_options[i].length; e++){
+                this.a_options[i][e].fn_show(input);
+            } 
+        }
     }
 
 
