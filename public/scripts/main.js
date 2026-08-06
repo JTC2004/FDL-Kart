@@ -85,7 +85,6 @@ if(window.b_debug){
     menuCamera.aspect = window.innerWidth / window.innerHeight;	
     menuCamera.position.set( 0, 0, 10 );
     menuCamera.lookAt( 0, 0, 0 );
-    menuCamera.rotation.y = -1.25;
 
 
     //Renderer initialization:

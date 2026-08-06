@@ -48,8 +48,6 @@ export default class MenuManager{
 		CAMERA = fn_getMenuCamera();
 		a_INPUTS = fn_getInputs();
 
-		CAMERA.rotation.y = 0;
-
 		//Render background:
 		//renderer.setClearColor( 0x40aaf2, 1);
 		RENDERER.setClearColor( 0x006492, 1);
