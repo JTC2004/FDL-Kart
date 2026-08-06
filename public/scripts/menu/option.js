@@ -9,12 +9,15 @@ import { fn_getMenuCamera } from '../main.js';
 //Essentials:
     import { fn_getScene } from "../main.js";
 
-let scene;
+let SCENE;
 
 export default class Option{
 
     constructor(config){            //_menu, [_x, _y, _z], [_w, _h], _text, _borderStyle
-        scene = fn_getScene();
+        SCENE = fn_getScene();
+        this.b_dummy = config.dum;
+        if(this.b_dummy) return;    //If this is a dummy option, skip all.
+
 
         this.option = new THREE.Object3D();       //Represents this collective menu's XYZ coordinates.
         this.option.position.set(config.pos[0], config.pos[1], config.pos[2]);       
@@ -37,8 +40,6 @@ export default class Option{
         //this.iX = _iX;
         //this.iY = _iY;
 
-        console.log(`Added option ${this.str_text} at position (${this.option.position.x}, ${this.option.position.y}, ${this.option.position.z})`);
-
         //Adding sprites:
             //Border:
                 this.spr_border = this.fn_newSprite('borders/'+ this.str_type);
@@ -46,53 +47,53 @@ export default class Option{
                 this.spr_border.scale.set(this.f_width, this.f_height, 1);  //3rd param is ignored for sprites, but still required.
                 this.spr_border.position.copy(this.option.position);        //USE COPY instead of clone. Clone only works with new vector3.
                 this.spr_border.material.color.setRGB(1.5, 1.5, 1.5);
-                scene.add( this.spr_border );
-            //Text
+                SCENE.add( this.spr_border );
+            //Text:
                 this.spr_text = this.fn_newSprite('text/'+ this.str_text);
                 
                 this.spr_text.scale.set(this.f_width, this.f_height, 1);  //3rd param is ignored for sprites, but still required.
                 this.spr_text.position.copy(this.option.position);
                 this.spr_text.position.z += 0.01;
-                scene.add( this.spr_text );
-            //Select
+                SCENE.add( this.spr_text );
+            //Selection highlight:
                 this.spr_highlight = this.fn_newSprite('borders/'+ this.str_type +'_h');
                 
                 this.spr_highlight.scale.set(this.f_width, this.f_height, 1);  //3rd param is ignored for sprites, but still required.
                 this.spr_highlight.position.copy(this.option.position);
-                scene.add( this.spr_highlight );
+                SCENE.add( this.spr_highlight );
                 this.spr_highlight.visible = false;
         
-        //Gray out sprites if this option is disabled:
-        if(this.b_disabled){
-            this.spr_border.material.color.setRGB(.4, .4, .4);
-            this.spr_text.material.color.setRGB(.4, .4, .4);
-        }
-
-
-
-        //Adding arrows:
-        if(this.b_arrows){
-            this.spr_arrowR = this.fn_newSprite('arrow_R');
-            this.spr_arrowR.scale.set(1, 1, 1);  //3rd param is ignored for sprites, but still required.
-            this.spr_arrowR.position.set(this.f_x + this.f_width * .4, this.f_y, this.f_z + .1);
-            
-
-            this.spr_arrowL = this.fn_newSprite('arrow_L');
-            this.spr_arrowL.scale.set(1, 1, 1);  //3rd param is ignored for sprites, but still required.
-            this.spr_arrowL.position.set(this.f_x + this.f_width * .15, this.f_y, this.f_z + .1);
-            
-            //Alternative locations
-            if(this.str_text == "Connect_Controllers"){
-                this.spr_arrowR.position.set(this.f_x + this.f_width * .15, this.f_y + this.f_width * .3, this.f_z + .1);
-                this.spr_arrowL.position.set(this.f_x - this.f_width * .15, this.f_y + this.f_width * .3, this.f_z + .1);
+            //Gray out sprites if this option is disabled:
+            if(this.b_disabled){
+                this.spr_border.material.color.setRGB(.4, .4, .4);
+                this.spr_text.material.color.setRGB(.4, .4, .4);
             }
-            
-            scene.add( this.spr_arrowR );
-            scene.add( this.spr_arrowL );
+
+            //Adding arrows:
+            if(this.b_arrows){
+                this.spr_arrowR = this.fn_newSprite('arrow_R');
+                this.spr_arrowR.scale.set(1, 1, 1);  //3rd param is ignored for sprites, but still required.
+                this.spr_arrowR.position.set(this.f_x + this.f_width * .4, this.f_y, this.f_z + .1);
+                
+
+                this.spr_arrowL = this.fn_newSprite('arrow_L');
+                this.spr_arrowL.scale.set(1, 1, 1);  //3rd param is ignored for sprites, but still required.
+                this.spr_arrowL.position.set(this.f_x + this.f_width * .15, this.f_y, this.f_z + .1);
+                
+                //Alternative locations
+                if(this.str_text == "Connect_Controllers"){
+                    this.spr_arrowR.position.set(this.f_x + this.f_width * .15, this.f_y + this.f_width * .3, this.f_z + .1);
+                    this.spr_arrowL.position.set(this.f_x - this.f_width * .15, this.f_y + this.f_width * .3, this.f_z + .1);
+                }
+                
+                SCENE.add( this.spr_arrowR );
+                SCENE.add( this.spr_arrowL );
         }
     }
 
-    fn_update(input, rotation){
+    fn_update(input){
+        if(this.b_dummy) return;
+
         //When option has arrows:
 
         //Rotation is under -1.25
@@ -129,6 +130,10 @@ export default class Option{
                 p_optionElement.innerHTML = "";
             }
         }*/
+    }
+
+    fn_isDummy(){
+        return this.b_dummy;
     }
 
     fn_isSelected(){
@@ -182,13 +187,13 @@ export default class Option{
     }
 
     fn_remove(){
-        this.fn_removeSprite(this.spr_border, scene);
-        this.fn_removeSprite(this.spr_text, scene);
-        this.fn_removeSprite(this.spr_highlight, scene);
+        this.fn_removeSprite(this.spr_border, SCENE);
+        this.fn_removeSprite(this.spr_text, SCENE);
+        this.fn_removeSprite(this.spr_highlight, SCENE);
 
         if(this.b_arrows){
-            this.fn_removeSprite(this.spr_arrowL, scene);
-            this.fn_removeSprite(this.spr_arrowR, scene);
+            this.fn_removeSprite(this.spr_arrowL, SCENE);
+            this.fn_removeSprite(this.spr_arrowR, SCENE);
         }
     }
 

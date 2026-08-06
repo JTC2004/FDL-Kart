@@ -37,16 +37,14 @@ export default class Menu{
         if(!this.b_firstOption){
             this.a_options[0][0].fn_select();
             this.b_firstOption = true;
-
-            console.log("SHOULD HAVE SELECTED FIRST OPTION");
         }
         
         //Player input for navigating options:
             if(input.fn_press_left() || input.fn_press_right() || input.fn_press_forward() || input.fn_press_back()) this.b_moved = true;
             if(this.b_moved){
                 //Deselect current option,
-                    if(this.a_options[this.dy][this.dx] === 'dum')  this.fn_dummyHandle(true, input);
-                    else                                            this.a_options[this.dy][this.dx].fn_deSelect();
+                    if(this.a_options[this.dy][this.dx].fn_isDummy())   this.fn_dummyHandle(true, input);
+                    else                                                this.a_options[this.dy][this.dx].fn_deSelect();
 
                 //Update yx on grid,
                     if (input.fn_press_forward())   this.dy--;
@@ -56,14 +54,18 @@ export default class Menu{
                     this.fn_overflowCheck();
 
                 //And then select the new option:
-                    if(this.a_options[this.dy][this.dx] === 'dum')  this.fn_dummyHandle(false, input);
-                    else                                            this.a_options[this.dy][this.dx].fn_select();
+                    if(this.a_options[this.dy][this.dx].fn_isDummy())   this.fn_dummyHandle(false, input);
+                    else                                                this.a_options[this.dy][this.dx].fn_select();
                 
             }
             //console.log(`Currently at coordinates [${this.dx}, ${this.dy}]`);
 
         //Update each of the options:
-            //this.a_options.forEach(option => option.fn_update());
+            for(let i = 0; i < this.a_options.length; i++){
+                for(let e = 0; e < this.a_options[i].length; e++){
+                    this.a_options[i][e].fn_update(input);
+                } 
+            }    
             
 
         //Any additional updates at the end:

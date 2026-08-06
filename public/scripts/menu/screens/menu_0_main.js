@@ -58,7 +58,9 @@ export default class Menu_0_main extends Menu{
                 pos: [this.fn_inRow(5.75, 1, 3), -2.2, 0], 
                 scale: [1.75, .35]
             }),
-            'dum',
+            new Option({
+                dum: true
+            }),
             new Option({
                 text: "Records",
                 type: "horizontal medium",
