@@ -156,6 +156,7 @@ export default class Option{
 
     fn_select(){        
         this.b_selected = true;
+        if(!this.b_static) this.spr_highlight.visible = true;
 
         var info = document.getElementById("info");
         info.innerHTML = this.str_info;
@@ -172,7 +173,6 @@ export default class Option{
         //If this option isn't static, brighten it and show the border.
         else if(!this.b_static){
             this.spr_border.material.color.setRGB(2.5, 2.5, 2);
-            this.spr_highlight.visible = true;
         }
     }
 

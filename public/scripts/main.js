@@ -193,7 +193,7 @@ try{
                     for(const input of a_inputs){
                         str_inputs += `${input.fn_getType()}, `;
                     }
-                    //console.log(`a_inputs = [${str_inputs}]     int_numGamepads = ${int_numGamepads}`);
+                    console.log(`a_inputs = [${str_inputs}]     int_numGamepads = ${int_numGamepads}`);
             }
 
             //Advance input state ONCE PER FIXED UPDATE:

@@ -79,7 +79,6 @@ export default class Menu{
         //Reset variables:
             this.b_moved = false;
     }
-
     //ANY extra components of a child menu's update is added here:
     fn_extraUpdate(){
 
@@ -94,6 +93,11 @@ export default class Menu{
                 this.a_options[i][e].fn_hide();
             } 
         }
+        this.fn_extraExit();
+    }
+    //Extra cleanup for a specific menu:
+    fn_extraExit(){
+
     }
 
     //Call this function for the entrance animation:
@@ -105,6 +109,11 @@ export default class Menu{
                 this.a_options[i][e].fn_show();
             } 
         }
+        this.fn_extraEnter();
+    }
+    //Extra additions for a specific menu:
+    fn_extraEnter(){
+
     }
 
 
