@@ -30,7 +30,7 @@ export default class Option{
         this.b_selected = false;
         this.b_disabled = config.disabled;
 
-        this.b_static = false;
+        this.b_static = config.static;
         this.b_arrows = config.arrows;
         this.a_subOptions = config.subOptions;
         this.int_optionIndex = 0;
@@ -77,20 +77,25 @@ export default class Option{
                 this.spr_arrowL.scale.set(1, 1, 1);  //3rd param is ignored for sprites, but still required.
                 this.spr_arrowL.position.copy(this.option.position);
                 this.spr_arrowL.position.x += this.f_width * .15;
-                this.spr_arrowL.position.z += .1;
 
                 this.spr_arrowR = this.fn_newSprite('arrow_R');
                 this.spr_arrowR.scale.set(1, 1, 1);  //3rd param is ignored for sprites, but still required.
                 this.spr_arrowR.position.copy(this.option.position);
                 this.spr_arrowR.position.x += this.f_width * .4;
-                this.spr_arrowR.position.z += .1;
                 
                 //Alternative locations
                 if(this.str_text == "Connect_Controllers"){
-                    this.spr_arrowR.position.set(this.f_x + this.f_width * .15, this.f_y + this.f_width * .3, this.f_z + .1);
-                    this.spr_arrowL.position.set(this.f_x - this.f_width * .15, this.f_y + this.f_width * .3, this.f_z + .1);
+                    this.spr_arrowR.position.copy(this.option.position)
+                    this.spr_arrowR.position.x += this.f_width * .15;
+                    this.spr_arrowR.position.y += this.f_width * .3;
+                    this.spr_arrowL.position.copy(this.option.position);
+                    this.spr_arrowL.position.x -= this.f_width * .15;
+                    this.spr_arrowL.position.y += this.f_width * .3;
                 }
                 
+                this.spr_arrowL.position.z += .1;
+                this.spr_arrowR.position.z += .1;
+
                 SCENE.add( this.spr_arrowR );
                 SCENE.add( this.spr_arrowL );
         }
@@ -151,7 +156,6 @@ export default class Option{
 
     fn_select(){        
         this.b_selected = true;
-        this.spr_highlight.visible = true;
 
         var info = document.getElementById("info");
         info.innerHTML = this.str_info;
@@ -165,8 +169,10 @@ export default class Option{
                 info.innerHTML = "(For future development...)"
             }
         }
+        //If this option isn't static, brighten it and show the border.
         else if(!this.b_static){
             this.spr_border.material.color.setRGB(2.5, 2.5, 2);
+            this.spr_highlight.visible = true;
         }
     }
 
@@ -182,7 +188,7 @@ export default class Option{
     //Make all of this option's elements invisible:
     fn_hide(){
         if(this.b_dummy) return;
-        console.log(`HIDING option ${this.str_text}!`);
+        //console.log(`HIDING option ${this.str_text}!`);
         
         this.spr_border.visible = false;
         this.spr_text.visible = false;
@@ -256,13 +262,13 @@ export default class Option{
 
         const vector = this.option.position.clone();
 
-        vector.x = vector.x + 2.4;
-        vector.y = vector.y + 0.45;
-
-        //Alternate positioning:
+        //Adjust positioning based on what p_ element we are adjusting:
         if(this.str_text == "Connect_Controllers"){
-            worldPos.x = worldPos.x - 2.4;
-            worldPos.y = worldPos.y + 3.2;
+            vector.y = vector.y + 3.6;
+        }
+        else{
+            vector.x = vector.x + 2.4;
+            vector.y = vector.y + 0.45;
         }
 
         // Project 3D position to screen space
@@ -309,12 +315,6 @@ export default class Option{
                 this.str_goTo = "start";
                 this.str_info = "";
                 scene.remove( this.spr_highlight );
-
-                this.b_arrows = true;
-                this.a_options = ["Slow", "Normal", "FAST"];
-                this.int_optionIndex = fn_getSetting(_text);
-                //this.b_static = true;
-                //this.spr_text.material.color.setRGB(.9, .9, .9);
             }
         else if(_text == "Settings"){
         }

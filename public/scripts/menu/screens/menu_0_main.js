@@ -9,6 +9,7 @@
         import Option from "../option.js";
     //Menus:
 		import Menu_1_gameMode from "./menu_1_gameMode.js";
+		import Menu_2_charSelect from "./menu_2_charSelect.js";
 
 export default class Menu_0_main extends Menu{
 
@@ -34,7 +35,7 @@ export default class Menu_0_main extends Menu{
                 pos: [this.fn_inRow(4.25, 1, 4), 1, 0], 
                 scale: [1, 1.24],
                 onConfirm: () => {
-                    manager.fn_nextMenu(new Menu_1_gameMode(manager));
+                    manager.fn_nextMenu(new Menu_2_charSelect(manager));
                 }
             }),
             new Option({

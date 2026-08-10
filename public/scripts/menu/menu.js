@@ -87,7 +87,7 @@ export default class Menu{
 
     //Call this function for the exit animation:
     fn_exit(){
-        console.log("HIDING ALL OPTIONS");
+        //console.log("HIDING ALL OPTIONS");
         //Set all options to invisible:
         for(let i = 0; i < this.a_options.length; i++){
             for(let e = 0; e < this.a_options[i].length; e++){
