@@ -8,8 +8,10 @@
         import Menu from "../menu.js";
         import Option from "../option.js";
         import ConnectController from '../../game/objects/connectController.js';
+        import Menu_1B_charSelect from "./menu_1B_charSelect.js";
 
-export default class Menu_1_gameMode extends Menu{
+
+export default class Menu_2B_charSelect extends Menu{
 
     constructor(manager){
         super(manager);
@@ -25,7 +27,10 @@ export default class Menu_1_gameMode extends Menu{
                 scale: [3, 2.4],
                 static: true,
                 arrows: true,
-                subOptions: ["Slow", "Normal", "FAST"]
+                subOptions: ["Slow", "Normal", "FAST"],
+                //onConfirm: () => {
+                //    manager.fn_nextMenu(new Menu_1B_charSelect(manager));
+                //}
             })
         ]);
 

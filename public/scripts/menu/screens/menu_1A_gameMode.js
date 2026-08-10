@@ -7,8 +7,9 @@
     //Objects:
         import Menu from "../menu.js";
         import Option from "../option.js";
+        import Menu_1B_charSelect from "./menu_1B_charSelect.js";
 
-export default class Menu_1_gameMode extends Menu{
+export default class Menu_1A_gameMode extends Menu{
 
     constructor(manager){
         super(manager);
@@ -21,7 +22,10 @@ export default class Menu_1_gameMode extends Menu{
                 pos: [-3.75, 2.5, 0], 
                 scale: [2.5, .5],
                 arrows: true,
-                subOptions: ["Slow", "Normal", "FAST"]
+                subOptions: ["Slow", "Normal", "FAST"],
+                onConfirm: () => {
+                    manager.fn_nextMenu(new Menu_1B_charSelect(manager));
+                }
             })
         ]);
         this.a_options.push([
@@ -32,7 +36,10 @@ export default class Menu_1_gameMode extends Menu{
                 pos: [-3.75, .25, 0], 
                 scale: [2.5, .5],
                 arrows: true,
-                subOptions: ["Slow", "Normal", "FAST"]
+                subOptions: ["Slow", "Normal", "FAST"],
+                onConfirm: () => {
+                    manager.fn_nextMenu(new Menu_1B_charSelect(manager));
+                }
             })
         ]);
         this.a_options.push([
@@ -42,6 +49,9 @@ export default class Menu_1_gameMode extends Menu{
                 type: "horizontal medium",
                 pos: [-5.8, -2.00, 0], 
                 scale: [1.3, .45],
+                onConfirm: () => {
+                    manager.fn_nextMenu(new Menu_1B_charSelect(manager));
+                }
             })
         ]);
         
@@ -55,6 +65,11 @@ export default class Menu_1_gameMode extends Menu{
     //Call this function for the exit animation:
     fn_onExit(){
 
+    }
+    fn_extraExit(){
+        document.getElementById("p_Items_On").innerHTML = "";   
+        document.getElementById("p_No_Items").innerHTML = "";
+        console.log("Extra exit for menu 1A GAMEMODE");
     }
 
     //Call this function for the entrance animation:

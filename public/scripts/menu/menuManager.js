@@ -21,7 +21,7 @@
 		import Menu from "./menu.js";
 	//Menus:
 		import Menu_0_main from "./screens/menu_0_main.js";
-		import Menu_1_gameMode from "./screens/menu_1_gameMode.js";
+		import Menu_1A_gameMode from "./screens/menu_1A_gameMode.js";
 	
 
 //Variables:
@@ -54,11 +54,10 @@ export default class MenuManager{
 		//renderer.setClearColor( 0x40aaf2, 1);
 		RENDERER.setClearColor( 0x006492, 1);
 
-		//A light is required for MeshPhongMaterial to be seen:
-		/*const directionalLight = new THREE.DirectionalLight(0xffffff, 3);
-		directionalLight.position.set (1, 1, 3);
-		directionalLight.position.z = 3;
-		scene.add(directionalLight);*/
+		const color = 0xfffde6;
+		const fillLight1 = new THREE.HemisphereLight( color, 0x77756a, 3 );
+		fillLight1.position.set( 2, 2, 1 );
+		SCENE.add( fillLight1 );
 
 		//Set the first menu:
 		currentMenu = new Menu_0_main(this);
