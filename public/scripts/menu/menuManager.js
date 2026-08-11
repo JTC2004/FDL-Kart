@@ -33,6 +33,7 @@
 		let a_INPUTS;
 
 	let currentMenu;							//Equals the current menu screen object.
+	var nextMenu = null;						//Equals the next menu to transition to ONLY on the frame a transition must occur.
 	let a_prevMenus = [];						//A stack of the previous menu screens visited so far.
 	var int_frames = 0;
 	var b_return = false;						//When true, gameplay starts.
@@ -74,27 +75,34 @@ export default class MenuManager{
 
 	//The menu loop:
 	fn_update(){
+		currentMenu.fn_update(a_INPUTS, int_frames);
+		
 		//Going to previous menu if player presses B AND they are not at the top menu:
 		if(a_INPUTS[0].fn_press_drift() && a_prevMenus.length > 0){
 			this.fn_prevMenu();
 		}
 
-		console.log(`On frame ${int_frames}`);
-		int_frames ++;
+		//Going to next menu:
+		if(nextMenu){
+			currentMenu?.fn_exit();				//Call the function for the current menu's exit transition.
+												//? mark means: if currentMenu exists, call onExit(). Otherwise, do nothing."
+			a_prevMenus.push(currentMenu);
+			currentMenu = nextMenu;
+			nextMenu = null;					//Don't forget to do this!
+			console.log("SWITCHED MENUS");
 
+			currentMenu.fn_enter();				//Call the function for the current menu's entrance transition.
+		}
+		
+		int_frames ++;
 		//Update the current menu:
-		currentMenu.fn_update(a_INPUTS, int_frames);
+		return b_return;
 	}
 
 	//Call this to go forwards one menu screen.
 	//This method will be called inside of menu objects.
 	fn_nextMenu(menu){						//The menu object here is a general/parent menu object.		
-		currentMenu?.fn_exit();				//Call the function for the current menu's exit transition.
-												//? mark means: if currentMenu exists, call onExit(). Otherwise, do nothing."
-		a_prevMenus.push(currentMenu);
-		currentMenu = menu;
-
-        currentMenu.fn_enter();				//Call the function for the current menu's entrance transition.
+		nextMenu = menu;
 	}
 
 	//Call this to go back one menu screen.

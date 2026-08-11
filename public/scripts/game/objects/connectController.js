@@ -24,7 +24,7 @@ export default class ConnectController extends Obj{
 	}
 
 	fn_update(){
-		console.log("Updating Controller objects");
+		//console.log("Updating Controller objects");
 		
 		//If this input isn't in the list of inputs, don't display the sprite:
 		if(a_inputs.length <= this.int_index){

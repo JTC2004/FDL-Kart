@@ -55,25 +55,6 @@ export default class Menu_1A_gameMode extends Menu{
             })
         ]);
         
-    }
-
-    //ANY extra components of a child menu's update is added here:
-    fn_extraUpdate(a_INPUTS){
-        
-    }
-
-    //Call this function for the exit animation:
-    fn_onExit(){
-
-    }
-    fn_extraExit(){
-        document.getElementById("p_Items_On").innerHTML = "";   
-        document.getElementById("p_No_Items").innerHTML = "";
-        console.log("Extra exit for menu 1A GAMEMODE");
-    }
-
-    //Call this function for the entrance animation:
-    fn_onEnter(){
-
+        this.str_menuName = "1P Game Mode";
     }
 }

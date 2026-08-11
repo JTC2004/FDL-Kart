@@ -26,6 +26,8 @@ export default class Menu{
 
         this.menu = new THREE.Object3D();       //Represents this collective menu's XYZ coordinates.
         this.menu.position.set(0, 0, 0);        //The overall menu's location (can be overridden later)
+
+        this.str_menuName = "";
     }
 
     //Listen to input and update every frame:
@@ -80,6 +82,8 @@ export default class Menu{
         
         //Reset variables:
             this.b_moved = false;
+
+        //console.log(`---- Updating ${this.str_menuName} Menu ----`);
     }
     //ANY extra components of a child menu's update is added here:
     //Returning true here makes fn_update return true too.

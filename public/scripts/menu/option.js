@@ -25,8 +25,10 @@ export default class Option{
         this.f_height = config.scale[1] * 3.5;
 
         this.str_text = config.text;                //FYI: config variables equal null if not declared.
+        this.p_optionElement = document.getElementById("p_" + this.str_text);
         this.str_type = config.type;
         this.str_info = config.info;
+        this.p_info = document.getElementById("info");
         this.b_selected = false;
         this.b_disabled = config.disabled;
 
@@ -98,6 +100,8 @@ export default class Option{
 
                 SCENE.add( this.spr_arrowR );
                 SCENE.add( this.spr_arrowL );
+                this.p_optionElement.innerHTML = this.a_subOptions[this.int_optionIndex];
+                this.fn_updateLabelPosition("p_" + this.str_text);
         }
     }
 
@@ -108,14 +112,10 @@ export default class Option{
         if(this.b_arrows){
             //Has arrows.
             this.fn_updateLabelPosition("p_" + this.str_text);
+            this.p_optionElement.style.top = this.str_optionTextTop;
+            this.p_optionElement.style.left = this.str_optionTextLeft;
 
-            const p_optionElement = document.getElementById("p_" + this.str_text);
-                
-            p_optionElement.style.top = this.str_optionTextTop;
-            p_optionElement.style.left = this.str_optionTextLeft;
-        
-            p_optionElement.innerHTML = this.a_subOptions[this.int_optionIndex];
-
+            //Changing value that arrows control:
             if(this.b_selected){
                 if(input.fn_press_right()){
                     this.int_optionIndex ++;
@@ -124,19 +124,21 @@ export default class Option{
                     this.int_optionIndex -= 1;
                 }
 
-                fn_changeSettings(this.str_text, this.int_optionIndex, p_optionElement.innerHTML);
+                //Bounds for arrow index:
+                if(this.int_optionIndex > this.a_subOptions.length - 1){
+                    this.int_optionIndex = 0;
+                }
+                else if(this.int_optionIndex < 0){
+                    this.int_optionIndex = this.a_subOptions.length - 1;
+                }
+
+                //Update text:
+                if(input.fn_press_right() || input.fn_press_left()){
+                    this.p_optionElement.innerHTML = this.a_subOptions[this.int_optionIndex];
+                }
             }
 
-            if(this.int_optionIndex > this.a_subOptions.length - 1){
-                this.int_optionIndex = 0;
-            }
-            else if(this.int_optionIndex < 0){
-                this.int_optionIndex = this.a_subOptions.length - 1;
-            }
-
-            if(input.fn_press_drift()){
-                p_optionElement.innerHTML = "";
-            }
+            //if(this.str_text == "Items_On") console.log(`this.int_optionIndex = ${this.int_optionIndex}`);
         }
     }
 
@@ -158,16 +160,15 @@ export default class Option{
         this.b_selected = true;
         if(!this.b_static) this.spr_highlight.visible = true;
 
-        var info = document.getElementById("info");
-        info.innerHTML = this.str_info;
+        this.p_info.innerHTML = this.str_info;
         
         if(this.b_disabled){
             let randomInt = Math.floor(Math.random() * (100 - 0 + 1)) + 0;
             if(randomInt == 87){
-                info.innerHTML = "(It's me.)";
+                this.p_info.innerHTML = "(It's me.)";
             }
             else{
-                info.innerHTML = "(For future development...)"
+                this.p_info.innerHTML = "(For future development...)"
             }
         }
         //If this option isn't static, brighten it and show the border.
@@ -196,7 +197,9 @@ export default class Option{
         if(this.b_arrows){
             this.spr_arrowL.visible = false;
             this.spr_arrowR.visible = false;
+            this.p_optionElement.innerHTML = "";
         }
+        //console.log(`Hidden option ${this.str_text}`);
     }
 
     //Make all of this option's elements visible:
@@ -206,10 +209,13 @@ export default class Option{
         this.spr_text.visible = true;
         if(this.b_selected){
             this.spr_highlight.visible = true;
+            this.p_info.innerHTML = this.str_info;
         }
         if(this.b_arrows){
             this.spr_arrowL.visible = true;
             this.spr_arrowR.visible = true;
+            this.p_optionElement.innerHTML = this.a_subOptions[this.int_optionIndex];
+            this.fn_updateLabelPosition("p_" + this.str_text);
         }
     }
 

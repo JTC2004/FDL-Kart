@@ -49,6 +49,8 @@ export default class Menu_2B_charSelect extends Menu{
             new ConnectController([-2.4, -1.85, 1], 2),
             new ConnectController([1.85, -1.85, 1], 3)
         ];
+
+        this.str_menuName = "2P Character Select";
     }
 
     //ANY extra components of a child menu's update is added here:
@@ -60,23 +62,15 @@ export default class Menu_2B_charSelect extends Menu{
 		}
     }
 
-    //Call this function for the exit animation:
-    fn_onExit(){
 
-    }
     //Unique cleanup for this menu:
     fn_extraExit(){
         for(const controller of this.a_connectControllers){
 			controller.fn_hide();
 		}
-        console.log("Removing Controller objects");
     }
 
 
-    //Call this function for the entrance animation:
-    fn_onEnter(){
-
-    }
     //Unique loads for this menu:
     fn_extraEnter(){
         for(const controller of this.a_connectControllers){

@@ -82,20 +82,11 @@ export default class Menu_0_main extends Menu{
             })
         ]);
         
+        this.str_menuName = "Main";
     }
 
-    //ANY extra components of a child menu's update is added here:
-    fn_extraUpdate(a_INPUTS){
-        
-    }
-
-    //Call this function for the exit animation:
-    fn_onExit(){
-
-    }
-
-    //Call this function for the entrance animation:
-    fn_onEnter(){
+    //Call this function for anything extra for this menu's entrance animation:
+    fn_extraEnter(){
         fn_setMultiplayer(false);       //No longer in multiplayer menu.
     }
 }

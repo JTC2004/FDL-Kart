@@ -77,30 +77,6 @@ export default class Menu_1B_charSelect extends Menu{
             }),
         ]);
 
+        this.str_menuName = "1P Character Select";
     }
-
-    //ANY extra components of a child menu's update is added here:
-    fn_extraUpdate(a_INPUTS){
-        
-    }
-
-    //Call this function for the exit animation:
-    fn_onExit(){
-
-    }
-    //Unique cleanup for this menu:
-    fn_extraExit(){
-        
-    }
-
-
-    //Call this function for the entrance animation:
-    fn_onEnter(){
-
-    }
-    //Unique loads for this menu:
-    fn_extraEnter(){
-        
-    }
-
 }
