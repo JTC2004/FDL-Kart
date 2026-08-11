@@ -20,7 +20,6 @@ export default class Menu_2B_charSelect extends Menu{
 
     constructor(manager){
         super(manager);
-        this.a_connectControllers = [];
         a_INPUTS = fn_getInputs();
 
         //Menu options:
@@ -43,7 +42,7 @@ export default class Menu_2B_charSelect extends Menu{
         ]);
 
         //Extra additions for this screen:
-        this.a_connectControllers = [
+        this.a_objects = [
             new ConnectController([-2.4, 1.2, 1], 0),
             new ConnectController([1.85, 1.2, 1], 1),
             new ConnectController([-2.4, -1.85, 1], 2),
@@ -54,27 +53,17 @@ export default class Menu_2B_charSelect extends Menu{
     }
 
     //ANY extra components of a child menu's update is added here:
-    //Returning true here makes fn_update return true too.
-    fn_extraUpdate(a_INPUTS){
+    fn_extraUpdate(){
         //Update the controller icons:
-        for(const controller of this.a_connectControllers){
-			controller.fn_update();
+        for(const object of this.a_objects){
+			object.fn_update();
 		}
     }
-
-
-    //Unique cleanup for this menu:
-    fn_extraExit(){
-        for(const controller of this.a_connectControllers){
-			controller.fn_hide();
-		}
-    }
-
 
     //Unique loads for this menu:
     fn_extraEnter(){
-        for(const controller of this.a_connectControllers){
-			controller.fn_update();
+        for(const object of this.a_objects){
+			object.fn_update();
 		}
         fn_setMultiplayer(true);        //Entering multiplayer menu.
     }

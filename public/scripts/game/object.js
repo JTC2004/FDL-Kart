@@ -277,6 +277,18 @@ export default class Obj{
 
 		});
 	}
+
+	//Hide this object's mesh & sprite(s):
+	fn_hide(){
+		if(this.mesh) this.mesh.visible = false;
+		if(this.sprite) this.sprite.visible = false;
+	}
+
+	//Show this object's mesh & sprite(s):
+	fn_show(){
+		if(this.mesh) this.mesh.visible = true;
+		if(this.sprite) this.sprite.visible = true;
+	}
 	
 	//Getters:
 		fn_getType(){

@@ -89,7 +89,6 @@ export default class MenuManager{
 			a_prevMenus.push(currentMenu);
 			currentMenu = nextMenu;
 			nextMenu = null;					//Don't forget to do this!
-			console.log("SWITCHED MENUS");
 
 			currentMenu.fn_enter();				//Call the function for the current menu's entrance transition.
 		}
@@ -122,11 +121,8 @@ export default class MenuManager{
 		SCENE.remove( fillLight1 );
 		b_return = true;
 		currentMenu?.fn_exit();
+		fn_clearScene();						//Might need to remove this later.
 
 		console.log(`B_RETURN TRUE ON FRAME ${int_frames}`);
-	}
-
-	fn_getReturn(){
-		return b_return;
 	}
 }

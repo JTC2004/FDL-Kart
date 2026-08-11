@@ -129,7 +129,7 @@ try{
     gameLoop.addCallback((dt) => {
         //Showing render status:
         //console.log(renderer.info.memory);
-        console.log(`multiplayer = ${b_multiplayer}`);
+        //console.log(`multiplayer = ${b_multiplayer}`);
 
         //Showing memory status (CHROMIUM ONLY. Crashes in Firefox):
         //console.log(`Using: ${(performance.memory.usedJSHeapSize / 1048576).toFixed(1)} MB | Total: ${(performance.memory.totalJSHeapSize / 1048576).toFixed(1)} MB`);

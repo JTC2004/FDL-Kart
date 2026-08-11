@@ -17,7 +17,8 @@ export default class Menu{
         SCENE = fn_getScene();
         LOADER = fn_getLoader();
         
-        this.a_options = [];                    //Contains all the objects in this menu screen.
+        this.a_options = [];                    //Contains all the options in this menu screen.
+        this.a_objects = [];                    //Contains all the objects in this menu screen (there can be none).
         this.dy = 0;                        //Represents y for which object is selected on the grid.
         this.dx = 0;                        //Represents x for which object is selected on the grid.
         this.b_firstOption = false;         //First option not selected until options are initialized.
@@ -74,20 +75,13 @@ export default class Menu{
                 } 
             }
 
-        //Return true before extra update so any objects in the scene aren't updated after the switch.
-            if (this.menuManager.fn_getReturn()) return true;
-
         //Any additional updates at the end:
-            this.fn_extraUpdate(a_INPUTS);
-        
+            this.fn_extraUpdate();
         //Reset variables:
             this.b_moved = false;
-
-        //console.log(`---- Updating ${this.str_menuName} Menu ----`);
     }
     //ANY extra components of a child menu's update is added here:
-    //Returning true here makes fn_update return true too.
-    fn_extraUpdate(a_INPUTS){
+    fn_extraUpdate(){
         
     }
 
@@ -99,6 +93,10 @@ export default class Menu{
             for(let e = 0; e < this.a_options[i].length; e++){
                 this.a_options[i][e].fn_hide();
             } 
+        }
+        //And same with the objects (if there are any):
+        for(const object of this.a_objects){
+            object.fn_hide();
         }
         this.fn_extraExit();
     }
@@ -116,15 +114,17 @@ export default class Menu{
                 this.a_options[i][e].fn_show();
             } 
         }
+        //And same with the objects (if there are any):
+        for(const object of this.a_objects){
+            object.fn_show();
+        }
         this.fn_extraEnter();
     }
     //Extra additions for a specific menu:
     fn_extraEnter(){
-
+        
     }
 
-
-    
 
     //Make sure yx isn't out of bounds:
     fn_overflowCheck(){

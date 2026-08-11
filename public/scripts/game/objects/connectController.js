@@ -67,13 +67,4 @@ export default class ConnectController extends Obj{
 	fn_getType(){
 		return "connectController";
 	}
-
-	//Hide this controller:
-	fn_hide(){
-		this.sprite.visible = false;
-	}
-	//Show this controller:
-	fn_show(){
-		this.sprite.visible = true;
-	}
 }
