@@ -74,14 +74,15 @@ export default class Menu{
             }
 
         //Any additional updates at the end:
-            this.fn_extraUpdate();
+            this.fn_extraUpdate(a_INPUTS);
         
         //Reset variables:
             this.b_moved = false;
     }
     //ANY extra components of a child menu's update is added here:
-    fn_extraUpdate(){
-
+    //Returning true here makes fn_update return true too.
+    fn_extraUpdate(a_INPUTS){
+        
     }
 
     //Call this function for the exit animation:

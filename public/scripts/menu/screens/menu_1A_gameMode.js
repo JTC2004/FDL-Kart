@@ -58,8 +58,8 @@ export default class Menu_1A_gameMode extends Menu{
     }
 
     //ANY extra components of a child menu's update is added here:
-    fn_extraUpdate(){
-        //console.log("This menu is main menu!");
+    fn_extraUpdate(a_INPUTS){
+        
     }
 
     //Call this function for the exit animation:

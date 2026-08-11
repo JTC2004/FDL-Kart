@@ -129,6 +129,7 @@ try{
     gameLoop.addCallback((dt) => {
         //Showing render status:
         //console.log(renderer.info.memory);
+        console.log(`multiplayer = ${b_multiplayer}`);
 
         //Showing memory status (CHROMIUM ONLY. Crashes in Firefox):
         //console.log(`Using: ${(performance.memory.usedJSHeapSize / 1048576).toFixed(1)} MB | Total: ${(performance.memory.totalJSHeapSize / 1048576).toFixed(1)} MB`);
@@ -193,7 +194,7 @@ try{
                     for(const input of a_inputs){
                         str_inputs += `${input.fn_getType()}, `;
                     }
-                    console.log(`a_inputs = [${str_inputs}]     int_numGamepads = ${int_numGamepads}`);
+                    //console.log(`a_inputs = [${str_inputs}]     int_numGamepads = ${int_numGamepads}`);
             }
 
             //Advance input state ONCE PER FIXED UPDATE:
@@ -460,6 +461,11 @@ export function fn_changeSettings(str_text, int_index, str_option){
     else if(str_text == "Multiplayer false"){
         b_multiplayer = false;
     }
+}
+
+//Settings functions:
+export function fn_setMultiplayer(_b_newVal){
+    b_multiplayer = _b_newVal;
 }
 
 

@@ -10,6 +10,8 @@
     //Menus:
 		import Menu_1A_gameMode from "./menu_1A_gameMode.js";
 		import Menu_2B_charSelect from "./menu_2B_charSelect.js";
+    //Unique:
+        import { fn_setMultiplayer } from '../../main.js';
 
 export default class Menu_0_main extends Menu{
 
@@ -83,8 +85,8 @@ export default class Menu_0_main extends Menu{
     }
 
     //ANY extra components of a child menu's update is added here:
-    fn_extraUpdate(){
-        //console.log("This menu is main menu!");
+    fn_extraUpdate(a_INPUTS){
+        
     }
 
     //Call this function for the exit animation:
@@ -94,6 +96,6 @@ export default class Menu_0_main extends Menu{
 
     //Call this function for the entrance animation:
     fn_onEnter(){
-
+        fn_setMultiplayer(false);       //No longer in multiplayer menu.
     }
 }

@@ -35,6 +35,8 @@
 	let currentMenu;							//Equals the current menu screen object.
 	let a_prevMenus = [];						//A stack of the previous menu screens visited so far.
 	var int_frames = 0;
+	var b_return = false;						//When true, gameplay starts.
+	let fillLight1;								//The light for objects in menus.
 
 
 export default class MenuManager{
@@ -55,9 +57,8 @@ export default class MenuManager{
 		RENDERER.setClearColor( 0x006492, 1);
 
 		const color = 0xfffde6;
-		const fillLight1 = new THREE.HemisphereLight( color, 0x77756a, 3 );
+		fillLight1 = new THREE.HemisphereLight( color, 0x77756a, 3 );
 		fillLight1.position.set( 2, 2, 1 );
-		SCENE.add( fillLight1 );
 
 		//Set the first menu:
 		currentMenu = new Menu_0_main(this);
@@ -83,7 +84,7 @@ export default class MenuManager{
 
 
 		int_frames ++;
-		return false;
+		return b_return;
 	}
 
 	//Call this to go forwards one menu screen.
@@ -102,5 +103,17 @@ export default class MenuManager{
 		currentMenu?.fn_exit();
 		currentMenu = a_prevMenus.pop();
 		currentMenu.fn_enter();
+	}
+
+	//Call this only once when menus start:
+	fn_startMenus(){
+		SCENE.add( fillLight1 );
+	}
+
+	//Call this to switch to gameplay loop:
+	fn_startGameplay(){
+		currentMenu?.fn_exit();
+		SCENE.remove( fillLight1 );
+		b_return = true;
 	}
 }

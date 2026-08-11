@@ -80,8 +80,8 @@ export default class Menu_1B_charSelect extends Menu{
     }
 
     //ANY extra components of a child menu's update is added here:
-    fn_extraUpdate(){
-        //Update the kart & characters:
+    fn_extraUpdate(a_INPUTS){
+        
     }
 
     //Call this function for the exit animation:
