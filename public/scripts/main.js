@@ -35,7 +35,7 @@ let b_prevPressed = false;
 //let renderer;
 
 var b_fullScreen = false;
-window.b_debug = false;
+window.b_debug = true;
 window.b_birdEye = false;
 window.a_characters = [['', ''], ['', ''], ['', ''], ['', '']]; 
 var str_map = "FDL Circuit";
@@ -209,7 +209,7 @@ try{
             //fn_updateGame(gameLoop.fn_getFPS());
             
             if(b_multiplayer){
-                window.b_debug = false;             //Also disable debug prints in multiplayer.
+                //window.b_debug = false;             //Also disable debug prints in multiplayer.
                 var int_i = 0;
                 renderer.setScissorTest(true);      //MAKE THIS HAPPEN ONLY 1 FRAME.
                 const w = a_resolution[0];
@@ -271,7 +271,6 @@ catch{
 //When in menus, change camera's distance from UI when fullscreen:
 function fn_checkFullscreen(menuCamera, frustumHeight){
 	if(!b_gameplay){
-		//var info = document.getElementById("info");
 		
 		//If window is in fullscreen, zoom the camera in by changing frustumHeight):
 		if (menuCamera.aspect > 1.7 && menuCamera.aspect < 1.8){	
@@ -282,7 +281,6 @@ function fn_checkFullscreen(menuCamera, frustumHeight){
 			frustumHeight = 9;
 			b_fullScreen = false;
 		}
-		//info.innerHTML = "b_fullScreen = " + b_fullScreen;
 
 		//Prevent strething if aspect ratio is widescreen:
 		if(menuCamera.aspect >= 1.7){

@@ -55,9 +55,10 @@
 	var int_secsElapsed = 0;
 	let timer = performance.now();
 	var b_paused = false;
-	var coordsButton = document.getElementById("p_coords");
+	const coordsButton = document.getElementById("p_coords");
 	var b_isInitialized = false;
 	let promise_init = null;
+	const p_finish0 = document.getElementById("p_finish0");
 	
 
 
@@ -73,7 +74,7 @@ async function fn_initializeGame(){
 	b_multiplayer = fn_isMultiplayer();
 	str_map = fn_getMap();
 
-	//Displaying username:
+	//Displaying username (OLD):
 	//Do AJAX call to get name from getName.php, and append it to p_name.
 	str_url = "scripts/getName.php";
 	request = new XMLHttpRequest();
@@ -185,6 +186,7 @@ async function fn_initializeGame(){
 		}
 	}
 	
+	p_finish0.innerHTML = "";
 	b_isInitialized = true;
 }
 

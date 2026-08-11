@@ -38,6 +38,7 @@
 	var int_frames = 0;
 	var b_return = false;						//When true, gameplay starts.
 	let fillLight1;								//The light for objects in menus.
+	const p_finish0 = document.getElementById("p_finish0");
 
 
 export default class MenuManager{
@@ -122,6 +123,7 @@ export default class MenuManager{
 		b_return = true;
 		currentMenu?.fn_exit();
 		fn_clearScene();						//Might need to remove this later.
+		p_finish0.innerHTML = "Loading...";
 
 		console.log(`B_RETURN TRUE ON FRAME ${int_frames}`);
 	}
