@@ -13,11 +13,10 @@
 export default class Menu{
 
     constructor(manager){
-        
+        this.menuManager = manager;             //Pointer to the menuManager that contains the menu.
         SCENE = fn_getScene();
         LOADER = fn_getLoader();
-
-        this.menuManager = manager;             //Pointer to the menuManager that contains the menu.
+        
         this.a_options = [];                    //Contains all the objects in this menu screen.
         this.dy = 0;                        //Represents y for which object is selected on the grid.
         this.dx = 0;                        //Represents x for which object is selected on the grid.
@@ -72,6 +71,9 @@ export default class Menu{
                     this.a_options[i][e].fn_update(input);
                 } 
             }
+
+        //Return true before extra update so any objects in the scene aren't updated after the switch.
+            if (this.menuManager.fn_getReturn()) return true;
 
         //Any additional updates at the end:
             this.fn_extraUpdate(a_INPUTS);

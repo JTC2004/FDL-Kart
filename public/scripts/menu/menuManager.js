@@ -74,17 +74,16 @@ export default class MenuManager{
 
 	//The menu loop:
 	fn_update(){
-		//Update the current menu:
-		currentMenu.fn_update(a_INPUTS, int_frames);
-
 		//Going to previous menu if player presses B AND they are not at the top menu:
 		if(a_INPUTS[0].fn_press_drift() && a_prevMenus.length > 0){
 			this.fn_prevMenu();
 		}
 
-
+		console.log(`On frame ${int_frames}`);
 		int_frames ++;
-		return b_return;
+
+		//Update the current menu:
+		currentMenu.fn_update(a_INPUTS, int_frames);
 	}
 
 	//Call this to go forwards one menu screen.
@@ -112,8 +111,14 @@ export default class MenuManager{
 
 	//Call this to switch to gameplay loop:
 	fn_startGameplay(){
-		currentMenu?.fn_exit();
 		SCENE.remove( fillLight1 );
 		b_return = true;
+		currentMenu?.fn_exit();
+
+		console.log(`B_RETURN TRUE ON FRAME ${int_frames}`);
+	}
+
+	fn_getReturn(){
+		return b_return;
 	}
 }

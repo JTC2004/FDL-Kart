@@ -11,14 +11,17 @@
         import ConnectController from '../../game/objects/connectController.js';
         import { fn_setMultiplayer } from '../../main.js';
         import Menu_1B_charSelect from "./menu_1B_charSelect.js";
+        import { fn_getInputs } from "../../main.js";
 
+
+let a_INPUTS;
 
 export default class Menu_2B_charSelect extends Menu{
 
     constructor(manager){
         super(manager);
         this.a_connectControllers = [];
-        this.managerPointer = manager;
+        a_INPUTS = fn_getInputs();
 
         //Menu options:
         this.a_options.push([
@@ -31,9 +34,11 @@ export default class Menu_2B_charSelect extends Menu{
                 static: true,
                 arrows: true,
                 subOptions: ["Slow", "Normal", "FAST"],
-                //onConfirm: () => {
-                //    manager.fn_nextMenu(new Menu_1B_charSelect(manager));
-                //}
+                onConfirm: () => {
+                    if(a_INPUTS.length > 1){
+                        manager.fn_startGameplay();
+                    }
+                }
             })
         ]);
 
@@ -53,14 +58,6 @@ export default class Menu_2B_charSelect extends Menu{
         for(const controller of this.a_connectControllers){
 			controller.fn_update();
 		}
-
-        console.log(`a_INPUTS = ${a_INPUTS}`);
-
-        //If player 1 presses A when there are 2 or more players, start the game:
-        if(a_INPUTS[0].fn_press_accelerate() && a_INPUTS.length > 1){
-            console.log("Switching to gameplay!");
-            this.managerPointer.fn_startGameplay();
-        }
     }
 
     //Call this function for the exit animation:
@@ -72,6 +69,7 @@ export default class Menu_2B_charSelect extends Menu{
         for(const controller of this.a_connectControllers){
 			controller.fn_hide();
 		}
+        console.log("Removing Controller objects");
     }
 
 
