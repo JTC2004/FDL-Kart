@@ -53,7 +53,7 @@ export default class Menu_2B_charSelect extends Menu{
     }
 
     //ANY extra components of a child menu's update is added here:
-    fn_extraUpdate(){
+    fn_extraUpdate(a_INPUTS){
         //Update the controller icons:
         for(const object of this.a_objects){
 			object.fn_update();

@@ -32,7 +32,7 @@ export default class Menu{
     }
 
     //Listen to input and update every frame:
-    fn_update(a_INPUTS, _int_frames){
+    fn_update(a_INPUTS){
         const input = a_INPUTS[0];
 
         //Select first option when menu boots up:
@@ -44,6 +44,8 @@ export default class Menu{
         //Player input for navigating options:
             if(input.fn_press_left() || input.fn_press_right() || input.fn_press_forward() || input.fn_press_back()) this.b_moved = true;
             if(this.b_moved){
+                console.log(`Should be changing selected element to [${this.dx}, ${this.dy}]`);
+                
                 //Deselect current option,
                     if(this.a_options[this.dy][this.dx].fn_isDummy())   this.fn_dummyHandle(true, input);
                     else                                                this.a_options[this.dy][this.dx].fn_deSelect();
@@ -59,6 +61,7 @@ export default class Menu{
                     if(this.a_options[this.dy][this.dx].fn_isDummy())   this.fn_dummyHandle(false, input);
                     else                                                this.a_options[this.dy][this.dx].fn_select();
                 
+                this.b_moved = false;
             }
             //console.log(`Currently at coordinates [${this.dx}, ${this.dy}]`);
 
@@ -76,12 +79,10 @@ export default class Menu{
             }
 
         //Any additional updates at the end:
-            this.fn_extraUpdate();
-        //Reset variables:
-            this.b_moved = false;
+            this.fn_extraUpdate(a_INPUTS);
     }
     //ANY extra components of a child menu's update is added here:
-    fn_extraUpdate(){
+    fn_extraUpdate(a_INPUTS){
         
     }
 
@@ -122,7 +123,7 @@ export default class Menu{
     }
     //Extra additions for a specific menu:
     fn_extraEnter(){
-        
+
     }
 
 

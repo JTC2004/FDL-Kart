@@ -35,7 +35,7 @@
 	let currentMenu;							//Equals the current menu screen object.
 	var nextMenu = null;						//Equals the next menu to transition to ONLY on the frame a transition must occur.
 	let a_prevMenus = [];						//A stack of the previous menu screens visited so far.
-	var int_frames = 0;
+	//var int_frames = 0;
 	var b_return = false;						//When true, gameplay starts.
 	let fillLight1;								//The light for objects in menus.
 	const p_finish0 = document.getElementById("p_finish0");
@@ -61,12 +61,12 @@ export default class MenuManager{
 		const color = 0xfffde6;
 		fillLight1 = new THREE.HemisphereLight( color, 0x77756a, 3 );
 		fillLight1.position.set( 2, 2, 1 );
+		this.fn_startMenus();
 
 		//Set the first menu:
 		currentMenu = new Menu_0_main(this);
 		//currentMenu = new Menu_1_gameMode(this);
 		//currentMenu = new Menu(this);
-
 
 		//Debug mode:
 		if(window.b_debug){
@@ -76,7 +76,7 @@ export default class MenuManager{
 
 	//The menu loop:
 	fn_update(){
-		currentMenu.fn_update(a_INPUTS, int_frames);
+		currentMenu.fn_update(a_INPUTS);
 		
 		//Going to previous menu if player presses B AND they are not at the top menu:
 		if(a_INPUTS[0].fn_press_drift() && a_prevMenus.length > 0){
@@ -94,7 +94,7 @@ export default class MenuManager{
 			currentMenu.fn_enter();				//Call the function for the current menu's entrance transition.
 		}
 		
-		int_frames ++;
+		//int_frames ++;
 		//Update the current menu:
 		return b_return;
 	}
@@ -123,8 +123,6 @@ export default class MenuManager{
 		b_return = true;
 		currentMenu?.fn_exit();
 		fn_clearScene();						//Might need to remove this later.
-		p_finish0.innerHTML = "Loading...";
-
-		console.log(`B_RETURN TRUE ON FRAME ${int_frames}`);
+		p_finish0.innerHTML = "Hold on a sec...";
 	}
 }
