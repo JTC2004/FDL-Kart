@@ -44,7 +44,7 @@ export default class Menu{
         //Player input for navigating options:
             if(input.fn_press_left() || input.fn_press_right() || input.fn_press_forward() || input.fn_press_back()) this.b_moved = true;
             if(this.b_moved){
-                console.log(`Should be changing selected element to [${this.dx}, ${this.dy}]`);
+                //console.log(`Should be changing selected element to [${this.dx}, ${this.dy}]`);
                 
                 //Deselect current option,
                     if(this.a_options[this.dy][this.dx].fn_isDummy())   this.fn_dummyHandle(true, input);

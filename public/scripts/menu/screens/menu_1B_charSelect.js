@@ -113,14 +113,23 @@ export default class Menu_1B_charSelect extends Menu{
 		
         //Updating player sprites based on input:
 		if(input.fn_press_left() || input.fn_press_right() || input.fn_press_forward() || input.fn_press_back() || this.b_charIndexIncremented){
-            if(this.a_options[this.dy][this.dx].fn_isSelected()){
-                this.a_objects[this.int_charaIndex].fn_setCharacter(this.a_options[this.dy][this.dx].fn_getCharText());
-                this.a_objects[0].fn_setSpriteTile(5, 0);  //Sets what frame to hold still on for back character.
-                this.a_objects[1].fn_setSpriteTile(4, 1);  //Sets what frame to hold still on for front character.
-                this.b_charIndexIncremented = false;
-            } 
+            
+            this.a_objects[this.int_charaIndex].fn_setCharacter(this.a_options[this.dy][this.dx].fn_getCharText());
+            if(this.int_charaIndex == 0){
+                this.a_objects[this.int_charaIndex].fn_setSpriteTile(5, 0);
+                console.log(`CHANGED SPRITE SHEET OF CHARACTER ${this.a_objects[this.int_charaIndex].fn_getCharacter()} at index ${this.int_charaIndex}!`);
+            }
+            if(this.int_charaIndex == 1){
+                this.a_objects[this.int_charaIndex].fn_setSpriteTile(4, 1);
+                console.log(`CHANGED SPRITE SHEET OF CHARACTER ${this.a_objects[this.int_charaIndex].fn_getCharacter()} at index ${this.int_charaIndex}!`);
+            }
+            this.b_charIndexIncremented = false;
+            
 		}
 
+        //console.log(`dX = ${this.dx}`);
+        //console.log(`dY = ${this.dy}`);
+        //console.log(`int_charaIndex = ${this.int_charaIndex}`);
         console.log("--------------------");
 
         int_frames ++;

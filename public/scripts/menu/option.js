@@ -107,7 +107,7 @@ export default class Option{
 
     fn_update(input){
         if(this.b_dummy) return;
-        if(this.str_info != "(unlockable)") console.log(`isSelected for element ${this.str_info} = ${this.b_selected}`);
+        //if(this.str_info != "(unlockable)") console.log(`isSelected for element ${this.str_info} = ${this.b_selected}`);
 
         //When option has arrows:
         if(this.b_arrows){
