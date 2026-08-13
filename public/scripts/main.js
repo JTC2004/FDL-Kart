@@ -393,6 +393,7 @@ export function fn_getSetting(str_text){
         const p_info = document.getElementById("info");
 
         int_resolutionIndex = _int_index;
+        var str_message = "";
         
         if (_int_index == 4){
             a_resolution = [window.innerWidth, window.innerHeight];
