@@ -35,7 +35,7 @@ export default class Option{
         this.b_static = config.static;
         this.b_arrows = config.arrows;
         this.a_subOptions = config.subOptions;
-        this.int_optionIndex = 0;
+        this.int_optionIndex = config.defaultOption;
         this.str_optionTextTop = "0%";
         this.str_optionTextLeft = "0%";
 

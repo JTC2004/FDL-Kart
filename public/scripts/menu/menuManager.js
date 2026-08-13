@@ -123,6 +123,6 @@ export default class MenuManager{
 		b_return = true;
 		currentMenu?.fn_exit();
 		fn_clearScene();						//Might need to remove this later.
-		p_finish0.innerHTML = "Hold on a sec...";
+		//p_finish0.innerHTML = "Hold on a sec...";
 	}
 }

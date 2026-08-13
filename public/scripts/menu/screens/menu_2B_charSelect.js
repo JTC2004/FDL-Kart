@@ -37,6 +37,12 @@ export default class Menu_2B_charSelect extends Menu{
                     if(a_INPUTS.length > 1){
                         manager.fn_startGameplay();
                     }
+
+                    //Set player characters here:
+                    window.a_characters[0] = ['Enoki', 'Maple'];
+                    window.a_characters[1] = ['Aaron', 'Rufus'];
+                    window.a_characters[2] = ['Maple', 'Aaron'];
+                    window.a_characters[3] = ['Rufus', 'Enoki'];
                 }
             })
         ]);

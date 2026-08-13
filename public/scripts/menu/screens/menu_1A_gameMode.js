@@ -23,6 +23,7 @@ export default class Menu_1A_gameMode extends Menu{
                 scale: [2.5, .5],
                 arrows: true,
                 subOptions: ["Slow", "Normal", "FAST"],
+                defaultOption: 1,
                 onConfirm: () => {
                     manager.fn_nextMenu(new Menu_1B_charSelect(manager));
                 }
@@ -37,6 +38,7 @@ export default class Menu_1A_gameMode extends Menu{
                 scale: [2.5, .5],
                 arrows: true,
                 subOptions: ["Slow", "Normal", "FAST"],
+                defaultOption: 1,
                 onConfirm: () => {
                     manager.fn_nextMenu(new Menu_1B_charSelect(manager));
                 }

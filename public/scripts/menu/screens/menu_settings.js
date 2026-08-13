@@ -22,7 +22,8 @@ export default class Menu_Settings extends Menu{
                 pos: [-3.6, 3, 0], 
                 scale: [2.5, .45],
                 arrows: true,
-                subOptions: ["192p", "250p", "480p", "720p", "Default", "1080p", "1440p", "2160p"]
+                subOptions: ["192p", "250p", "480p", "720p", "Default", "1080p", "1440p", "2160p"],
+                defaultOption: 4,
             })
         ]);
         this.a_options.push([
@@ -33,7 +34,8 @@ export default class Menu_Settings extends Menu{
                 pos: [-3.6, 1, 0], 
                 scale: [2.5, .45],
                 arrows: true,
-                subOptions: ["OFF", "ON"]
+                subOptions: ["OFF", "ON"],
+                defaultOption: 0,
             })
         ]);
         
