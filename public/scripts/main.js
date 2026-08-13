@@ -360,6 +360,7 @@ function fn_anyButton(_gamepad){
 }*/
 
 //This function is called in option.js to update its value.
+//HOW TO SAVE 
 export function fn_getSetting(str_text){
         if (str_text == "Resolution"){
             return int_resolutionIndex;
@@ -373,12 +374,12 @@ export function fn_getSetting(str_text){
 }
 
 //Settings functions:
-    export function fn_settingCC(_index){
-        if(_index == 0){
+    export function fn_settingCC(_int_index, _str_subOption){
+        if(_int_index == 0){
             window.int_CC = 102;
             window.int_laps = 3;
         }
-        else if(_index == 2){
+        else if(_int_index == 2){
             window.int_CC = 270;
             window.int_laps = 5;
         }
@@ -388,15 +389,12 @@ export function fn_getSetting(str_text){
         }
     }
 
-//This function is called in option.js to change a value here.
-export function fn_changeSettings(str_text, int_index, str_option){
-    const p_info = document.getElementById("info");
-    const canvas = renderer.domElement;
+    export function fn_settingResolution(_int_index, _str_subOption){
+        const p_info = document.getElementById("info");
 
-    if(str_text == "Resolution"){
-        int_resolutionIndex = int_index;
+        int_resolutionIndex = _int_index;
         
-        if (int_index == 4){
+        if (_int_index == 4){
             a_resolution = [window.innerWidth, window.innerHeight];
 
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -404,35 +402,35 @@ export function fn_changeSettings(str_text, int_index, str_option){
             p_info.innerHTML = "Resolution set to the size of your browser window (" + window.innerWidth + " x " + window.innerHeight +").";
         }
         else{
-            a_resolution = [str_option.slice(0, -1) / 9 * 16, str_option.slice(0, -1)];
+            a_resolution = [_str_subOption.slice(0, -1) / 9 * 16, _str_subOption.slice(0, -1)];
 
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             renderer.setSize(a_resolution[0], a_resolution[1], false);
-            var str_WxH = "(" + Math.ceil(str_option.slice(0, -1) / 9 * 16) + " x " + str_option.slice(0, -1) + ")";
+            var str_WxH = "(" + Math.ceil(_str_subOption.slice(0, -1) / 9 * 16) + " x " + _str_subOption.slice(0, -1) + ")";
 
             //renderer.setPixelRatio(1);
-            if(str_option.slice(0, -1) > window.innerHeight){
+            if(_str_subOption.slice(0, -1) > window.innerHeight){
                 p_info.innerHTML = "WARNING: Game resolution higher than browser resolution!";
             }
-            else if(int_index == 7){
+            else if(_int_index == 7){
                 p_info.innerHTML = "4K " + str_WxH + ". Will reset on window resize.";
             }
-            else if(int_index == 6){
+            else if(_int_index == 6){
                 p_info.innerHTML = "Resolution of Switch 2 games " + str_WxH + ". Will reset on window resize.";
             }
-            else if(int_index == 5){
+            else if(_int_index == 5){
                 p_info.innerHTML = "Full HD " + str_WxH + ". Will reset on window resize.";
             }
-            else if(int_index == 3){
+            else if(_int_index == 3){
                 p_info.innerHTML = "Resolution of Wii U games " + str_WxH + ". Will reset on window resize.";
             }
-            else if(int_index == 2){
+            else if(_int_index == 2){
                 p_info.innerHTML = "Resolution of GCN & Wii games " + str_WxH + ". Will reset on window resize.";
             }
-            else if(int_index == 1){
+            else if(_int_index == 1){
                 p_info.innerHTML = "Resolution of 3DS games " + str_WxH + ". Will reset on window resize.";
             }
-            else if(int_index == 0){
+            else if(_int_index == 0){
                 p_info.innerHTML = "Resolution of DS games " + str_WxH + ". Will reset on window resize.";
             }
             else {
@@ -440,25 +438,20 @@ export function fn_changeSettings(str_text, int_index, str_option){
             }
         }
     }
-    else if(str_text == "SharpPixels"){
-        int_sharpPixelIndex = int_index;
 
-        if(int_index == 0){
+    export function fn_settingSharpPixels(_int_index, _str_subOption){
+        const p_info = document.getElementById("info");
+        const canvas = renderer.domElement;
+
+        if(_int_index == 0){
             canvas.style.imageRendering = "auto";
             p_info.innerHTML = "Smoother image.";
         }
-        else if(int_index == 1){
+        else if(_int_index == 1){
             canvas.style.imageRendering = "pixelated";
             p_info.innerHTML = "More pixelated image.";
         }
     }
-    else if(str_text == "Multiplayer true"){
-        b_multiplayer = true;
-    }
-    else if(str_text == "Multiplayer false"){
-        b_multiplayer = false;
-    }
-}
 
 //Settings functions:
 export function fn_setMultiplayer(_b_newVal){

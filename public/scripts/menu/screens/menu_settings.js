@@ -1,13 +1,12 @@
 //This is the mode select for Single Player:
 
 //Imports:
-    import * as THREE from 'three';
-    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-
     //Objects:
         import Menu from "../menu.js";
         import Option from "../option.js";
-        import Menu_1B_charSelect from "./menu_1B_charSelect.js";
+    //Arrow settings:
+        import { fn_settingResolution } from "../../main.js";
+        import { fn_settingSharpPixels } from "../../main.js";
 
 export default class Menu_Settings extends Menu{
 
@@ -24,6 +23,9 @@ export default class Menu_Settings extends Menu{
                 arrows: true,
                 subOptions: ["192p", "250p", "480p", "720p", "Default", "1080p", "1440p", "2160p"],
                 defaultOption: 4,
+                onArrow: (_int_i, _str_subOption) => {
+                    fn_settingResolution(_int_i, _str_subOption);
+                }
             })
         ]);
         this.a_options.push([
@@ -36,6 +38,9 @@ export default class Menu_Settings extends Menu{
                 arrows: true,
                 subOptions: ["OFF", "ON"],
                 defaultOption: 0,
+                onArrow: (_int_i, _str_subOption) => {
+                    fn_settingSharpPixels(_int_i, _str_subOption);
+                }
             })
         ]);
         

@@ -2,7 +2,6 @@
 
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { fn_getSetting } from '../main.js';
 import { fn_getMenuCamera } from '../main.js';
 
 //Essentials:
@@ -136,7 +135,7 @@ export default class Option{
                 //Update text and setting:
                 if(input.fn_press_right() || input.fn_press_left()){
                     this.p_optionElement.innerHTML = this.a_subOptions[this.int_arrowIndex];
-                    this.onArrow(this.int_arrowIndex);
+                    this.onArrow(this.int_arrowIndex, this.a_subOptions[this.int_arrowIndex]);
                 }
             }
 
@@ -292,57 +291,3 @@ export default class Option{
         return this.str_text.substring(6);
     }
 }
-
-
-//Properties unique to each button:
-        /*if(_text.includes("chara_")){
-            if(_text != "chara_(unlockable)"){
-                this.str_goTo = "start";
-            }
-            this.str_info = _text.substring(6);
-        }
-        else if(_text == "Single Play"){
-
-        }
-            else if(_text == "Items_On"){
-                this.str_goTo = "1";
-                this.int_optionIndex = fn_getSetting(_text);
-            }
-            else if(_text == "No_Items"){
-                this.str_goTo = "2";
-                this.int_optionIndex = fn_getSetting(_text);
-            }
-            else if(_text == "Practice"){
-                this.str_goTo = "0";
-            }
-        else if(_text == "Split-Screen"){
-
-        }
-            else if(_text == "Connect_Controllers"){
-                fn_changeSettings("Multiplayer true");
-                this.str_goTo = "start";
-                this.str_info = "";
-                scene.remove( this.spr_highlight );
-            }
-        else if(_text == "Settings"){
-        }
-            else if(_text == "Resolution"){
-                this.int_optionIndex = fn_getSetting(_text);
-
-                //Readjust resolution size when window resized:
-                window.addEventListener("resize", () => {
-                    this.int_optionIndex = fn_getSetting(_text);
-                });
-            }
-            else if(_text == "SharpPixels"){
-                this.b_arrows = true;
-                this.int_optionIndex = fn_getSetting(_text);
-            }
-        else if(_text == "How to Play"){
-        }
-        else{
-            this.b_enabled = false;
-            this.spr_border.material.color.setRGB(.4, .4, .4);
-            this.spr_text.material.color.setRGB(.4, .4, .4);
-            
-        }*/
