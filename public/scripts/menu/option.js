@@ -326,10 +326,7 @@ export default class Option{
         else if(_text == "Settings"){
         }
             else if(_text == "Resolution"){
-                this.b_arrows = true;
-                this.a_options = ["192p", "250p", "480p", "720p", "Default", "1080p", "1440p", "2160p"];
                 this.int_optionIndex = fn_getSetting(_text);
-                
 
                 //Readjust resolution size when window resized:
                 window.addEventListener("resize", () => {
@@ -339,15 +336,9 @@ export default class Option{
             else if(_text == "SharpPixels"){
                 this.b_arrows = true;
                 this.int_optionIndex = fn_getSetting(_text);
-                this.a_options = ["OFF", "ON"];
             }
         else if(_text == "How to Play"){
         }
-            else if(_text == "Controls (gamepad)" || _text == "Controls (keyboard)"){
-                scene.remove( this.spr_highlight );
-                this.b_static = true;
-                //this.spr_text.material.color.setRGB(1.2, 1.2, 1.2);
-            }
         else{
             this.b_enabled = false;
             this.spr_border.material.color.setRGB(.4, .4, .4);

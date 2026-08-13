@@ -10,6 +10,8 @@
     //Menus:
 		import Menu_1A_gameMode from "./menu_1A_gameMode.js";
 		import Menu_2B_charSelect from "./menu_2B_charSelect.js";
+		import Menu_Settings from "./menu_settings.js";
+		import Menu_HowToPlay from "./menu_howToPlay.js";
     //Unique:
         import { fn_setMultiplayer } from '../../main.js';
 
@@ -61,14 +63,20 @@ export default class Menu_0_main extends Menu{
                 info: "Change graphics settings to improve performance.",
                 type: "horizontal medium",
                 pos: [this.fn_inRow(5.8, 0, 3), -2.2, 0], 
-                scale: [1.3, .35]
+                scale: [1.3, .35],
+                onConfirm: () => {
+                    manager.fn_nextMenu(new Menu_Settings(manager));
+                }
             }),
             new Option({
                 text: "How to Play",
                 info: "View the keyboard & gamepad controls.",
                 type: "horizontal large",
                 pos: [this.fn_inRow(5.75, 1, 3), -2.2, 0], 
-                scale: [1.75, .35]
+                scale: [1.75, .35],
+                onConfirm: () => {
+                    manager.fn_nextMenu(new Menu_HowToPlay(manager));
+                }
             }),
             new Option({
                 dum: true
