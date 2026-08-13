@@ -41,11 +41,11 @@ window.a_characters = [['', ''], ['', ''], ['', ''], ['', '']];
 var str_map = "FDL Circuit";
 window.int_CC = 150;
 window.int_laps = 4;
-window.int_gameMode = 2;      //0 is Practice, 
-//                              1 is Grand Prix, 
-//                              2 is No_Items, 
-//                              3 is Adventure,
-//                              4 is Versus,
+window.int_gameMode = 2;      //0 is Practice,              (items on track, player starts with items, player can fly)
+//                              1 is Grand Prix,            (items on track, player starts with items)
+//                              2 is No_Items,              (no items on track, player starts with items)
+//                              3 is Adventure,             
+//                              4 is Versus,                (items on track, player doesn't start with items)
 
 //Settings variables:   
 var a_resolution = [window.innerWidth, window.innerHeight];

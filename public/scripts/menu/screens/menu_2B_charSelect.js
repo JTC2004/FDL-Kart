@@ -36,7 +36,7 @@ export default class Menu_2B_charSelect extends Menu{
                 defaultOption: 1,
                 onConfirm: () => {
                     if(a_INPUTS.length > 1){
-                        window.int_gameMode = 1;
+                        window.int_gameMode = 4;
                         manager.fn_startGameplay();
                     }
 
