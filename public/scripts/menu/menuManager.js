@@ -79,7 +79,7 @@ export default class MenuManager{
 		currentMenu.fn_update(a_INPUTS);
 		
 		//Going to previous menu if player presses B AND they are not at the top menu:
-		if(a_INPUTS[0].fn_press_drift() && a_prevMenus.length > 0){
+		if(a_INPUTS[0].fn_press_drift() && currentMenu.fn_getBackOk() && a_prevMenus.length > 0){
 			this.fn_prevMenu();
 		}
 

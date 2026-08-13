@@ -29,6 +29,7 @@ export default class Menu{
         this.menu.position.set(0, 0, 0);        //The overall menu's location (can be overridden later)
 
         this.str_menuName = "";
+        this.b_backOk = true;               //When true, menu manager can back out of this menu.
     }
 
     //Listen to input and update every frame:
@@ -164,6 +165,11 @@ export default class Menu{
         const startX = -totalSpan / 2;
 
         return startX + _spriteNum * _spacing;
+    }
+
+    //Return true if ok for this menu to go back.
+    fn_getBackOk(){
+        return this.b_backOk;
     }
 
 }

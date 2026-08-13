@@ -89,7 +89,7 @@ export default class Menu_1B_charSelect extends Menu{
         this.a_objects = [
             new Character([-5.5, .6, -1], 1, 2, "Maple", 0, true),
             new Character([-5, -0.4, 1], 1, 2, "", 0, true),
-            new Kart([-5, -1, 0], 1, .2)
+            new Kart([-5, -1, 0], 1, .2),
         ];
 
         this.a_objects[0].fn_setSpriteTile(5, 0);
@@ -115,14 +115,13 @@ export default class Menu_1B_charSelect extends Menu{
 		if(input.fn_press_left() || input.fn_press_right() || input.fn_press_forward() || input.fn_press_back() || this.b_charIndexIncremented){
             
             this.a_objects[this.int_charaIndex].fn_setCharacter(this.a_options[this.dy][this.dx].fn_getCharText());
-            if(this.int_charaIndex == 0){
-                this.a_objects[this.int_charaIndex].fn_setSpriteTile(5, 0);
-                console.log(`CHANGED SPRITE SHEET OF CHARACTER ${this.a_objects[this.int_charaIndex].fn_getCharacter()} at index ${this.int_charaIndex}!`);
-            }
-            if(this.int_charaIndex == 1){
-                this.a_objects[this.int_charaIndex].fn_setSpriteTile(4, 1);
-                console.log(`CHANGED SPRITE SHEET OF CHARACTER ${this.a_objects[this.int_charaIndex].fn_getCharacter()} at index ${this.int_charaIndex}!`);
-            }
+            
+            //BUG: Due to optimization update introducing the sprite cache, now all instances of sprites use the same sprite tile map.
+            console.log(`CHANGING SPRITE SHEET OF CHARACTER ${this.a_objects[0].fn_getCharacter()} at index 0!`);
+            this.a_objects[0].fn_setSpriteTile(5, 0);
+            console.log(`CHANGING SPRITE SHEET OF CHARACTER ${this.a_objects[1].fn_getCharacter()} at index 1`);
+            this.a_objects[1].fn_setSpriteTile(4, 1);
+            
             this.b_charIndexIncremented = false;
             
 		}
@@ -132,23 +131,52 @@ export default class Menu_1B_charSelect extends Menu{
         //console.log(`int_charaIndex = ${this.int_charaIndex}`);
         console.log("--------------------");
 
+        //If a character is selected, make pressing back de-select that character instead of going to the previous menu:
+        if(this.int_charaIndex > 0){
+            this.b_backOk = false;
+            if(input.fn_press_drift()){
+                this.fn_characterDeselected();
+            }
+        }
+        else {
+            this.b_backOk = true;
+        }
+
         int_frames ++;
     }
 
     fn_characterSelected(){
+        //If selecting first character, select that character:
         if(this.int_charaIndex == 0){
+            //Moving the selected element:
             this.a_options[this.dy][this.dx].fn_deSelect();
             this.dx += 1;
             this.fn_overflowCheck();
             this.b_moved = true;
-
+            
+            //Incrementing variables for number of characters selected:
             this.int_charaIndex = 1;
             this.b_charIndexIncremented = true;
-
-            console.log("Incrementing dX");
         }
+        //Else, set the players and start the game:
         else {
-            manager.fn_startGameplay();
+            window.a_characters[0] = [this.a_objects[0].fn_getCharacter(), this.a_objects[1].fn_getCharacter()];
+            this.menuManager.fn_startGameplay();
         }
+    }
+
+    fn_characterDeselected(){
+        //Moving the selected element:
+        this.a_options[this.dy][this.dx].fn_deSelect();
+        this.dx -= 1;
+        this.fn_overflowCheck();
+        this.b_moved = true;
+
+        //Clear the front driver:
+        this.a_objects[this.int_charaIndex].fn_setCharacter('');
+        
+        //Decrementing variables for number of characters selected:
+        this.int_charaIndex = 0;
+        this.b_charIndexIncremented = true;
     }
 }

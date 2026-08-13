@@ -59,11 +59,14 @@
 	var b_isInitialized = false;
 	let promise_init = null;
 	const p_finish0 = document.getElementById("p_finish0");
+	const p_info = document.getElementById("info");
 	
 
 
 //This method runs once when gameplay is started:	
 async function fn_initializeGame(){
+
+	p_info.innerHTML = "";
 	
 	scene = fn_getScene();
 	renderer = fn_getRenderer();
