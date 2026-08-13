@@ -121,6 +121,7 @@ export default class Player{
 			//Speed & acceleration:
 				this.int_CC = window.int_CC;	
 						this.f_BASE_MAX_SPEED = .0043 * this.int_CC + 0.105 + this.f_STAT_SPEED * .01;	//The player's max speed.	
+				console.log(`Engine class: ${this.int_CC}cc`);
 				this.f_maxSpeed = this.f_BASE_MAX_SPEED;										//The current max speed.
 				this.f_speed = 0.0;																//The current amount the player moves forwards per frame.
 				this.f_pushedBack = 1.0;													//Equals negative when player is rebounding from a wall or player collision.

@@ -33,8 +33,10 @@ export default class Menu_2B_charSelect extends Menu{
                 static: true,
                 arrows: true,
                 subOptions: ["Slow", "Normal", "FAST"],
+                defaultOption: 1,
                 onConfirm: () => {
                     if(a_INPUTS.length > 1){
+                        window.int_gameMode = 1;
                         manager.fn_startGameplay();
                     }
 
@@ -43,6 +45,9 @@ export default class Menu_2B_charSelect extends Menu{
                     window.a_characters[1] = ['Aaron', 'Rufus'];
                     window.a_characters[2] = ['Maple', 'Aaron'];
                     window.a_characters[3] = ['Rufus', 'Enoki'];
+                },
+                onArrow: (_int_arrowIndex) => {
+                    fn_settingCC(_int_arrowIndex);
                 }
             })
         ]);

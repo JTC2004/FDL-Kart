@@ -372,6 +372,22 @@ export function fn_getSetting(str_text){
         }
 }
 
+//Settings functions:
+    export function fn_settingCC(_index){
+        if(_index == 0){
+            window.int_CC = 102;
+            window.int_laps = 3;
+        }
+        else if(_index == 2){
+            window.int_CC = 270;
+            window.int_laps = 5;
+        }
+        else{
+            window.int_CC = 150;
+            window.int_laps = 4;
+        }
+    }
+
 //This function is called in option.js to change a value here.
 export function fn_changeSettings(str_text, int_index, str_option){
     const p_info = document.getElementById("info");
@@ -435,23 +451,6 @@ export function fn_changeSettings(str_text, int_index, str_option){
             canvas.style.imageRendering = "pixelated";
             p_info.innerHTML = "More pixelated image.";
         }
-    }
-    else if(str_text == "No_Items" || str_text == "Items_On" || str_text == "Connect_Controllers"){
-        int_CCIndex = int_index;
-
-        if(int_CCIndex == 0){
-            window.int_CC = 102;
-            window.int_laps = 3;
-        }
-        else if(int_CCIndex == 2){
-            window.int_CC = 270;
-            window.int_laps = 5;
-        }
-        else{
-            window.int_CC = 150;
-            window.int_laps = 4;
-        }
-
     }
     else if(str_text == "Multiplayer true"){
         b_multiplayer = true;

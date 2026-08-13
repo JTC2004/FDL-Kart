@@ -8,6 +8,8 @@
         import Menu from "../menu.js";
         import Option from "../option.js";
         import Menu_1B_charSelect from "./menu_1B_charSelect.js";
+    //Arrow settings:
+        import { fn_settingCC } from "../../main.js";
 
 export default class Menu_1A_gameMode extends Menu{
 
@@ -25,7 +27,11 @@ export default class Menu_1A_gameMode extends Menu{
                 subOptions: ["Slow", "Normal", "FAST"],
                 defaultOption: 1,
                 onConfirm: () => {
+                    window.int_gameMode = 1;
                     manager.fn_nextMenu(new Menu_1B_charSelect(manager));
+                },
+                onArrow: (_int_arrowIndex) => {
+                    fn_settingCC(_int_arrowIndex);
                 }
             })
         ]);
@@ -40,18 +46,23 @@ export default class Menu_1A_gameMode extends Menu{
                 subOptions: ["Slow", "Normal", "FAST"],
                 defaultOption: 1,
                 onConfirm: () => {
+                    window.int_gameMode = 2;
                     manager.fn_nextMenu(new Menu_1B_charSelect(manager));
+                },
+                onArrow: (_int_arrowIndex) => {
+                    fn_settingCC(_int_arrowIndex);
                 }
             })
         ]);
         this.a_options.push([
             new Option({
                 text: "Practice",
-                info: "Freely use save-states and rewind to practice shortcuts.",
+                info: "Freely use flight, save-states, and rewind to practice shortcuts.",
                 type: "horizontal medium",
                 pos: [-5.8, -2.00, 0], 
                 scale: [1.3, .45],
                 onConfirm: () => {
+                    window.int_gameMode = 0;
                     manager.fn_nextMenu(new Menu_1B_charSelect(manager));
                 }
             })

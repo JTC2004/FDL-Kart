@@ -2,7 +2,6 @@
 
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { fn_changeSettings } from '../main.js';
 import { fn_getSetting } from '../main.js';
 import { fn_getMenuCamera } from '../main.js';
 
@@ -35,11 +34,12 @@ export default class Option{
         this.b_static = config.static;
         this.b_arrows = config.arrows;
         this.a_subOptions = config.subOptions;
-        this.int_optionIndex = config.defaultOption;
+        this.int_arrowIndex = config.defaultOption;
         this.str_optionTextTop = "0%";
         this.str_optionTextLeft = "0%";
 
         this.onConfirm = config.onConfirm;
+        this.onArrow = config.onArrow;
 
         //this.iX = _iX;
         //this.iY = _iY;
@@ -100,7 +100,7 @@ export default class Option{
 
                 SCENE.add( this.spr_arrowR );
                 SCENE.add( this.spr_arrowL );
-                this.p_optionElement.innerHTML = this.a_subOptions[this.int_optionIndex];
+                this.p_optionElement.innerHTML = this.a_subOptions[this.int_arrowIndex];
                 this.fn_updateLabelPosition("p_" + this.str_text);
         }
     }
@@ -119,23 +119,24 @@ export default class Option{
             //Changing value that arrows control:
             if(this.b_selected){
                 if(input.fn_press_right()){
-                    this.int_optionIndex ++;
+                    this.int_arrowIndex ++;
                 }
                 else if(input.fn_press_left()){
-                    this.int_optionIndex -= 1;
+                    this.int_arrowIndex -= 1;
                 }
 
                 //Bounds for arrow index:
-                if(this.int_optionIndex > this.a_subOptions.length - 1){
-                    this.int_optionIndex = 0;
+                if(this.int_arrowIndex > this.a_subOptions.length - 1){
+                    this.int_arrowIndex = 0;
                 }
-                else if(this.int_optionIndex < 0){
-                    this.int_optionIndex = this.a_subOptions.length - 1;
+                else if(this.int_arrowIndex < 0){
+                    this.int_arrowIndex = this.a_subOptions.length - 1;
                 }
 
-                //Update text:
+                //Update text and setting:
                 if(input.fn_press_right() || input.fn_press_left()){
-                    this.p_optionElement.innerHTML = this.a_subOptions[this.int_optionIndex];
+                    this.p_optionElement.innerHTML = this.a_subOptions[this.int_arrowIndex];
+                    this.onArrow(this.int_arrowIndex);
                 }
             }
 
@@ -215,7 +216,7 @@ export default class Option{
         if(this.b_arrows){
             this.spr_arrowL.visible = true;
             this.spr_arrowR.visible = true;
-            this.p_optionElement.innerHTML = this.a_subOptions[this.int_optionIndex];
+            this.p_optionElement.innerHTML = this.a_subOptions[this.int_arrowIndex];
             this.fn_updateLabelPosition("p_" + this.str_text);
         }
     }
