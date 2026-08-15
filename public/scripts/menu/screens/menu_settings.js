@@ -16,7 +16,7 @@ export default class Menu_Settings extends Menu{
         this.a_options.push([
             new Option({
                 text: "Resolution",
-                info: "(change how settings works to fix this text)",
+                info: "(setting)",
                 type: "horizontal large",
                 pos: [-3.6, 3, 0], 
                 scale: [2.5, .45],
@@ -31,7 +31,7 @@ export default class Menu_Settings extends Menu{
         this.a_options.push([
             new Option({
                 text: "SharpPixels",
-                info: "(change how settings works to fix this text)",
+                info: "(setting)",
                 type: "horizontal large",
                 pos: [-3.6, 1, 0], 
                 scale: [2.5, .45],

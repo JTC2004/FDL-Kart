@@ -393,14 +393,14 @@ export function fn_getSetting(str_text){
         const p_info = document.getElementById("info");
 
         int_resolutionIndex = _int_index;
-        var str_message = "";
+        var str_message = "Resolution " + str_WxH + ". Will reset on window resize.";
         
         if (_int_index == 4){
             a_resolution = [window.innerWidth, window.innerHeight];
 
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             renderer.setSize(a_resolution[0], a_resolution[1]);
-            p_info.innerHTML = "Resolution set to the size of your browser window (" + window.innerWidth + " x " + window.innerHeight +").";
+            str_message = "Resolution set to the size of your browser window (" + window.innerWidth + " x " + window.innerHeight +").";
         }
         else{
             a_resolution = [_str_subOption.slice(0, -1) / 9 * 16, _str_subOption.slice(0, -1)];
@@ -411,33 +411,32 @@ export function fn_getSetting(str_text){
 
             //renderer.setPixelRatio(1);
             if(_str_subOption.slice(0, -1) > window.innerHeight){
-                p_info.innerHTML = "WARNING: Game resolution higher than browser resolution!";
+                str_message = "WARNING: Game resolution higher than browser resolution!";
             }
             else if(_int_index == 7){
-                p_info.innerHTML = "4K " + str_WxH + ". Will reset on window resize.";
+                str_message = "4K " + str_WxH + ". Will reset on window resize.";
             }
             else if(_int_index == 6){
-                p_info.innerHTML = "Resolution of Switch 2 games " + str_WxH + ". Will reset on window resize.";
+                str_message = "Resolution of Switch 2 games " + str_WxH + ". Will reset on window resize.";
             }
             else if(_int_index == 5){
-                p_info.innerHTML = "Full HD " + str_WxH + ". Will reset on window resize.";
+                str_message = "Full HD " + str_WxH + ". Will reset on window resize.";
             }
             else if(_int_index == 3){
-                p_info.innerHTML = "Resolution of Wii U games " + str_WxH + ". Will reset on window resize.";
+                str_message = "Resolution of Wii U games " + str_WxH + ". Will reset on window resize.";
             }
             else if(_int_index == 2){
-                p_info.innerHTML = "Resolution of GCN & Wii games " + str_WxH + ". Will reset on window resize.";
+                str_message = "Resolution of GCN & Wii games " + str_WxH + ". Will reset on window resize.";
             }
             else if(_int_index == 1){
-                p_info.innerHTML = "Resolution of 3DS games " + str_WxH + ". Will reset on window resize.";
+                str_message = "Resolution of 3DS games " + str_WxH + ". Will reset on window resize.";
             }
             else if(_int_index == 0){
-                p_info.innerHTML = "Resolution of DS games " + str_WxH + ". Will reset on window resize.";
-            }
-            else {
-                p_info.innerHTML = "Resolution " + str_WxH + ". Will reset on window resize.";
+                str_message = "Resolution of DS games " + str_WxH + ". Will reset on window resize.";
             }
         }
+
+        p_info.innerHTML = str_message;
     }
 
     export function fn_settingSharpPixels(_int_index, _str_subOption){
