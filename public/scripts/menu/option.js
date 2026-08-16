@@ -163,7 +163,7 @@ export default class Option{
 
         this.p_info.innerHTML = this.str_info;
         //If this is a setting, set the text based on the setting:
-        if(this.str_info == "(setting)"){
+        if(this.b_arrows){
             this.onArrow(this.int_arrowIndex);
         }
         
