@@ -365,11 +365,8 @@ export function fn_getSetting(str_text){
         if (str_text == "Resolution"){
             return int_resolutionIndex;
         }
-        else if(str_text == "SharpPixels"){
+        else if(str_text == "Sharp Pixels"){
             return int_sharpPixelIndex;
-        }
-        else if(str_text == "No_Items" || str_text == "Items_On" || str_text == "Connect_Controllers"){
-            return int_CCIndex;
         }
 }
 
@@ -387,12 +384,12 @@ export function fn_getSetting(str_text){
             window.int_CC = 150;
             window.int_laps = 4;
         }
+
+        int_CCIndex = _int_index;
     }
 
     export function fn_settingResolution(_int_index, _str_subOption){
         const p_info = document.getElementById("info");
-
-        int_resolutionIndex = _int_index;
         var str_message = "Resolution " + str_WxH + ". Will reset on window resize.";
         
         if (_int_index == 4){
@@ -437,6 +434,7 @@ export function fn_getSetting(str_text){
         }
 
         p_info.innerHTML = str_message;
+        int_resolutionIndex = _int_index;
     }
 
     export function fn_settingSharpPixels(_int_index, _str_subOption){
@@ -451,6 +449,8 @@ export function fn_getSetting(str_text){
             canvas.style.imageRendering = "pixelated";
             p_info.innerHTML = "More pixelated image.";
         }
+
+        int_sharpPixelIndex = _int_index;
     }
 
 //Settings functions:
