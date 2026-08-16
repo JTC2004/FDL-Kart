@@ -92,8 +92,7 @@ if(window.b_debug){
 		antialias: b_trueAntiAlias,
 		alpha: true
 	});
-	renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));	//Sets ratio of CSS pixels to actual pixels. 1 is for 1080p screens, 2 is for 4K, 3 is for smartphone.
-	renderer.setSize( window.innerWidth, window.innerHeight);
+    fn_setResolution(window.innerWidth, window.innerHeight, false);
 	document.body.appendChild( renderer.domElement );
 
 //Event listeners:
@@ -114,10 +113,8 @@ if(window.b_debug){
             int_resolutionIndex = 4;
     
             //Update renderer:
-            a_resolution = [window.innerWidth, window.innerHeight];
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));	//Order matters. Set ratio, then size.
-            renderer.setSize(a_resolution[0], a_resolution[1]);
-    
+            fn_setResolution(window.innerWidth, window.innerHeight, false);
+
         }, false);
 
 //Important:
@@ -348,17 +345,6 @@ function fn_anyButton(_gamepad){
         return false;
 	}
 
-//Used for rebuilding the renderer:
-/*function fn_initializeRenderer(){
-    renderer = new THREE.WebGLRenderer({
-		antialias: b_trueAntiAlias,
-		alpha: true
-	});
-	renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));	//Sets ratio of CSS pixels to actual pixels. 1 is for 1080p screens, 2 is for 4K, 3 is for smartphone.
-	renderer.setSize( window.innerWidth, window.innerHeight);
-	document.body.appendChild( renderer.domElement );
-}*/
-
 //This function is called in option.js to update its value.
 //HOW TO SAVE 
 export function fn_getSetting(str_text){
@@ -435,9 +421,7 @@ export function fn_getSetting(str_text){
         }
 
         //Apply resolution changes:
-        a_resolution = [int_height / 9 * 16, int_height];
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.setSize(a_resolution[0], a_resolution[1], false);
+        fn_setResolution(int_height / 9 * 16, int_height, true);
 
         p_info.innerHTML = str_message;
         int_resolutionIndex = _int_index;
@@ -459,11 +443,18 @@ export function fn_getSetting(str_text){
         int_sharpPixelIndex = _int_index;
     }
 
-//Settings functions:
 export function fn_setMultiplayer(_b_newVal){
     b_multiplayer = _b_newVal;
 }
 
+//Set the game's resolution:
+function fn_setResolution(_int_w, _int_h, _b_16x9){
+    a_resolution = [_int_w, _int_h];
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));       //Sets ratio of CSS pixels to actual pixels. 1 is for 1080p screens, 2 is for 4K, 3 is for smartphone.
+
+    if(_b_16x9) renderer.setSize(a_resolution[0], a_resolution[1], false);  //The final boolean here when false, upscales the resolution if lower than window size.
+    else renderer.setSize(window.innerWidth, window.innerHeight);
+}
 
 //Dispose textures function by ChatGPT:
 function disposeMaterial(material) {
