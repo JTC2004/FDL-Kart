@@ -366,12 +366,12 @@ export function fn_getSetting(str_text){
             return int_resolutionIndex;
         }
         else if(str_text == "Sharp Pixels"){
-            return int_sharpPixelIndex;
+            return int_sharpPixelIndex; 
         }
 }
 
 //Settings functions:
-    export function fn_settingCC(_int_index, _str_subOption){
+    export function fn_settingCC(_int_index){
         if(_int_index == 0){
             window.int_CC = 102;
             window.int_laps = 3;
@@ -388,56 +388,62 @@ export function fn_getSetting(str_text){
         int_CCIndex = _int_index;
     }
 
-    export function fn_settingResolution(_int_index, _str_subOption){
+    export function fn_settingResolution(_int_index){
         const p_info = document.getElementById("info");
-        var str_message = "Resolution " + str_WxH + ". Will reset on window resize.";
+        var str_message = "";
+        let int_height;
         
         if (_int_index == 4){
-            a_resolution = [window.innerWidth, window.innerHeight];
-
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            renderer.setSize(a_resolution[0], a_resolution[1]);
+            int_height = window.innerHeight;
             str_message = "Resolution set to the size of your browser window (" + window.innerWidth + " x " + window.innerHeight +").";
         }
         else{
-            a_resolution = [_str_subOption.slice(0, -1) / 9 * 16, _str_subOption.slice(0, -1)];
-
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            renderer.setSize(a_resolution[0], a_resolution[1], false);
-            var str_WxH = "(" + Math.ceil(_str_subOption.slice(0, -1) / 9 * 16) + " x " + _str_subOption.slice(0, -1) + ")";
-
-            //renderer.setPixelRatio(1);
-            if(_str_subOption.slice(0, -1) > window.innerHeight){
-                str_message = "WARNING: Game resolution higher than browser resolution!";
-            }
-            else if(_int_index == 7){
-                str_message = "4K " + str_WxH + ". Will reset on window resize.";
+            //Set resolution and message based on the option index:
+            if(_int_index == 7){
+                int_height = 2160;
+                str_message = "4K (3480 x 2160). Will reset on window resize.";
             }
             else if(_int_index == 6){
-                str_message = "Resolution of Switch 2 games " + str_WxH + ". Will reset on window resize.";
+                int_height = 1440;
+                str_message = "Resolution of Switch 2 games (2560 x 1440). Will reset on window resize.";
             }
             else if(_int_index == 5){
-                str_message = "Full HD " + str_WxH + ". Will reset on window resize.";
+                int_height = 1080;
+                str_message = "Full HD (1920 x 1080). Will reset on window resize.";
             }
             else if(_int_index == 3){
-                str_message = "Resolution of Wii U games " + str_WxH + ". Will reset on window resize.";
+                int_height = 720;
+                str_message = "Resolution of Wii U games (1280 x 720). Will reset on window resize.";
             }
             else if(_int_index == 2){
-                str_message = "Resolution of GCN & Wii games " + str_WxH + ". Will reset on window resize.";
+                int_height = 480;
+                str_message = "Resolution of GCN & Wii games (852 x 480). Will reset on window resize.";
             }
             else if(_int_index == 1){
-                str_message = "Resolution of 3DS games " + str_WxH + ". Will reset on window resize.";
+                int_height = 250;
+                str_message = "Resolution of 3DS games (444 x 250). Will reset on window resize.";
             }
             else if(_int_index == 0){
-                str_message = "Resolution of DS games " + str_WxH + ". Will reset on window resize.";
+                int_height = 192;
+                str_message = "Resolution of DS games (340 x 192). Will reset on window resize.";
+            }
+
+            //If set resolution is higher than the window, tell the user they are rendering too high:
+            if(a_resolution[1] > window.innerHeight){
+                str_message = "WARNING: Game resolution higher than browser resolution!";
             }
         }
+
+        //Apply resolution changes:
+        a_resolution = [int_height / 9 * 16, int_height];
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(a_resolution[0], a_resolution[1], false);
 
         p_info.innerHTML = str_message;
         int_resolutionIndex = _int_index;
     }
 
-    export function fn_settingSharpPixels(_int_index, _str_subOption){
+    export function fn_settingSharpPixels(_int_index){
         const p_info = document.getElementById("info");
         const canvas = renderer.domElement;
 

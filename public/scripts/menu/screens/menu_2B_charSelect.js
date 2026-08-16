@@ -46,8 +46,8 @@ export default class Menu_2B_charSelect extends Menu{
                     window.a_characters[2] = ['Maple', 'Aaron'];
                     window.a_characters[3] = ['Rufus', 'Enoki'];
                 },
-                onArrow: (_int_i, _str_subOption) => {
-                    fn_settingCC(_int_i, _str_subOption);
+                onArrow: (_int_i) => {
+                    fn_settingCC(_int_i);
                 }
             })
         ]);

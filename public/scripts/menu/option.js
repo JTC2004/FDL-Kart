@@ -135,7 +135,7 @@ export default class Option{
                 //Update text and setting:
                 if(input.fn_press_right() || input.fn_press_left()){
                     this.p_optionElement.innerHTML = this.a_subOptions[this.int_arrowIndex];
-                    this.onArrow(this.int_arrowIndex, this.a_subOptions[this.int_arrowIndex]);
+                    this.onArrow(this.int_arrowIndex);
                 }
             }
 
@@ -164,7 +164,7 @@ export default class Option{
         this.p_info.innerHTML = this.str_info;
         //If this is a setting, set the text based on the setting:
         if(this.str_info == "(setting)"){
-            this.onArrow(this.int_arrowIndex, this.a_subOptions[this.int_arrowIndex]);
+            this.onArrow(this.int_arrowIndex);
         }
         
         if(this.b_disabled){

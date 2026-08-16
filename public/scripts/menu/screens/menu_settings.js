@@ -24,8 +24,8 @@ export default class Menu_Settings extends Menu{
                 arrows: true,
                 subOptions: ["192p", "250p", "480p", "720p", "Default", "1080p", "1440p", "2160p"],
                 defaultOption: fn_getSetting("Resolution"),
-                onArrow: (_int_i, _str_subOption) => {
-                    fn_settingResolution(_int_i, _str_subOption);
+                onArrow: (_int_i) => {
+                    fn_settingResolution(_int_i);
                 }
             })
         ]);
@@ -39,8 +39,8 @@ export default class Menu_Settings extends Menu{
                 arrows: true,
                 subOptions: ["OFF", "ON"],
                 defaultOption: fn_getSetting("Sharp Pixels"),
-                onArrow: (_int_i, _str_subOption) => {
-                    fn_settingSharpPixels(_int_i, _str_subOption);
+                onArrow: (_int_i) => {
+                    fn_settingSharpPixels(_int_i);
                 }
             })
         ]);

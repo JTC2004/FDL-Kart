@@ -30,8 +30,8 @@ export default class Menu_1A_gameMode extends Menu{
                     window.int_gameMode = 1;
                     manager.fn_nextMenu(new Menu_1B_charSelect(manager));
                 },
-                onArrow: (_int_i, _str_subOption) => {
-                    fn_settingCC(_int_i, _str_subOption);
+                onArrow: (_int_i) => {
+                    fn_settingCC(_int_i);
                 }
             })
         ]);
@@ -49,8 +49,8 @@ export default class Menu_1A_gameMode extends Menu{
                     window.int_gameMode = 2;
                     manager.fn_nextMenu(new Menu_1B_charSelect(manager));
                 },
-                onArrow: (_int_i, _str_subOption) => {
-                    fn_settingCC(_int_i, _str_subOption);
+                onArrow: (_int_i) => {
+                    fn_settingCC(_int_i);
                 }
             })
         ]);
