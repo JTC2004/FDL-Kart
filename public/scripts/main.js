@@ -48,9 +48,10 @@ window.int_gameMode = 2;      //0 is Practice,              (items on track, pla
 //                              4 is Versus,                (items on track, player doesn't start with items)
 
 //Settings variables:   
-var a_resolution = [window.innerWidth, window.innerHeight];
+var a_resolution = [];
+var f_maxResolutionHeight = 1080;
 var b_trueAntiAlias = false;
-var int_resolutionIndex = 4;
+var int_maxResolutionIndex = 5;
 var int_sharpPixelIndex = 0;
 var int_CCIndex = 1;
 
@@ -92,28 +93,14 @@ if(window.b_debug){
 		antialias: b_trueAntiAlias,
 		alpha: true
 	});
-    fn_setResolution(window.innerWidth, window.innerHeight, false);
+    fn_setResolution(false);
 	document.body.appendChild( renderer.domElement );
 
 //Event listeners:
     //Renderer resize handler:
         window.addEventListener('resize', () => {
-            //Update camera:
-            if(b_gameplay){
-                a_gameCameras[0].aspect = window.innerWidth / window.innerHeight;
-                a_gameCameras[0].updateProjectionMatrix();							//Tells three.js to update the camera.
-            }
-            else{
-			    menuCamera.aspect = window.innerWidth / window.innerHeight;
-			    menuCamera.updateProjectionMatrix();							//Tells three.js to update the camera.
-
-                //Check fullscreen:
-			    fn_checkFullscreen(menuCamera, frustumHeight);
-            }
-            int_resolutionIndex = 4;
-    
             //Update renderer:
-            fn_setResolution(window.innerWidth, window.innerHeight, false);
+            fn_setResolution(false);            
 
         }, false);
 
@@ -126,7 +113,9 @@ try{
     gameLoop.addCallback((dt) => {
         //Showing render status:
         //console.log(renderer.info.memory);
-        console.log(`window.int_CC = ${window.int_CC}`);
+        //console.log(`window.int_CC = ${window.int_CC}`);
+        console.log(`Renderer size: ${a_resolution} \t Window size: ${window.innerWidth},${window.innerHeight}`);
+        
 
         //Showing memory status (CHROMIUM ONLY. Crashes in Firefox):
         //console.log(`Using: ${(performance.memory.usedJSHeapSize / 1048576).toFixed(1)} MB | Total: ${(performance.memory.totalJSHeapSize / 1048576).toFixed(1)} MB`);
@@ -349,7 +338,7 @@ function fn_anyButton(_gamepad){
 //HOW TO SAVE 
 export function fn_getSetting(str_text){
         if (str_text == "Resolution"){
-            return int_resolutionIndex;
+            return int_maxResolutionIndex;
         }
         else if(str_text == "Sharp Pixels"){
             return int_sharpPixelIndex; 
@@ -374,57 +363,56 @@ export function fn_getSetting(str_text){
         int_CCIndex = _int_index;
     }
 
-    export function fn_settingResolution(_int_index){
+    export function fn_settingMaxResolution(_int_index){
         const p_info = document.getElementById("info");
         var str_message = "";
         let int_height;
         
-        if (_int_index == 4){
-            int_height = window.innerHeight;
-            str_message = "Resolution set to the size of your browser window (" + window.innerWidth + " x " + window.innerHeight +").";
+        //Set resolution and message based on the option index:
+        if(_int_index == 7){
+            int_height = 2160;
+            str_message = "4K (3480 x 2160). Will reset on window resize.";
         }
-        else{
-            //Set resolution and message based on the option index:
-            if(_int_index == 7){
-                int_height = 2160;
-                str_message = "4K (3480 x 2160). Will reset on window resize.";
-            }
-            else if(_int_index == 6){
-                int_height = 1440;
-                str_message = "Resolution of Switch 2 games (2560 x 1440). Will reset on window resize.";
-            }
-            else if(_int_index == 5){
-                int_height = 1080;
-                str_message = "Full HD (1920 x 1080). Will reset on window resize.";
-            }
-            else if(_int_index == 3){
-                int_height = 720;
-                str_message = "Resolution of Wii U games (1280 x 720). Will reset on window resize.";
-            }
-            else if(_int_index == 2){
-                int_height = 480;
-                str_message = "Resolution of GCN & Wii games (852 x 480). Will reset on window resize.";
-            }
-            else if(_int_index == 1){
-                int_height = 250;
-                str_message = "Resolution of 3DS games (444 x 250). Will reset on window resize.";
-            }
-            else if(_int_index == 0){
-                int_height = 192;
-                str_message = "Resolution of DS games (340 x 192). Will reset on window resize.";
-            }
+        else if(_int_index == 6){
+            int_height = 1440;
+            str_message = "Resolution of Switch 2 games (2560 x 1440). Will reset on window resize.";
+        }
+        else if(_int_index == 5){
+            int_height = 1080;
+            str_message = "Full HD (1920 x 1080). Will reset on window resize.";
+        }
+        else if(_int_index == 4){
+            int_height = 900;
+            str_message = "Resolution of Switch games (1600 x 900). Will reset on window resize.";
+        }
+        else if(_int_index == 3){
+            int_height = 720;
+            str_message = "Resolution of Wii U games (1280 x 720). Will reset on window resize.";
+        }
+        else if(_int_index == 2){
+            int_height = 480;
+            str_message = "Resolution of GCN & Wii games (852 x 480). Will reset on window resize.";
+        }
+        else if(_int_index == 1){
+            int_height = 250;
+            str_message = "Resolution of 3DS games (444 x 250). Will reset on window resize.";
+        }
+        else if(_int_index == 0){
+            int_height = 192;
+            str_message = "Resolution of DS games (340 x 192). Will reset on window resize.";
+        }
 
-            //If set resolution is higher than the window, tell the user they are rendering too high:
-            if(a_resolution[1] > window.innerHeight){
-                str_message = "WARNING: Game resolution higher than browser resolution!";
-            }
-        }
+        //If set resolution is higher than the window, tell the user they are rendering too high:
+        //if(a_maxResolution[1] > window.innerHeight){
+        //    str_message = "WARNING: Game resolution higher than browser resolution!";
+        //}
 
         //Apply resolution changes:
-        fn_setResolution(int_height / 9 * 16, int_height, true);
+        f_maxResolutionHeight = int_height;
+        fn_setResolution(true);
 
         p_info.innerHTML = str_message;
-        int_resolutionIndex = _int_index;
+        int_maxResolutionIndex = _int_index;
     }
 
     export function fn_settingSharpPixels(_int_index){
@@ -448,12 +436,34 @@ export function fn_setMultiplayer(_b_newVal){
 }
 
 //Set the game's resolution:
-function fn_setResolution(_int_w, _int_h, _b_16x9){
-    a_resolution = [_int_w, _int_h];
+function fn_setResolution(_b_16x9){
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));       //Sets ratio of CSS pixels to actual pixels. 1 is for 1080p screens, 2 is for 4K, 3 is for smartphone.
+    var f_ratio = window.innerWidth / window.innerHeight;
 
-    if(_b_16x9) renderer.setSize(a_resolution[0], a_resolution[1], false);  //The final boolean here when false, upscales the resolution if lower than window size.
-    else renderer.setSize(window.innerWidth, window.innerHeight);
+    //If window height is less than max resolution, set resolution to window size:
+    if(window.innerHeight < f_maxResolutionHeight){
+        a_resolution = [window.innerWidth, window.innerHeight];
+        renderer.setSize(a_resolution[0], a_resolution[1]);
+    }
+    //Else, if window height is equal or greater than max resolution, set resolution to max resolution:
+    else{
+        a_resolution = [f_ratio * f_maxResolutionHeight, f_maxResolutionHeight];
+        renderer.setSize(a_resolution[0], a_resolution[1], false);
+    }
+
+    //Update camera:
+        if(b_gameplay){
+            a_gameCameras[0].aspect = f_ratio;
+            a_gameCameras[0].updateProjectionMatrix();							//Tells three.js to update the camera.
+        }
+        else{
+            menuCamera.aspect = f_ratio;
+            menuCamera.updateProjectionMatrix();							//Tells three.js to update the camera.
+
+            //Check fullscreen:
+            fn_checkFullscreen(menuCamera, frustumHeight);
+        }
+    //} 
 }
 
 //Dispose textures function by ChatGPT:

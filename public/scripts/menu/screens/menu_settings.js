@@ -5,7 +5,7 @@
         import Menu from "../menu.js";
         import Option from "../option.js";
     //Arrow settings:
-        import { fn_settingResolution } from "../../main.js";
+        import { fn_settingMaxResolution } from "../../main.js";
         import { fn_settingSharpPixels } from "../../main.js";
         import {fn_getSetting} from "../../main.js";
 
@@ -21,10 +21,10 @@ export default class Menu_Settings extends Menu{
                 pos: [-3.6, 3, 0], 
                 scale: [2.5, .45],
                 arrows: true,
-                subOptions: ["192p", "250p", "480p", "720p", "Default", "1080p", "1440p", "2160p"],
+                subOptions: ["192p", "250p", "480p", "720p", "900p", "1080p", "1440p", "2160p"],
                 defaultOption: fn_getSetting("Resolution"),
                 onArrow: (_int_i) => {
-                    fn_settingResolution(_int_i);
+                    fn_settingMaxResolution(_int_i);
                 }
             })
         ]);
