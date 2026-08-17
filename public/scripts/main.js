@@ -51,7 +51,7 @@ window.int_gameMode = 2;      //0 is Practice,              (items on track, pla
 var a_resolution = [];
 var f_maxResolutionHeight = 1080;
 var b_trueAntiAlias = false;
-var int_maxResolutionIndex = 5;
+var int_maxResolutionIndex = 6;
 var int_sharpPixelIndex = 0;
 var int_CCIndex = 1;
 
@@ -369,43 +369,42 @@ export function fn_getSetting(str_text){
         let int_height;
         
         //Set resolution and message based on the option index:
-        if(_int_index == 7){
+        if(_int_index == 8){
             int_height = 2160;
-            str_message = "4K (3480 x 2160). Will reset on window resize.";
+            str_message = "4K Ultra HD (3480 x 2160).";
+        }
+        else if(_int_index == 7){
+            int_height = 1440;
+            str_message = "2K Quad HD (2560 x 1440).";
         }
         else if(_int_index == 6){
-            int_height = 1440;
-            str_message = "Resolution of Switch 2 games (2560 x 1440). Will reset on window resize.";
+            int_height = 1080;
+            str_message = "Full HD (1920 x 1080).";
         }
         else if(_int_index == 5){
-            int_height = 1080;
-            str_message = "Full HD (1920 x 1080). Will reset on window resize.";
+            int_height = 900;
+            str_message = "Resolution of Switch games (1600 x 900).";
         }
         else if(_int_index == 4){
-            int_height = 900;
-            str_message = "Resolution of Switch games (1600 x 900). Will reset on window resize.";
+            int_height = 720;
+            str_message = "Resolution of Wii U games (1280 x 720).";
         }
         else if(_int_index == 3){
-            int_height = 720;
-            str_message = "Resolution of Wii U games (1280 x 720). Will reset on window resize.";
+            int_height = 480;
+            str_message = "Resolution of GCN & Wii games (852 x 480).";
         }
         else if(_int_index == 2){
-            int_height = 480;
-            str_message = "Resolution of GCN & Wii games (852 x 480). Will reset on window resize.";
+            int_height = 250;
+            str_message = "Resolution of 3DS games (444 x 250).";
         }
         else if(_int_index == 1){
-            int_height = 250;
-            str_message = "Resolution of 3DS games (444 x 250). Will reset on window resize.";
+            int_height = 192;
+            str_message = "Resolution of DS games (340 x 192).";
         }
         else if(_int_index == 0){
-            int_height = 192;
-            str_message = "Resolution of DS games (340 x 192). Will reset on window resize.";
+            int_height = 160;
+            str_message = "Resolution of GBA games (284 x 160).";
         }
-
-        //If set resolution is higher than the window, tell the user they are rendering too high:
-        //if(a_maxResolution[1] > window.innerHeight){
-        //    str_message = "WARNING: Game resolution higher than browser resolution!";
-        //}
 
         //Apply resolution changes:
         f_maxResolutionHeight = int_height;
