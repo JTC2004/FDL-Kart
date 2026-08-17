@@ -27,15 +27,17 @@ Changes since last version:
 		- Re-implemented how settings works in a cleaner way.
 		- Use str_message to make settings display the correct message to p_info on first load.
 		- Options save settings choices via fn_getSetting and the int_XIndex variables in main.js.
-		- Removed need for _str_subOption.
+		- Make the resolution setting into Max Resolution:
+			- Default is 1080p instead of current resolution.
+			- On startup or window resize, game's resolution equals the size of of the window as long as it's under the max resolution.
+			That way, resolution isn't reset on resize.
+		- Removed need for setting functions to use _str_subOption before more settings are added.
 
 To do:
-	- Make the resolution setting into Max Resolution:
-		- Default is 1080p instead of current resolution.
-		- On startup or window resize, game's resolution equals the size of of the window as long as it's under the max resolution.
-		That way, resolution isn't reset on resize.
-		- Also remove need for setting functions to use _str_subOption before more settings are added.
+	- Replace text in Resolution sprite with "Max Resolution".
+	- Add arrows animation.
 	- Add menu option animation.
+	- Check if split-screen resolutions are a fraction of a_resolution, or their own full a_resolution.
 	- Quick-settings menu.
 	
 	- Fix the fact that due to having a sprite cache, now all instances of a sprite use the same sprite tile.

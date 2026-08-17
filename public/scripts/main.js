@@ -114,7 +114,7 @@ try{
         //Showing render status:
         //console.log(renderer.info.memory);
         //console.log(`window.int_CC = ${window.int_CC}`);
-        console.log(`Renderer size: ${a_resolution} \t Window size: ${window.innerWidth},${window.innerHeight}`);
+        console.log(`Renderer size: (${renderer.getSize(new THREE.Vector2()).x}, ${renderer.getSize(new THREE.Vector2()).y}) \t Window size: ${window.innerWidth},${window.innerHeight}`);
         
 
         //Showing memory status (CHROMIUM ONLY. Crashes in Firefox):
@@ -443,15 +443,18 @@ function fn_setResolution(_b_16x9){
     //If window height is less than max resolution, set resolution to window size:
     if(window.innerHeight < f_maxResolutionHeight){
         a_resolution = [window.innerWidth, window.innerHeight];
-        renderer.setSize(a_resolution[0], a_resolution[1]);
     }
     //Else, if window height is equal or greater than max resolution, set resolution to max resolution:
     else{
         a_resolution = [f_ratio * f_maxResolutionHeight, f_maxResolutionHeight];
-        renderer.setSize(a_resolution[0], a_resolution[1], false);
     }
+    //Set the renderer's resolution:
+    renderer.setSize(a_resolution[0], a_resolution[1], false);
+    //Explicitly set the canvas's CSS size myself to avoid issues:
+    renderer.domElement.style.width = "100%";
+    renderer.domElement.style.height = "100%";
 
-    //Update camera:
+    //Update camera(s):
         if(b_gameplay){
             a_gameCameras[0].aspect = f_ratio;
             a_gameCameras[0].updateProjectionMatrix();							//Tells three.js to update the camera.

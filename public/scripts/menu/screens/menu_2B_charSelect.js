@@ -12,6 +12,8 @@
         import { fn_setMultiplayer } from '../../main.js';
         import Menu_1B_charSelect from "./menu_1B_charSelect.js";
         import { fn_getInputs } from "../../main.js";
+    //Arrow settings:
+        import { fn_settingCC } from "../../main.js";
 
 
 let a_INPUTS;
