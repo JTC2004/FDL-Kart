@@ -48,7 +48,8 @@ export default class Option{
         this.int_arrowFrame = 0;
         this.int_pressAmount = .18;          //Value for how far arrow icon gets pushed.
         this.a_arrowPress = [0, 0];         //The number of frames elapsed for arrow press animation for each arrow.
-        this.a_arrowAnim = [true, true];    //When each equals false, the respective arrow is grayed out.
+        this.a_arrowNotEdge = [true, true];    //When each equals false, the respective arrow is grayed out.
+        this.f_baseArrowBrightness = [1, 1];//Base brightness of each arrow.
 
         //this.iX = _iX;
         //this.iY = _iY;
@@ -117,6 +118,8 @@ export default class Option{
                 SCENE.add( this.spr_arrowL );
                 this.p_optionElement.innerHTML = this.a_subOptions[this.int_arrowIndex];
                 this.fn_updateLabelPosition("p_" + this.str_text);
+
+                this.fn_arrowIdleAnimCheck();
         }
     }
 
@@ -133,25 +136,18 @@ export default class Option{
 
             //Changing value that arrows control:
             if(this.b_selected){
-                if(input.fn_press_right() && this.int_arrowIndex < this.a_subOptions.length - 1){
-                    this.int_arrowIndex ++;
-                    this.a_arrowPress[1] = this.int_pressAmount;
-                    this.a_arrowAnim[1] = true;
+                if(input.fn_press_right()){
+                    var int_div = 1;
+                    if(!this.a_arrowNotEdge[1]) int_div = 10;
+                    else this.int_arrowIndex ++;
+                    this.a_arrowPress[1] = this.int_pressAmount / int_div;
                 }
-                else if(input.fn_press_left() && this.int_arrowIndex > 0){
-                    this.int_arrowIndex -= 1;
-                    this.a_arrowPress[0] = this.int_pressAmount;
-                    this.a_arrowAnim[0] = true;
-                }                    
-                
-                /*if(this.int_arrowIndex == this.a_subOptions.length - 1){ 
-                    this.a_arrowPress[1] = this.int_pressAmount / 10;
-                    this.a_arrowAnim[1] = false;
-                }
-                if(this.int_arrowIndex == 0){
-                    this.a_arrowPress[0] = this.int_pressAmount / 10;
-                    this.a_arrowAnim[0] = false;
-                }*/
+                else if(input.fn_press_left()){
+                    var int_div = 1;
+                    if(!this.a_arrowNotEdge[0]) int_div = 10;
+                    else this.int_arrowIndex -= 1;
+                    this.a_arrowPress[0] = this.int_pressAmount / int_div;
+                }        
 
                 //Bounds for arrow index:
                 if(this.int_arrowIndex > this.a_subOptions.length - 1){
@@ -165,6 +161,9 @@ export default class Option{
                 if(input.fn_press_right() || input.fn_press_left()){
                     this.p_optionElement.innerHTML = this.a_subOptions[this.int_arrowIndex];
                     this.onArrow(this.int_arrowIndex);
+
+                    //Arrow animation check on every press:
+                    this.fn_arrowIdleAnimCheck();
                 }
 
                 this.fn_arrowAnimUpdate(this.spr_arrowL, 0);
@@ -183,15 +182,36 @@ export default class Option{
         var int_direc = 1;
         if(_i == 0) int_direc = -1;
 
-
-        if(this.a_arrowAnim[_i]) sprite.position.x = this.a_baseArrowPos[_i].x + (Math.sin(this.int_arrowFrame / 10) * .04 + this.a_arrowPress[_i]) * int_direc; 
+        let f_idleAnim = 0;
+        if(this.a_arrowNotEdge[_i]) f_idleAnim = (Math.sin(this.int_arrowFrame / 10) * .04);
+        sprite.position.x = this.a_baseArrowPos[_i].x + (f_idleAnim + this.a_arrowPress[_i]) * int_direc; 
 
         //If a_arrowPress[i] got incemented by int_pressAmount, decrement it.
         if(this.a_arrowPress[_i] > 0){
             this.a_arrowPress[_i] -= .05;
-            const int_brighten = 1 + Math.max(0, this.a_arrowPress[_i]) * 900;      //USE Math.MAX to optimize decrement checks!
+            const int_brighten = this.f_baseArrowBrightness[_i] + Math.max(0, this.a_arrowPress[_i]) * 900;      //USE Math.MAX to optimize decrement checks!
             sprite.material.color.setRGB(int_brighten, int_brighten, int_brighten);
         }
+    }
+
+    //Check if the arrows should be moving:
+    fn_arrowIdleAnimCheck(){
+        this.a_arrowNotEdge[0] = true;     
+        this.a_arrowNotEdge[1] = true;     
+        this.f_baseArrowBrightness[0] = 1;
+        this.f_baseArrowBrightness[1] = 1;
+        
+        if(this.int_arrowIndex == 0){
+            this.a_arrowNotEdge[0] = false;
+            this.f_baseArrowBrightness[0] = 0.3;
+        } 
+        if(this.int_arrowIndex == this.a_subOptions.length - 1){
+            this.a_arrowNotEdge[1] = false;
+            this.f_baseArrowBrightness[1] = 0.3;
+        }
+
+        this.spr_arrowL.material.color.setRGB(this.f_baseArrowBrightness[0], this.f_baseArrowBrightness[0], this.f_baseArrowBrightness[0]);
+        this.spr_arrowR.material.color.setRGB(this.f_baseArrowBrightness[1], this.f_baseArrowBrightness[1], this.f_baseArrowBrightness[1]);
     }
 
     fn_isDummy(){
@@ -216,6 +236,7 @@ export default class Option{
         //If this is a setting, set the text based on the setting:
         if(this.b_arrows){
             this.onArrow(this.int_arrowIndex);
+            this.fn_arrowIdleAnimCheck();
         }
         
         if(this.b_disabled){
