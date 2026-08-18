@@ -46,6 +46,7 @@ window.int_gameMode = 2;      //0 is Practice,              (items on track, pla
 //                              2 is No_Items,              (no items on track, player starts with items)
 //                              3 is Adventure,             
 //                              4 is Versus,                (items on track, player doesn't start with items)
+window.b_inSettingsMenu = false;            //Equals true only while in the settings menu.
 
 //Settings variables:   
 var a_resolution = [];
@@ -93,14 +94,14 @@ if(window.b_debug){
 		antialias: b_trueAntiAlias,
 		alpha: true
 	});
-    fn_setResolution(false);
+    fn_setResolution();
 	document.body.appendChild( renderer.domElement );
 
 //Event listeners:
     //Renderer resize handler:
         window.addEventListener('resize', () => {
             //Update renderer:
-            fn_setResolution(false);            
+            fn_setResolution();            
 
         }, false);
 
@@ -114,7 +115,7 @@ try{
         //Showing render status:
         //console.log(renderer.info.memory);
         //console.log(`window.int_CC = ${window.int_CC}`);
-        //console.log(`Renderer size: (${renderer.getSize(new THREE.Vector2()).x}, ${renderer.getSize(new THREE.Vector2()).y}) \t Window size: ${window.innerWidth},${window.innerHeight}`);
+        console.log(`Renderer size: (${renderer.getSize(new THREE.Vector2()).x}, ${renderer.getSize(new THREE.Vector2()).y}) \t Window size: ${window.innerWidth},${window.innerHeight}`);
         
 
         //Showing memory status (CHROMIUM ONLY. Crashes in Firefox):
@@ -268,7 +269,7 @@ function fn_checkFullscreen(menuCamera, frustumHeight){
 			b_fullScreen = false;
 		}
 
-		//Prevent strething if aspect ratio is widescreen:
+		//Prevent stretching if aspect ratio is widescreen:
 		if(menuCamera.aspect >= 1.7){
 			menuCamera.left = (-frustumHeight * menuCamera.aspect) / 2;
 			menuCamera.right = (frustumHeight * menuCamera.aspect) / 2;
@@ -364,57 +365,56 @@ export function fn_getSetting(str_text){
     }
 
     export function fn_settingMaxResolution(_int_index){
-        const p_info = document.getElementById("info");
-        var str_message = "";
+        //var str_message = "";
         let int_height;
         
         //Set resolution and message based on the option index:
         if(_int_index == 9){
             int_height = 2160;
-            str_message = "4K Ultra HD (3480 x 2160).";
+            //str_message = "4K Ultra HD (3480 x 2160).";
         }
         else if(_int_index == 8){
             int_height = 1440;
-            str_message = "2K Quad HD (2560 x 1440).";
+            //str_message = "2K Quad HD (2560 x 1440).";
         }
         else if(_int_index == 7){
             int_height = 1080;
-            str_message = "Full HD (1920 x 1080).";
+            //str_message = "Full HD (1920 x 1080).";
         }
         else if(_int_index == 6){
             int_height = 900;
-            str_message = "Resolution of Switch games (1600 x 900).";
+            //str_message = "Resolution of Switch games (1600 x 900).";
         }
         else if(_int_index == 5){
             int_height = 720;
-            str_message = "Resolution of Wii U games (1280 x 720).";
+            //str_message = "Resolution of Wii U games (1280 x 720).";
         }
         else if(_int_index == 4){
             int_height = 480;
-            str_message = "Resolution of GCN & Wii games (852 x 480).";
+            //str_message = "Resolution of GCN & Wii games (852 x 480).";
         }
         else if(_int_index == 3){
             int_height = 360;
-            str_message = "360p (640 x 360).";
+            //str_message = "360p (640 x 360).";
         }
         else if(_int_index == 2){
-            int_height = 250;
-            str_message = "Resolution of 3DS games (444 x 250).";
+            int_height = 240;
+            //str_message = "Resolution of SNES games (426 x 240).";
         }
         else if(_int_index == 1){
             int_height = 192;
-            str_message = "Resolution of DS games (340 x 192).";
+            //str_message = "Resolution of DS games (340 x 192).";
         }
         else if(_int_index == 0){
             int_height = 160;
-            str_message = "Resolution of GBA games (284 x 160).";
+            //str_message = "Resolution of GBA games (284 x 160).";
         }
 
         //Apply resolution changes:
         f_maxResolutionHeight = int_height;
-        fn_setResolution(true);
+        fn_setResolution();
 
-        p_info.innerHTML = str_message;
+        
         int_maxResolutionIndex = _int_index;
     }
 
@@ -439,7 +439,7 @@ export function fn_setMultiplayer(_b_newVal){
 }
 
 //Set the game's resolution:
-function fn_setResolution(_b_16x9){
+function fn_setResolution(){
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));       //Sets ratio of CSS pixels to actual pixels. 1 is for 1080p screens, 2 is for 4K, 3 is for smartphone.
     var f_ratio = window.innerWidth / window.innerHeight;
 
@@ -470,6 +470,16 @@ function fn_setResolution(_b_16x9){
             fn_checkFullscreen(menuCamera, frustumHeight);
         }
     //} 
+
+    //If in settings menu, set info text:
+    if(window.b_inSettingsMenu){
+        const p_info = document.getElementById("info");
+        p_info.innerHTML = `Lower resolution to increase performance. \nCurrent: (
+            ${Math.round(renderer.getSize(new THREE.Vector2()).x)}
+             x 
+            ${Math.round(renderer.getSize(new THREE.Vector2()).y)}
+        )`;
+    }
 }
 
 //Dispose textures function by ChatGPT:

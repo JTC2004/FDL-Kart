@@ -21,7 +21,7 @@ export default class Menu_Settings extends Menu{
                 pos: [-3.6, 3, 0], 
                 scale: [2.5, .45],
                 arrows: true,
-                subOptions: ["160p", "192p", "250p", "360p", "480p", "720p", "900p", "1080p", "1440p", "2160p"],
+                subOptions: ["160p", "192p", "240p", "360p", "480p", "720p", "900p", "1080p", "1440p", "4K"],
                 defaultOption: fn_getSetting("Resolution"),
                 onArrow: (_int_i) => {
                     fn_settingMaxResolution(_int_i);
@@ -44,5 +44,15 @@ export default class Menu_Settings extends Menu{
         ]);
         
         this.str_menuName = "1P Game Mode";
+    }
+
+    //Extra additions for this specific menu:
+    fn_extraEnter(){
+        window.b_inSettingsMenu = true;
+    }
+
+    //Extra cleanup for this specific menu:
+    fn_extraExit(){
+        window.b_inSettingsMenu = false;
     }
 }
