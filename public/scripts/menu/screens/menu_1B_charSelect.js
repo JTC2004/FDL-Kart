@@ -13,6 +13,10 @@
 
 var int_frames = 0;
 
+//Note:
+//I don't need to make a separate character select class for multiplayer.
+//Just make this menu behave differently when b_multiplayer is true.
+
 export default class Menu_1B_charSelect extends Menu{
 
     constructor(manager){

@@ -1,13 +1,19 @@
 //This is the mode select for Single Player:
 
 //Imports:
+    import * as THREE from 'three';
     //Objects:
         import Menu from "../menu.js";
         import Option from "../option.js";
+    //Unique:
+        import Character from "../../game/objects/character.js";
+        import Kart from "../../game/objects/kart.js";
     //Arrow settings:
         import { fn_settingMaxResolution } from "../../main.js";
         import { fn_settingSharpPixels } from "../../main.js";
         import {fn_getSetting} from "../../main.js";
+
+var int_frames = 0;
 
 export default class Menu_Settings extends Menu{
 
@@ -42,8 +48,31 @@ export default class Menu_Settings extends Menu{
                 }
             })
         ]);
+
+        //Object additions specific to this menu:
+        this.a_objects = [
+            new Character([4.1, .8, -.05], 1, 2, "Enoki", 0, true),
+            new Character([4.7, -.25, .5], 1, 2, "Aaron", 0, true),
+            new Kart([.8, -.15, 0], 6, .175),
+        ];
+        this.a_objects[0].fn_setSpriteTile(5, 0);
+        this.a_objects[1].fn_setSpriteTile(4, 1);
         
         this.str_menuName = "1P Game Mode";
+    }
+
+    //Any components of a menu's update specific to it is added here:
+    fn_extraUpdate(a_INPUTS){
+            const input = a_INPUTS[0];
+            
+            //Set the kart rotation (doesn't work in the constructor for some reason):
+            this.a_objects[2].fn_setRotation(new THREE.Vector3(0.4, 3, -0.15));
+    
+            this.a_objects[0].fn_menuUpdate(input, int_frames);
+            this.a_objects[1].fn_menuUpdate(input, int_frames);
+
+
+        int_frames ++;
     }
 
     //Extra additions for this specific menu:

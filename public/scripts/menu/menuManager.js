@@ -22,6 +22,7 @@
 	//Menus:
 		import Menu_0_main from "./screens/menu_0_main.js";
 		import Menu_1A_gameMode from "./screens/menu_1A_gameMode.js";
+		import Menu_Settings from "./screens/menu_settings.js";
 	
 
 //Variables:
@@ -65,8 +66,7 @@ export default class MenuManager{
 
 		//Set the first menu:
 		currentMenu = new Menu_0_main(this);
-		//currentMenu = new Menu_1_gameMode(this);
-		//currentMenu = new Menu(this);
+		//currentMenu = new Menu_Settings(this);
 
 		//Debug mode:
 		if(window.b_debug){
