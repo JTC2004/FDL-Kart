@@ -42,6 +42,11 @@ export default class Option{
         this.onConfirm = config.onConfirm;
         this.onArrow = config.onArrow;
 
+        //Animation variables:
+        this.int_frame = 0;
+        this.int_arrowAnimPressFrame = 0;
+        
+
         //this.iX = _iX;
         //this.iY = _iY;
 
@@ -79,12 +84,13 @@ export default class Option{
                 this.spr_arrowL = this.fn_newSprite('arrow_L');
                 this.spr_arrowL.scale.set(1, 1, 1);  //3rd param is ignored for sprites, but still required.
                 this.spr_arrowL.position.copy(this.option.position);
-                this.spr_arrowL.position.x += this.f_width * .175 * this.a_arrowOffset[1] + this.a_arrowOffset[0];
+                this.spr_arrowL.position.x += this.f_width * .18 * this.a_arrowOffset[1] + this.a_arrowOffset[0];
 
                 this.spr_arrowR = this.fn_newSprite('arrow_R');
                 this.spr_arrowR.scale.set(1, 1, 1);  //3rd param is ignored for sprites, but still required.
                 this.spr_arrowR.position.copy(this.option.position);
-                this.spr_arrowR.position.x += this.f_width * .415 * this.a_arrowOffset[1] + this.a_arrowOffset[0];
+                this.spr_arrowR.position.x += this.f_width * .41 * this.a_arrowOffset[1] + this.a_arrowOffset[0];
+                //This is just for ctrl + f-ing: fn_arrowUpdate
                 
                 //Alternative locations
                 if(this.str_text == "Connect_Controllers"){
@@ -98,6 +104,9 @@ export default class Option{
                 
                 this.spr_arrowL.position.z += .1;
                 this.spr_arrowR.position.z += .1;
+
+                this.v_baseArrowPosL = new THREE.Vector3(0,0,0).copy(this.spr_arrowL.position);            //The base position of the left arrow before animation.
+                this.v_baseArrowPosR = new THREE.Vector3(0,0,0).copy(this.spr_arrowR.position);            //The base position of the right arrow before animation.
 
                 SCENE.add( this.spr_arrowR );
                 SCENE.add( this.spr_arrowL );
@@ -139,10 +148,22 @@ export default class Option{
                     this.p_optionElement.innerHTML = this.a_subOptions[this.int_arrowIndex];
                     this.onArrow(this.int_arrowIndex);
                 }
+
+                this.fn_arrowUpdate(this.spr_arrowL, -1);
+                this.fn_arrowUpdate(this.spr_arrowR, 1);
             }
 
             //if(this.str_text == "Items_On") console.log(`this.int_optionIndex = ${this.int_optionIndex}`);
         }
+
+        if(this.b_selected){
+            this.int_frame ++;
+            console.log(`Updating option ${this.str_text}`);
+        }
+    }
+
+    fn_arrowUpdate(sprite, _int_direc){
+        sprite.position.x += Math.sin(this.int_frame / 8) * _int_direc * .005; 
     }
 
     fn_isDummy(){
@@ -188,6 +209,12 @@ export default class Option{
         this.b_selected = false;
         this.spr_highlight.visible = false;
 
+        if(this.b_arrows){
+            this.spr_arrowL.position.copy(this.v_baseArrowPosL);
+            this.spr_arrowR.position.copy(this.v_baseArrowPosR);
+            console.log(`Reset animation position of arrows for option ${this.str_text}`);
+        }
+
         if(!this.b_disabled){
             this.spr_border.material.color.setRGB(1.5, 1.5, 1.5);
         }
@@ -224,6 +251,11 @@ export default class Option{
             this.p_optionElement.innerHTML = this.a_subOptions[this.int_arrowIndex];
             this.fn_updateLabelPosition("p_" + this.str_text);
         }
+    }
+
+    //Return true if this option has arrows:
+    fn_hasArrows(){
+        return this.b_arrows;
     }
 
     fn_getPos(){

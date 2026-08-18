@@ -51,7 +51,7 @@ window.int_gameMode = 2;      //0 is Practice,              (items on track, pla
 var a_resolution = [];
 var f_maxResolutionHeight = 1080;
 var b_trueAntiAlias = false;
-var int_maxResolutionIndex = 6;
+var int_maxResolutionIndex = 7;
 var int_sharpPixelIndex = 0;
 var int_CCIndex = 1;
 
@@ -114,7 +114,7 @@ try{
         //Showing render status:
         //console.log(renderer.info.memory);
         //console.log(`window.int_CC = ${window.int_CC}`);
-        console.log(`Renderer size: (${renderer.getSize(new THREE.Vector2()).x}, ${renderer.getSize(new THREE.Vector2()).y}) \t Window size: ${window.innerWidth},${window.innerHeight}`);
+        //console.log(`Renderer size: (${renderer.getSize(new THREE.Vector2()).x}, ${renderer.getSize(new THREE.Vector2()).y}) \t Window size: ${window.innerWidth},${window.innerHeight}`);
         
 
         //Showing memory status (CHROMIUM ONLY. Crashes in Firefox):
