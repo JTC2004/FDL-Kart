@@ -21,7 +21,7 @@ export default class Menu_Settings extends Menu{
                 pos: [-3.6, 3, 0], 
                 scale: [2.5, .45],
                 arrows: true,
-                subOptions: ["160p", "192p", "250p", "480p", "720p", "900p", "1080p", "1440p", "2160p"],
+                subOptions: ["160p", "192p", "250p", "360p", "480p", "720p", "900p", "1080p", "1440p", "2160p"],
                 defaultOption: fn_getSetting("Resolution"),
                 onArrow: (_int_i) => {
                     fn_settingMaxResolution(_int_i);

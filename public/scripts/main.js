@@ -369,29 +369,33 @@ export function fn_getSetting(str_text){
         let int_height;
         
         //Set resolution and message based on the option index:
-        if(_int_index == 8){
+        if(_int_index == 9){
             int_height = 2160;
             str_message = "4K Ultra HD (3480 x 2160).";
         }
-        else if(_int_index == 7){
+        else if(_int_index == 8){
             int_height = 1440;
             str_message = "2K Quad HD (2560 x 1440).";
         }
-        else if(_int_index == 6){
+        else if(_int_index == 7){
             int_height = 1080;
             str_message = "Full HD (1920 x 1080).";
         }
-        else if(_int_index == 5){
+        else if(_int_index == 6){
             int_height = 900;
             str_message = "Resolution of Switch games (1600 x 900).";
         }
-        else if(_int_index == 4){
+        else if(_int_index == 5){
             int_height = 720;
             str_message = "Resolution of Wii U games (1280 x 720).";
         }
-        else if(_int_index == 3){
+        else if(_int_index == 4){
             int_height = 480;
             str_message = "Resolution of GCN & Wii games (852 x 480).";
+        }
+        else if(_int_index == 3){
+            int_height = 360;
+            str_message = "360p (640 x 360).";
         }
         else if(_int_index == 2){
             int_height = 250;
