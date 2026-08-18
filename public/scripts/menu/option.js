@@ -48,7 +48,7 @@ export default class Option{
         this.int_arrowFrame = 0;
         this.int_pressAmount = .18;          //Value for how far arrow icon gets pushed.
         this.a_arrowPress = [0, 0];         //The number of frames elapsed for arrow press animation for each arrow.
-        
+        this.a_arrowAnim = [true, true];    //When each equals false, the respective arrow is grayed out.
 
         //this.iX = _iX;
         //this.iY = _iY;
@@ -133,14 +133,25 @@ export default class Option{
 
             //Changing value that arrows control:
             if(this.b_selected){
-                if(input.fn_press_right()){
+                if(input.fn_press_right() && this.int_arrowIndex < this.a_subOptions.length - 1){
                     this.int_arrowIndex ++;
                     this.a_arrowPress[1] = this.int_pressAmount;
+                    this.a_arrowAnim[1] = true;
                 }
-                else if(input.fn_press_left()){
+                else if(input.fn_press_left() && this.int_arrowIndex > 0){
                     this.int_arrowIndex -= 1;
                     this.a_arrowPress[0] = this.int_pressAmount;
+                    this.a_arrowAnim[0] = true;
+                }                    
+                
+                /*if(this.int_arrowIndex == this.a_subOptions.length - 1){ 
+                    this.a_arrowPress[1] = this.int_pressAmount / 10;
+                    this.a_arrowAnim[1] = false;
                 }
+                if(this.int_arrowIndex == 0){
+                    this.a_arrowPress[0] = this.int_pressAmount / 10;
+                    this.a_arrowAnim[0] = false;
+                }*/
 
                 //Bounds for arrow index:
                 if(this.int_arrowIndex > this.a_subOptions.length - 1){
@@ -172,11 +183,14 @@ export default class Option{
         var int_direc = 1;
         if(_i == 0) int_direc = -1;
 
-        sprite.position.x = this.a_baseArrowPos[_i].x + (Math.sin(this.int_arrowFrame / 10) * .04 + this.a_arrowPress[_i]) * int_direc; 
+
+        if(this.a_arrowAnim[_i]) sprite.position.x = this.a_baseArrowPos[_i].x + (Math.sin(this.int_arrowFrame / 10) * .04 + this.a_arrowPress[_i]) * int_direc; 
 
         //If a_arrowPress[i] got incemented by int_pressAmount, decrement it.
         if(this.a_arrowPress[_i] > 0){
             this.a_arrowPress[_i] -= .05;
+            const int_brighten = 1 + Math.max(0, this.a_arrowPress[_i]) * 900;      //USE Math.MAX to optimize decrement checks!
+            sprite.material.color.setRGB(int_brighten, int_brighten, int_brighten);
         }
     }
 
