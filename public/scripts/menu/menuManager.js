@@ -95,11 +95,15 @@ export default class MenuManager{
 		}
 		
 		//CAMERA.position.z -= 0.3;
-		console.log(`Menu Camera position = (
+		/*console.log(`Menu Camera position = (
 			${CAMERA.position.x},
 			${CAMERA.position.y},
 			${CAMERA.position.z},
-		)`);
+		)`);*/
+
+		//Tilting menu with c-stick:
+		CAMERA.rotation.y = a_INPUTS[0].fn_get_rightX() / 10;
+		CAMERA.rotation.x = a_INPUTS[0].fn_get_rightY() / 10;
 
 		//int_frames ++;
 		//Update the current menu:
