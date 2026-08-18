@@ -94,6 +94,13 @@ export default class MenuManager{
 			currentMenu.fn_enter();				//Call the function for the current menu's entrance transition.
 		}
 		
+		//CAMERA.position.z -= 0.3;
+		console.log(`Menu Camera position = (
+			${CAMERA.position.x},
+			${CAMERA.position.y},
+			${CAMERA.position.z},
+		)`);
+
 		//int_frames ++;
 		//Update the current menu:
 		return b_return;

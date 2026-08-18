@@ -76,14 +76,7 @@ if(window.b_debug){
     //1 of many types of cameras in JS.		  (FOV, aspect ratio, near (objs closer than near, or farther than far won't be rendered), far) 
 
     var frustumHeight = 9; // choose a consistent height
-    menuCamera = new THREE.OrthographicCamera(
-        (frustumHeight * (window.innerWidth / window.innerHeight)) / -2,
-        (frustumHeight * (window.innerWidth / window.innerHeight)) / 2,
-        frustumHeight / 2,
-        frustumHeight / -2,
-        0.1,
-        1000
-    );
+    menuCamera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 );
     menuCamera.aspect = window.innerWidth / window.innerHeight;	
     menuCamera.position.set( 0, 0, 10 );
     menuCamera.lookAt( 0, 0, 0 );
@@ -115,7 +108,7 @@ try{
         //Showing render status:
         //console.log(renderer.info.memory);
         //console.log(`window.int_CC = ${window.int_CC}`);
-        console.log(`Renderer size: (${renderer.getSize(new THREE.Vector2()).x}, ${renderer.getSize(new THREE.Vector2()).y}) \t Window size: ${window.innerWidth},${window.innerHeight}`);
+        //console.log(`Renderer size: (${renderer.getSize(new THREE.Vector2()).x}, ${renderer.getSize(new THREE.Vector2()).y}) \t Window size: ${window.innerWidth},${window.innerHeight}`);
         
 
         //Showing memory status (CHROMIUM ONLY. Crashes in Firefox):

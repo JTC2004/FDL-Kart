@@ -56,10 +56,10 @@ export default class Menu_2B_charSelect extends Menu{
 
         //Extra additions for this screen:
         this.a_objects = [
-            new ConnectController([-2.4, 1.2, 1], 0),
-            new ConnectController([1.85, 1.2, 1], 1),
-            new ConnectController([-2.4, -1.85, 1], 2),
-            new ConnectController([1.85, -1.85, 1], 3)
+            new ConnectController([-2.4, 1.2, 0.05], 0),
+            new ConnectController([1.85, 1.2, 0.05], 1),
+            new ConnectController([-2.4, -1.85, 0.05], 2),
+            new ConnectController([1.85, -1.85, 0.05], 3)
         ];
 
         this.str_menuName = "2P Character Select";

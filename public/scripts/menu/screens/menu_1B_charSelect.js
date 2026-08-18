@@ -87,9 +87,9 @@ export default class Menu_1B_charSelect extends Menu{
 
         //Object additions specific to this menu:
         this.a_objects = [
-            new Character([-5.5, .6, -1], 1, 2, "Maple", 0, true),
-            new Character([-5, -0.4, 1], 1, 2, "", 0, true),
-            new Kart([-5, -1, 0], 1, .2),
+            new Character([-6.3, .6, -1], 1, 2, "Maple", 0, true),
+            new Character([-4.6, -.25, .5], 1, 2, "", 0, true),
+            new Kart([-5, -1, 0], 1, .175),
         ];
 
         this.a_objects[0].fn_setSpriteTile(5, 0);
@@ -106,7 +106,7 @@ export default class Menu_1B_charSelect extends Menu{
         const input = a_INPUTS[0];
         
         //Set the kart rotation (doesn't work in the constructor for some reason):
-        this.a_objects[2].fn_setRotation(new THREE.Vector3(.4, 3.49066, 0));
+        this.a_objects[2].fn_setRotation(new THREE.Vector3(0.4, 3.9, 0.2));
 
         this.a_objects[0].fn_menuUpdate(input, int_frames);
 		this.a_objects[1].fn_menuUpdate(input, int_frames);
