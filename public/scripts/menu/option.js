@@ -6,6 +6,7 @@ import { fn_getMenuCamera } from '../main.js';
 
 //Essentials:
     import { fn_getScene } from "../main.js";
+import Menu_0_main from './screens/menu_0_main.js';
 
 let SCENE;
 
@@ -44,7 +45,9 @@ export default class Option{
 
         //Animation variables:
         this.int_frame = 0;
-        this.int_arrowAnimPressFrame = 0;
+        this.int_arrowFrame = 0;
+        this.int_pressAmount = .18;          //Value for how far arrow icon gets pushed.
+        this.a_arrowPress = [0, 0];         //The number of frames elapsed for arrow press animation for each arrow.
         
 
         //this.iX = _iX;
@@ -105,8 +108,10 @@ export default class Option{
                 this.spr_arrowL.position.z += .1;
                 this.spr_arrowR.position.z += .1;
 
-                this.v_baseArrowPosL = new THREE.Vector3(0,0,0).copy(this.spr_arrowL.position);            //The base position of the left arrow before animation.
-                this.v_baseArrowPosR = new THREE.Vector3(0,0,0).copy(this.spr_arrowR.position);            //The base position of the right arrow before animation.
+                this.a_baseArrowPos = [
+                    new THREE.Vector3(0,0,0).copy(this.spr_arrowL.position),    //The base position of the left arrow before animation.
+                    new THREE.Vector3(0,0,0).copy(this.spr_arrowR.position)     //The base position of the right arrow before animation.
+                ];
 
                 SCENE.add( this.spr_arrowR );
                 SCENE.add( this.spr_arrowL );
@@ -130,9 +135,11 @@ export default class Option{
             if(this.b_selected){
                 if(input.fn_press_right()){
                     this.int_arrowIndex ++;
+                    this.a_arrowPress[1] = this.int_pressAmount;
                 }
                 else if(input.fn_press_left()){
                     this.int_arrowIndex -= 1;
+                    this.a_arrowPress[0] = this.int_pressAmount;
                 }
 
                 //Bounds for arrow index:
@@ -149,21 +156,28 @@ export default class Option{
                     this.onArrow(this.int_arrowIndex);
                 }
 
-                this.fn_arrowUpdate(this.spr_arrowL, -1);
-                this.fn_arrowUpdate(this.spr_arrowR, 1);
+                this.fn_arrowAnimUpdate(this.spr_arrowL, 0);
+                this.fn_arrowAnimUpdate(this.spr_arrowR, 1);
+                this.int_arrowFrame ++;
             }
 
             //if(this.str_text == "Items_On") console.log(`this.int_optionIndex = ${this.int_optionIndex}`);
         }
 
-        if(this.b_selected){
-            this.int_frame ++;
-            console.log(`Updating option ${this.str_text}`);
-        }
+        //this.int_frame ++;
     }
 
-    fn_arrowUpdate(sprite, _int_direc){
-        sprite.position.x += Math.sin(this.int_frame / 8) * _int_direc * .005; 
+    //For arrow animation, called in fn_update():
+    fn_arrowAnimUpdate(sprite, _i){
+        var int_direc = 1;
+        if(_i == 0) int_direc = -1;
+
+        sprite.position.x = this.a_baseArrowPos[_i].x + (Math.sin(this.int_arrowFrame / 10) * .04 + this.a_arrowPress[_i]) * int_direc; 
+
+        //If a_arrowPress[i] got incemented by int_pressAmount, decrement it.
+        if(this.a_arrowPress[_i] > 0){
+            this.a_arrowPress[_i] -= .05;
+        }
     }
 
     fn_isDummy(){
@@ -210,9 +224,8 @@ export default class Option{
         this.spr_highlight.visible = false;
 
         if(this.b_arrows){
-            this.spr_arrowL.position.copy(this.v_baseArrowPosL);
-            this.spr_arrowR.position.copy(this.v_baseArrowPosR);
-            console.log(`Reset animation position of arrows for option ${this.str_text}`);
+            this.spr_arrowL.position.copy(this.a_baseArrowPos[0]);
+            this.spr_arrowR.position.copy(this.a_baseArrowPos[1]);
         }
 
         if(!this.b_disabled){
