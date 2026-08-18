@@ -32,6 +32,8 @@ export default class Option{
 
         this.b_static = config.static;
         this.b_arrows = config.arrows;
+        this.a_arrowOffset = config.arrowOffset;
+        if(!this.a_arrowOffset) this.a_arrowOffset = [0, 1];
         this.a_subOptions = config.subOptions;
         this.int_arrowIndex = config.defaultOption;
         this.str_optionTextTop = "0%";
@@ -77,20 +79,20 @@ export default class Option{
                 this.spr_arrowL = this.fn_newSprite('arrow_L');
                 this.spr_arrowL.scale.set(1, 1, 1);  //3rd param is ignored for sprites, but still required.
                 this.spr_arrowL.position.copy(this.option.position);
-                this.spr_arrowL.position.x += this.f_width * .15;
+                this.spr_arrowL.position.x += this.f_width * .175 * this.a_arrowOffset[1] + this.a_arrowOffset[0];
 
                 this.spr_arrowR = this.fn_newSprite('arrow_R');
                 this.spr_arrowR.scale.set(1, 1, 1);  //3rd param is ignored for sprites, but still required.
                 this.spr_arrowR.position.copy(this.option.position);
-                this.spr_arrowR.position.x += this.f_width * .4;
+                this.spr_arrowR.position.x += this.f_width * .415 * this.a_arrowOffset[1] + this.a_arrowOffset[0];
                 
                 //Alternative locations
                 if(this.str_text == "Connect_Controllers"){
                     this.spr_arrowR.position.copy(this.option.position)
-                    this.spr_arrowR.position.x += this.f_width * .15;
+                    this.spr_arrowR.position.x += this.f_width * .13;
                     this.spr_arrowR.position.y += this.f_width * .3;
                     this.spr_arrowL.position.copy(this.option.position);
-                    this.spr_arrowL.position.x -= this.f_width * .15;
+                    this.spr_arrowL.position.x -= this.f_width * .13;
                     this.spr_arrowL.position.y += this.f_width * .3;
                 }
                 
@@ -278,7 +280,7 @@ export default class Option{
             vector.y = vector.y + 3.6;
         }
         else{
-            vector.x = vector.x + 2.4;
+            vector.x = vector.x + 2.6 * this.a_arrowOffset[1] + this.a_arrowOffset[0];
             vector.y = vector.y + 0.45;
         }
 

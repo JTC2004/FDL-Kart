@@ -25,6 +25,7 @@ export default class Menu_1A_gameMode extends Menu{
                 scale: [2.5, .5],
                 arrows: true,
                 subOptions: ["Slow", "Normal", "FAST"],
+                arrowOffset: [-.8, 1.15],
                 defaultOption: 1,
                 onConfirm: () => {
                     window.int_gameMode = 1;
@@ -44,6 +45,7 @@ export default class Menu_1A_gameMode extends Menu{
                 scale: [2.5, .5],
                 arrows: true,
                 subOptions: ["Slow", "Normal", "FAST"],
+                arrowOffset: [-.8, 1.15],
                 defaultOption: 1,
                 onConfirm: () => {
                     window.int_gameMode = 2;
