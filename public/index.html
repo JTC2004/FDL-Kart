@@ -44,14 +44,16 @@ Changes since last version:
 	- Menu option idle animation.
 
 To do:
-	- Add menu option animation.
-	- Make all instances of int_frames use one single window.int_frames.
-	- Quick-settings menu.
+	- Add menu option animation:
+		- Options grow in size while selected.
+		- Highlight sprite glows with a sin curve.
 	- Add menu transitions.
+	- Quick-settings menu.
 	- Make it so when the player holds down a direction in the menu, it moves faster.
 	
 	Bugfixes & optimizations:
 	- Make sure you can confirm an option when it's 'dummy' is selected.
+	- Make all instances of int_frames use one single window.int_frames.
 	- Use Math.Max(0, value) to optimize any variable decrements to 0.
 	- Fix the fact that due to having a sprite cache, now all instances of a sprite use the same sprite tile.
 	- Make sure menus remove unique objects (and be sure they are cached!)
