@@ -24,6 +24,8 @@ export default class Option{
         this.f_height = config.scale[1] * 3.5;
 
         this.str_text = config.text;                //FYI: config variables equal null if not declared.
+        this.b_isConnectControllers = false;          //Equals true if this is the connect controllers element.
+        if (this.str_text == "Connect_Controllers") this.b_isConnectControllers = true
         this.p_optionElement = document.getElementById("p_" + this.str_text);
         this.str_type = config.type;
         this.str_info = config.info;
@@ -44,10 +46,14 @@ export default class Option{
         this.onArrow = config.onArrow;
 
         //Animation variables:
-        this.int_idleFrameX = Math.floor(Math.random() * 1000);
-        this.int_idleFrameY = Math.floor(Math.random() * 1000);
+        this.int_idleFrameX = config.idleFrameX;
+        this.int_idleFrameY = config.idleFrameY;
+        if(!this.int_idleFrameX) this.int_idleFrameX = Math.floor(Math.random() * 1000);
+        if(!this.int_idleFrameY) this.int_idleFrameY = Math.floor(Math.random() * 1000);
+        this.f_sinX = 0;                    //The current sin value for idle animation on the x-axis.
+        this.f_sinY = 0;                    //The current sin value for idle animation on the y-axis.
         
-        this.int_arrowFrame = 0;
+        this.int_arrowBounceFrame = 0;
         this.int_pressAmount = .18;          //Value for how far arrow icon gets pushed.
         this.a_arrowPress = [0, 0];         //The number of frames elapsed for arrow press animation for each arrow.
         this.a_arrowNotEdge = [true, true];    //When each equals false, the respective arrow is grayed out.
@@ -100,7 +106,7 @@ export default class Option{
                 SCENE.add( this.spr_arrowL );
                 this.p_optionElement.innerHTML = this.a_subOptions[this.int_arrowIndex];
 
-                this.fn_updateLabelPosition("p_" + this.str_text);
+                this.fn_updateLabelPosition();
                 this.fn_arrowIdleAnimCheck();
             }
     }
@@ -112,7 +118,7 @@ export default class Option{
         //When option has arrows:
         if(this.b_arrows){
             //Has arrows.
-            this.fn_updateLabelPosition("p_" + this.str_text);
+            this.fn_updateLabelPosition();
             this.p_optionElement.style.top = this.str_optionTextTop;
             this.p_optionElement.style.left = this.str_optionTextLeft;
 
@@ -147,18 +153,19 @@ export default class Option{
                     //Arrow animation check on every press:
                     this.fn_arrowIdleAnimCheck();
                 }
-
-                this.fn_arrowAnimUpdate(this.spr_arrowL, 0);
-                this.fn_arrowAnimUpdate(this.spr_arrowR, 1);
-                this.int_arrowFrame ++;
+                this.int_arrowBounceFrame ++;
             }
 
+            this.fn_arrowAnimUpdate(this.spr_arrowL, 0);
+            this.fn_arrowAnimUpdate(this.spr_arrowR, 1);
             //if(this.str_text == "Items_On") console.log(`this.int_optionIndex = ${this.int_optionIndex}`);
         }
 
-        this.fn_idleAnim();
-        this.int_idleFrameX ++;
-        this.int_idleFrameY ++;
+        if(!this.b_isConnectControllers){
+            this.fn_idleAnim();
+            this.int_idleFrameX ++;
+            this.int_idleFrameY ++;
+        }
     }
     
     //Option operations:
@@ -237,7 +244,7 @@ export default class Option{
                 this.spr_arrowL.visible = true;
                 this.spr_arrowR.visible = true;
                 this.p_optionElement.innerHTML = this.a_subOptions[this.int_arrowIndex];
-                this.fn_updateLabelPosition("p_" + this.str_text);
+                this.fn_updateLabelPosition();
             }
         }
     
@@ -274,18 +281,18 @@ export default class Option{
         }
 
     //Use this to update HTML coordinates to match world coordinates:
-    fn_updateLabelPosition(_str_labelName) {
-        const label = document.getElementById(_str_labelName);
+    fn_updateLabelPosition() {
+        const label = document.getElementById("p_" + this.str_text);
 
         const vector = this.option.position.clone();
 
         //Adjust positioning based on what p_ element we are adjusting:
-        if(this.str_text == "Connect_Controllers"){
+        if(this.b_isConnectControllers){
             vector.y = vector.y + 3.6;
         }
         else{
-            vector.x = vector.x + 2.6 * this.a_arrowOffset[1] + this.a_arrowOffset[0];
-            vector.y = vector.y + 0.45;
+            vector.x = vector.x + 2.6 * this.a_arrowOffset[1] + this.a_arrowOffset[0] + this.f_sinX;
+            vector.y = vector.y + 0.45 + this.f_sinY;
         }
 
         // Project 3D position to screen space
@@ -304,8 +311,14 @@ export default class Option{
             if(_i == 0) int_direc = -1;
 
             let f_arrowIdleAnim = 0;
-            if(this.a_arrowNotEdge[_i]) f_arrowIdleAnim = (Math.sin(this.int_arrowFrame / 10) * .04);
-            sprite.position.x = this.a_baseArrowPos[_i].x + (f_arrowIdleAnim + this.a_arrowPress[_i]) * int_direc; 
+            //If this option is selected, animate it's pair of arrows bouncing.
+            if(this.b_selected){
+                if(this.a_arrowNotEdge[_i]) f_arrowIdleAnim = (Math.sin(this.int_arrowBounceFrame / 10) * .04);
+                f_arrowIdleAnim = (f_arrowIdleAnim + this.a_arrowPress[_i]) * int_direc;
+            }
+            //Apply offset to match position of the rest of the option's sprites.
+            sprite.position.x = (this.a_baseArrowPos[_i].x + f_arrowIdleAnim) + this.f_sinX; 
+            sprite.position.y = this.a_baseArrowPos[_i].y + this.f_sinY; 
 
             //If a_arrowPress[i] got incemented by int_pressAmount, decrement it.
             if(this.a_arrowPress[_i] > 0){
@@ -342,16 +355,21 @@ export default class Option{
             this.spr_highlight.position.copy(this.option.position);
 
             //Inner X is speed of oscillation, outer X is amount of oscillation!
-            const f_sinX = Math.sin(this.int_idleFrameX / 30) / 30;
-            const f_sinY = Math.sin(this.int_idleFrameY / 30) / 30;
+            const f_oSpd = 30;
+            var f_oDistance = 30;
+            if(this.b_disabled) f_oDistance = 100;
+
+            this.f_sinX = Math.sin(this.int_idleFrameX / f_oSpd) / f_oDistance;
+            this.f_sinY = Math.sin(this.int_idleFrameY / f_oSpd) / f_oDistance;
             
-            this.spr_border.position.x += f_sinX;
-            this.spr_text.position.x += f_sinX;
-            this.spr_highlight.position.x += f_sinX;
-            
-            this.spr_border.position.y += f_sinY;
-            this.spr_text.position.y += f_sinY;
-            this.spr_highlight.position.y += f_sinY;
+            //Move the sprites on x axis:
+                this.spr_border.position.x += this.f_sinX;
+                this.spr_text.position.x += this.f_sinX;
+                this.spr_highlight.position.x += this.f_sinX;
+            //Move the sprites on y axis:
+            this.spr_border.position.y += this.f_sinY;
+            this.spr_text.position.y += this.f_sinY;
+            this.spr_highlight.position.y += this.f_sinY;
 
             
             //if(this.b_arrows){
@@ -381,7 +399,7 @@ export default class Option{
             this.spr_arrowR.position.x += this.f_width * .41 * this.a_arrowOffset[1] + this.a_arrowOffset[0];
             
             //Alternative locations:
-                if(this.str_text == "Connect_Controllers"){
+                if(this.b_isConnectControllers){
                     this.spr_arrowR.position.copy(this.option.position)
                     this.spr_arrowR.position.x += this.f_width * .13;
                     this.spr_arrowR.position.y += this.f_width * .3;
