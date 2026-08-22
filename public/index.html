@@ -40,19 +40,21 @@ Changes since last version:
 		- Resolution text in settings menu now displays the game's actual resolution in real-time.
 		- Settings menu now has character objects to give a better frame of reference for changes.
 	- Re-added tilting menu with c-stick.
+	- Made sure split-screen resolutions are a fraction of a_resolution, instead of their own full a_resolution.
 
 To do:
 	- Add menu option animation.
-	- Check if split-screen resolutions are a fraction of a_resolution, or their own full a_resolution.
 	- Make all instances of int_frames use one single window.int_frames.
 	- Quick-settings menu.
+	- Add menu transitions.
 	- Make it so when the player holds down a direction in the menu, it moves faster.
-	- Use Math.Max(0, value) to optimize variable decrements to 0.
 	
+	Bugfixes & optimizations:
+	- Make sure you can confirm an option when it's 'dummy' is selected.
+	- Use Math.Max(0, value) to optimize any variable decrements to 0.
 	- Fix the fact that due to having a sprite cache, now all instances of a sprite use the same sprite tile.
 	- Make sure menus remove unique objects (and be sure they are cached!)
 	- Optimize sprites in option objects (make them all offset from position, and if position changes, so does the option xyz).
-	- Add menu transitions.
 	- Optimize how dummy options are moved around.
 
 	- Add a title screen.

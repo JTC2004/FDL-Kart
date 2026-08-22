@@ -44,7 +44,9 @@ export default class Option{
         this.onArrow = config.onArrow;
 
         //Animation variables:
-        this.int_frame = 0;
+        this.int_idleFrameX = Math.floor(Math.random() * 1000);
+        this.int_idleFrameY = Math.floor(Math.random() * 1000);
+        
         this.int_arrowFrame = 0;
         this.int_pressAmount = .18;          //Value for how far arrow icon gets pushed.
         this.a_arrowPress = [0, 0];         //The number of frames elapsed for arrow press animation for each arrow.
@@ -87,40 +89,20 @@ export default class Option{
             if(this.b_arrows){
                 this.spr_arrowL = this.fn_newSprite('arrow_L');
                 this.spr_arrowL.scale.set(1, 1, 1);  //3rd param is ignored for sprites, but still required.
-                this.spr_arrowL.position.copy(this.option.position);
-                this.spr_arrowL.position.x += this.f_width * .18 * this.a_arrowOffset[1] + this.a_arrowOffset[0];
-
+                
                 this.spr_arrowR = this.fn_newSprite('arrow_R');
                 this.spr_arrowR.scale.set(1, 1, 1);  //3rd param is ignored for sprites, but still required.
-                this.spr_arrowR.position.copy(this.option.position);
-                this.spr_arrowR.position.x += this.f_width * .41 * this.a_arrowOffset[1] + this.a_arrowOffset[0];
                 //This is just for ctrl + f-ing: fn_arrowUpdate
                 
-                //Alternative locations
-                if(this.str_text == "Connect_Controllers"){
-                    this.spr_arrowR.position.copy(this.option.position)
-                    this.spr_arrowR.position.x += this.f_width * .13;
-                    this.spr_arrowR.position.y += this.f_width * .3;
-                    this.spr_arrowL.position.copy(this.option.position);
-                    this.spr_arrowL.position.x -= this.f_width * .13;
-                    this.spr_arrowL.position.y += this.f_width * .3;
-                }
-                
-                this.spr_arrowL.position.z += .1;
-                this.spr_arrowR.position.z += .1;
-
-                this.a_baseArrowPos = [
-                    new THREE.Vector3(0,0,0).copy(this.spr_arrowL.position),    //The base position of the left arrow before animation.
-                    new THREE.Vector3(0,0,0).copy(this.spr_arrowR.position)     //The base position of the right arrow before animation.
-                ];
+                this.fn_setArrowPos();
 
                 SCENE.add( this.spr_arrowR );
                 SCENE.add( this.spr_arrowL );
                 this.p_optionElement.innerHTML = this.a_subOptions[this.int_arrowIndex];
-                this.fn_updateLabelPosition("p_" + this.str_text);
 
+                this.fn_updateLabelPosition("p_" + this.str_text);
                 this.fn_arrowIdleAnimCheck();
-        }
+            }
     }
 
     fn_update(input){
@@ -174,180 +156,122 @@ export default class Option{
             //if(this.str_text == "Items_On") console.log(`this.int_optionIndex = ${this.int_optionIndex}`);
         }
 
-        //this.int_frame ++;
+        this.fn_idleAnim();
+        this.int_idleFrameX ++;
+        this.int_idleFrameY ++;
     }
-
-    //For arrow animation, called in fn_update():
-    fn_arrowAnimUpdate(sprite, _i){
-        var int_direc = 1;
-        if(_i == 0) int_direc = -1;
-
-        let f_idleAnim = 0;
-        if(this.a_arrowNotEdge[_i]) f_idleAnim = (Math.sin(this.int_arrowFrame / 10) * .04);
-        sprite.position.x = this.a_baseArrowPos[_i].x + (f_idleAnim + this.a_arrowPress[_i]) * int_direc; 
-
-        //If a_arrowPress[i] got incemented by int_pressAmount, decrement it.
-        if(this.a_arrowPress[_i] > 0){
-            this.a_arrowPress[_i] -= .05;
-            const int_brighten = this.f_baseArrowBrightness[_i] + Math.max(0, this.a_arrowPress[_i]) * 900;      //USE Math.MAX to optimize decrement checks!
-            sprite.material.color.setRGB(int_brighten, int_brighten, int_brighten);
-        }
-    }
-
-    //Check if the arrows should be moving:
-    fn_arrowIdleAnimCheck(){
-        this.a_arrowNotEdge[0] = true;     
-        this.a_arrowNotEdge[1] = true;     
-        this.f_baseArrowBrightness[0] = 1;
-        this.f_baseArrowBrightness[1] = 1;
-        
-        if(this.int_arrowIndex == 0){
-            this.a_arrowNotEdge[0] = false;
-            this.f_baseArrowBrightness[0] = 0.3;
-        } 
-        if(this.int_arrowIndex == this.a_subOptions.length - 1){
-            this.a_arrowNotEdge[1] = false;
-            this.f_baseArrowBrightness[1] = 0.3;
-        }
-
-        this.spr_arrowL.material.color.setRGB(this.f_baseArrowBrightness[0], this.f_baseArrowBrightness[0], this.f_baseArrowBrightness[0]);
-        this.spr_arrowR.material.color.setRGB(this.f_baseArrowBrightness[1], this.f_baseArrowBrightness[1], this.f_baseArrowBrightness[1]);
-    }
-
-    fn_isDummy(){
-        return this.b_dummy;
-    }
-
-    fn_isSelected(){
-        return this.b_selected;
-    }
-
-    fn_confirm(){
-        if (this.onConfirm) {
-            this.onConfirm();
-        }
-    }
-
-    fn_select(){        
-        this.b_selected = true;
-        if(!this.b_static) this.spr_highlight.visible = true;
-
-        this.p_info.innerHTML = this.str_info;
-        //If this is a setting, set the text based on the setting:
-        if(this.b_arrows){
-            this.onArrow(this.int_arrowIndex);
-            this.fn_arrowIdleAnimCheck();
-        }
-        
-        if(this.b_disabled){
-            let randomInt = Math.floor(Math.random() * (100 - 0 + 1)) + 0;
-            if(randomInt == 87){
-                this.p_info.innerHTML = "(It's me.)";
-            }
-            else{
-                this.p_info.innerHTML = "(For future development...)"
+    
+    //Option operations:
+        fn_confirm(){
+            if (this.onConfirm) {
+                this.onConfirm();
             }
         }
-        //If this option isn't static, brighten it and show the border.
-        else if(!this.b_static){
-            this.spr_border.material.color.setRGB(2.5, 2.5, 2);
-        }
-    }
 
-    fn_deSelect(){
-        this.b_selected = false;
-        this.spr_highlight.visible = false;
+        fn_select(){        
+            this.b_selected = true;
+            if(!this.b_static) this.spr_highlight.visible = true;
 
-        if(this.b_arrows){
-            this.spr_arrowL.position.copy(this.a_baseArrowPos[0]);
-            this.spr_arrowR.position.copy(this.a_baseArrowPos[1]);
-        }
-
-        if(!this.b_disabled){
-            this.spr_border.material.color.setRGB(1.5, 1.5, 1.5);
-        }
-    }
-
-    //Make all of this option's elements invisible:
-    fn_hide(){
-        if(this.b_dummy) return;
-        //console.log(`HIDING option ${this.str_text}!`);
-        
-        this.spr_border.visible = false;
-        this.spr_text.visible = false;
-        this.spr_highlight.visible = false;
-        if(this.b_arrows){
-            this.spr_arrowL.visible = false;
-            this.spr_arrowR.visible = false;
-            this.p_optionElement.innerHTML = "";
-        }
-        //console.log(`Hidden option ${this.str_text}`);
-    }
-
-    //Make all of this option's elements visible:
-    fn_show(){
-        if(this.b_dummy) return;
-        this.spr_border.visible = true;
-        this.spr_text.visible = true;
-        if(this.b_selected){
-            this.spr_highlight.visible = true;
             this.p_info.innerHTML = this.str_info;
+            //If this is a setting, set the text based on the setting:
+            if(this.b_arrows){
+                this.onArrow(this.int_arrowIndex);
+                this.fn_arrowIdleAnimCheck();
+            }
+            
+            if(this.b_disabled){
+                let randomInt = Math.floor(Math.random() * (100 - 0 + 1)) + 0;
+                if(randomInt == 87){
+                    this.p_info.innerHTML = "(It's me.)";
+                }
+                else{
+                    this.p_info.innerHTML = "(For future development...)"
+                }
+            }
+            //If this option isn't static, brighten it and show the border.
+            else if(!this.b_static){
+                this.spr_border.material.color.setRGB(2.5, 2.5, 2);
+            }
         }
-        if(this.b_arrows){
-            this.spr_arrowL.visible = true;
-            this.spr_arrowR.visible = true;
-            this.p_optionElement.innerHTML = this.a_subOptions[this.int_arrowIndex];
-            this.fn_updateLabelPosition("p_" + this.str_text);
+
+        fn_deSelect(){
+            this.b_selected = false;
+            this.spr_highlight.visible = false;
+
+            if(this.b_arrows){
+                this.spr_arrowL.position.copy(this.a_baseArrowPos[0]);
+                this.spr_arrowR.position.copy(this.a_baseArrowPos[1]);
+            }
+
+            if(!this.b_disabled){
+                this.spr_border.material.color.setRGB(1.5, 1.5, 1.5);
+            }
         }
-    }
 
-    //Return true if this option has arrows:
-    fn_hasArrows(){
-        return this.b_arrows;
-    }
-
-    fn_getPos(){
-        return this.spr_border.position;
-    }
-
-    fn_setX(_newX){
-        this.f_x = _newX;
-
-        this.spr_border.position.x = _newX;
-        this.spr_text.position.x = _newX;
-        this.spr_highlight.position.x = _newX;
-    }
-
-    fn_remove(){
-        this.fn_removeSprite(this.spr_border, SCENE);
-        this.fn_removeSprite(this.spr_text, SCENE);
-        this.fn_removeSprite(this.spr_highlight, SCENE);
-
-        if(this.b_arrows){
-            this.fn_removeSprite(this.spr_arrowL, SCENE);
-            this.fn_removeSprite(this.spr_arrowR, SCENE);
+        //Make all of this option's elements invisible:
+        fn_hide(){
+            if(this.b_dummy) return;
+            //console.log(`HIDING option ${this.str_text}!`);
+            
+            this.spr_border.visible = false;
+            this.spr_text.visible = false;
+            this.spr_highlight.visible = false;
+            if(this.b_arrows){
+                this.spr_arrowL.visible = false;
+                this.spr_arrowR.visible = false;
+                this.p_optionElement.innerHTML = "";
+            }
+            //console.log(`Hidden option ${this.str_text}`);
         }
-    }
 
-    fn_newSprite(_str_name){
-        this.spriteMap = new THREE.TextureLoader().load( 'assets/sprites/UI/'+ _str_name + '.png' );
-        this.spriteMap.colorSpace = THREE.SRGBColorSpace;
-        this.spriteMaterial = new THREE.SpriteMaterial({ 
-            map: this.spriteMap, 
-            transparent: true, 
-            alphaTest: 0.5,			//Helps discard transparent pixels.
-            color: 0xffffff,
-            depthTest: false,
-            depthWrite: false,
-        });
-        return new THREE.Sprite( this.spriteMaterial );
-    }
+        //Make all of this option's elements visible:
+        fn_show(){
+            if(this.b_dummy) return;
+            this.spr_border.visible = true;
+            this.spr_text.visible = true;
+            if(this.b_selected){
+                this.spr_highlight.visible = true;
+                this.p_info.innerHTML = this.str_info;
+            }
+            if(this.b_arrows){
+                this.spr_arrowL.visible = true;
+                this.spr_arrowR.visible = true;
+                this.p_optionElement.innerHTML = this.a_subOptions[this.int_arrowIndex];
+                this.fn_updateLabelPosition("p_" + this.str_text);
+            }
+        }
+    
+    //Methods for adding and removing sprites:
+        fn_remove(){
+            this.fn_removeSprite(this.spr_border, SCENE);
+            this.fn_removeSprite(this.spr_text, SCENE);
+            this.fn_removeSprite(this.spr_highlight, SCENE);
 
-    fn_removeSprite(_spr_sprite, scene){
-        scene.remove(_spr_sprite);
-        _spr_sprite.material.map?.dispose();
-        _spr_sprite.material.dispose();
-    }
+            if(this.b_arrows){
+                this.fn_removeSprite(this.spr_arrowL, SCENE);
+                this.fn_removeSprite(this.spr_arrowR, SCENE);
+            }
+        }
+
+        fn_newSprite(_str_name){
+            this.spriteMap = new THREE.TextureLoader().load( 'assets/sprites/UI/'+ _str_name + '.png' );
+            this.spriteMap.colorSpace = THREE.SRGBColorSpace;
+            this.spriteMaterial = new THREE.SpriteMaterial({ 
+                map: this.spriteMap, 
+                transparent: true, 
+                alphaTest: 0.5,			//Helps discard transparent pixels.
+                color: 0xffffff,
+                depthTest: false,
+                depthWrite: false,
+            });
+            return new THREE.Sprite( this.spriteMaterial );
+        }
+
+        fn_removeSprite(_spr_sprite, scene){
+            scene.remove(_spr_sprite);
+            _spr_sprite.material.map?.dispose();
+            _spr_sprite.material.dispose();
+        }
 
     //Use this to update HTML coordinates to match world coordinates:
     fn_updateLabelPosition(_str_labelName) {
@@ -373,7 +297,127 @@ export default class Option{
         label.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
     }
 
-    fn_getCharText(){
-        return this.str_text.substring(6);
-    }
+    //Animation methods:
+        //For arrow animation, called in fn_update():
+        fn_arrowAnimUpdate(sprite, _i){
+            var int_direc = 1;
+            if(_i == 0) int_direc = -1;
+
+            let f_arrowIdleAnim = 0;
+            if(this.a_arrowNotEdge[_i]) f_arrowIdleAnim = (Math.sin(this.int_arrowFrame / 10) * .04);
+            sprite.position.x = this.a_baseArrowPos[_i].x + (f_arrowIdleAnim + this.a_arrowPress[_i]) * int_direc; 
+
+            //If a_arrowPress[i] got incemented by int_pressAmount, decrement it.
+            if(this.a_arrowPress[_i] > 0){
+                this.a_arrowPress[_i] -= .05;
+                const int_brighten = this.f_baseArrowBrightness[_i] + Math.max(0, this.a_arrowPress[_i]) * 900;      //USE Math.MAX to optimize decrement checks!
+                sprite.material.color.setRGB(int_brighten, int_brighten, int_brighten);
+            }
+        }
+
+        //Check if the arrows should be moving:
+        fn_arrowIdleAnimCheck(){
+            this.a_arrowNotEdge[0] = true;     
+            this.a_arrowNotEdge[1] = true;     
+            this.f_baseArrowBrightness[0] = 1;
+            this.f_baseArrowBrightness[1] = 1;
+            
+            if(this.int_arrowIndex == 0){
+                this.a_arrowNotEdge[0] = false;
+                this.f_baseArrowBrightness[0] = 0.3;
+            } 
+            if(this.int_arrowIndex == this.a_subOptions.length - 1){
+                this.a_arrowNotEdge[1] = false;
+                this.f_baseArrowBrightness[1] = 0.3;
+            }
+
+            this.spr_arrowL.material.color.setRGB(this.f_baseArrowBrightness[0], this.f_baseArrowBrightness[0], this.f_baseArrowBrightness[0]);
+            this.spr_arrowR.material.color.setRGB(this.f_baseArrowBrightness[1], this.f_baseArrowBrightness[1], this.f_baseArrowBrightness[1]);
+        }
+
+        //The idle animation of the whole option:
+        fn_idleAnim(){
+            this.spr_border.position.copy(this.option.position);
+            this.spr_text.position.copy(this.option.position);
+            this.spr_highlight.position.copy(this.option.position);
+
+            //Inner X is speed of oscillation, outer X is amount of oscillation!
+            const f_sinX = Math.sin(this.int_idleFrameX / 30) / 30;
+            const f_sinY = Math.sin(this.int_idleFrameY / 30) / 30;
+            
+            this.spr_border.position.x += f_sinX;
+            this.spr_text.position.x += f_sinX;
+            this.spr_highlight.position.x += f_sinX;
+            
+            this.spr_border.position.y += f_sinY;
+            this.spr_text.position.y += f_sinY;
+            this.spr_highlight.position.y += f_sinY;
+
+            
+            //if(this.b_arrows){
+            //    fn_setArrowPos();
+            //}
+        }
+
+    //Getters & setters:
+        fn_setPos(_x, _y, _z){
+            this.option.position.set(_x, _y, _z);
+
+            this.spr_border.position.copy(this.option.position);
+            this.spr_text.position.copy(this.option.position);
+            this.spr_highlight.position.copy(this.option.position);
+
+            if(this.b_arrows){
+                fn_setArrowPos();
+            }
+        }
+
+        //Update the location of arrows to match with current option.position:
+        fn_setArrowPos(){
+            this.spr_arrowL.position.copy(this.option.position);
+            this.spr_arrowL.position.x += this.f_width * .18 * this.a_arrowOffset[1] + this.a_arrowOffset[0];
+
+            this.spr_arrowR.position.copy(this.option.position);
+            this.spr_arrowR.position.x += this.f_width * .41 * this.a_arrowOffset[1] + this.a_arrowOffset[0];
+            
+            //Alternative locations:
+                if(this.str_text == "Connect_Controllers"){
+                    this.spr_arrowR.position.copy(this.option.position)
+                    this.spr_arrowR.position.x += this.f_width * .13;
+                    this.spr_arrowR.position.y += this.f_width * .3;
+                    this.spr_arrowL.position.copy(this.option.position);
+                    this.spr_arrowL.position.x -= this.f_width * .13;
+                    this.spr_arrowL.position.y += this.f_width * .3;
+                }
+                
+            this.spr_arrowL.position.z += .1;
+            this.spr_arrowR.position.z += .1;
+
+            this.a_baseArrowPos = [
+                new THREE.Vector3(0,0,0).copy(this.spr_arrowL.position),    //The base position of the left arrow before animation.
+                new THREE.Vector3(0,0,0).copy(this.spr_arrowR.position)     //The base position of the right arrow before animation.
+            ];
+        }
+
+        fn_isDummy(){
+            return this.b_dummy;
+        }
+
+        fn_isSelected(){
+            return this.b_selected;
+        }
+
+        //Return true if this option has arrows:
+        fn_hasArrows(){
+            return this.b_arrows;
+        }
+
+        fn_getPos(){
+            return this.option.position;
+        }
+
+        //Get the character name if this option's name is "chara_characterName"
+        fn_getCharText(){
+            return this.str_text.substring(6);
+        }
 }

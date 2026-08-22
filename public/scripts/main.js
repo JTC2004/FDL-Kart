@@ -467,7 +467,7 @@ function fn_setResolution(){
     //If in settings menu, set info text:
     if(window.b_inSettingsMenu){
         const p_info = document.getElementById("info");
-        p_info.innerHTML = `Lower resolution to increase performance. \nCurrent: (
+        p_info.innerHTML = `Lower to increase performance. \nCurrent resolution: (
             ${Math.round(renderer.getSize(new THREE.Vector2()).x)}
              x 
             ${Math.round(renderer.getSize(new THREE.Vector2()).y)}
