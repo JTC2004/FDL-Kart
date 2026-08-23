@@ -46,6 +46,7 @@ export default class Option{
         this.onArrow = config.onArrow;
 
         //Animation variables:
+        this.f_highlightFrame = 0;
         this.int_idleFrameX = config.idleFrameX;
         this.int_idleFrameY = config.idleFrameY;
         if(!this.int_idleFrameX) this.int_idleFrameX = Math.floor(Math.random() * 1000);
@@ -163,6 +164,7 @@ export default class Option{
 
         if(!this.b_isConnectControllers){
             this.fn_idleAnim();
+            this.f_highlightFrame ++;
             this.int_idleFrameX ++;
             this.int_idleFrameY ++;
         }
@@ -177,6 +179,7 @@ export default class Option{
 
         fn_select(){        
             this.b_selected = true;
+            this.f_highlightFrame = 0;
             if(!this.b_static) this.spr_highlight.visible = true;
 
             this.p_info.innerHTML = this.str_info;
@@ -370,6 +373,11 @@ export default class Option{
             this.spr_border.position.y += this.f_sinY;
             this.spr_text.position.y += this.f_sinY;
             this.spr_highlight.position.y += this.f_sinY;
+
+            //Make the highlight sprite glow:
+            const f_brightness = 3 + Math.sin(this.f_highlightFrame / 15 + 22) * 2;
+            if(this.b_selected) console.log(`f_brightness = ${f_brightness}`);
+            this.spr_highlight.material.color.setRGB(f_brightness, f_brightness, f_brightness);
 
             
             //if(this.b_arrows){
