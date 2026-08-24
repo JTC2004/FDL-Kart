@@ -22,6 +22,10 @@ export default class Option{
         this.option.position.set(config.pos[0], config.pos[1], config.pos[2]);       
         this.f_width = config.scale[0] * 3.5;
         this.f_height = config.scale[1] * 3.5;
+        this.f_growSpd = 0.4;                       //Speed this UI element grows while selected.
+        this.f_growScale = 0.4;
+        this.f_growToHeight = this.f_height;
+        this.b_hitMaxSize = false;                  //Flag that equals true when the option reaches it's max size for one last little pulse.
 
         this.str_text = config.text;                //FYI: config variables equal null if not declared.
         this.b_isConnectControllers = false;          //Equals true if this is the connect controllers element.
@@ -202,6 +206,8 @@ export default class Option{
             else if(!this.b_static){
                 this.spr_border.material.color.setRGB(2.5, 2.5, 2);
             }
+
+            this.f_growToHeight = this.f_height + this.f_growScale;
         }
 
         fn_deSelect(){
@@ -216,6 +222,9 @@ export default class Option{
             if(!this.b_disabled){
                 this.spr_border.material.color.setRGB(1.5, 1.5, 1.5);
             }
+
+            this.f_growToHeight = this.f_height;
+            this.b_hitMaxSize = false;
         }
 
         //Make all of this option's elements invisible:
@@ -370,31 +379,56 @@ export default class Option{
                 this.spr_text.position.x += this.f_sinX;
                 this.spr_highlight.position.x += this.f_sinX;
             //Move the sprites on y axis:
-            this.spr_border.position.y += this.f_sinY;
-            this.spr_text.position.y += this.f_sinY;
-            this.spr_highlight.position.y += this.f_sinY;
+                this.spr_border.position.y += this.f_sinY;
+                this.spr_text.position.y += this.f_sinY;
+                this.spr_highlight.position.y += this.f_sinY;
 
             //Make the highlight sprite glow:
             const f_brightness = 3 + Math.sin(this.f_highlightFrame / 15 + 22) * 2;
-            if(this.b_selected) console.log(`f_brightness = ${f_brightness}`);
             this.spr_highlight.material.color.setRGB(f_brightness, f_brightness, f_brightness);
 
-            
-            //if(this.b_arrows){
-            //    fn_setArrowPos();
-            //}
+            /*if(this.str_text == "Single Play"){
+                console.log("--------------------");
+            }
+            if(this.f_height != 4.34){
+                console.log(`${this.str_text}: this.spr_border.scale.y = ${this.spr_border.scale.y}`);
+            }*/
+
+            //Making sprite grows while selected:
+            this.fn_spriteGrow();
         }
 
     //Getters & setters:
-        fn_setPos(_x, _y, _z){
-            this.option.position.set(_x, _y, _z);
+        //Move this option:
+        fn_addPos(_x = 0, _y = 0, _z = 0){
+            this.option.position.x += _x;
+            this.option.position.y += _y;
+            this.option.position.z += _x;
 
-            this.spr_border.position.copy(this.option.position);
-            this.spr_text.position.copy(this.option.position);
-            this.spr_highlight.position.copy(this.option.position);
+            this.fn_updatePos(_x, _y, _z);
+        }
+    
+        //Update all this option's sprites and arrows to match it's updated position:
+        fn_updatePos(_x, _y, _z){
+
+            if(_x > 0){
+                this.spr_border.position.x = _x;
+                this.spr_text.position.x = _x;
+                this.spr_highlight.position.x = _x;
+            }
+            if(_y > 0){
+                this.spr_border.position.y = _y;
+                this.spr_text.position.y = _y;
+                this.spr_highlight.position.y = _y;
+            }
+            if(_z > 0){
+                this.spr_border.position.z = _z;
+                this.spr_text.position.z = _z;
+                this.spr_highlight.position.z = _z += 0.01;
+            }
 
             if(this.b_arrows){
-                fn_setArrowPos();
+                this.fn_setArrowPos();
             }
         }
 
@@ -423,6 +457,64 @@ export default class Option{
                 new THREE.Vector3(0,0,0).copy(this.spr_arrowL.position),    //The base position of the left arrow before animation.
                 new THREE.Vector3(0,0,0).copy(this.spr_arrowR.position)     //The base position of the right arrow before animation.
             ];
+        }
+
+        //Resize all the sprites on this option:
+        fn_spriteGrow(){   
+            if(this.b_disabled || this.b_static) return;
+            
+            //If option is selected, grow it:
+            if(this.b_selected){
+                if(this.spr_border.scale.y < this.f_growToHeight){
+                    this.fn_spriteSizeIncrement(this.f_growSpd);
+                }
+                else if(!this.b_hitMaxSize && this.spr_border.scale.y >= this.f_growToHeight){
+                    this.fn_spriteSizeIncrement(0.1);
+                    console.log(`HIT MAX SIZE`);
+                    this.b_hitMaxSize = true;
+                }
+                else if(this.b_hitMaxSize && this.spr_border.scale.y >= this.f_growToHeight){
+                    this.fn_spriteSizeReset(this.f_growScale);
+                }
+                
+            }
+            //Else, shrink it:
+            else{
+                if(this.spr_border.scale.y > this.f_growToHeight){
+                    this.fn_spriteSizeIncrement((-this.f_growSpd) / 3);
+
+                    if(this.spr_border.scale.y < this.f_growToHeight){
+                        this.fn_spriteSizeReset();
+                    }
+                }
+            }
+            
+        }
+
+        //Increment all sprites' scales by a float value:
+        fn_spriteSizeIncrement(_f_i){
+            let f_textShrink = 1;
+            if(this.f_width != this.f_height) f_textShrink = 0.5;
+
+            this.spr_border.scale.x += _f_i;
+            this.spr_border.scale.y += _f_i;
+            this.spr_text.scale.x += _f_i * f_textShrink;
+            this.spr_text.scale.y += _f_i * f_textShrink;
+            this.spr_highlight.scale.x += _f_i;
+            this.spr_highlight.scale.y += _f_i;
+        }
+        
+        //Reset size of all sprites:
+        fn_spriteSizeReset(_f_o = 0){
+            let f_textShrink = 1;
+            if(this.f_width != this.f_height) f_textShrink = 0.5;
+
+            this.spr_border.scale.x = this.f_width + _f_o;
+            this.spr_border.scale.y = this.f_height + _f_o;
+            this.spr_text.scale.x = this.f_width + (_f_o * f_textShrink);
+            this.spr_text.scale.y = this.f_height + (_f_o * f_textShrink);
+            this.spr_highlight.scale.x = this.f_width + _f_o;
+            this.spr_highlight.scale.y = this.f_height + _f_o;
         }
 
         fn_isDummy(){
