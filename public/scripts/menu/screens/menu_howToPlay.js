@@ -10,15 +10,15 @@
 
 export default class Menu_HowToPlay extends Menu{
 
-    constructor(manager){
-        super(manager);
+    constructor(manager, _index){
+        super(manager, _index);
 
         this.a_options.push([
             new Option({
                 text: "Controls (gamepad)",
                 info: "",
                 type: "horizontal large",
-                pos: [-.25, 2.2, 0],
+                pos: [-.25, 2.2, this.f_oZ],
                 scale: [3.2, 1],
                 static: true,
             })
@@ -28,7 +28,7 @@ export default class Menu_HowToPlay extends Menu{
                 text: "Controls (keyboard)",
                 info: "",
                 type: "horizontal large",
-                pos: [-.25, -1.8, 0],
+                pos: [-.25, -1.8, this.f_oZ],
                 scale: [3.2, 1],
                 static: true,
             })

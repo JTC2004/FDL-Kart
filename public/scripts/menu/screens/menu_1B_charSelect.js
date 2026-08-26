@@ -19,8 +19,8 @@ var int_frames = 0;
 
 export default class Menu_1B_charSelect extends Menu{
 
-    constructor(manager){
-        super(manager);
+    constructor(manager, _index){
+        super(manager, _index);
         this.a_connectControllers = [];
 
         //Menu options:
@@ -29,7 +29,7 @@ export default class Menu_1B_charSelect extends Menu{
                 text: "chara_Maple",
                 info: "Maple",
                 type: "large",
-                pos: [this.fn_inRow(2.25, 0, 4) + 3, 1.5, 0],
+                pos: [this.fn_inRow(2.25, 0, 4) + 3, 1.5, this.f_oZ],
                 scale: [.6, .6],
                 onConfirm: () => this.fn_characterSelected()
             }),
@@ -37,7 +37,7 @@ export default class Menu_1B_charSelect extends Menu{
                 text: "chara_Enoki",
                 info: "Enoki",
                 type: "large",
-                pos: [this.fn_inRow(2.25, 1, 4) + 3, 1.5, 0],
+                pos: [this.fn_inRow(2.25, 1, 4) + 3, 1.5, this.f_oZ],
                 scale: [.6, .6],
                 onConfirm: () => this.fn_characterSelected()
             }),
@@ -45,7 +45,7 @@ export default class Menu_1B_charSelect extends Menu{
                 text: "chara_Aaron",
                 info: "Aaron",
                 type: "large",
-                pos: [this.fn_inRow(2.25, 2, 4) + 3, 1.5, 0],
+                pos: [this.fn_inRow(2.25, 2, 4) + 3, 1.5, this.f_oZ],
                 scale: [.6, .6],
                 onConfirm: () => this.fn_characterSelected()
             }),
@@ -53,7 +53,7 @@ export default class Menu_1B_charSelect extends Menu{
                 text: "chara_Rufus",
                 info: "Rufus",
                 type: "large",
-                pos: [this.fn_inRow(2.25, 3, 4) + 3, 1.5, 0],
+                pos: [this.fn_inRow(2.25, 3, 4) + 3, 1.5, this.f_oZ],
                 scale: [.6, .6],
                 onConfirm: () => this.fn_characterSelected()
             })
@@ -63,37 +63,37 @@ export default class Menu_1B_charSelect extends Menu{
                 text: "chara_(unlockable)",
                 info: "(unlockable)",
                 type: "large",
-                pos: [this.fn_inRow(2.25, 0, 4) + 3, -1, 0],
+                pos: [this.fn_inRow(2.25, 0, 4) + 3, -1, this.f_oZ],
                 scale: [.6, .6]
             }),
             new Option({
                 text: "chara_(unlockable)",
                 info: "(unlockable)",
                 type: "large",
-                pos: [this.fn_inRow(2.25, 1, 4) + 3, -1, 0],
+                pos: [this.fn_inRow(2.25, 1, 4) + 3, -1, this.f_oZ],
                 scale: [.6, .6]
             }),
             new Option({
                 text: "chara_(unlockable)",
                 info: "(unlockable)",
                 type: "large",
-                pos: [this.fn_inRow(2.25, 2, 4) + 3, -1, 0],
+                pos: [this.fn_inRow(2.25, 2, 4) + 3, -1, this.f_oZ],
                 scale: [.6, .6]
             }),
             new Option({
                 text: "chara_(unlockable)",
                 info: "(unlockable)",
                 type: "large",
-                pos: [this.fn_inRow(2.25, 3, 4) + 3, -1, 0],
+                pos: [this.fn_inRow(2.25, 3, 4) + 3, -1, this.f_oZ],
                 scale: [.6, .6]
             }),
         ]);
 
         //Object additions specific to this menu:
         this.a_objects = [
-            new Character([-6.3, .6, -1], 1, 2, "Maple", 0, true),
-            new Character([-4.6, -.25, .5], 1, 2, "", 0, true),
-            new Kart([-5, -1, 0], 1, .175),
+            new Character([-6.3, .6, -1 + this.f_oZ], 1, 2, "Maple", 0, true),
+            new Character([-4.6, -.25, .5 + this.f_oZ], 1, 2, "", 0, true),
+            new Kart([-5, -1, 0 + this.f_oZ], 1, .175),
         ];
 
         this.a_objects[0].fn_setSpriteTile(5, 0);
@@ -133,7 +133,6 @@ export default class Menu_1B_charSelect extends Menu{
         //console.log(`dX = ${this.dx}`);
         //console.log(`dY = ${this.dy}`);
         //console.log(`int_charaIndex = ${this.int_charaIndex}`);
-        console.log("--------------------");
 
         //If a character is selected, make pressing back de-select that character instead of going to the previous menu:
         if(this.int_charaIndex > 0){

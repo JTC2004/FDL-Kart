@@ -13,15 +13,15 @@
 
 export default class Menu_1A_gameMode extends Menu{
 
-    constructor(manager){
-        super(manager);
+    constructor(manager, _index){
+        super(manager, _index);
 
         this.a_options.push([
             new Option({
                 text: "Items_On",
                 info: "Race against the clock for the best time! (random items on the track)",
                 type: "horizontal large",
-                pos: [-3.75, 2.5, 0], 
+                pos: [-3.75, 2.5, this.f_oZ], 
                 scale: [2.5, .5],
                 arrows: true,
                 subOptions: ["Slow", "Normal", "FAST"],
@@ -29,7 +29,7 @@ export default class Menu_1A_gameMode extends Menu{
                 defaultOption: 1,
                 onConfirm: () => {
                     window.int_gameMode = 1;
-                    manager.fn_nextMenu(new Menu_1B_charSelect(manager));
+                    manager.fn_nextMenu(new Menu_1B_charSelect(manager, this.f_index + 1));
                 },
                 onArrow: (_int_i) => {
                     fn_settingCC(_int_i);
@@ -41,7 +41,7 @@ export default class Menu_1A_gameMode extends Menu{
                 text: "No_Items",
                 info: "Race against the clock for the best time! (no items on the track)",
                 type: "horizontal large",
-                pos: [-3.75, .25, 0], 
+                pos: [-3.75, .25, this.f_oZ], 
                 scale: [2.5, .5],
                 arrows: true,
                 subOptions: ["Slow", "Normal", "FAST"],
@@ -49,7 +49,7 @@ export default class Menu_1A_gameMode extends Menu{
                 defaultOption: 1,
                 onConfirm: () => {
                     window.int_gameMode = 2;
-                    manager.fn_nextMenu(new Menu_1B_charSelect(manager));
+                    manager.fn_nextMenu(new Menu_1B_charSelect(manager, this.f_index + 1));
                 },
                 onArrow: (_int_i) => {
                     fn_settingCC(_int_i);
@@ -61,11 +61,11 @@ export default class Menu_1A_gameMode extends Menu{
                 text: "Practice",
                 info: "Freely use flight, save-states, and rewind to practice shortcuts.",
                 type: "horizontal medium",
-                pos: [-5.8, -2.00, 0], 
+                pos: [-5.8, -2.00, this.f_oZ], 
                 scale: [1.3, .45],
                 onConfirm: () => {
                     window.int_gameMode = 0;
-                    manager.fn_nextMenu(new Menu_1B_charSelect(manager));
+                    manager.fn_nextMenu(new Menu_1B_charSelect(manager, this.f_index + 1));
                 }
             })
         ]);

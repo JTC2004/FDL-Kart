@@ -78,8 +78,6 @@ if(window.b_debug){
     var frustumHeight = 9; // choose a consistent height
     menuCamera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 );
     menuCamera.aspect = window.innerWidth / window.innerHeight;	
-    menuCamera.position.set( 0, 0, 10 );
-    menuCamera.lookAt( 0, 0, 0 );
 
 
     //Renderer initialization:

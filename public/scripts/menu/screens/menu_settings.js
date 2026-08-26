@@ -17,14 +17,14 @@ var int_frames = 0;
 
 export default class Menu_Settings extends Menu{
 
-    constructor(manager){
-        super(manager);
+    constructor(manager, _oZ){
+        super(manager, _oZ);
 
         this.a_options.push([
             new Option({
                 text: "Resolution",
                 type: "horizontal large",
-                pos: [-3.6, 3, 0], 
+                pos: [-3.6, 3, this.f_oZ], 
                 scale: [2.5, .45],
                 arrows: true,
                 subOptions: ["160p", "192p", "240p", "360p", "480p", "720p", "900p", "1080p", "1440p", "4K"],
@@ -38,7 +38,7 @@ export default class Menu_Settings extends Menu{
             new Option({
                 text: "SharpPixels",
                 type: "horizontal large",
-                pos: [-3.6, 1, 0], 
+                pos: [-3.6, 1, this.f_oZ], 
                 scale: [2.5, .45],
                 arrows: true,
                 subOptions: ["OFF", "ON"],
@@ -51,9 +51,9 @@ export default class Menu_Settings extends Menu{
 
         //Object additions specific to this menu:
         this.a_objects = [
-            new Character([4.1, .8, -.05], 1, 2, "Enoki", 0, true),
-            new Character([4.7, -.25, .5], 1, 2, "Aaron", 0, true),
-            new Kart([.8, -.15, 0], 6, .175),
+            new Character([4.1, .8, -.05 + this.f_oZ], 1, 2, "Enoki", 0, true),
+            new Character([4.7, -.25, .5 + this.f_oZ], 1, 2, "Aaron", 0, true),
+            new Kart([.8, -.15, 0 + this.f_oZ / 6], 6, .175),
         ];
         this.a_objects[0].fn_setSpriteTile(5, 0);
         this.a_objects[1].fn_setSpriteTile(4, 1);

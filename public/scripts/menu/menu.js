@@ -12,7 +12,7 @@
 
 export default class Menu{
 
-    constructor(manager){
+    constructor(manager, _index){
         this.menuManager = manager;             //Pointer to the menuManager that contains the menu.
         SCENE = fn_getScene();
         LOADER = fn_getLoader();
@@ -30,11 +30,18 @@ export default class Menu{
 
         this.str_menuName = "";
         this.b_backOk = true;               //When true, menu manager can back out of this menu.
+        this.f_index = _index;                 //The index of this menu in the list of menus.
+        this.f_oZ = this.f_index * -20;               //The z offset of this menu.
+
+        if(!this.f_index) this.f_index = 0;
+        if(!this.f_oZ) this.f_oZ = 0;
     }
 
     //Listen to input and update every frame:
     fn_update(a_INPUTS){
         const input = a_INPUTS[0];
+
+        //console.log(`this.f_oZ = ${this.f_oZ}`);
 
         //Select first option when menu boots up:
         if(!this.b_firstOption){
@@ -110,7 +117,6 @@ export default class Menu{
 
     //Call this function for the entrance animation:
     fn_enter(){
-
         //Set all options to visible:
         for(let i = 0; i < this.a_options.length; i++){
             for(let e = 0; e < this.a_options[i].length; e++){

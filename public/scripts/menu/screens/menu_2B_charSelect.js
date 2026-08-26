@@ -20,8 +20,8 @@ let a_INPUTS;
 
 export default class Menu_2B_charSelect extends Menu{
 
-    constructor(manager){
-        super(manager);
+    constructor(manager, _index){
+        super(manager, _index);
         a_INPUTS = fn_getInputs();
 
         //Menu options:
@@ -30,7 +30,7 @@ export default class Menu_2B_charSelect extends Menu{
                 text: "Connect_Controllers",
                 info: "",
                 type: "horizontal medium",
-                pos: [-.25, .1, 0],
+                pos: [-.25, .1, this.f_oZ],
                 scale: [3, 2.4],
                 static: true,
                 arrows: true,
@@ -56,10 +56,10 @@ export default class Menu_2B_charSelect extends Menu{
 
         //Extra additions for this screen:
         this.a_objects = [
-            new ConnectController([-2.4, 1.2, 0.05], 0),
-            new ConnectController([1.85, 1.2, 0.05], 1),
-            new ConnectController([-2.4, -1.85, 0.05], 2),
-            new ConnectController([1.85, -1.85, 0.05], 3)
+            new ConnectController([-2.4, 1.2, 0.05 + this.f_oZ], 0),
+            new ConnectController([1.85, 1.2, 0.05 + this.f_oZ], 1),
+            new ConnectController([-2.4, -1.85, 0.05 + this.f_oZ], 2),
+            new ConnectController([1.85, -1.85, 0.05 + this.f_oZ], 3)
         ];
 
         this.str_menuName = "2P Character Select";

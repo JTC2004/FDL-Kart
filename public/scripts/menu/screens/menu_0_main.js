@@ -17,18 +17,18 @@
 
 export default class Menu_0_main extends Menu{
 
-    constructor(manager){
-        super(manager);
+    constructor(manager, _index){
+        super(manager, _index);
 
         this.a_options.push([
             new Option({
                 text: "Single Play",
                 info: "Race against the clock for the best time!",
                 type: "large",
-                pos: [this.fn_inRow(4.25, 0, 4), 1, 0], 
+                pos: [this.fn_inRow(4.25, 0, 4), 1, this.f_oZ], 
                 scale: [1, 1.24],
                 onConfirm: () => {
-                    manager.fn_nextMenu(new Menu_1A_gameMode(manager));
+                    manager.fn_nextMenu(new Menu_1A_gameMode(manager, this.f_index + 1));
                     //ANY code you want to trigger when this option is selected, put here!! :D
                 }
             }),
@@ -36,23 +36,23 @@ export default class Menu_0_main extends Menu{
                 text: "Split-Screen",
                 info: "Race against up to 4 people at once!",
                 type: "large",
-                pos: [this.fn_inRow(4.25, 1, 4), 1, 0], 
+                pos: [this.fn_inRow(4.25, 1, 4), 1, this.f_oZ], 
                 scale: [1, 1.24],
                 onConfirm: () => {
-                    manager.fn_nextMenu(new Menu_2B_charSelect(manager));
+                    manager.fn_nextMenu(new Menu_2B_charSelect(manager, this.f_index + 1));
                 }
             }),
             new Option({
                 text: "Online Play",
                 type: "large",
-                pos: [this.fn_inRow(4.25, 2, 4), 1, 0], 
+                pos: [this.fn_inRow(4.25, 2, 4), 1, this.f_oZ], 
                 scale: [1, 1.24],
                 disabled: true
             }),
             new Option({
                 text: "FDL Kart Channel",
                 type: "large",
-                pos: [this.fn_inRow(4.25, 3, 4), 1, 0], 
+                pos: [this.fn_inRow(4.25, 3, 4), 1, this.f_oZ], 
                 scale: [1, 1.24],
                 disabled: true
             })
@@ -62,20 +62,20 @@ export default class Menu_0_main extends Menu{
                 text: "Settings",
                 info: "Change graphics settings to improve performance.",
                 type: "horizontal medium",
-                pos: [this.fn_inRow(5.8, 0, 3), -2.2, 0], 
+                pos: [this.fn_inRow(5.8, 0, 3), -2.2, this.f_oZ], 
                 scale: [1.3, .35],
                 onConfirm: () => {
-                    manager.fn_nextMenu(new Menu_Settings(manager));
+                    manager.fn_nextMenu(new Menu_Settings(manager, this.f_index + 1));
                 }
             }),
             new Option({
                 text: "How to Play",
                 info: "View the keyboard & gamepad controls.",
                 type: "horizontal large",
-                pos: [this.fn_inRow(5.75, 1, 3), -2.2, 0], 
+                pos: [this.fn_inRow(5.75, 1, 3), -2.2, this.f_oZ], 
                 scale: [1.75, .35],
                 onConfirm: () => {
-                    manager.fn_nextMenu(new Menu_HowToPlay(manager));
+                    manager.fn_nextMenu(new Menu_HowToPlay(manager, this.f_index + 1));
                 }
             }),
             new Option({
@@ -84,7 +84,7 @@ export default class Menu_0_main extends Menu{
             new Option({
                 text: "Records",
                 type: "horizontal medium",
-                pos: [this.fn_inRow(5.75, 2, 3), -2.2, 0], 
+                pos: [this.fn_inRow(5.75, 2, 3), -2.2, this.f_oZ], 
                 scale: [1.3, .35],
                 disabled: true
             })

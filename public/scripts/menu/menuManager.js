@@ -38,6 +38,9 @@
 	let a_prevMenus = [];						//A stack of the previous menu screens visited so far.
 	//var int_frames = 0;
 	var b_return = false;						//When true, gameplay starts.
+	var b_entering = false;						//Only equals true while transitioning into a menu menu.
+	var b_exiting = false;						//Only equals true while transitioning out of a menu.
+	const int_baseCameraPos = 10;
 	let fillLight1;								//The light for objects in menus.
 	const p_finish0 = document.getElementById("p_finish0");
 
@@ -58,6 +61,8 @@ export default class MenuManager{
 		//Render background:
 		//renderer.setClearColor( 0x40aaf2, 1);
 		RENDERER.setClearColor( 0x006492, 1);
+		CAMERA.position.set( 0, 0, int_baseCameraPos );
+    	CAMERA.lookAt( 0, 0, 0 );
 
 		const color = 0xfffde6;
 		fillLight1 = new THREE.HemisphereLight( color, 0x77756a, 3 );
@@ -65,7 +70,7 @@ export default class MenuManager{
 		this.fn_startMenus();
 
 		//Set the first menu:
-		currentMenu = new Menu_0_main(this);
+		currentMenu = new Menu_0_main(this, 0);
 		//currentMenu = new Menu_Settings(this);
 
 		//Debug mode:
@@ -89,6 +94,8 @@ export default class MenuManager{
 												//? mark means: if currentMenu exists, call onExit(). Otherwise, do nothing."
 			a_prevMenus.push(currentMenu);
 			currentMenu = nextMenu;
+			b_entering = true;
+			b_exiting = false;
 			nextMenu = null;					//Don't forget to do this!
 
 			currentMenu.fn_enter();				//Call the function for the current menu's entrance transition.
@@ -100,6 +107,28 @@ export default class MenuManager{
 			${CAMERA.position.y},
 			${CAMERA.position.z},
 		)`);*/
+
+		//Moving the camera during menu transitions:
+		if(b_entering || b_exiting){
+			const f_newPos = a_prevMenus.length * -20 + int_baseCameraPos;	//New position for the camera.
+			
+			if(b_entering){
+				CAMERA.position.z -= 1.5;
+				
+				if(CAMERA.position.z <= f_newPos){
+					b_entering = false;
+					CAMERA.position.z = f_newPos;
+				}
+			}
+			else if(b_exiting){
+				CAMERA.position.z += 1.5;
+				
+				if(CAMERA.position.z >= f_newPos){
+					b_exiting = false;
+					CAMERA.position.z = f_newPos;
+				}
+			}
+		}
 
 		//Tilting menu with c-stick:
 		CAMERA.rotation.y = a_INPUTS[0].fn_get_rightX() / 10;
@@ -121,6 +150,9 @@ export default class MenuManager{
 		currentMenu?.fn_exit();
 		currentMenu = a_prevMenus.pop();
 		currentMenu.fn_enter();
+
+		b_exiting = true;
+		b_entering = false;
 	}
 
 	//Call this only once when menus start:

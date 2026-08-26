@@ -470,7 +470,6 @@ export default class Option{
                 }
                 else if(!this.b_hitMaxSize && this.spr_border.scale.y >= this.f_growToHeight){
                     this.fn_spriteSizeIncrement(0.1);
-                    console.log(`HIT MAX SIZE`);
                     this.b_hitMaxSize = true;
                 }
                 else if(this.b_hitMaxSize && this.spr_border.scale.y >= this.f_growToHeight){
