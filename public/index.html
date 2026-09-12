@@ -47,7 +47,7 @@ Changes since last version:
 		- Options grow in size while selected.
 		- Option 'bounces' when selected.
 		- Menu transitions.
-			- Manus fade in during transitions, but has some jank (see to-do list).
+			- Menus fade in during transitions, but has some jank (see to-do list).
 
 To do:		
 	- Fix the arrow text for options being jank during transitions.
@@ -67,6 +67,7 @@ To do:
 	- Use Math.Max(0, value) to optimize any variable decrements to 0.
 	- Fix the fact that due to having a sprite cache, now all instances of a sprite use the same sprite tile.
 	- Make sure menus remove unique objects (and be sure they are cached!)
+	- Make sure menus are properly unloading assets and not causing memory leaks.
 	- Optimize sprites in option objects (make them all offset from position, and if position changes, so does the option xyz).
 	- Optimize how dummy options are moved around.
 

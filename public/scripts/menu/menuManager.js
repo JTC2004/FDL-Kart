@@ -41,7 +41,7 @@
 	var b_return = false;						//When true, gameplay starts.
 	var b_entering = false;						//Only equals true while transitioning into a menu menu.
 	var b_exiting = false;						//Only equals true while transitioning out of a menu.
-	const int_baseCameraPos = 10;
+	const int_baseCameraPos = 11;
 	let fillLight1;								//The light for objects in menus.
 	const p_finish0 = document.getElementById("p_finish0");
 
