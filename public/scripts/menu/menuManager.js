@@ -33,6 +33,7 @@
 		let CAMERA;
 		let a_INPUTS;
 
+	var int_depth = 0;							//The depth of the menu stack.
 	let currentMenu;							//Equals the current menu screen object.
 	var nextMenu = null;						//Equals the next menu to transition to ONLY on the frame a transition must occur.
 	let a_prevMenus = [];						//A stack of the previous menu screens visited so far.
@@ -90,10 +91,11 @@ export default class MenuManager{
 
 		//Going to next menu:
 		if(nextMenu){
-			currentMenu?.fn_exit();				//Call the function for the current menu's exit transition.
+			currentMenu?.fn_exit(false);				//Call the function for the current menu's exit transition.
 												//? mark means: if currentMenu exists, call onExit(). Otherwise, do nothing."
 			a_prevMenus.push(currentMenu);
 			currentMenu = nextMenu;
+			int_depth ++;
 			b_entering = true;
 			b_exiting = false;
 			nextMenu = null;					//Don't forget to do this!
@@ -111,9 +113,10 @@ export default class MenuManager{
 		//Moving the camera during menu transitions:
 		if(b_entering || b_exiting){
 			const f_newPos = a_prevMenus.length * -20 + int_baseCameraPos;	//New position for the camera.
-			
+
 			if(b_entering){
 				CAMERA.position.z -= 1.5;
+				a_prevMenus[int_depth - 1].fn_updateOpacities();
 				
 				if(CAMERA.position.z <= f_newPos){
 					b_entering = false;
@@ -123,6 +126,7 @@ export default class MenuManager{
 			else if(b_exiting){
 				CAMERA.position.z += 1.5;
 				
+				//Stop camera movement:
 				if(CAMERA.position.z >= f_newPos){
 					b_exiting = false;
 					CAMERA.position.z = f_newPos;
@@ -147,9 +151,10 @@ export default class MenuManager{
 
 	//Call this to go back one menu screen.
 	fn_prevMenu(){
-		currentMenu?.fn_exit();
+		currentMenu?.fn_exit(true);
 		currentMenu = a_prevMenus.pop();
 		currentMenu.fn_enter();
+		int_depth -= 1;
 
 		b_exiting = true;
 		b_entering = false;
@@ -164,7 +169,7 @@ export default class MenuManager{
 	fn_startGameplay(){
 		SCENE.remove( fillLight1 );
 		b_return = true;
-		currentMenu?.fn_exit();
+		currentMenu?.fn_exit(true);
 		fn_clearScene();						//Might need to remove this later.
 		//p_finish0.innerHTML = "Hold on a sec...";
 	}

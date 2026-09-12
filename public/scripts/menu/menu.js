@@ -33,6 +33,8 @@ export default class Menu{
         this.f_index = _index;                 //The index of this menu in the list of menus.
         this.f_oZ = this.f_index * -20;               //The z offset of this menu.
 
+        this.int_transp = 1;                 //1 means menu should be turning opaque, -1 means menu should be turning transparent, 0 means no change.
+
         if(!this.f_index) this.f_index = 0;
         if(!this.f_oZ) this.f_oZ = 0;
     }
@@ -87,6 +89,12 @@ export default class Menu{
                 } 
             }
 
+        //Update each of the opacities:
+        if(this.int_transp != 0){
+            this.fn_updateOpacities();
+        }
+        //console.log(`this.int_transp = ${this.int_transp}`);
+
         //Any additional updates at the end:
             this.fn_extraUpdate(a_INPUTS);
     }
@@ -96,19 +104,23 @@ export default class Menu{
     }
 
     //Call this function for the exit animation:
-    fn_exit(){
+    fn_exit(_b_popped){
         //console.log("HIDING ALL OPTIONS");
-        //Set all options to invisible:
-        for(let i = 0; i < this.a_options.length; i++){
-            for(let e = 0; e < this.a_options[i].length; e++){
-                this.a_options[i][e].fn_hide();
-            } 
+        //If this this option is being popped, set all options to invisible:
+        if(_b_popped){
+            for(let i = 0; i < this.a_options.length; i++){
+                for(let e = 0; e < this.a_options[i].length; e++){
+                    this.a_options[i][e].fn_hide();
+                } 
+            }
         }
         //And same with the objects (if there are any):
         for(const object of this.a_objects){
             object.fn_hide();
         }
         this.fn_extraExit();
+        
+        this.int_transp = -1;      
     }
     //Extra cleanup for a specific menu:
     fn_extraExit(){
@@ -118,20 +130,40 @@ export default class Menu{
     //Call this function for the entrance animation:
     fn_enter(){
         //Set all options to visible:
-        for(let i = 0; i < this.a_options.length; i++){
+        /*for(let i = 0; i < this.a_options.length; i++){
             for(let e = 0; e < this.a_options[i].length; e++){
                 this.a_options[i][e].fn_show();
             } 
-        }
+        }*/
         //And same with the objects (if there are any):
         for(const object of this.a_objects){
             object.fn_show();
         }
         this.fn_extraEnter();
+
+        this.int_transp = 1;
+
+        console.log(`Entering menu ${this.str_menuName}`);
     }
     //Extra additions for a specific menu:
     fn_extraEnter(){
 
+    }
+
+    //Making the menu transparent or opaque:
+    fn_updateOpacities(){
+        this.int_transp = this.a_options[0][0].fn_getOpacity() + 0.05 * Math.sign(this.int_transp);
+        //console.log("ADJUSTING TRANSPARENCY");
+        
+        for(let i = 0; i < this.a_options.length; i++){
+            for(let e = 0; e < this.a_options[i].length; e++){
+                this.a_options[i][e].fn_setOpacity(this.int_transp);
+            } 
+        }
+
+        if(Math.abs(this.int_transp) > 1){
+            this.int_transp = 0;
+        }
     }
 
 

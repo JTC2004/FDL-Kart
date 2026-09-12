@@ -64,26 +64,28 @@ export default class Option{
         this.a_arrowNotEdge = [true, true];    //When each equals false, the respective arrow is grayed out.
         this.f_baseArrowBrightness = [1, 1];//Base brightness of each arrow.
 
+        this.f_opacity = 0;                      //The current opacity of this option's sprites.
+
         //this.iX = _iX;
         //this.iY = _iY;
 
         //Adding sprites:
             //Border:
-                this.spr_border = this.fn_newSprite('borders/'+ this.str_type);
+                this.spr_border = this.fn_newSprite('borders/'+ this.str_type, 0);
                 
                 this.spr_border.scale.set(this.f_width, this.f_height, 1);  //3rd param is ignored for sprites, but still required.
                 this.spr_border.position.copy(this.option.position);        //USE COPY instead of clone. Clone only works with new vector3.
                 this.spr_border.material.color.setRGB(1.5, 1.5, 1.5);
                 SCENE.add( this.spr_border );
             //Text:
-                this.spr_text = this.fn_newSprite('text/'+ this.str_text);
+                this.spr_text = this.fn_newSprite('text/'+ this.str_text, 0);
                 
                 this.spr_text.scale.set(this.f_width, this.f_height, 1);  //3rd param is ignored for sprites, but still required.
                 this.spr_text.position.copy(this.option.position);
                 this.spr_text.position.z += 0.01;
                 SCENE.add( this.spr_text );
             //Selection highlight:
-                this.spr_highlight = this.fn_newSprite('borders/'+ this.str_type +'_h');
+                this.spr_highlight = this.fn_newSprite('borders/'+ this.str_type +'_h', 1);
                 
                 this.spr_highlight.scale.set(this.f_width, this.f_height, 1);  //3rd param is ignored for sprites, but still required.
                 this.spr_highlight.position.copy(this.option.position);
@@ -98,10 +100,10 @@ export default class Option{
 
             //Adding arrows:
             if(this.b_arrows){
-                this.spr_arrowL = this.fn_newSprite('arrow_L');
+                this.spr_arrowL = this.fn_newSprite('arrow_L', 1);
                 this.spr_arrowL.scale.set(1, 1, 1);  //3rd param is ignored for sprites, but still required.
                 
-                this.spr_arrowR = this.fn_newSprite('arrow_R');
+                this.spr_arrowR = this.fn_newSprite('arrow_R', 1);
                 this.spr_arrowR.scale.set(1, 1, 1);  //3rd param is ignored for sprites, but still required.
                 //This is just for ctrl + f-ing: fn_arrowUpdate
                 
@@ -259,6 +261,50 @@ export default class Option{
                 this.fn_updateLabelPosition();
             }
         }
+
+    //Adjust the opacity of this option's sprites, and adjust visibility of HTML elements based on the opacity:
+        fn_setOpacity(_f_newVal){
+            if(this.b_dummy) return;
+            
+            const b_entering = _f_newVal > this.f_opacity;      //True if the menu is entering, false if exiting.
+            console.log(`b_entering = ${b_entering}, _f_newVal = ${_f_newVal}, this.f_opacity = ${this.f_opacity}`);
+            
+            this.f_opacity = _f_newVal;
+            this.spr_border.material.opacity = this.f_opacity;
+            this.spr_text.material.opacity = this.f_opacity;
+
+            //If getting more opaque:
+            if(b_entering){
+                if(this.b_selected){
+                    this.spr_highlight.visible = true;
+                    this.p_info.innerHTML = this.str_info;
+                }
+
+                if(this.b_arrows){
+                    this.spr_arrowL.visible = true;
+                    this.spr_arrowR.visible = true;
+                    this.p_optionElement.innerHTML = this.a_subOptions[this.int_arrowIndex];
+                    this.fn_updateLabelPosition();
+                }
+            }
+            //Else, if getting more transparent:
+            else{
+                this.spr_highlight.visible = false;
+
+                if(this.b_arrows){
+                    this.spr_arrowL.visible = false;
+                    this.spr_arrowR.visible = false;
+                    this.p_optionElement.innerHTML = "";
+                    this.fn_updateLabelPosition();
+                }
+            }            
+        }
+    //Returnt the opacity of this element:
+        fn_getOpacity(){
+            if(this.b_dummy) return;            
+            
+            return this.f_opacity;
+        }
     
     //Methods for adding and removing sprites:
         fn_remove(){
@@ -272,13 +318,13 @@ export default class Option{
             }
         }
 
-        fn_newSprite(_str_name){
+        fn_newSprite(_str_name, _f_opacity){
             this.spriteMap = new THREE.TextureLoader().load( 'assets/sprites/UI/'+ _str_name + '.png' );
             this.spriteMap.colorSpace = THREE.SRGBColorSpace;
             this.spriteMaterial = new THREE.SpriteMaterial({ 
                 map: this.spriteMap, 
                 transparent: true, 
-                alphaTest: 0.5,			//Helps discard transparent pixels.
+                opacity: _f_opacity,
                 color: 0xffffff,
                 depthTest: false,
                 depthWrite: false,
@@ -294,6 +340,8 @@ export default class Option{
 
     //Use this to update HTML coordinates to match world coordinates:
     fn_updateLabelPosition() {
+        //if(this.f_opacity < 0.6) return;      //Don't update label position if option is too transparent.
+        
         const label = document.getElementById("p_" + this.str_text);
 
         const vector = this.option.position.clone();
@@ -312,6 +360,11 @@ export default class Option{
 
         const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
         const y = (-vector.y * 0.5 + 0.5) * window.innerHeight;
+
+        //If the element is behind the camera, hide the label:
+        if (vector.z < -1 || vector.z > 1) {
+            return;
+        }
 
         label.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
     }
