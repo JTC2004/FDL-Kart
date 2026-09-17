@@ -82,26 +82,63 @@ export default class MenuManager{
 
 	//The menu loop:
 	fn_update(){
+		//Moving the camera during menu transitions:
+			if(b_entering || b_exiting){
+				
+
+				if(b_entering){
+					const f_newPos = a_prevMenus.length * -20 + int_baseCameraPos;	//New position for the camera.
+					
+					CAMERA.position.z -= 1.5;
+					a_prevMenus[int_depth - 1].fn_updateOpacities();
+					
+					if(CAMERA.position.z <= f_newPos){
+						b_entering = false;
+						CAMERA.position.z = f_newPos;
+					}
+				}
+				else if(b_exiting){
+					const f_newPos = (a_prevMenus.length - 1) * -20 + int_baseCameraPos;	//New position for the camera.
+					
+					CAMERA.position.z += 1.5;
+					//currentMenu.fn_updateOpacities();
+					console.log(`int_transp = ${currentMenu.int_transp} in menuManager!`)
+					
+					//Stop camera movement:
+					if(CAMERA.position.z >= f_newPos){
+						b_exiting = false;
+						currentMenu?.fn_exit(true);
+						this.fn_prevMenu();
+						CAMERA.position.z = f_newPos;
+					}
+				}
+			}
+		
+		//ACTUALLY UPDATING THE MENU:
 		currentMenu.fn_update(a_INPUTS);
 		
 		//Going to previous menu if player presses B AND they are not at the top menu:
-		if(a_INPUTS[0].fn_press_drift() && currentMenu.fn_getBackOk() && a_prevMenus.length > 0){
-			this.fn_prevMenu();
-		}
+			if(a_INPUTS[0].fn_press_drift() && currentMenu.fn_getBackOk() && a_prevMenus.length > 0){
+				//this.fn_prevMenu();
+				b_exiting = true;
+				b_entering = false;
+				currentMenu?.fn_exit(false);
+				console.log("------------------------------------------------------------")
+			}
 
 		//Going to next menu:
-		if(nextMenu){
-			currentMenu?.fn_exit(false);				//Call the function for the current menu's exit transition.
-												//? mark means: if currentMenu exists, call onExit(). Otherwise, do nothing."
-			a_prevMenus.push(currentMenu);
-			currentMenu = nextMenu;
-			int_depth ++;
-			b_entering = true;
-			b_exiting = false;
-			nextMenu = null;					//Don't forget to do this!
+			if(nextMenu){
+				currentMenu?.fn_exit(false);				//Call the function for the current menu's exit transition.
+													//? mark means: if currentMenu exists, call onExit(). Otherwise, do nothing."
+				a_prevMenus.push(currentMenu);
+				currentMenu = nextMenu;
+				int_depth ++;
+				b_entering = true;
+				b_exiting = false;
+				nextMenu = null;					//Don't forget to do this!
 
-			currentMenu.fn_enter();				//Call the function for the current menu's entrance transition.
-		}
+				currentMenu.fn_enter();				//Call the function for the current menu's entrance transition.
+			}
 		
 		//CAMERA.position.z -= 0.3;
 		/*console.log(`Menu Camera position = (
@@ -110,29 +147,7 @@ export default class MenuManager{
 			${CAMERA.position.z},
 		)`);*/
 
-		//Moving the camera during menu transitions:
-		if(b_entering || b_exiting){
-			const f_newPos = a_prevMenus.length * -20 + int_baseCameraPos;	//New position for the camera.
-
-			if(b_entering){
-				CAMERA.position.z -= 1.5;
-				a_prevMenus[int_depth - 1].fn_updateOpacities();
-				
-				if(CAMERA.position.z <= f_newPos){
-					b_entering = false;
-					CAMERA.position.z = f_newPos;
-				}
-			}
-			else if(b_exiting){
-				CAMERA.position.z += 1.5;
-				
-				//Stop camera movement:
-				if(CAMERA.position.z >= f_newPos){
-					b_exiting = false;
-					CAMERA.position.z = f_newPos;
-				}
-			}
-		}
+		
 
 		//Tilting menu with c-stick:
 		CAMERA.rotation.y = a_INPUTS[0].fn_get_rightX() / 10;
@@ -151,13 +166,10 @@ export default class MenuManager{
 
 	//Call this to go back one menu screen.
 	fn_prevMenu(){
-		currentMenu?.fn_exit(true);
+		//currentMenu?.fn_exit(true);
 		currentMenu = a_prevMenus.pop();
 		currentMenu.fn_enter();
 		int_depth -= 1;
-
-		b_exiting = true;
-		b_entering = false;
 	}
 
 	//Call this only once when menus start:

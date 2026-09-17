@@ -33,7 +33,8 @@ export default class Menu{
         this.f_index = _index;                 //The index of this menu in the list of menus.
         this.f_oZ = this.f_index * -20;               //The z offset of this menu.
 
-        this.int_transp = 1;                 //1 means menu should be turning opaque, -1 means menu should be turning transparent, 0 means no change.
+        this.int_transpDirec = 1;           //1 means menu should be turning opaque, -1 means menu should be turning transparent, 0 means no change.
+        this.f_transp = 0.0;                //The transparency of all menu options.
 
         if(!this.f_index) this.f_index = 0;
         if(!this.f_oZ) this.f_oZ = 0;
@@ -90,10 +91,17 @@ export default class Menu{
             }
 
         //Update each of the opacities:
-        if(this.int_transp != 0){
+        if(this.int_transpDirec != 0){
             this.fn_updateOpacities();
+            if(this.str_menuName == "1P Character Select"){
+                //console.log(`UPDATING OPACITIES FOR MENU ${"1P Character Select"}`);
+            } 
         }
-        //console.log(`this.int_transp = ${this.int_transp}`);
+
+            if(this.str_menuName == "1P Character Select"){
+                console.log(`this.int_transp = ${this.f_transp} inside menu.js!`);
+            } 
+        
 
         //Any additional updates at the end:
             this.fn_extraUpdate(a_INPUTS);
@@ -120,7 +128,7 @@ export default class Menu{
         }
         this.fn_extraExit();
         
-        this.int_transp = -1;      
+        this.int_transpDirec = -1;      
     }
     //Extra cleanup for a specific menu:
     fn_extraExit(){
@@ -141,7 +149,7 @@ export default class Menu{
         }
         this.fn_extraEnter();
 
-        this.int_transp = 1;
+        this.int_transpDirec = 1;
 
         console.log(`Entering menu ${this.str_menuName}`);
     }
@@ -152,18 +160,23 @@ export default class Menu{
 
     //Making the menu transparent or opaque:
     fn_updateOpacities(){
-        this.int_transp = this.a_options[0][0].fn_getOpacity() + 0.05 * Math.sign(this.int_transp);
+        this.f_transp = this.a_options[0][0].fn_getOpacity() + 0.05 * this.int_transpDirec;
         //console.log("ADJUSTING TRANSPARENCY");
         
         for(let i = 0; i < this.a_options.length; i++){
             for(let e = 0; e < this.a_options[i].length; e++){
-                this.a_options[i][e].fn_setOpacity(this.int_transp);
+                this.a_options[i][e].fn_setOpacity(this.f_transp);
             } 
         }
 
-        if(Math.abs(this.int_transp) > 1){
-            this.int_transp = 0;
+        if(Math.abs(this.f_transp) > 1){
+            this.int_transpDirec = 0;
         }
+    }
+
+    //Return this menu's transparency value:
+    fn_getTransp(){
+        return f_transp;
     }
 
 
