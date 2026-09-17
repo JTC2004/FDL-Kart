@@ -267,7 +267,7 @@ export default class Option{
             if(this.b_dummy) return;
             
             const b_entering = _f_newVal > this.f_opacity;      //True if the menu is entering, false if exiting.
-            console.log(`b_entering = ${b_entering}, _f_newVal = ${_f_newVal}, this.f_opacity = ${this.f_opacity}`);
+            //console.log(`b_entering = ${b_entering}, _f_newVal = ${_f_newVal}, this.f_opacity = ${this.f_opacity}`);
             
             this.f_opacity = _f_newVal;
             this.spr_border.material.opacity = this.f_opacity;

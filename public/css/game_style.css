@@ -220,7 +220,7 @@ body {
 
 #p_Resolution, #p_SharpPixels, #p_No_Items, #p_Items_On, #p_Connect_Controllers {
 	position: absolute;
-	font-size: 2.5vw;
+	font-size: 2.3vw;
 	
 	color:white;
 	text-shadow:
