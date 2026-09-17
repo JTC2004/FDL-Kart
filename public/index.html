@@ -47,11 +47,16 @@ Changes since last version:
 		- Options grow in size while selected.
 		- Option 'bounces' when selected.
 		- Menu transitions.
-			- Menus fade in during transitions, but has some jank (see to-do list).
+			- Menus fade in during transitions.
 
 To do:		
-	- Fix the arrow text for options being jank during transitions.
 	- Fix highlight showing up on static options.
+	- Fix 1P game mode menu not fading out sometimes.
+		- It works 100% of the time when it is the maximum menu depth traveled so far,
+		but exiting game mode after already exiting the character select causes this to happen.
+	- Add a quick fade in-out to the options' arrow text during transitions.
+	- Fix settings info text saying undefined on load.
+
 	- Add Confirm & Back button prompts in bottom left & right corners of the screen, which are part of menuManager instead of any specific menu.
 	- Quick-settings menu.
 	- Make it so when the player holds down a direction in the menu, it moves faster.
@@ -62,12 +67,12 @@ To do:
 		- Add multiplayer character select.
 	
 	Bugfixes & optimizations:
-	- Make sure you can confirm an option when it's 'dummy' is selected.
+	- Make sure menus are properly removing objects and not keeping invisible copies.
+	- Make sure menus don't load duplicate assets (and be sure they are cached!)
+	- Fix not being able to confirm an option when it's 'dummy' is selected.
 	- Make all instances of int_frames use one single window.int_frames.
 	- Use Math.Max(0, value) to optimize any variable decrements to 0.
-	- Fix the fact that due to having a sprite cache, now all instances of a sprite use the same sprite tile.
-	- Make sure menus remove unique objects (and be sure they are cached!)
-	- Make sure menus are properly unloading assets and not causing memory leaks.
+	- Fix the fact that due to having a sprite cache, now all instances of a sprite use the same sprite tile.	
 	- Optimize sprites in option objects (make them all offset from position, and if position changes, so does the option xyz).
 	- Optimize how dummy options are moved around.
 

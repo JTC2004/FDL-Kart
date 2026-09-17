@@ -82,40 +82,35 @@ export default class MenuManager{
 
 	//The menu loop:
 	fn_update(){
+		//Update the current menu:
+		currentMenu.fn_update(a_INPUTS, b_exiting);
+		
 		//Moving the camera during menu transitions:
-			if(b_entering || b_exiting){
+			if(b_entering){
+				const f_newPos = a_prevMenus.length * -20 + int_baseCameraPos;	//New position for the camera.
 				
-
-				if(b_entering){
-					const f_newPos = a_prevMenus.length * -20 + int_baseCameraPos;	//New position for the camera.
-					
-					CAMERA.position.z -= 1.5;
-					a_prevMenus[int_depth - 1].fn_updateOpacities();
-					
-					if(CAMERA.position.z <= f_newPos){
-						b_entering = false;
-						CAMERA.position.z = f_newPos;
-					}
+				CAMERA.position.z -= 1.5;
+				//a_prevMenus[int_depth - 1].fn_updateOpacities();
+				
+				if(CAMERA.position.z <= f_newPos){
+					b_entering = false;
+					CAMERA.position.z = f_newPos;
 				}
-				else if(b_exiting){
-					const f_newPos = (a_prevMenus.length - 1) * -20 + int_baseCameraPos;	//New position for the camera.
-					
-					CAMERA.position.z += 1.5;
-					//currentMenu.fn_updateOpacities();
-					console.log(`int_transp = ${currentMenu.int_transp} in menuManager!`)
-					
-					//Stop camera movement:
-					if(CAMERA.position.z >= f_newPos){
-						b_exiting = false;
-						currentMenu?.fn_exit(true);
-						this.fn_prevMenu();
-						CAMERA.position.z = f_newPos;
-					}
+			}
+			if(b_exiting){
+				const f_newPos = (a_prevMenus.length - 1) * -20 + int_baseCameraPos;	//New position for the camera.
+				
+				CAMERA.position.z += 1.5;
+				//currentMenu.fn_updateOpacities();
+				
+				//Stop camera movement:
+				if(CAMERA.position.z >= f_newPos){
+					b_exiting = false;
+					this.fn_prevMenu();
+					CAMERA.position.z = f_newPos;
 				}
 			}
 		
-		//ACTUALLY UPDATING THE MENU:
-		currentMenu.fn_update(a_INPUTS);
 		
 		//Going to previous menu if player presses B AND they are not at the top menu:
 			if(a_INPUTS[0].fn_press_drift() && currentMenu.fn_getBackOk() && a_prevMenus.length > 0){
@@ -123,7 +118,6 @@ export default class MenuManager{
 				b_exiting = true;
 				b_entering = false;
 				currentMenu?.fn_exit(false);
-				console.log("------------------------------------------------------------")
 			}
 
 		//Going to next menu:
@@ -137,7 +131,7 @@ export default class MenuManager{
 				b_exiting = false;
 				nextMenu = null;					//Don't forget to do this!
 
-				currentMenu.fn_enter();				//Call the function for the current menu's entrance transition.
+				currentMenu.fn_enter(false);				//Call the function for the current menu's entrance transition.
 			}
 		
 		//CAMERA.position.z -= 0.3;
@@ -166,10 +160,10 @@ export default class MenuManager{
 
 	//Call this to go back one menu screen.
 	fn_prevMenu(){
-		//currentMenu?.fn_exit(true);
+		currentMenu?.fn_exit(true);
 		currentMenu = a_prevMenus.pop();
-		currentMenu.fn_enter();
-		int_depth -= 1;
+		currentMenu.fn_enter(false);
+		//int_depth -= 1;
 	}
 
 	//Call this only once when menus start:

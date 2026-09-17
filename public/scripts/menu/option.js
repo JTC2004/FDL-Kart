@@ -230,8 +230,10 @@ export default class Option{
         }
 
         //Make all of this option's elements invisible:
-        fn_hide(){
+        fn_hide(_b_popped){
             if(this.b_dummy) return;
+            if(this.b_arrows) this.p_optionElement.innerHTML = "";
+            if(!_b_popped) return;
             //console.log(`HIDING option ${this.str_text}!`);
             
             this.spr_border.visible = false;
@@ -240,14 +242,16 @@ export default class Option{
             if(this.b_arrows){
                 this.spr_arrowL.visible = false;
                 this.spr_arrowR.visible = false;
-                this.p_optionElement.innerHTML = "";
             }
             //console.log(`Hidden option ${this.str_text}`);
         }
 
         //Make all of this option's elements visible:
-        fn_show(){
+        fn_show(_b_popped){
             if(this.b_dummy) return;
+            if(this.b_arrows) this.p_optionElement.innerHTML = this.a_subOptions[this.int_arrowIndex];
+            if(!_b_popped) return;
+            
             this.spr_border.visible = true;
             this.spr_text.visible = true;
             if(this.b_selected){

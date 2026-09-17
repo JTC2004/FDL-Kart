@@ -41,7 +41,16 @@ export default class Menu{
     }
 
     //Listen to input and update every frame:
-    fn_update(a_INPUTS){
+    fn_update(a_INPUTS, _b_exiting){
+        //Update each of the opacities:
+        if(this.int_transpDirec != 0){
+            this.fn_updateOpacities();
+        }
+        //Don't accept user input on this menu anymore if it is being exited:
+        if(_b_exiting){
+            return;
+        }
+        
         const input = a_INPUTS[0];
 
         //console.log(`this.f_oZ = ${this.f_oZ}`);
@@ -88,20 +97,7 @@ export default class Menu{
                 for(let e = 0; e < this.a_options[i].length; e++){
                     this.a_options[i][e].fn_update(input);
                 } 
-            }
-
-        //Update each of the opacities:
-        if(this.int_transpDirec != 0){
-            this.fn_updateOpacities();
-            if(this.str_menuName == "1P Character Select"){
-                //console.log(`UPDATING OPACITIES FOR MENU ${"1P Character Select"}`);
-            } 
-        }
-
-            if(this.str_menuName == "1P Character Select"){
-                console.log(`this.int_transp = ${this.f_transp} inside menu.js!`);
-            } 
-        
+            }        
 
         //Any additional updates at the end:
             this.fn_extraUpdate(a_INPUTS);
@@ -115,13 +111,11 @@ export default class Menu{
     fn_exit(_b_popped){
         //console.log("HIDING ALL OPTIONS");
         //If this this option is being popped, set all options to invisible:
-        if(_b_popped){
             for(let i = 0; i < this.a_options.length; i++){
                 for(let e = 0; e < this.a_options[i].length; e++){
-                    this.a_options[i][e].fn_hide();
+                    this.a_options[i][e].fn_hide(_b_popped);
                 } 
             }
-        }
         //And same with the objects (if there are any):
         for(const object of this.a_objects){
             object.fn_hide();
@@ -136,13 +130,13 @@ export default class Menu{
     }
 
     //Call this function for the entrance animation:
-    fn_enter(){
+    fn_enter(_b_popped){
         //Set all options to visible:
-        /*for(let i = 0; i < this.a_options.length; i++){
+        for(let i = 0; i < this.a_options.length; i++){
             for(let e = 0; e < this.a_options[i].length; e++){
-                this.a_options[i][e].fn_show();
+                this.a_options[i][e].fn_show(_b_popped);
             } 
-        }*/
+        }
         //And same with the objects (if there are any):
         for(const object of this.a_objects){
             object.fn_show();
@@ -151,7 +145,7 @@ export default class Menu{
 
         this.int_transpDirec = 1;
 
-        console.log(`Entering menu ${this.str_menuName}`);
+        //console.log(`Entering menu ${this.str_menuName}`);
     }
     //Extra additions for a specific menu:
     fn_extraEnter(){
@@ -160,7 +154,7 @@ export default class Menu{
 
     //Making the menu transparent or opaque:
     fn_updateOpacities(){
-        this.f_transp = this.a_options[0][0].fn_getOpacity() + 0.05 * this.int_transpDirec;
+        this.f_transp = this.a_options[0][0].fn_getOpacity() + 0.075 * this.int_transpDirec;
         //console.log("ADJUSTING TRANSPARENCY");
         
         for(let i = 0; i < this.a_options.length; i++){
