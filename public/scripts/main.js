@@ -405,8 +405,19 @@ export function fn_getSetting(str_text){
         f_maxResolutionHeight = int_height;
         fn_setResolution();
 
-        
+        //If in settings menu, set info text:
+        const p_info = document.getElementById("info");
+        const str_message = `Lower to increase performance. \nCurrent resolution: (
+            ${Math.round(renderer.getSize(new THREE.Vector2()).x)}
+            x 
+            ${Math.round(renderer.getSize(new THREE.Vector2()).y)}
+        )`;
+
+        p_info.innerHTML = str_message;
+
         int_maxResolutionIndex = _int_index;
+
+        return str_message;
     }
 
     export function fn_settingSharpPixels(_int_index){
@@ -461,16 +472,6 @@ function fn_setResolution(){
             fn_checkFullscreen(menuCamera, frustumHeight);
         }
     //} 
-
-    //If in settings menu, set info text:
-    if(window.b_inSettingsMenu){
-        const p_info = document.getElementById("info");
-        p_info.innerHTML = `Lower to increase performance. \nCurrent resolution: (
-            ${Math.round(renderer.getSize(new THREE.Vector2()).x)}
-             x 
-            ${Math.round(renderer.getSize(new THREE.Vector2()).y)}
-        )`;
-    }
 }
 
 //Dispose textures function by ChatGPT:

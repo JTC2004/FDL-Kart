@@ -183,7 +183,8 @@ export default class Option{
             }
         }
 
-        fn_select(){        
+        fn_select(){    
+            console.log(`Selected option ${this.str_text}`);    
             this.b_selected = true;
             this.f_highlightFrame = 0;
             if(!this.b_static) this.spr_highlight.visible = true;
@@ -251,13 +252,15 @@ export default class Option{
             if(this.b_dummy) return;
             if(this.b_arrows) this.p_optionElement.innerHTML = this.a_subOptions[this.int_arrowIndex];
             if(!_b_popped) return;
-            
-            this.spr_border.visible = true;
-            this.spr_text.visible = true;
+
             if(this.b_selected){
                 this.spr_highlight.visible = true;
                 this.p_info.innerHTML = this.str_info;
             }
+            
+            
+            this.spr_border.visible = true;
+            this.spr_text.visible = true;
             if(this.b_arrows){
                 this.spr_arrowL.visible = true;
                 this.spr_arrowR.visible = true;
@@ -279,9 +282,10 @@ export default class Option{
 
             //If getting more opaque:
             if(b_entering){
-                if(this.b_selected){
+                if(this.b_selected && !this.b_static){
                     this.spr_highlight.visible = true;
                     this.p_info.innerHTML = this.str_info;
+                    console.log(`this.str_info = ${this.str_info}`);
                 }
 
                 if(this.b_arrows){

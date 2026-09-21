@@ -20,6 +20,8 @@ export default class Menu_Settings extends Menu{
     constructor(manager, _oZ){
         super(manager, _oZ);
 
+        console.log(`fn_getSetting("Resolution") = ${fn_getSetting("Resolution")}`);
+
         this.a_options.push([
             new Option({
                 text: "Resolution",
@@ -31,7 +33,8 @@ export default class Menu_Settings extends Menu{
                 defaultOption: fn_getSetting("Resolution"),
                 onArrow: (_int_i) => {
                     fn_settingMaxResolution(_int_i);
-                }
+                },
+                info: fn_settingMaxResolution(7)
             })
         ]);
         this.a_options.push([

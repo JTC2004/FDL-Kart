@@ -58,6 +58,7 @@ export default class Menu{
         //Select first option when menu boots up:
         if(!this.b_firstOption){
             this.a_options[0][0].fn_select();
+            console.log("Selecting first option.");
             this.b_firstOption = true;
         }
         
