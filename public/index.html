@@ -1,4 +1,4 @@
-<!--Current version:				0.2.1 (better-ui)
+<!--Current version:				0.2.2 (ui-polish-1)
 	Last version uploaded to main:	0.2.1 (better-ui)			9/21/26	~2:14 PM
 
 	After using 'npm install -g serve'
@@ -14,43 +14,7 @@ Note:
 	- For offroad.blend, offset height by 0.141, then round down!
 
 Changes since last version:
-	- Instead of one menus.js file that contains all the menu code (very messy), now there is menuManager, which contains active and previous menu objects, which contains options.
-	- Use dummy option OBJECT instead of dummy string!
-	- Improve option.js so it doesn't need a bunch of if statements.
-	- Make each menu a class containing options, instead an if statement in main.js.
-	- Restored arrow option functionality.
-	- Restored entering and exiting menus.
-	- Make all objects have a universal hide and show function to make hiding and showing objects much easier in the menus!
-	- Game has loading text while loading.
-	- All menus remade with new menu system.
-	- Settings:
-		- Re-implemented how settings works in a cleaner way.
-		- Use str_message to make settings display the correct message to p_info on first load.
-		- Options save settings choices via fn_getSetting and the int_XIndex variables in main.js.
-		- Make the resolution setting into Max Resolution:
-			- Default is 1080p instead of current resolution.
-			- On startup or window resize, game's resolution equals the size of of the window as long as it's under the max resolution.
-			That way, resolution isn't reset on resize.
-		- Removed need for setting functions to use _str_subOption before more settings are added.
-		- Replace text in Resolution sprite with "Max Resolution".
-		- Added offsets to arrows so they can be specific to different option elements.
-		- Added more resolution options.
-		- Add arrows animation.
-		- Make it so arrow index doesn't loop, but only after a visual indication is added.
-		- Resolution text in settings menu now displays the game's actual resolution in real-time.
-		- Settings menu now has character objects to give a better frame of reference for changes.
-	- Re-added tilting menu with c-stick.
-	- Made sure split-screen resolutions are a fraction of a_resolution, instead of their own full a_resolution.
-	- Menu option animation:
-		- Idle 'floating' animation.
-		- Highlight sprite glows with a sin curve.
-		- Options grow in size while selected.
-		- Option 'bounces' when selected.
-		- Menu transitions.
-			- Menus fade in during transitions.
-	- Fixed highlight showing up on static options.
-	- Fixed settings info text saying undefined on load.
-	- Fix 1P game mode menu not fading out on second exit.
+	- 
 
 To do:		
 	- Add Confirm & Back button prompts in bottom left & right corners of the screen, which are part of menuManager instead of any specific menu.
