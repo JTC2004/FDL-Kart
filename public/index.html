@@ -50,14 +50,11 @@ Changes since last version:
 			- Menus fade in during transitions.
 	- Fixed highlight showing up on static options.
 	- Fixed settings info text saying undefined on load.
+	- Fix 1P game mode menu not fading out on second exit.
 
 To do:		
-	- Fix 1P game mode menu not fading out sometimes.
-		- It works 100% of the time when it is the maximum menu depth traveled so far,
-		but exiting game mode after already exiting the character select causes this to happen.
-	- Add a quick fade in-out to the options' arrow text during transitions.
-
 	- Add Confirm & Back button prompts in bottom left & right corners of the screen, which are part of menuManager instead of any specific menu.
+	- Add a quick fade in-out to the options' arrow text during transitions.
 	- Quick-settings menu.
 	- Make it so when the player holds down a direction in the menu, it moves faster.
 	- Make menus able to accommodate more than 1 player selecting.
@@ -75,6 +72,7 @@ To do:
 	- Fix the fact that due to having a sprite cache, now all instances of a sprite use the same sprite tile.	
 	- Optimize sprites in option objects (make them all offset from position, and if position changes, so does the option xyz).
 	- Optimize how dummy options are moved around.
+	- Fix shadows on menu options getting darker the more times they are entered/exited (may have to do with loading assets too many times).
 
 	- Add a title screen.
 		- This will be new way how P1 controller is determined (first controller to press a key/button on title screen becomes player 1).

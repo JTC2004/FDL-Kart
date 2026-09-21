@@ -58,7 +58,6 @@ export default class Menu{
         //Select first option when menu boots up:
         if(!this.b_firstOption){
             this.a_options[0][0].fn_select();
-            console.log("Selecting first option.");
             this.b_firstOption = true;
         }
         
@@ -157,6 +156,7 @@ export default class Menu{
     fn_updateOpacities(){
         this.f_transp = this.a_options[0][0].fn_getOpacity() + 0.075 * this.int_transpDirec;
         //console.log("ADJUSTING TRANSPARENCY");
+        this.f_transp = THREE.MathUtils.clamp(this.f_transp, -1, 1);     //Make sure the value doesn't over-shoot 1 or -1.
         
         for(let i = 0; i < this.a_options.length; i++){
             for(let e = 0; e < this.a_options[i].length; e++){
@@ -164,7 +164,8 @@ export default class Menu{
             } 
         }
 
-        if(Math.abs(this.f_transp) > 1){
+        if(this.f_transp === -1 || this.f_transp === 1){
+            //this.f_transp = 1 * Math.sign(this.int_transpDirec);
             this.int_transpDirec = 0;
         }
     }

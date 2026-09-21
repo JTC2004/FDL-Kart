@@ -184,7 +184,7 @@ export default class Option{
         }
 
         fn_select(){    
-            console.log(`Selected option ${this.str_text}`);    
+            //console.log(`Selected option ${this.str_text}`);    
             this.b_selected = true;
             this.f_highlightFrame = 0;
             if(!this.b_static) this.spr_highlight.visible = true;
@@ -258,7 +258,6 @@ export default class Option{
                 this.p_info.innerHTML = this.str_info;
             }
             
-            
             this.spr_border.visible = true;
             this.spr_text.visible = true;
             if(this.b_arrows){
@@ -273,7 +272,7 @@ export default class Option{
         fn_setOpacity(_f_newVal){
             if(this.b_dummy) return;
             
-            const b_entering = _f_newVal > this.f_opacity;      //True if the menu is entering, false if exiting.
+            const b_entering = (_f_newVal > this.f_opacity) || (_f_newVal == 1);      //True if the menu is entering, false if exiting.
             //console.log(`b_entering = ${b_entering}, _f_newVal = ${_f_newVal}, this.f_opacity = ${this.f_opacity}`);
             
             this.f_opacity = _f_newVal;
@@ -285,7 +284,6 @@ export default class Option{
                 if(this.b_selected && !this.b_static){
                     this.spr_highlight.visible = true;
                     this.p_info.innerHTML = this.str_info;
-                    console.log(`this.str_info = ${this.str_info}`);
                 }
 
                 if(this.b_arrows){
@@ -293,6 +291,7 @@ export default class Option{
                     this.spr_arrowR.visible = true;
                     this.p_optionElement.innerHTML = this.a_subOptions[this.int_arrowIndex];
                     this.fn_updateLabelPosition();
+                    //console.log("SHOWING ARROWS");
                 }
             }
             //Else, if getting more transparent:
