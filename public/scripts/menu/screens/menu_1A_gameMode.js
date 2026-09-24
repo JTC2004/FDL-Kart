@@ -19,7 +19,7 @@ export default class Menu_1A_gameMode extends Menu{
         this.a_options.push([
             new Option({
                 text: "Items_On",
-                info: "Race against the clock for the best time! (random items on the track)",
+                info: "Race against the clock for the best time!<br>(random items on the track)",
                 type: "horizontal large",
                 pos: [-3.75, 2.5, this.f_oZ], 
                 scale: [2.5, .5],
@@ -39,7 +39,7 @@ export default class Menu_1A_gameMode extends Menu{
         this.a_options.push([
             new Option({
                 text: "No_Items",
-                info: "Race against the clock for the best time! (no items on the track)",
+                info: "Race against the clock for the best time!<br>(no items on the track)",
                 type: "horizontal large",
                 pos: [-3.75, .25, this.f_oZ], 
                 scale: [2.5, .5],
@@ -59,7 +59,7 @@ export default class Menu_1A_gameMode extends Menu{
         this.a_options.push([
             new Option({
                 text: "Practice",
-                info: "Freely use flight, save-states, and rewind to practice shortcuts.",
+                info: "Freely use flight, save-states, and rewind<br>to practice shortcuts.",
                 type: "horizontal medium",
                 pos: [-5.8, -2.00, this.f_oZ], 
                 scale: [1.3, .45],

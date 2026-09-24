@@ -18,9 +18,44 @@ body {
 
 #info{
 	color:white;
-	left: 8%;
-	top: 88%;
-	font-size:2vw;
+	left: 50%;
+	bottom: 6%;
+	transform: translateX(-50%);
+	text-align: center;
+	font-size:1.8vw;
+
+	width: 60%;
+	
+}
+
+#p_quickSettings{
+	display: flex;
+  	flex-direction: column;
+	
+	position: absolute;
+	left: 0%;
+	bottom: 0%;
+
+	width: 18vw;
+	height: 8vw;
+}
+
+#p_menuGuide{
+	display: flex;
+  	flex-direction: column;
+	
+	position: absolute;
+	right: 0%;
+	bottom: 0%;
+	
+}
+#p_forward, #p_back{
+	background-image: url('assets/sprites/UI/borders/small.png');
+	background-size: cover;
+  	background-position: center;
+
+	width: 16vw;
+	height: 4vw;
 }
 
 #img_itemSlot0-0, #img_itemSlot0-1, #img_itemSlot0-2 {

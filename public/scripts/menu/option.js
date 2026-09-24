@@ -37,6 +37,9 @@ export default class Option{
         this.b_selected = false;
         this.b_disabled = config.disabled;
 
+        //THIS IS UNUSED CURRENTLY:
+        this.onSpecialInput = config.specialInput;                //The input that this option responds to if it is a persistent option.
+
         this.b_static = config.static;
         this.b_arrows = config.arrows;
         this.a_arrowOffset = config.arrowOffset;
@@ -173,6 +176,10 @@ export default class Option{
             this.f_highlightFrame ++;
             this.int_idleFrameX ++;
             this.int_idleFrameY ++;
+
+            if(this.onSpecialInput && this.onSpecialInput()){
+                console.log("SPECIAL INPUT");
+            }
         }
     }
     
@@ -422,6 +429,11 @@ export default class Option{
 
         //The idle animation of the whole option:
         fn_idleAnim(){
+            //Making sprite grows while selected:
+            this.fn_spriteGrow();
+            if(this.onSpecialInput) return;
+
+            
             this.spr_border.position.copy(this.option.position);
             this.spr_text.position.copy(this.option.position);
             this.spr_highlight.position.copy(this.option.position);
@@ -453,9 +465,6 @@ export default class Option{
             if(this.f_height != 4.34){
                 console.log(`${this.str_text}: this.spr_border.scale.y = ${this.spr_border.scale.y}`);
             }*/
-
-            //Making sprite grows while selected:
-            this.fn_spriteGrow();
         }
 
     //Getters & setters:
@@ -596,5 +605,9 @@ export default class Option{
         //Get the character name if this option's name is "chara_characterName"
         fn_getCharText(){
             return this.str_text.substring(6);
+        }
+
+        fn_getName(){
+            return this.str_text;
         }
 }

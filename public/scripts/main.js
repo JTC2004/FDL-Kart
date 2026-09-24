@@ -35,7 +35,7 @@ let b_prevPressed = false;
 //let renderer;
 
 var b_fullScreen = false;
-window.b_debug = false;
+window.b_debug = true;
 window.b_birdEye = false;
 window.a_characters = [['', ''], ['', ''], ['', ''], ['', '']]; 
 var str_map = "FDL Circuit";
@@ -404,19 +404,20 @@ export function fn_getSetting(str_text){
         //Apply resolution changes:
         f_maxResolutionHeight = int_height;
         fn_setResolution();
+        
 
-        //If in settings menu, set info text:
-        const p_info = document.getElementById("info");
-        const str_message = `Lower to increase performance. \nCurrent resolution: (
+        int_maxResolutionIndex = _int_index;
+
+        return fn_getInfoTextForResolution();
+    }
+
+    //Returns the text that the info element uses while resolution is being changed:
+    function fn_getInfoTextForResolution(){
+        const str_message = `Lower to increase performance. \n<br>Current resolution: (
             ${Math.round(renderer.getSize(new THREE.Vector2()).x)}
             x 
             ${Math.round(renderer.getSize(new THREE.Vector2()).y)}
         )`;
-
-        p_info.innerHTML = str_message;
-
-        int_maxResolutionIndex = _int_index;
-
         return str_message;
     }
 
@@ -472,6 +473,12 @@ function fn_setResolution(){
             fn_checkFullscreen(menuCamera, frustumHeight);
         }
     //} 
+
+    //If in settings menu, set info text:
+    if(window.b_inSettingsMenu){
+        const p_info = document.getElementById("info");
+        p_info.innerHTML = fn_getInfoTextForResolution();
+    }
 }
 
 //Dispose textures function by ChatGPT:

@@ -31,6 +31,7 @@ export default class Menu{
         this.str_menuName = "";
         this.b_backOk = true;               //When true, menu manager can back out of this menu.
         this.f_index = _index;                 //The index of this menu in the list of menus.
+        this.f_oY = 0;                      //The y offset of this menu.
         this.f_oZ = this.f_index * -20;               //The z offset of this menu.
 
         this.int_transpDirec = 1;           //1 means menu should be turning opaque, -1 means menu should be turning transparent, 0 means no change.

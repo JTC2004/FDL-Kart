@@ -37,6 +37,7 @@
 	let currentMenu;							//Equals the current menu screen object.
 	var nextMenu = null;						//Equals the next menu to transition to ONLY on the frame a transition must occur.
 	let a_prevMenus = [];						//A stack of the previous menu screens visited so far.
+	let a_globalOptions = [];					//An array of all options that persist across menus.
 	//var int_frames = 0;
 	var b_return = false;						//When true, gameplay starts.
 	var b_entering = false;						//Only equals true while transitioning into a menu menu.
@@ -73,6 +74,11 @@ export default class MenuManager{
 		//Set the first menu:
 		currentMenu = new Menu_0_main(this, 0);
 		//currentMenu = new Menu_Settings(this);
+
+		//Add persistent options:
+		/*a_globalOptions.push(
+			
+		);*/
 
 		//Debug mode:
 		if(window.b_debug){
@@ -146,6 +152,10 @@ export default class MenuManager{
 		//Tilting menu with c-stick:
 		CAMERA.rotation.y = a_INPUTS[0].fn_get_rightX() / 10;
 		CAMERA.rotation.x = a_INPUTS[0].fn_get_rightY() / 10;
+
+		/*for(const globalOption of a_globalOptions){
+			globalOption.fn_update(a_INPUTS[0]);
+		}*/
 
 		//int_frames ++;
 		//Update the current menu:
