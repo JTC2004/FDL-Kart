@@ -47,9 +47,11 @@ body {
 	position: absolute;
 	right: 0%;
 	bottom: 0%;
+
+	gap: -10px;
 	
 }
-#p_forward, #p_back{
+#img_forward, #img_back{
 	background-image: url('assets/sprites/UI/borders/small.png');
 	background-size: cover;
   	background-position: center;
@@ -57,6 +59,16 @@ body {
 	width: 16vw;
 	height: 4vw;
 }
+
+	@keyframes buttonPress {
+		0%   { transform: scale(1)		translateX(0px); }
+		40%  { transform: scale(1.2)	translateX(26px); }		/* Alternatively, 32 or 48 */
+		100% { transform: scale(1)		translateX(0px); }
+	}
+
+	.buttonPress {
+		animation: buttonPress 0.15s ease;
+	}
 
 #img_itemSlot0-0, #img_itemSlot0-1, #img_itemSlot0-2 {
 	position: absolute;

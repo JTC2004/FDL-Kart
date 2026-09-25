@@ -90,6 +90,11 @@ export default class Menu{
         //Player confirming an option:
             if(input.fn_press_accelerate()){
                 this.a_options[this.dy][this.dx].fn_confirm();
+
+                const img_forward = document.getElementById("img_forward");
+                img_forward.classList.remove("buttonPress");
+                void img_forward.offsetWidth;    // Force browser reflow
+                img_forward.classList.add("buttonPress");
             }
 
 

@@ -124,6 +124,11 @@ export default class MenuManager{
 				b_exiting = true;
 				b_entering = false;
 				currentMenu?.fn_exit(false);
+
+				const img_back = document.getElementById("img_back");
+                img_back.classList.remove("buttonPress");
+                void img_back.offsetWidth;    // Force browser reflow
+                img_back.classList.add("buttonPress");
 			}
 
 		//Going to next menu:
